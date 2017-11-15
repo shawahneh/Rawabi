@@ -5,4 +5,8 @@ package com.techcamp.aauj.rawabi.API;
  */
 
 public class WebService {
+    public String name;
+    public WebService(){
+
+    }
 }

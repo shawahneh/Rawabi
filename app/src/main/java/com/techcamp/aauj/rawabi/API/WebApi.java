@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by alaam on 11/15/2017.
  */
 
-public class WebApi implements CalendarWebApi {
+public class WebApi implements CalendarWebApi,AnnouncmentWebApi {
     private static WebApi instance;
     private WebApi(){}
 
@@ -25,6 +25,23 @@ public class WebApi implements CalendarWebApi {
         ArrayList<Event> dummyEvents = new ArrayList<>();
         Event event  = new Event();
         event.setDate(date);
+        event.setName("Event name");
+        event.setDescription("Description ...");
+        event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
+
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+
+        eventITriger.onTriger(dummyEvents);
+    }
+
+    @Override
+    public void getAnnouns(ITriger<ArrayList<Event>> eventITriger) {
+        ArrayList<Event> dummyEvents = new ArrayList<>();
+        Event event  = new Event();
+        event.setDate(new Date());
         event.setName("Event name");
         event.setDescription("Description ...");
         event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");

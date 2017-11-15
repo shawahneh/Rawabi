@@ -90,6 +90,12 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
     public void checkAuth(String username, String pass, ITriger<Boolean> booleanITriger) {
 
     }
+
+    @Override
+    public void isUserDriver(String username, ITriger<Boolean> booleanITriger) {
+
+    }
+
     public Boolean isLogin(){
         if(mContext != null) {
             SharedPreferences sp = mContext.getSharedPreferences("db", Context.MODE_PRIVATE);

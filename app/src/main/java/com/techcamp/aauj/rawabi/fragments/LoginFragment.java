@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.CarpoolActivity;
 
 
 public class LoginFragment extends Fragment {
@@ -24,7 +26,16 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        View btn = view.findViewById(R.id.btnLogin);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), CarpoolActivity.class);
+                startActivity(i);
+            }
+        });
+        return view;
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event

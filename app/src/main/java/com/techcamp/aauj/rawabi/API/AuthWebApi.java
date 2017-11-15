@@ -12,5 +12,5 @@ public interface AuthWebApi {
     void RiderRegister(RiderUser user, ITriger<Boolean> booleanITriger);
     void DriverRegister(DriverUser user, ITriger<Boolean> booleanITriger);
     void checkAuth(String username,String pass,ITriger<Boolean> booleanITriger);
-
+    void isUserDriver(String username,ITriger<Boolean> booleanITriger);
 }

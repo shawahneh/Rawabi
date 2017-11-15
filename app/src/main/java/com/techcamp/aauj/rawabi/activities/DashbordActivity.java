@@ -1,9 +1,12 @@
 package com.techcamp.aauj.rawabi.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -14,14 +17,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 
 public class DashbordActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        CalendarPageFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,9 @@ public class DashbordActivity extends AppCompatActivity
                 break;
             case R.id.nav_media:
                 test();
+                break;
+            case R.id.nav_calendar:
+                setFragment(CalendarPageFragment.newInstance("a","a"),"tag");
         }
 
 
@@ -115,5 +124,16 @@ public class DashbordActivity extends AppCompatActivity
     private void StartCarPoolActivity() {
         Intent i = new Intent(this,CarpoolActivity.class);
         startActivity(i);
+    }
+    private void setFragment(android.support.v4.app.Fragment fragment, String tag){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content,fragment,tag)
+                .commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

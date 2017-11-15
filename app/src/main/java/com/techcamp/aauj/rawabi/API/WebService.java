@@ -36,7 +36,7 @@ public class WebService {
         Log.d("tag","send");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiUrl, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 result.onTriger(response);
@@ -49,14 +49,7 @@ public class WebService {
                 errorResponse.onTriger(error);
                 Log.d("tag","error");
             }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                //Map<String,String> params = new HashMap<String, String>();
-                Log.d("tag",params.toString());
-                return params;
-            }
-        };
+        });
         requestQueue.add(jsonObjectRequest);
     }
     public void getAuth(String username, String password, final ITriger<Boolean> result){
@@ -78,14 +71,13 @@ public class WebService {
                     }
                 } catch (JSONException e) {
                     result.onTriger(false);
-                    Log.d("tag","on getAuth");
                     e.printStackTrace();
                 }
             }
         }, new ITriger<VolleyError>() {
             @Override
             public void onTriger(VolleyError value) {
-                result.onTriger(false);
+                value.printStackTrace();
             }
         });
     }

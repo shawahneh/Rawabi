@@ -46,10 +46,13 @@ public class WebService {
             public void onResponse(String response) {
                 Log.i("tag","Response : "+ response);
                 Gson gson = new Gson();
-                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
-                result.onTriger(jsonObject);
                 try {
-                    Toast.makeText(context, jsonObject.getString("auth").toString()+"", Toast.LENGTH_SHORT).show();
+//                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
+                JSONObject jsonObject = new JSONObject(response);
+                Log.d("tag",jsonObject.toString());
+                result.onTriger(jsonObject);
+
+                    Toast.makeText(context, jsonObject.getString("auth") +"", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     Toast.makeText(context, "Error get auth", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();

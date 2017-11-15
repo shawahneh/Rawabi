@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,10 +83,19 @@ public class DashbordActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        switch (id){
+            case R.id.nav_carpool:
+                StartCarPoolActivity();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void StartCarPoolActivity() {
+        Intent i = new Intent(this,CarpoolActivity.class);
+        startActivity(i);
     }
 }

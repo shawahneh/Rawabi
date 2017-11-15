@@ -23,7 +23,9 @@ import android.widget.Toast;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
+import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 
 public class DashbordActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -102,7 +104,15 @@ public class DashbordActivity extends AppCompatActivity
                 break;
             case R.id.nav_calendar:
                 setFragment(CalendarPageFragment.newInstance(),"tag");
+                break;
+            case R.id.nav_transportation:
+                setFragment(new TransportationPageFragment(),"tag");
+                break;
+            case R.id.nav_qcenter:
+                setFragment(new AnnouncmentFragment(),"tag");
+                break;
         }
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

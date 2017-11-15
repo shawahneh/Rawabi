@@ -20,10 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+    <include layout="@layout/content_dashbord"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

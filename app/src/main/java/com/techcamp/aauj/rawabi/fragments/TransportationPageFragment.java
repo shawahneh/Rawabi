@@ -9,14 +9,11 @@ import android.view.ViewGroup;
 
 import com.techcamp.aauj.rawabi.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class TransportationPageFragment extends Fragment {
 
 
     public TransportationPageFragment() {
-        // Required empty public constructor
     }
 
 

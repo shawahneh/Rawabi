@@ -1,6 +1,8 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.location.Location;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,17 +33,21 @@ public class WebService {
     }
     private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
     {
+        Log.d("tag","send");
+
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiUrl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 result.onTriger(response);
+                Log.d("tag","response");
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 errorResponse.onTriger(error);
+                Log.d("tag","error");
             }
         }){
             @Override
@@ -53,6 +59,7 @@ public class WebService {
         requestQueue.add(jsonObjectRequest);
     }
     public void getAuth(String username, String password, final ITriger<Boolean> result){
+        Log.d("tag","getAuth");
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","userAuth");
         params.put("username",username);
@@ -60,6 +67,7 @@ public class WebService {
         send(params, new ITriger<JSONObject>() {
             @Override
             public void onTriger(JSONObject value) {
+                Log.d("tag","" + value.toString());
                 try {
                     if (value.get("auth").equals("true")){
                         result.onTriger(true);
@@ -75,7 +83,7 @@ public class WebService {
         }, new ITriger<VolleyError>() {
             @Override
             public void onTriger(VolleyError value) {
-
+                value.printStackTrace();
             }
         });
     }

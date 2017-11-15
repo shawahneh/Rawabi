@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 
 public class DashbordActivity extends AppCompatActivity
@@ -86,12 +90,26 @@ public class DashbordActivity extends AppCompatActivity
         switch (id){
             case R.id.nav_carpool:
                 StartCarPoolActivity();
+                break;
+            case R.id.nav_media:
+                test();
         }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void test() {
+        WebService webService = new WebService(this);
+        webService.getAuth("driver1", "driver1", new ITriger<Boolean>() {
+            @Override
+            public void onTriger(Boolean value) {
+                Log.d("tag","result " + value);
+                Toast.makeText(DashbordActivity.this, "" + value, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void StartCarPoolActivity() {

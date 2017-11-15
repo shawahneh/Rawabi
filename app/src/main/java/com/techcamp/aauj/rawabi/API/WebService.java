@@ -7,6 +7,6 @@ package com.techcamp.aauj.rawabi.API;
 public class WebService {
     public String name;
     public WebService(){
-            name = "256+";
+            name = "256+lkjihkjbn,.jbjkhb";
     }
 }

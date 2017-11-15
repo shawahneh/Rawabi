@@ -10,6 +10,14 @@ import java.util.Date;
  */
 
 public class WebApi implements CalendarWebApi {
+    private static WebApi instance;
+    private WebApi(){}
+
+    public static WebApi getInstance(){
+        if(instance == null)
+            instance = new WebApi();
+        return instance;
+    }
     @Override
     public void getEventAtDate(Date date, ITriger<Event> eventITriger) {
 

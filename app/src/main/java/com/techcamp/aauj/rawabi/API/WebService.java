@@ -5,4 +5,5 @@ package com.techcamp.aauj.rawabi.API;
  */
 
 public class WebService {
+    private String ID;
 }

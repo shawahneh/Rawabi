@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.API;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,7 +11,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.techcamp.aauj.rawabi.ITriger;
 
 import org.json.JSONException;
@@ -36,40 +41,41 @@ public class WebService {
         Log.d("tag","send");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST ,apiUrl, null, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                result.onTriger(response);
-                Log.d("tag","response");
+            public void onResponse(String response) {
+                Log.i("tag","Response : "+ response);
+                Gson gson = new Gson();
+                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
+                result.onTriger(jsonObject);
+                try {
+                    Toast.makeText(context, jsonObject.getString("auth").toString()+"", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Error get auth", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i("tag","ERROR "+ error.toString());
                 errorResponse.onTriger(error);
-                Log.d("tag","error");
+                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return super.getHeaders();
-            }
-
-            @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("action","userAuth");
-                params.put("username","driver1");
-                params.put("password","driver1");
+//                Map<String,String> paramss = new HashMap<String, String>();
+//                paramss.put("action","userAuth");
+//                paramss.put("username","driver1");
+//                paramss.put("password","driver1");
+//                return paramss;
                 return params;
             }
         };
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(stringRequest);
     }
     public void getAuth(String username, String password, final ITriger<Boolean> result){
         Log.d("tag","getAuth");
@@ -80,15 +86,18 @@ public class WebService {
         send(params, new ITriger<JSONObject>() {
             @Override
             public void onTriger(JSONObject value) {
-                Log.d("tag","" + value.toString());
+                Log.d("tag","On userAuth : " + value.toString());
                 try {
-                    if (value.get("auth").equals("true")){
+                    Toast.makeText(context, value.getString("auth").toString(), Toast.LENGTH_SHORT).show();
+                    if (value.getString("auth").equals("true")){
+
                         result.onTriger(true);
                     }else
                     {
                         result.onTriger(false);
                     }
                 } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
                     result.onTriger(false);
                     e.printStackTrace();
                 }

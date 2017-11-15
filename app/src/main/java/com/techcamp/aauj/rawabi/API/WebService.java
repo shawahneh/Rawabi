@@ -8,6 +8,5 @@ public class WebService {
     public String name;
     public WebService(){
             name = "hftg";
-        name = name + ":";
     }
 }

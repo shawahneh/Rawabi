@@ -36,7 +36,7 @@ public class WebService {
         Log.d("tag","send");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST ,apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST ,apiUrl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 result.onTriger(response);
@@ -53,6 +53,15 @@ public class WebService {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("action","userAuth");
+                params.put("username","driver1");
+                params.put("password","driver1");
+                return params;
             }
         };
         requestQueue.add(jsonObjectRequest);

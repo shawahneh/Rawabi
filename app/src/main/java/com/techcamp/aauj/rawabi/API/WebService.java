@@ -5,8 +5,8 @@ package com.techcamp.aauj.rawabi.API;
  */
 
 public class WebService {
-    public String name;
+    public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
     public WebService(){
-            name = "256+lkjihkjbn,.jbjkhb";
+
     }
 }

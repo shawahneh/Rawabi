@@ -101,7 +101,7 @@ public class DashbordActivity extends AppCompatActivity
                 test();
                 break;
             case R.id.nav_calendar:
-                setFragment(CalendarPageFragment.newInstance("a","a"),"tag");
+                setFragment(CalendarPageFragment.newInstance(),"tag");
         }
 
 

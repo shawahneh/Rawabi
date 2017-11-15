@@ -51,8 +51,9 @@ public class WebService {
             }
         }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 //Map<String,String> params = new HashMap<String, String>();
+                Log.d("tag",params.toString());
                 return params;
             }
         };
@@ -77,13 +78,14 @@ public class WebService {
                     }
                 } catch (JSONException e) {
                     result.onTriger(false);
+                    Log.d("tag","on getAuth");
                     e.printStackTrace();
                 }
             }
         }, new ITriger<VolleyError>() {
             @Override
             public void onTriger(VolleyError value) {
-                value.printStackTrace();
+                result.onTriger(false);
             }
         });
     }

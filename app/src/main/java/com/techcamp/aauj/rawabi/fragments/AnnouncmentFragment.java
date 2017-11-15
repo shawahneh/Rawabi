@@ -27,7 +27,7 @@ public class AnnouncmentFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private AnnouncmentWebApi mAnnouncmentWebApi = WebApi.getInstance();
+    private AnnouncmentWebApi mAnnouncmentWebApi = WebApi.getInstance(getContext());
     public AnnouncmentFragment() {
     }
 

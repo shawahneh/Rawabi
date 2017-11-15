@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:gravity="center_horizontal"
             android:padding="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -36,12 +37,19 @@
                 android:hint="Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/txtPasswordConfirm"
+                android:padding="10dp"
+                android:background="@drawable/border_flat"
+                android:hint="confirm Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <Button
                 android:textColor="@color/colorAccent"
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="Login"
-                android:layout_width="match_parent"
+                android:text="Register"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

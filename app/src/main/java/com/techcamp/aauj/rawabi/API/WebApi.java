@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,11 +36,9 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
     private WebApi(Context context) {
         mContext = context;
     }
-    private WebApi() {
-    }
-    public static WebApi getInstance() {
+    public static WebApi getInstance(Context context) {
         if (instance == null)
-            instance = new WebApi();
+            instance = new WebApi(context);
         return instance;
     }
 
@@ -89,43 +88,13 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
 
     @Override
     public void checkAuth(String username, String pass, ITriger<Boolean> booleanITriger) {
-//        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Log.i("tag","Response : "+ response);
-//                Gson gson = new Gson();
-//                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
-//                try {
-//                    Toast.makeText(context, jsonObject.getString("auth") +"", Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    Toast.makeText(context, "Error get auth", Toast.LENGTH_SHORT).show();
-//                    e.printStackTrace();
-//                }
-//
-//                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.i("tag","ERROR "+ error.toString());
-//                errorResponse.onTriger(error);
-//                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-////                Map<String,String> paramss = new HashMap<String, String>();
-////                paramss.put("action","userAuth");
-////                paramss.put("username","driver1");
-////                paramss.put("password","driver1");
-////                return paramss;
-//                return params;
-//            }
-//        };
-//        requestQueue.add(stringRequest);
-//
-//    }
 
+    }
+    public Boolean isLogin(){
+        if(mContext != null) {
+            SharedPreferences sp = mContext.getSharedPreferences("db", Context.MODE_PRIVATE);
+            return sp.getBoolean("login", false);
+        }
+        return false;
     }
 }

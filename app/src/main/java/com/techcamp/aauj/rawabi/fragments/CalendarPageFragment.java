@@ -31,7 +31,7 @@ public class CalendarPageFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private CalendarView mCalendarView;
-    private CalendarWebApi mCalendarWebApi = WebApi.getInstance();
+    private CalendarWebApi mCalendarWebApi = WebApi.getInstance(getContext());
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     public CalendarPageFragment() {

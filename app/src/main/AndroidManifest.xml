@@ -15,7 +15,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".activities.DashbordActivity"
-            android:label="@string/title_activity_dashbord"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CarpoolActivity" />
+        <activity android:name=".activities.CarpoolActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

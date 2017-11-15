@@ -36,7 +36,7 @@ public class WebService {
         Log.d("tag","send");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST ,apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 result.onTriger(response);
@@ -49,7 +49,12 @@ public class WebService {
                 errorResponse.onTriger(error);
                 Log.d("tag","error");
             }
-        });
+        }){
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+        };
         requestQueue.add(jsonObjectRequest);
     }
     public void getAuth(String username, String password, final ITriger<Boolean> result){

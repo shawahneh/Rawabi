@@ -52,7 +52,7 @@ public class WebService {
         }){
             @Override
             public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
+                return "application/json; charset=utf-8";
             }
 
             @Override

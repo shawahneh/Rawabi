@@ -24,7 +24,7 @@ import java.util.Map;
  */
 
 public class WebService {
-    public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
+    public String apiUrl = "http://tcamp.000webhostapp.com/api/index.php";
     RequestQueue requestQueue;
     Context context;
     public WebService(Context context){
@@ -36,7 +36,7 @@ public class WebService {
         Log.d("tag","send");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.POST,apiUrl, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 result.onTriger(response);

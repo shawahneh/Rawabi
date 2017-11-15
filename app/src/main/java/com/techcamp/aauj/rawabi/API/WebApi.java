@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.API;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.ITriger;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -18,8 +19,9 @@ public class WebApi implements CalendarWebApi {
             instance = new WebApi();
         return instance;
     }
+
     @Override
-    public void getEventAtDate(Date date, ITriger<Event> eventITriger) {
+    public void getEventAtDate(Date date, ITriger<ArrayList<Event>> eventITriger) {
 
     }
 }

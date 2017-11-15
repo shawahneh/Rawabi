@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,18 @@ import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 
 public class CalendarPageFragment extends Fragment {
 
-    private TextView mEventName,mEventDesc;
-    private ImageView mEventImage;
+
     private OnFragmentInteractionListener mListener;
     private CalendarView mCalendarView;
     private CalendarWebApi mCalendarWebApi = WebApi.getInstance();
-
+    private RecyclerView mRecyclerView;
     public CalendarPageFragment() {
     }
 
@@ -52,15 +55,15 @@ public class CalendarPageFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_calendar_page, container, false);
 
-        mEventDesc = view.findViewById(R.id.eventDescTestView);
-        mEventName = view.findViewById(R.id.eventNameTextView);
-        mEventImage = view.findViewById(R.id.imageView);
+        mRecyclerView = view.findViewById(R.id.rv);
         mCalendarView = view.findViewById(R.id.calendarView);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-
                 DateChangeClick(new Date(i,i1,i2));
             }
         });
@@ -69,19 +72,16 @@ public class CalendarPageFragment extends Fragment {
     }
 
     private void DateChangeClick(Date date) {
-        mCalendarWebApi.getEventAtDate(date, new ITriger<Event>() {
+        mCalendarWebApi.getEventAtDate(date, new ITriger<ArrayList<Event>>() {
             @Override
-            public void onTriger(Event value) {
-                mEventName.setText(value.getName());
-                mEventDesc.setText(value.getDescription());
-                DownloadImage(value.getImageUrl());
+            public void onTriger(ArrayList<Event> value) {
+                MyAdapter myAdapter = new MyAdapter(getContext(),value);
+                mRecyclerView.swapAdapter(myAdapter,false);
             }
         });
     }
 
-    private void DownloadImage(String imageUrl) {
-        Glide.with(this).load(imageUrl).into(mEventImage);
-    }
+
 
 
     @Override
@@ -103,5 +103,77 @@ public class CalendarPageFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+
+
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private String[] mDataset;
+        private Context mContext;
+        private ArrayList<Event> events;
+        public MyAdapter(Context context,ArrayList<Event> events){
+            mContext = context;
+            this.events = events;
+        }
+        public  class ViewHolder extends RecyclerView.ViewHolder {
+            // each data item is just a string in this case
+            private TextView mEventName,mEventDesc;
+            private ImageView mEventImage;
+
+            public ViewHolder(View view) {
+                super(view);
+                mEventDesc = view.findViewById(R.id.eventDescTestView);
+                mEventName = view.findViewById(R.id.eventNameTextView);
+                mEventImage = view.findViewById(R.id.imageView);
+            }
+
+            public TextView getmEventName() {
+                return mEventName;
+            }
+
+            public void setmEventName(TextView mEventName) {
+                this.mEventName = mEventName;
+            }
+
+            public TextView getmEventDesc() {
+                return mEventDesc;
+            }
+
+            public void setmEventDesc(TextView mEventDesc) {
+                this.mEventDesc = mEventDesc;
+            }
+
+            public ImageView getmEventImage() {
+                return mEventImage;
+            }
+
+            public void setmEventImage(ImageView mEventImage) {
+                this.mEventImage = mEventImage;
+            }
+        }
+
+        @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            View view = (TextView) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.row_event, parent, false);
+
+            ViewHolder vh = new ViewHolder(view);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Event event = events.get(position);
+            holder.getmEventDesc().setText(event.getDescription());
+            holder.getmEventName().setText(event.getName());
+            Glide.with(mContext).load(event.getImageUrl()).into(holder.getmEventImage());
+        }
+
+        @Override
+        public int getItemCount() {
+            return events.size();
+        }
     }
 }

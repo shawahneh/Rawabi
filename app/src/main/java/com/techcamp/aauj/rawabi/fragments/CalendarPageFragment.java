@@ -7,13 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.R;
 
 
 public class CalendarPageFragment extends Fragment {
 
-
+    private TextView mEventName,mEventDesc;
+    private ImageView mEventImage;
     private OnFragmentInteractionListener mListener;
 
     public CalendarPageFragment() {
@@ -37,7 +40,16 @@ public class CalendarPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_calendar_page, container, false);
+        View view =inflater.inflate(R.layout.fragment_calendar_page, container, false);
+
+        mEventDesc = view.findViewById(R.id.eventDescTestView);
+        mEventName = view.findViewById(R.id.eventNameTextView);
+        mEventImage = view.findViewById(R.id.imageView);
+
+
+
+
+        return view;
     }
 
 

@@ -22,6 +22,18 @@ public class WebApi implements CalendarWebApi {
 
     @Override
     public void getEventAtDate(Date date, ITriger<ArrayList<Event>> eventITriger) {
+        ArrayList<Event> dummyEvents = new ArrayList<>();
+        Event event  = new Event();
+        event.setDate(date);
+        event.setName("Event name");
+        event.setDescription("Description ...");
+        event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
 
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+        dummyEvents.add(event);
+
+        eventITriger.onTriger(dummyEvents);
     }
 }

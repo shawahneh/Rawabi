@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +33,7 @@ public class CalendarPageFragment extends Fragment {
     private CalendarView mCalendarView;
     private CalendarWebApi mCalendarWebApi = WebApi.getInstance();
     private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
     public CalendarPageFragment() {
     }
 
@@ -57,6 +59,7 @@ public class CalendarPageFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.rv);
         mCalendarView = view.findViewById(R.id.calendarView);
+        mProgressBar = view.findViewById(R.id.progressBar);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -72,9 +75,11 @@ public class CalendarPageFragment extends Fragment {
     }
 
     private void DateChangeClick(Date date) {
+        mProgressBar.setVisibility(View.VISIBLE);
         mCalendarWebApi.getEventAtDate(date, new ITriger<ArrayList<Event>>() {
             @Override
             public void onTriger(ArrayList<Event> value) {
+                mProgressBar.setVisibility(View.GONE);
                 MyAdapter myAdapter = new MyAdapter(getContext(),value);
                 mRecyclerView.swapAdapter(myAdapter,false);
             }
@@ -117,13 +122,15 @@ public class CalendarPageFragment extends Fragment {
         }
         public  class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            private TextView mEventName,mEventDesc;
+            private TextView mEventName,mEventDesc,mEventDate;
             private ImageView mEventImage;
 
             public ViewHolder(View view) {
                 super(view);
                 mEventDesc = view.findViewById(R.id.eventDescTestView);
                 mEventName = view.findViewById(R.id.eventNameTextView);
+                mEventDate = view.findViewById(R.id.eventDateTextView);
+
                 mEventImage = view.findViewById(R.id.imageView);
             }
 
@@ -150,12 +157,20 @@ public class CalendarPageFragment extends Fragment {
             public void setmEventImage(ImageView mEventImage) {
                 this.mEventImage = mEventImage;
             }
+
+            public TextView getmEventDate() {
+                return mEventDate;
+            }
+
+            public void setmEventDate(TextView mEventDate) {
+                this.mEventDate = mEventDate;
+            }
         }
 
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
-            View view = (TextView) LayoutInflater.from(parent.getContext())
+            View view =  LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_event, parent, false);
 
             ViewHolder vh = new ViewHolder(view);
@@ -168,6 +183,8 @@ public class CalendarPageFragment extends Fragment {
             Event event = events.get(position);
             holder.getmEventDesc().setText(event.getDescription());
             holder.getmEventName().setText(event.getName());
+            holder.getmEventDate().setText(event.getDate().toString());
+
             Glide.with(mContext).load(event.getImageUrl()).into(holder.getmEventImage());
         }
 

@@ -39,7 +39,7 @@
         <activity
             android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activities.LoginRegisterActivity"></activity>
+        <activity android:name=".activities.LoginRegisterActivity" android:theme="@style/AppTheme.No"></activity>
     </application>
 
 </manifest>

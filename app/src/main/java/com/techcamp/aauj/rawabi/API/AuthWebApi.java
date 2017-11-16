@@ -1,7 +1,6 @@
 package com.techcamp.aauj.rawabi.API;
 
-import com.techcamp.aauj.rawabi.Beans.DriverUser;
-import com.techcamp.aauj.rawabi.Beans.RiderUser;
+import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 
 /**
@@ -9,8 +8,7 @@ import com.techcamp.aauj.rawabi.ITriger;
  */
 
 public interface AuthWebApi {
-    void RiderRegister(RiderUser user, ITriger<Boolean> booleanITriger);
-    void DriverRegister(DriverUser user, ITriger<Boolean> booleanITriger);
-    void checkAuth(String username,String pass,ITriger<Boolean> booleanITriger);
-    void isUserDriver(String username,ITriger<Boolean> booleanITriger);
+    void userRegister(User user, ITriger<Boolean> booleanITriger);
+    void setUserDetail(User user,String OldPassword,ITriger<Boolean> booleanITriger);
+    void checkAuth(String id,String pass,ITriger<Boolean> booleanITriger);
 }

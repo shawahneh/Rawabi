@@ -2,40 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_margin="10dp"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@color/blue1"
             android:padding="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/txtName"
-                android:padding="10dp"
-                android:background="@drawable/border_flat"
-                android:hint="Name"
+            <LinearLayout
+                android:padding="3dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/txtEmail"
-                android:padding="10dp"
-                android:background="@drawable/border_flat"
-                android:hint="Email"
+                android:background="@drawable/border_radius"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <EditText
+                    android:id="@+id/txtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_flat"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:padding="10dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:padding="3dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/txtPassword"
-                android:padding="10dp"
-                android:background="@drawable/border_flat"
-                android:hint="Password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:background="@drawable/border_radius"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/ic_lock_black_24dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <EditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_flat"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
             <Button
                 android:textColor="@color/colorAccent"
                 android:id="@+id/btnLogin"
@@ -46,5 +73,6 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
 
 </LinearLayout>

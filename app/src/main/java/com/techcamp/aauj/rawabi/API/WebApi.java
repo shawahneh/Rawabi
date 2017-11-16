@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -70,7 +71,10 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
         }
         return false;
     }
+    @Nullable
     public User getLocalUser(){
+        if(mContext == null)
+            return null;
         SharedPreferences sp = mContext.getSharedPreferences("db",Context.MODE_PRIVATE);
 
         String username = sp.getString("username",null);
@@ -78,7 +82,12 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
         String id = sp.getString("id",null);
         User user = new User();
 
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setId(id);
 
+        if(username == null)
+            return null;
         return user;
     }
 

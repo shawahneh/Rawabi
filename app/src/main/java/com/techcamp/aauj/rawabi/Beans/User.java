@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -15,6 +16,8 @@ public class User {
     private String password;
     private String imageurl;
     private String phone;
+    private ArrayList<Journey> journeys;
+    private ArrayList<Ride> rides;
 
     public User() {
     }
@@ -83,8 +86,25 @@ public class User {
         this.phone = phone;
     }
 
-    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone) {
+    public ArrayList<Journey> getJourneys() {
+        return journeys;
+    }
 
+    public void setJourneys(ArrayList<Journey> journeys) {
+        this.journeys = journeys;
+    }
+
+    public ArrayList<Ride> getRides() {
+        return rides;
+    }
+
+    public void setRides(ArrayList<Ride> rides) {
+        this.rides = rides;
+    }
+
+    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone, ArrayList<Journey> journeys, ArrayList<Ride> rides) {
+        this.rides = rides;
+        this.journeys = journeys;
         this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;

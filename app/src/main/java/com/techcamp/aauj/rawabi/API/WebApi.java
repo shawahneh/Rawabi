@@ -70,6 +70,17 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
         }
         return false;
     }
+    public User getLocalUser(){
+        SharedPreferences sp = mContext.getSharedPreferences("db",Context.MODE_PRIVATE);
+
+        String username = sp.getString("username",null);
+        String password = sp.getString("password",null);
+        String id = sp.getString("id",null);
+        User user = new User();
+
+
+        return user;
+    }
 
     @Override
     public void userRegister(User user, ITriger<Boolean> booleanITriger) {

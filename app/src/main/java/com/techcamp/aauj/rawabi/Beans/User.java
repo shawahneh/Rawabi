@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class User {
-    private String fname,lname;
+    private String fullname;
     private int gender;
     private Date birthdate;
     private String id;
@@ -19,20 +19,12 @@ public class User {
     public User() {
     }
 
-    public String getFname() {
-        return fname;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public int getGender() {
@@ -91,10 +83,9 @@ public class User {
         this.phone = phone;
     }
 
-    public User(String fname, String lname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone) {
+    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone) {
 
-        this.fname = fname;
-        this.lname = lname;
+        this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;
         this.id = id;

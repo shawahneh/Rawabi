@@ -10,5 +10,6 @@ import com.techcamp.aauj.rawabi.ITriger;
 public interface AuthWebApi {
     void userRegister(User user, ITriger<Boolean> booleanITriger);
     void setUserDetails(User user,String OldPassword,ITriger<Boolean> booleanITriger);
+    void getUserDetails(int userId,ITriger<User> resultUser);
     void checkAuth(String username,String password,ITriger<Boolean> booleanITriger);
 }

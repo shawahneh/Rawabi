@@ -205,6 +205,60 @@ PoolingJourney{
     public void setUserDetails(User user, String OldPassword, ITriger<Boolean> booleanITriger) {
 
     }
+    // if userId <= 0 then give me the details of current user
+    @Override
+    public void getUserDetails(int userId, final ITriger<User> resultUser) {
+        final User localUser = getLocalUser();
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getUserDetails");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("userId",userId+"");
+
+        send(params, new ITriger<JSONObject>() {
+            @Override
+            public void onTriger(JSONObject value) {
+                try {
+
+                    if (value.has("username") && !value.isNull("username")){
+
+                        User userDetails = new User();
+                        userDetails.setUsername(localUser.getUsername());
+                        userDetails.setPassword(localUser.getPassword());
+                        userDetails.setFullname(value.getString("fullname"));
+                        userDetails.setAddress(value.getString("address"));
+                        userDetails.setPhone(value.getString("phone"));
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+                        userDetails.setBirthdate(simpleDateFormat.parse(value.getString("birthdate")));
+                        userDetails.setGender(value.getInt("gender"));
+                        userDetails.setId(value.getInt("id"));
+                        userDetails.setImageurl(value.getString("image"));
+                        Log.i("tag", "Getting user details for user : "+userDetails.getUsername());
+                        resultUser.onTriger(userDetails);
+                    }else
+                    {
+
+                        Log.i("tag", "Getting user details");
+                        resultUser.onTriger(null);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
+                    resultUser.onTriger(null);
+                    e.printStackTrace();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new ITriger<VolleyError>() {
+            @Override
+            public void onTriger(VolleyError value) {
+                Log.d("tag", "Error while getting data from send() method ");
+                value.printStackTrace();
+            }
+        });
+    }
 
 
     @Override
@@ -257,7 +311,6 @@ PoolingJourney{
     public void setNewJourney(Journey newJourney, final ITriger<Integer> journeyId) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
-        //($_POST["username"],$_POST["password"],$_POST["startLocationX"],$_POST["startLocationY"],$_POST["endLocationX"],$_POST["endLocationY"],$_POST["goingDate"],$_POST["seats"],$_POST["genderPrefer"],$_POST["carDescription"])
         params.put("action","setNewJourney");
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());

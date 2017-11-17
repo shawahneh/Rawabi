@@ -24,6 +24,7 @@ import com.techcamp.aauj.rawabi.ITriger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,11 +49,16 @@ PoolingJourney{
             instance = new WebApi(context);
         return instance;
     }
+
     private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
     {
         Log.d("tag","send");
 
-        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        if (requestQueue==null)
+        {
+
+             requestQueue = Volley.newRequestQueue(mContext);
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -64,20 +70,16 @@ PoolingJourney{
                     Log.d("tag",jsonObject.toString());
                     result.onTriger(jsonObject);
 
-                    Toast.makeText(mContext, jsonObject.getString("auth") +"", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
-                    Toast.makeText(mContext, "Error get auth", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
-                Toast.makeText(mContext, "OK", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("tag","ERROR "+ error.toString());
                 errorResponse.onTriger(error);
-                Toast.makeText(mContext, "NO", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -166,7 +168,8 @@ PoolingJourney{
         params.put("password",user.getPassword());
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
-        params.put("birthdate",user.getBirthdate().toString());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
         params.put("userType","1");
         params.put("image",user.getImageurl());
@@ -175,7 +178,7 @@ PoolingJourney{
             @Override
             public void onTriger(JSONObject value) {
                 try {
-                    if (value.getString("auth").equals("true")){
+                    if (value.getString("registration").equals("success")){
                         Log.i("tag", "register process is done");
                         booleanITriger.onTriger(true);
                     }else

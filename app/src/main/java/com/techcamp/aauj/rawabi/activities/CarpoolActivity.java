@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,7 +58,8 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
     private Fragment mFragment;
     private int mMode;
     private ArrayList<Journey> journeys;
-
+    LatLng sydney = new LatLng(-34, 151);
+    LatLng PERTH = new LatLng(-31.90, 115.86);
     private Button mButtonSubmit,mButtonRidingAt;
     private TextView mTextViewFrom,mTextViewTo;
     private EditText mEditTextSeatsNumber,mEditTextCarDesc;
@@ -74,6 +76,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         mEditTextCarDesc = findViewById(R.id.txtCarDesc);
 
         initUI();
+        setDefaultMarkers();
 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,6 +85,11 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
 //        if (savedInstanceState == null) {
 //            setFragment(new UserTypeFragment(), "tag");
 //        }
+    }
+
+    private void setDefaultMarkers() {
+        mMarkerStartPoint = new LatLng(32.01305201874965,35.19094504415989);
+        mMarkerEndPoint = new LatLng(32.01038562592371,35.191298089921474);
     }
 
     private void initUI() {
@@ -136,13 +144,20 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
             goingDate = new Date();
             goingDate.setHours(hour);
             goingDate.setMinutes(min);
-            refreshDate();
+            refreshData();
         }else{
             mButtonRidingAt.setText("Driving At " + hour+":" + min);
         }
     }
 
-    private void refreshDate() {
+    private void refreshData() {
+        mTextViewFrom.setText(MapUtil.getAddress(this,mMarkerStartPoint.latitude,mMarkerStartPoint.longitude));
+        mTextViewTo.setText(MapUtil.getAddress(this,mMarkerEndPoint.latitude,mMarkerEndPoint.longitude));
+        if(mMode == 0)
+            downloadJournays();
+
+    }
+    public void downloadJournays(){
         mPoolingJourney.filterJourneys(mMarkerStartPoint, mMarkerEndPoint, goingDate, 0, new ITriger<ArrayList<Journey>>() {
             @Override
             public void onTriger(ArrayList<Journey> value) {
@@ -153,17 +168,46 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void updateMap() {
+        if(mMap == null)
+            return;
+
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(mMarkerStartPoint).title("Start Position").draggable(true).icon(getMarkerIcon("#475862")))
+                .setTag(TYPE_MARK_START);
+        mMap.addMarker(new MarkerOptions().position(mMarkerEndPoint).title("End Position").draggable(true).icon(getMarkerIcon("#a1cf68")))
+                .setTag(TYPE_MARK_END);
+
+
         Log.d("tag","updateMap");
-        if(mMap != null)
+        if(mMode == 0)
         for (Journey journey : journeys){
+            Log.d("tag","add mark "+journey.getStartPoint());
             mMap.addMarker(new MarkerOptions()
                 .position(journey.getStartPoint())
+                    .title(journey.getUser().getFullname())
+                    .snippet("Aavailable seats: " + journey.getSeats())
             ).setTag(journey);
         }
     }
 
     private void SubmitJourney() {
-
+        String carDesc = mEditTextCarDesc.getText().toString();
+        int seats = Integer.parseInt(mEditTextSeatsNumber.getText().toString());
+        Journey journey = new Journey();
+        journey.setUser(null);
+        journey.setStartPoint(mMarkerStartPoint);
+        journey.setEndPoint(mMarkerEndPoint);
+        journey.setGoingDate(goingDate);
+        journey.setCarDescription(carDesc);
+        journey.setSeats(seats);
+        journey.setGenderPrefer(0);
+        journey.setId(-1);
+        mPoolingJourney.setNewJourney(journey, new ITriger<Integer>() {
+            @Override
+            public void onTriger(Integer value) {
+                Toast.makeText(CarpoolActivity.this, "joueney created " + value, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -172,15 +216,15 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         mMap = googleMap;
         setMyLocationEnable();
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng PERTH = new LatLng(-31.90, 115.86);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Start Position").draggable(true).icon(getMarkerIcon("#475862")))
+
+        mMap.addMarker(new MarkerOptions().position(mMarkerStartPoint).title("Start Position").draggable(true).icon(getMarkerIcon("#475862")))
                 .setTag(TYPE_MARK_START);
-        mMap.addMarker(new MarkerOptions().position(PERTH).title("End Position").draggable(true).icon(getMarkerIcon("#a1cf68")))
+        mMap.addMarker(new MarkerOptions().position(mMarkerEndPoint).title("End Position").draggable(true).icon(getMarkerIcon("#a1cf68")))
                 .setTag(TYPE_MARK_END);
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
-
+        if(MapUtil.CurrentLocation != null)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude()),10));
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(value.getLatitude(),value.getLongitude()),10));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
@@ -191,6 +235,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
 
             @Override
             public void onMarkerDrag(Marker marker) {
+                Log.d("tag","onMarkerDrag " + marker.getPosition().longitude + " " + marker.getPosition().longitude);
                 int type = (Integer) marker.getTag();
                 if (type == TYPE_MARK_START)
                     mMarkerStartPoint = marker.getPosition();
@@ -200,12 +245,27 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
+                refreshData();
+
                 Log.d("tag", "onMarkerDragEnd");
-                if(mFragment != null)
-                    if(mFragment instanceof ItemsListFragment){
-                        if((Integer)marker.getTag() == TYPE_MARK_START)
-                        ((ItemsListFragment) mFragment).refreshView(marker.getPosition());
-                    }
+//                if(mFragment != null)
+//                    if(mFragment instanceof ItemsListFragment){
+//                        if((Integer)marker.getTag() == TYPE_MARK_START)
+//                        ((ItemsListFragment) mFragment).refreshView(marker.getPosition());
+//                    }
+            }
+        });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                if(marker.getTag() instanceof Journey)
+                {
+                    DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance((Journey) marker.getTag());
+                    fragment.show(getFragmentManager(),"tag");
+                }
+                marker.showInfoWindow();
+                return true;
             }
         });
     }

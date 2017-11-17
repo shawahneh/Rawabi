@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
 import com.techcamp.aauj.rawabi.fragments.RegisterFragment;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class LoginRegisterActivity extends AppCompatActivity {
     private Button mButtonLogin,mButtonRegister;
@@ -18,6 +19,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
+        MapUtil.getCurrentLoc(this,null);
         if(savedInstanceState == null){
             setFragment(new LoginFragment(),"tag");
         }

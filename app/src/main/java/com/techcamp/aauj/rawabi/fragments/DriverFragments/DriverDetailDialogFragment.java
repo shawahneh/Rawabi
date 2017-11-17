@@ -67,12 +67,12 @@ public class DriverDetailDialogFragment extends DialogFragment {
         if (dialog != null) {
 //            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            Window window = dialog.getWindow();
-            WindowManager.LayoutParams wlp = window.getAttributes();
-
-            wlp.gravity = Gravity.BOTTOM;
-            wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-            window.setAttributes(wlp);
+//            Window window = dialog.getWindow();
+//            WindowManager.LayoutParams wlp = window.getAttributes();
+//
+//            wlp.gravity = Gravity.BOTTOM;
+//            wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//            window.setAttributes(wlp);
         }
     }
     @Override

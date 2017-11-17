@@ -16,6 +16,7 @@ import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.CarpoolActivity;
+import com.techcamp.aauj.rawabi.activities.UserTypeActivity;
 
 
 public class LoginFragment extends Fragment {
@@ -38,7 +39,7 @@ public class LoginFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), CarpoolActivity.class);
+                Intent i = new Intent(getContext(), UserTypeActivity.class);
                 getActivity().finish();
                 startActivity(i);
 //                mAuthWebApi.checkAuth(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),

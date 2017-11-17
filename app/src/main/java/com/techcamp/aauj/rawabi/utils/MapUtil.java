@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -55,7 +56,7 @@ public class MapUtil {
         return distance;
     }
 
-    public static void getCurrentLoc(Context context, final ITriger<Location> locationITriger) {
+    public static void getCurrentLoc(Context context,@Nullable final ITriger<Location> locationITriger) {
         Log.d("tag","getCurrentLoc");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -82,7 +83,9 @@ public class MapUtil {
             }
 
             public void onLocationChanged(Location location) {
+                if(locationITriger != null)
                 locationITriger.onTriger(location);
+
                 CurrentLocation = location;
             }
         });

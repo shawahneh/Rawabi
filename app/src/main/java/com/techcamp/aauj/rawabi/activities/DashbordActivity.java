@@ -28,6 +28,7 @@ import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class DashbordActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

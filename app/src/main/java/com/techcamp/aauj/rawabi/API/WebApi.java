@@ -267,6 +267,7 @@ PoolingJourney{
     @Override
     public void login(final String username, final String password, final ITriger<User> resultUser) {
         Map<String,String> params = new HashMap<String, String>();
+        Log.i("tag", "login: u: "+username+" p: "+password);
         params.put("action","getUserDetails");
         params.put("username",username);
         params.put("password",password);
@@ -276,26 +277,25 @@ PoolingJourney{
             @Override
             public void onTriger(JSONObject value) {
                 try {
-
-                    if (value.has("username") && !value.isNull("username")){
+                    if (value.has("username")){
 
                         User userDetails = new User();
                         userDetails.setUsername(username);
                         userDetails.setPassword(password);
-                        userDetails.setFullname(value.getString("fullname"));
-                        userDetails.setAddress(value.getString("address"));
-                        userDetails.setPhone(value.getString("phone"));
+                        userDetails.setFullname(value.getString("fullname").toString());
+                        userDetails.setAddress(value.getString("address").toString());
+                        userDetails.setPhone(value.getString("phone").toString());
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
                         userDetails.setBirthdate(simpleDateFormat.parse(value.getString("birthdate")));
                         userDetails.setGender(value.getInt("gender"));
                         userDetails.setId(value.getInt("id"));
-                        userDetails.setImageurl(value.getString("image"));
+                        userDetails.setImageurl(value.getString("image").toString());
                         Log.i("tag", "Getting user details for user : "+userDetails.getUsername());
                         resultUser.onTriger(userDetails);
                     }else
                     {
 
-                        Log.i("tag", "Getting user details");
+                        Log.i("tag", "Getting user details failed");
                         resultUser.onTriger(null);
                     }
                 } catch (JSONException e) {

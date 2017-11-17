@@ -47,7 +47,11 @@ public class LoginFragment extends Fragment {
                         new ITriger<User>() {
                             @Override
                             public void onTriger(User value) {
-                                Toast.makeText(getContext(), " auth result " + value.getFullname(), Toast.LENGTH_SHORT).show();
+                                if (value!=null)
+                                {
+                                    Toast.makeText(getContext(), "Logged In", Toast.LENGTH_SHORT).show();
+                                }else
+                                    Toast.makeText(getContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
                             }
                         });
 

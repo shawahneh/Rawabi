@@ -25,19 +25,20 @@ import java.util.Locale;
  */
 
 public class MapUtil {
+
     public static Location CurrentLocation = null;
     public static String getAddress(Context context, double lat, double lng) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             if (addresses.isEmpty())
-                return "Unknown";
+                return "EmUnknown";
             Address obj = addresses.get(0);
 
             return obj.getAddressLine(0);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Unknown";
+            return "ErUnknown";
         }
     }
 
@@ -69,6 +70,8 @@ public class MapUtil {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        CurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 // called when the location provider status changes. Possible status: OUT_OF_SERVICE, TEMPORARILY_UNAVAILABLE or AVAILABLE.

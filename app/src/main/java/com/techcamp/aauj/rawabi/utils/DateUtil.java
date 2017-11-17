@@ -15,4 +15,10 @@ public class DateUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return dateFormat.format(date);
     }
+    public static boolean isPassed(Date date){
+        Date date1 = new Date();
+        if(date.getTime() < date1.getTime())
+            return true;
+        return false;
+    }
 }

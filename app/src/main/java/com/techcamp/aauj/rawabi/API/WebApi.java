@@ -108,7 +108,7 @@ PoolingJourney{
 
 
     @Override
-    public void checkAuth(String id, String pass, ITriger<Boolean> booleanITriger) {
+    public void checkAuth(String username, String pass, ITriger<Boolean> booleanITriger) {
 
     }
 
@@ -124,9 +124,10 @@ PoolingJourney{
     }
 
     @Override
-    public void setNewJourney(Journey newJourney, ITriger<Boolean> result) {
+    public void setNewJourney(Journey newJourney, ITriger<Integer> journeyId) {
 
     }
+
 
     @Override
     public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate,int sortBy, ITriger<ArrayList<Journey>> Journeys) {

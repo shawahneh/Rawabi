@@ -45,10 +45,12 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
     private LatLng mMarkerStartPoint;
     private LatLng mMarkerEndPoint;
     private Fragment mFragment;
+    private int mMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carpool);
+        mMode = getIntent().getIntExtra("mode",0);
 
 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -135,6 +137,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         Color.colorToHSV(Color.parseColor(color), hsv);
         return BitmapDescriptorFactory.defaultMarker(hsv[0]);
     }
+
     @Override
     public void onTypeClick(int type) {
         if(type == 0){

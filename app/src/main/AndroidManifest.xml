@@ -45,7 +45,8 @@
         <activity
             android:name=".activities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".activities.PickerActivity"></activity>
+        <activity android:name=".activities.PickerActivity" />
+        <activity android:name=".activities.UserTypeActivity"></activity>
     </application>
 
 </manifest>

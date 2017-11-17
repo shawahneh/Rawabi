@@ -30,6 +30,7 @@ import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +63,7 @@ public class ItemsListFragment<T extends Journey> extends Fragment {
         mLatLng = latLng;
         mProgressBar.setVisibility(View.VISIBLE);
 
-        mPoolingJourney.filterJourneys(mLatLng, new ITriger<ArrayList<Journey>>() {
+        mPoolingJourney.filterJourneys(mLatLng,mLatLng,new Date(),0, new ITriger<ArrayList<Journey>>() {
             @Override
             public void onTriger(ArrayList<Journey> value) {
                 mProgressBar.setVisibility(View.GONE);

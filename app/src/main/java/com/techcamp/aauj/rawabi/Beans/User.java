@@ -42,6 +42,7 @@ public class User implements Parcelable{
         imageurl = in.readString();
         phone = in.readString();
         address = in.readString();
+
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -121,7 +122,7 @@ public class User implements Parcelable{
     }
 
 
-    public User(String fullname, int gender, Date birthdate, int id, String username, String password, String imageurl, String phone) {
+    public User(String fullname, int gender, Date birthdate, int id, String username, String password, String imageurl, String phone,String address) {
         this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;
@@ -130,6 +131,7 @@ public class User implements Parcelable{
         this.password = password;
         this.imageurl = imageurl;
         this.phone = phone;
+        this.address = address;
     }
 
     @Override

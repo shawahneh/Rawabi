@@ -14,7 +14,8 @@ import com.techcamp.aauj.rawabi.R;
 public class RegisterFragment extends Fragment {
 
 //    private OnFragmentInteractionListener mListener;
-
+    // 0 Male
+    // 1 Female
     public RegisterFragment() {
     }
 

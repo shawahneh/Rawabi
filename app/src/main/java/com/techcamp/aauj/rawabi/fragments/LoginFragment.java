@@ -8,15 +8,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.techcamp.aauj.rawabi.API.AuthWebApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.CarpoolActivity;
 
 
 public class LoginFragment extends Fragment {
 
-//    private OnFragmentInteractionListener mListener;
-
+    private EditText mEditTextEmail,mEditTextPassword;
+    private AuthWebApi mAuthWebApi = WebApi.getInstance(getContext());
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -28,12 +33,22 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
         View btn = view.findViewById(R.id.btnLogin);
+        mEditTextEmail = view.findViewById(R.id.txtEmail);
+        mEditTextPassword = view.findViewById(R.id.txtPassword);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), CarpoolActivity.class);
                 getActivity().finish();
                 startActivity(i);
+//                mAuthWebApi.checkAuth(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
+//                        new ITriger<Boolean>() {
+//                            @Override
+//                            public void onTriger(Boolean value) {
+//                                Toast.makeText(getContext(), " auth result " + value, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+
             }
         });
         return view;

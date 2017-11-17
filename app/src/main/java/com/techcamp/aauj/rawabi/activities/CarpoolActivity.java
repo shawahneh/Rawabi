@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.activities;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,6 +14,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +30,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
@@ -34,32 +41,129 @@ import com.techcamp.aauj.rawabi.fragments.ItemsListFragment;
 import com.techcamp.aauj.rawabi.fragments.UserTypeFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCallback,
         UserTypeFragment.IUserTypeFragmenetListener,ItemsListFragment.IFragmentListener {
-
+    private PoolingJourney mPoolingJourney = WebApi.getInstance(this);
     private static final int TYPE_MARK_START = 0;
     private static final int TYPE_MARK_END = 1;
     private GoogleMap mMap;
     private LatLng mMarkerStartPoint;
     private LatLng mMarkerEndPoint;
+    private Date goingDate = new Date();
     private Fragment mFragment;
     private int mMode;
+    private ArrayList<Journey> journeys;
+
+    private Button mButtonSubmit,mButtonRidingAt;
+    private TextView mTextViewFrom,mTextViewTo;
+    private EditText mEditTextSeatsNumber,mEditTextCarDesc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carpool);
         mMode = getIntent().getIntExtra("mode",0);
+        mButtonRidingAt = findViewById(R.id.btnRidingAt);
+        mButtonSubmit = findViewById(R.id.btnSubmit);
+        mTextViewFrom = findViewById(R.id.tvFrom);
+        mTextViewTo = findViewById(R.id.tvTo);
+        mEditTextSeatsNumber = findViewById(R.id.txtSeatsNumber);
+        mEditTextCarDesc = findViewById(R.id.txtCarDesc);
 
+        initUI();
 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        if (savedInstanceState == null) {
-            setFragment(new UserTypeFragment(), "tag");
+//        if (savedInstanceState == null) {
+//            setFragment(new UserTypeFragment(), "tag");
+//        }
+    }
+
+    private void initUI() {
+        if(mMode == 0){
+            mEditTextCarDesc.setVisibility(View.GONE);
+            mEditTextSeatsNumber.setVisibility(View.GONE);
+            mButtonSubmit.setVisibility(View.GONE);
+
+        }else{
+            mEditTextCarDesc.setVisibility(View.VISIBLE);
+            mEditTextSeatsNumber.setVisibility(View.VISIBLE);
+            mButtonSubmit.setVisibility(View.VISIBLE);
         }
+
+
+        mButtonRidingAt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowTimePicker();
+            }
+        });
+        mButtonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SubmitJourney();
+            }
+        });
+
+    }
+
+    private void ShowTimePicker() {
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                updateDateButton(i,i1);
+            }
+        },hour,minute,true);
+
+        timePickerDialog.setTitle("Set Going Time");
+        timePickerDialog.show();
+    }
+
+    private void updateDateButton(int hour, int min) {
+        Log.d("tag","updateDateButton");
+        Log.d("tag","hour " + hour);
+        if(mMode == 0){
+            mButtonRidingAt.setText("Riding At " + hour+":" + min);
+            goingDate = new Date();
+            goingDate.setHours(hour);
+            goingDate.setMinutes(min);
+            refreshDate();
+        }else{
+            mButtonRidingAt.setText("Driving At " + hour+":" + min);
+        }
+    }
+
+    private void refreshDate() {
+        mPoolingJourney.filterJourneys(mMarkerStartPoint, mMarkerEndPoint, goingDate, 0, new ITriger<ArrayList<Journey>>() {
+            @Override
+            public void onTriger(ArrayList<Journey> value) {
+                journeys = value;
+                updateMap();
+            }
+        });
+    }
+
+    private void updateMap() {
+        Log.d("tag","updateMap");
+        if(mMap != null)
+        for (Journey journey : journeys){
+            mMap.addMarker(new MarkerOptions()
+                .position(journey.getStartPoint())
+            ).setTag(journey);
+        }
+    }
+
+    private void SubmitJourney() {
+
     }
 
 
@@ -77,12 +181,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
                 .setTag(TYPE_MARK_END);
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
 
-        MapUtil.getCurrentLoc(this, new ITriger<Location>() {
-            @Override
-            public void onTriger(Location value) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(value.getLatitude(),value.getLongitude()),10));
-            }
-        });
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(value.getLatitude(),value.getLongitude()),10));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override

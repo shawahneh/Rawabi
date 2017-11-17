@@ -1,0 +1,80 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    tools:context="com.techcamp.aauj.rawabi.fragments.UserTypeFragment">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/view1"
+        android:padding="20dp"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imgRider"
+            android:layout_weight="1"
+            android:src="@drawable/rider_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/tvRider"
+            android:layout_weight="1"
+            android:textSize="45sp"
+            android:textColor="@color/white"
+            android:text="Rider"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/view2"
+        android:padding="20dp"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:background="@color/green"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/stearing"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+        <TextView
+            android:layout_weight="1"
+            android:textSize="45sp"
+            android:textColor="@color/white"
+            android:text="Driver"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layoutNowLater"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="Now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="Later"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

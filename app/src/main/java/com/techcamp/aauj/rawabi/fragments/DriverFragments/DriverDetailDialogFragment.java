@@ -2,16 +2,23 @@ package com.techcamp.aauj.rawabi.fragments.DriverFragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +30,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by alaam on 11/17/2017.
@@ -50,6 +61,12 @@ public class DriverDetailDialogFragment extends DialogFragment {
         if (dialog != null) {
 //            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Window window = dialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+
+            wlp.gravity = Gravity.BOTTOM;
+            wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            window.setAttributes(wlp);
         }
     }
     @Override
@@ -98,7 +115,7 @@ public class DriverDetailDialogFragment extends DialogFragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 LatLng latLng = new LatLng(mJourney.getEndLocationX(),mJourney.getEndlocationY());
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
             }
         });
 
@@ -111,10 +128,32 @@ public class DriverDetailDialogFragment extends DialogFragment {
     }
 
     private String getLocName(double endLocationX, double endLocationY) {
-        return null;
+       return getAddress(getActivity(),endLocationX,endLocationY);
     }
 
     private String getDistance() {
         return "distance";
+    }
+    public String getAddress(Context context, double lat, double lng) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address obj = addresses.get(0);
+
+            String add = obj.getAddressLine(0);
+//            add = add + "\n" + obj.getCountryName();
+//            add = add + "\n" + obj.getCountryCode();
+//            add = add + "\n" + obj.getAdminArea();
+//            add = add + "\n" + obj.getPostalCode();
+//            add = add + "\n" + obj.getSubAdminArea();
+//            add = add + "\n" + obj.getLocality();
+//            add = add + "\n" + obj.getSubThoroughfare();
+
+            return add;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return "Unknown";
+        }
     }
 }

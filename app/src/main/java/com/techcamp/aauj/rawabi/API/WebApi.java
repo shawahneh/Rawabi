@@ -84,7 +84,7 @@ PoolingJourney{
 
         String username = sp.getString("username",null);
         String password = sp.getString("password",null);
-        String id = sp.getString("id",null);
+        int id = sp.getInt("id",-1);
         User user = new User();
 
         user.setUsername(username);
@@ -114,7 +114,7 @@ PoolingJourney{
 
 
     @Override
-    public void getJourneys(ITriger<ArrayList<Journey>> journeys) {
+    public void getJourneys(int userId, int limitStart, int limitNum, ITriger<ArrayList<Journey>> journeys) {
 
     }
 

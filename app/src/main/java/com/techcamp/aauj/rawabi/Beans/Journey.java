@@ -19,6 +19,10 @@ public class Journey implements Parcelable{
     private LatLng startPoint;
     private LatLng endPoint;
     private int seats;
+    private Date goingDate;
+    private int genderPrefer;//0 : male , 1 : female
+    private String carDescription;
+
 
     protected Journey(Parcel in) {
         id = in.readInt();
@@ -61,10 +65,6 @@ public class Journey implements Parcelable{
     public void setEndPoint(LatLng endPoint) {
         this.endPoint = endPoint;
     }
-
-    private Date goingDate;
-    private int genderPrefer;//0 : male , 1 : female
-    private String carDescription;
 
 
 

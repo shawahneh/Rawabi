@@ -3,16 +3,31 @@ package com.techcamp.aauj.rawabi.API;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by alaam on 11/15/2017.
@@ -20,6 +35,8 @@ import java.util.Date;
 
 public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi ,
 PoolingJourney{
+    public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
+    RequestQueue requestQueue;
     private static WebApi instance;
     private Context mContext;
 
@@ -31,7 +48,50 @@ PoolingJourney{
             instance = new WebApi(context);
         return instance;
     }
+    private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
+    {
+        Log.d("tag","send");
 
+        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("tag","Response : "+ response);
+                Gson gson = new Gson();
+                try {
+//                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
+                    JSONObject jsonObject = new JSONObject(response);
+                    Log.d("tag",jsonObject.toString());
+                    result.onTriger(jsonObject);
+
+                    Toast.makeText(mContext, jsonObject.getString("auth") +"", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    Toast.makeText(mContext, "Error get auth", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(mContext, "OK", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("tag","ERROR "+ error.toString());
+                errorResponse.onTriger(error);
+                Toast.makeText(mContext, "NO", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String,String> paramss = new HashMap<String, String>();
+//                paramss.put("action","userAuth");
+//                paramss.put("username","driver1");
+//                paramss.put("password","driver1");
+//                return paramss;
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
     @Override
     public void getEventAtDate(Date date, ITriger<ArrayList<Event>> eventITriger) {
         ArrayList<Event> dummyEvents = new ArrayList<>();
@@ -108,8 +168,37 @@ PoolingJourney{
 
 
     @Override
-    public void checkAuth(String username, String pass, ITriger<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, final ITriger<Boolean> booleanITriger) {
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","userAuth");
+        params.put("username",username);
+        params.put("password",password);
+        send(params, new ITriger<JSONObject>() {
+            @Override
+            public void onTriger(JSONObject value) {
+                Log.d("tag","On userAuth : " + value.toString());
+                try {
+                    Toast.makeText(mContext, value.getString("auth").toString(), Toast.LENGTH_SHORT).show();
+                    if (value.getString("auth").equals("true")){
 
+                        booleanITriger.onTriger(true);
+                    }else
+                    {
+                        booleanITriger.onTriger(false);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
+                    booleanITriger.onTriger(false);
+                    e.printStackTrace();
+                }
+            }
+        }, new ITriger<VolleyError>() {
+            @Override
+            public void onTriger(VolleyError value) {
+                Log.d("tag", "Error while getting data from send() method ");
+                value.printStackTrace();
+            }
+        });
     }
 
 

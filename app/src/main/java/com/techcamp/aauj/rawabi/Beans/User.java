@@ -20,7 +20,15 @@ public class User implements Parcelable{
     private String password;
     private String imageurl;
     private String phone;
+    private String address;
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public User() {
     }
@@ -33,6 +41,7 @@ public class User implements Parcelable{
         password = in.readString();
         imageurl = in.readString();
         phone = in.readString();
+        address = in.readString();
 
     }
 
@@ -113,7 +122,7 @@ public class User implements Parcelable{
     }
 
 
-    public User(String fullname, int gender, Date birthdate, int id, String username, String password, String imageurl, String phone) {
+    public User(String fullname, int gender, Date birthdate, int id, String username, String password, String imageurl, String phone,String address) {
         this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;
@@ -122,6 +131,7 @@ public class User implements Parcelable{
         this.password = password;
         this.imageurl = imageurl;
         this.phone = phone;
+        this.address = address;
     }
 
     @Override
@@ -138,5 +148,6 @@ public class User implements Parcelable{
         parcel.writeString(password);
         parcel.writeString(imageurl);
         parcel.writeString(phone);
+        parcel.writeString(address);
     }
 }

@@ -157,8 +157,45 @@ PoolingJourney{
     }
 
     @Override
-    public void userRegister(User user, ITriger<Boolean> booleanITriger) {
+    public void userRegister(User user, final ITriger<Boolean> booleanITriger) {
+        Map<String,String> params = new HashMap<String, String>();
 
+        //($username,$password,$fullname,$gender,$birthdate,$address,$userType,$image,$phone)
+        params.put("action","userRegister");
+        params.put("username",user.getUsername());
+        params.put("password",user.getPassword());
+        params.put("fullname",user.getFullname());
+        params.put("gender",user.getGender()+"");
+        params.put("birthdate",user.getBirthdate().toString());
+        params.put("address",user.getAddress());
+        params.put("userType","1");
+        params.put("image",user.getImageurl());
+        params.put("phone",user.getPhone());
+        send(params, new ITriger<JSONObject>() {
+            @Override
+            public void onTriger(JSONObject value) {
+                try {
+                    if (value.getString("auth").equals("true")){
+                        Log.i("tag", "register process is done");
+                        booleanITriger.onTriger(true);
+                    }else
+                    {
+                        Log.i("tag", "register process is failed");
+                        booleanITriger.onTriger(false);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
+                    booleanITriger.onTriger(false);
+                    e.printStackTrace();
+                }
+            }
+        }, new ITriger<VolleyError>() {
+            @Override
+            public void onTriger(VolleyError value) {
+                Log.i("tag", "Error while getting data from send() method ");
+                value.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -176,14 +213,15 @@ PoolingJourney{
         send(params, new ITriger<JSONObject>() {
             @Override
             public void onTriger(JSONObject value) {
-                Log.d("tag","On userAuth : " + value.toString());
                 try {
-                    Toast.makeText(mContext, value.getString("auth").toString(), Toast.LENGTH_SHORT).show();
                     if (value.getString("auth").equals("true")){
 
+                        Log.i("tag", "user auth is ok");
                         booleanITriger.onTriger(true);
                     }else
                     {
+
+                        Log.i("tag", "user auth is not ok");
                         booleanITriger.onTriger(false);
                     }
                 } catch (JSONException e) {

@@ -16,4 +16,5 @@ public interface PoolingRides {
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITriger<Boolean> result);
 
     void setRideOnJourney(Ride newRide, ITriger<Boolean> result);
+    void changeRideStatus(int rideId, int status, ITriger<Boolean> result);
 }

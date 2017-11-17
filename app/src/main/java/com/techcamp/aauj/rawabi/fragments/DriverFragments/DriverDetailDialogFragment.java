@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,9 +18,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +33,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,9 +48,10 @@ public class DriverDetailDialogFragment extends DialogFragment {
     private Journey mJourney;
     public static final String J_PARAM = "jparam";
     private TextView mTextViewName,mTextViewPhone,mTextViewAvilable,mTextViewDistance,
-        mTextViewFrom,mTextViewTo;
+        mTextViewFrom,mTextViewTo,mTextViewCarDesc;
     private MapView mMapView;
     private Button mButtonSendRequest,mButtonCall,mButtonCancel;
+    private ImageView mImageView;
     public static DriverDetailDialogFragment newInstance(Journey mJourney) {
         Bundle args = new Bundle();
         args.putParcelable(J_PARAM,mJourney);
@@ -93,31 +99,26 @@ public class DriverDetailDialogFragment extends DialogFragment {
         mTextViewDistance =view.findViewById(R.id.tvDistance);
         mTextViewTo =view.findViewById(R.id.tvTo);
         mTextViewFrom =view.findViewById(R.id.tvFrom);
-
-        mMapView = view.findViewById(R.id.mapView);
+        mTextViewCarDesc=view.findViewById(R.id.tvCarDesc);
         mButtonCancel = view.findViewById(R.id.btnCancel);
+        mImageView = view.findViewById(R.id.profile_image);
 
         User user = mJourney.getUser();
         Log.d("tag","username: " + user.getFullname());
         mTextViewName.setText(user.getFullname());
         mTextViewPhone.setText(user.getPhone());
-        mTextViewAvilable.setText("Available at" + mJourney.getGoingDate().toString());
-        mTextViewDistance.setText(getDistance()+"");
-        mTextViewTo.setText(getLocName(mJourney.getEndLocationX(),mJourney.getEndlocationY()));
-        mTextViewFrom.setText(getLocName(mJourney.getStartLocationX(),mJourney.getStartLocationY()));
 
-        MapsInitializer.initialize(this.getActivity());
+        String date = DateUtil.formatDate(mJourney.getGoingDate().getTime());
 
-        mMapView.onCreate(getDialog().onSaveInstanceState());
-        mMapView.onResume();
+        mTextViewAvilable.setText("Available at " + date);
+        mTextViewDistance.setText(getDistance()+" Distance");
+        if(mJourney.getStartPoint() != null)
+        mTextViewTo.setText(getLocName(mJourney.getStartPoint().latitude,mJourney.getStartPoint().longitude));
+        if(mJourney.getEndPoint() != null)
+        mTextViewFrom.setText(getLocName(mJourney.getEndPoint().latitude,mJourney.getEndPoint().longitude));
 
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                LatLng latLng = new LatLng(mJourney.getEndLocationX(),mJourney.getEndlocationY());
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
-            }
-        });
+        mTextViewCarDesc.setText(mJourney.getCarDescription());
+        Glide.with(getActivity()).load(mJourney.getUser().getImageurl()).into(mImageView);
 
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,32 +129,14 @@ public class DriverDetailDialogFragment extends DialogFragment {
     }
 
     private String getLocName(double endLocationX, double endLocationY) {
-       return getAddress(getActivity(),endLocationX,endLocationY);
+       return MapUtil.getAddress(getActivity(),endLocationX,endLocationY);
     }
 
-    private String getDistance() {
-        return "distance";
+    private double getDistance() {
+        LatLng start = mJourney.getStartPoint();
+        LatLng end = mJourney.getEndPoint();
+        return MapUtil.getDistance(start,end);
     }
-    public String getAddress(Context context, double lat, double lng) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            Address obj = addresses.get(0);
 
-            String add = obj.getAddressLine(0);
-//            add = add + "\n" + obj.getCountryName();
-//            add = add + "\n" + obj.getCountryCode();
-//            add = add + "\n" + obj.getAdminArea();
-//            add = add + "\n" + obj.getPostalCode();
-//            add = add + "\n" + obj.getSubAdminArea();
-//            add = add + "\n" + obj.getLocality();
-//            add = add + "\n" + obj.getSubThoroughfare();
 
-            return add;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            return "Unknown";
-        }
-    }
 }

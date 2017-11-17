@@ -56,7 +56,6 @@ public class AnnouncmentFragment extends Fragment {
     }
 
  public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private String[] mDataset;
     private Context mContext;
     private ArrayList<Event> events;
     public MyAdapter(Context context,ArrayList<Event> events){

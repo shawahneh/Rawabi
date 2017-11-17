@@ -32,6 +32,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), CarpoolActivity.class);
+                getActivity().finish();
                 startActivity(i);
             }
         });

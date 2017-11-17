@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.activities;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
@@ -20,6 +22,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
         MapUtil.getCurrentLoc(this,null);
+        setPerson();
         if(savedInstanceState == null){
             setFragment(new LoginFragment(),"tag");
         }
@@ -40,6 +43,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setPerson() {
+        SharedPreferences sp = getSharedPreferences("db",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username","driver1");
+        editor.putString("password","driver1");
+        editor.putInt("id",1);
+        editor.commit();
+
+    }
+
     private void setFragment(Fragment fragment, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

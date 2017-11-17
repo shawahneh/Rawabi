@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.CarpoolActivity;
@@ -39,16 +40,16 @@ public class LoginFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), UserTypeActivity.class);
-                getActivity().finish();
-                startActivity(i);
-//                mAuthWebApi.checkAuth(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
-//                        new ITriger<Boolean>() {
-//                            @Override
-//                            public void onTriger(Boolean value) {
-//                                Toast.makeText(getContext(), " auth result " + value, Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
+//                Intent i = new Intent(getContext(), UserTypeActivity.class);
+//                getActivity().finish();
+//                startActivity(i);
+                mAuthWebApi.login(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
+                        new ITriger<User>() {
+                            @Override
+                            public void onTriger(User value) {
+                                Toast.makeText(getContext(), " auth result " + value.getFullname(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
             }
         });

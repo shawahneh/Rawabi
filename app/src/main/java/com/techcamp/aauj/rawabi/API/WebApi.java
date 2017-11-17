@@ -69,6 +69,7 @@ PoolingJourney{
 
 
     public Boolean isLogin(){
+
         if(mContext != null) {
             SharedPreferences sp = mContext.getSharedPreferences("db", Context.MODE_PRIVATE);
             return sp.getBoolean("login", false);
@@ -101,17 +102,19 @@ PoolingJourney{
     }
 
     @Override
-    public void setUserDetail(User user, String OldPassword, ITriger<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, ITriger<Boolean> booleanITriger) {
 
     }
+
 
     @Override
     public void checkAuth(String id, String pass, ITriger<Boolean> booleanITriger) {
 
     }
 
+
     @Override
-    public void getMyJourneys(ITriger<ArrayList<Journey>> journeys) {
+    public void getJourneys(ITriger<ArrayList<Journey>> journeys) {
 
     }
 
@@ -126,11 +129,12 @@ PoolingJourney{
     }
 
     @Override
-    public void filterJourneys(LatLng latLng, ITriger<ArrayList<Journey>> Journeys) {
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate,int sortBy, ITriger<ArrayList<Journey>> Journeys) {
         ArrayList<Journey> journeys = new ArrayList<>();
         Journey journey = new Journey();
         journey.setGoingDate(new Date());
-        journey.setStartPoint(latLng);
+        journey.setStartPoint(startPoint);
+        journey.setEndPoint(endPoint);
         User user = new User();
         user.setFullname("ALA AMARNEH");
         user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");

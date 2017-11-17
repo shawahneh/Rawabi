@@ -1,5 +1,9 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,33 +11,53 @@ import java.util.Date;
  * Created by User on 11/16/2017.
  */
 
-public class Journey {
+public class Journey implements Parcelable{
     private int id;
     private User user;
-    private int startLocationX;
-    private int startLocationY;
-    private int endLocationX;
-    private int endlocationY;
+    private double startLocationX;
+    private double startLocationY;
+    private double endLocationX;
+    private double endlocationY;
     private int seats;
     private Date goingDate;
     private int genderPrefer;//0 : male , 1 : female
     private String carDescription;
-    private ArrayList<Ride> rides;
 
-    public ArrayList<Ride> getRides() {
-        return rides;
+    protected Journey(Parcel in) {
+        id = in.readInt();
+        startLocationX = in.readInt();
+        startLocationY = in.readInt();
+        endLocationX = in.readInt();
+        endlocationY = in.readInt();
+        seats = in.readInt();
+        genderPrefer = in.readInt();
+        carDescription = in.readString();
     }
 
-    public void setRides(ArrayList<Ride> rides) {
-        this.rides = rides;
+    public static final Creator<Journey> CREATOR = new Creator<Journey>() {
+        @Override
+        public Journey createFromParcel(Parcel in) {
+            return new Journey(in);
+        }
+
+        @Override
+        public Journey[] newArray(int size) {
+            return new Journey[size];
+        }
+    };
+
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Journey()
     {
 
+
     }
-    public Journey(int id,User user, int startLocationX, int startLocationY, int endLocationX, int endlocationY, int seats, Date goingDate, int genderPrefer, String carDescription,ArrayList<Ride> rides) {
-        this.rides = rides;
+    public Journey(int id,User user, int startLocationX, int startLocationY, int endLocationX, int endlocationY, int seats, Date goingDate, int genderPrefer, String carDescription) {
+
         this.id = id;
         this.user = user;
         this.startLocationX = startLocationX;
@@ -55,35 +79,35 @@ public class Journey {
     }
 
 
-    public int getStartLocationX() {
+    public double getStartLocationX() {
         return startLocationX;
     }
 
-    public void setStartLocationX(int startLocationX) {
+    public void setStartLocationX(double startLocationX) {
         this.startLocationX = startLocationX;
     }
 
-    public int getStartLocationY() {
+    public double getStartLocationY() {
         return startLocationY;
     }
 
-    public void setStartLocationY(int startLocationY) {
+    public void setStartLocationY(double startLocationY) {
         this.startLocationY = startLocationY;
     }
 
-    public int getEndLocationX() {
+    public double getEndLocationX() {
         return endLocationX;
     }
 
-    public void setEndLocationX(int endLocationX) {
+    public void setEndLocationX(double endLocationX) {
         this.endLocationX = endLocationX;
     }
 
-    public int getEndlocationY() {
+    public double getEndlocationY() {
         return endlocationY;
     }
 
-    public void setEndlocationY(int endlocationY) {
+    public void setEndlocationY(double endlocationY) {
         this.endlocationY = endlocationY;
     }
 
@@ -117,5 +141,22 @@ public class Journey {
 
     public void setCarDescription(String carDescription) {
         this.carDescription = carDescription;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeDouble(startLocationX);
+        parcel.writeDouble(startLocationY);
+        parcel.writeDouble(endLocationX);
+        parcel.writeDouble(endlocationY);
+        parcel.writeInt(seats);
+        parcel.writeInt(genderPrefer);
+        parcel.writeString(carDescription);
     }
 }

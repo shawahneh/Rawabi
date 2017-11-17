@@ -13,10 +13,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.fragments.DriverFragments.DriverDetailDialogFragment;
 import com.techcamp.aauj.rawabi.fragments.UserTypeFragment;
 
-public class CarpoolActivity extends AppCompatActivity  implements OnMapReadyCallback{
+import java.util.Date;
+
+public class CarpoolActivity extends AppCompatActivity  implements OnMapReadyCallback,
+        UserTypeFragment.IUserTypeFragmenetListener{
 
     private GoogleMap mMap;
     @Override
@@ -49,5 +55,25 @@ public class CarpoolActivity extends AppCompatActivity  implements OnMapReadyCal
         fragmentManager.beginTransaction()
                 .replace(R.id.content,fragment,tag)
                 .commit();
+    }
+
+    @Override
+    public void onTypeClick(int type) {
+        if(type == 0){
+            Journey journey = new Journey();
+            User user = new User();
+            user.setFullname("ALa");
+            user.setPhone("059");
+
+            journey.setUser(user);
+            journey.setEndLocationX(-34);
+            journey.setEndlocationY(151);
+            journey.setGoingDate(new Date());
+
+            DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance(journey);
+            fragment.show(getFragmentManager(),"tag");
+        }else{
+
+        }
     }
 }

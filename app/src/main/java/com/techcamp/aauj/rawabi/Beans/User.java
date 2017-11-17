@@ -1,5 +1,9 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +11,7 @@ import java.util.Date;
  * Created by alaam on 11/15/2017.
  */
 
-public class User {
+public class User implements Parcelable{
     private String fullname;
     private int gender;
     private Date birthdate;
@@ -16,11 +20,33 @@ public class User {
     private String password;
     private String imageurl;
     private String phone;
-    private ArrayList<Journey> journeys;
-    private ArrayList<Ride> rides;
+
 
     public User() {
     }
+
+    protected User(Parcel in) {
+        fullname = in.readString();
+        gender = in.readInt();
+        id = in.readString();
+        username = in.readString();
+        password = in.readString();
+        imageurl = in.readString();
+        phone = in.readString();
+
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getFullname() {
         return fullname;
@@ -86,25 +112,8 @@ public class User {
         this.phone = phone;
     }
 
-    public ArrayList<Journey> getJourneys() {
-        return journeys;
-    }
 
-    public void setJourneys(ArrayList<Journey> journeys) {
-        this.journeys = journeys;
-    }
-
-    public ArrayList<Ride> getRides() {
-        return rides;
-    }
-
-    public void setRides(ArrayList<Ride> rides) {
-        this.rides = rides;
-    }
-
-    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone, ArrayList<Journey> journeys, ArrayList<Ride> rides) {
-        this.rides = rides;
-        this.journeys = journeys;
+    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone) {
         this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;
@@ -113,5 +122,21 @@ public class User {
         this.password = password;
         this.imageurl = imageurl;
         this.phone = phone;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(fullname);
+        parcel.writeInt(gender);
+        parcel.writeString(id);
+        parcel.writeString(username);
+        parcel.writeString(password);
+        parcel.writeString(imageurl);
+        parcel.writeString(phone);
     }
 }

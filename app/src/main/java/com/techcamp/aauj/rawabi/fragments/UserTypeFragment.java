@@ -20,7 +20,7 @@ import com.techcamp.aauj.rawabi.R;
 
 public class UserTypeFragment extends Fragment {
     public static int MODE = 0;
-//    private OnFragmentInteractionListener mListener;
+    private IUserTypeFragmenetListener mListener;
     private View view1,view2,imgRider,layoutNowLater;
     private TextView tvRider;
     private ViewGroup container;
@@ -52,6 +52,7 @@ public class UserTypeFragment extends Fragment {
 //                    android.support.transition.TransitionManager.beginDelayedTransition(finalContainer,transition);
 //                    view1.setVisibility(View.GONE);
                     MODE = 1;
+                    onButtonPressed(MODE);
 
                 }
             });
@@ -68,6 +69,7 @@ public class UserTypeFragment extends Fragment {
 //                imgRider.setVisibility(View.GONE);
 //                layoutNowLater.setVisibility(View.VISIBLE);
                 MODE = 0;
+                onButtonPressed(MODE);
 
             }
         });
@@ -75,32 +77,30 @@ public class UserTypeFragment extends Fragment {
         return view;
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    public void onButtonPressed(int mode) {
+        if (mListener != null) {
+            mListener.onTypeClick(mode);
+        }
+    }
 //
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IUserTypeFragmenetListener) {
+            mListener = (IUserTypeFragmenetListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface IUserTypeFragmenetListener{
+        void onTypeClick(int type);
+}
 }

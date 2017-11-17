@@ -254,8 +254,54 @@ PoolingJourney{
     }
 
     @Override
-    public void setNewJourney(Journey newJourney, ITriger<Integer> journeyId) {
+    public void setNewJourney(Journey newJourney, final ITriger<Integer> journeyId) {
+        User localUser = getLocalUser();
+        Map<String,String> params = new HashMap<String, String>();
+        //($_POST["username"],$_POST["password"],$_POST["startLocationX"],$_POST["startLocationY"],$_POST["endLocationX"],$_POST["endLocationY"],$_POST["goingDate"],$_POST["seats"],$_POST["genderPrefer"],$_POST["carDescription"])
+        params.put("action","setNewJourney");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("startLocationX",newJourney.getStartPoint().latitude+"");
+        params.put("startLocationY",newJourney.getStartPoint().longitude+"");
+        params.put("endLocationX",newJourney.getEndPoint().latitude+"");
+        params.put("endLocationY",newJourney.getEndPoint().longitude+"");
+        params.put("goingDate",newJourney.getGoingDate().toString());
+        params.put("seats",newJourney.getSeats()+"");
+        params.put("genderPrefer",newJourney.getGenderPrefer()+"");
+        params.put("carDescription",newJourney.getCarDescription());
 
+        send(params, new ITriger<JSONObject>() {
+            @Override
+            public void onTriger(JSONObject value) {
+                try {
+                    int id = Integer.parseInt(value.getString("status"));
+                    if (id>0){
+
+                        Log.i("tag", "Creating Journey Process Done With id : "+id);
+                        journeyId.onTriger(id);
+                    }else
+                    {
+
+                        Log.i("tag", "Creating Journey Process Failed");
+                        journeyId.onTriger(-1);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
+                    journeyId.onTriger(-1);
+                    e.printStackTrace();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new ITriger<VolleyError>() {
+            @Override
+            public void onTriger(VolleyError value) {
+                Log.d("tag", "Error while getting data from send() method ");
+                value.printStackTrace();
+            }
+        });
     }
 
 

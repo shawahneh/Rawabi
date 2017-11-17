@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public interface PoolingRides {
-    void getMyRides(ITriger<ArrayList<Ride>> rides);
+    void getRides(int userId,int limitStart,int limitNum,ITriger<ArrayList<Ride>> rides);
     void getRideDetails(int rideId,ITriger<Ride> ride);
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITriger<Boolean> result);
 

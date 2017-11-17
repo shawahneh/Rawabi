@@ -15,7 +15,7 @@ public class User implements Parcelable{
     private String fullname;
     private int gender;
     private Date birthdate;
-    private String id;
+    private int id;
     private String username;
     private String password;
     private String imageurl;
@@ -28,7 +28,7 @@ public class User implements Parcelable{
     protected User(Parcel in) {
         fullname = in.readString();
         gender = in.readInt();
-        id = in.readString();
+        id = in.readInt();
         username = in.readString();
         password = in.readString();
         imageurl = in.readString();
@@ -72,11 +72,11 @@ public class User implements Parcelable{
         this.birthdate = birthdate;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -113,7 +113,7 @@ public class User implements Parcelable{
     }
 
 
-    public User(String fullname, int gender, Date birthdate, String id, String username, String password, String imageurl, String phone) {
+    public User(String fullname, int gender, Date birthdate, int id, String username, String password, String imageurl, String phone) {
         this.fullname = fullname;
         this.gender = gender;
         this.birthdate = birthdate;
@@ -133,7 +133,7 @@ public class User implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(fullname);
         parcel.writeInt(gender);
-        parcel.writeString(id);
+        parcel.writeInt(id);
         parcel.writeString(username);
         parcel.writeString(password);
         parcel.writeString(imageurl);

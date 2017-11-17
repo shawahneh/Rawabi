@@ -102,7 +102,8 @@ public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi {
     }
 
     @Override
-    public void checkAuth(String id, String pass, ITriger<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, ITriger<Boolean> booleanITriger) {
 
     }
+
 }

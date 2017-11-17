@@ -35,6 +35,8 @@ public class WebService {
     public WebService(Context context){
        this.context = context;
 
+
+
     }
     private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
     {

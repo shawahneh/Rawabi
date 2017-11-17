@@ -13,9 +13,9 @@ import java.util.List;
  */
 
 public interface PoolingJourney {
-    public void getMyJourneys(ITriger<ArrayList<Journey>> journeys);
+    public void getJourneys(int userId,int limitStart,int limitNum,ITriger<ArrayList<Journey>> journeys);
     public void getJourneyDetails(int id,ITriger<Journey> journey);
-    void setNewJourney(Journey newJourney,ITriger<Boolean> result);
+    void setNewJourney(Journey newJourney,ITriger<Integer> journeyId);
     void filterJourneys(Ride ride, ITriger<ArrayList<Journey>> Journeys);
 
 }

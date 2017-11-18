@@ -49,7 +49,8 @@
         <activity
             android:name=".activities.UserTypeActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".activities.PendingActivity"></activity>
+        <activity android:name=".activities.PendingActivity" />
+        <activity android:name=".activities.MeetingMapActivity"></activity>
     </application>
 
 </manifest>

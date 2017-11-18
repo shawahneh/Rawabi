@@ -46,8 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCallback,
-        UserTypeFragment.IUserTypeFragmenetListener,ItemsListFragment.IFragmentListener {
+public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCallback{
     private PoolingJourney mPoolingJourney = WebApi.getInstance(this);
     private static final int TYPE_MARK_START = 0;
     private static final int TYPE_MARK_END = 1;
@@ -261,7 +260,14 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
 
                 if(marker.getTag() instanceof Journey)
                 {
-                    DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance((Journey) marker.getTag());
+                    DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance((Journey) marker.getTag(), new ITriger<Journey>() {
+                        @Override
+                        public void onTriger(Journey value) {
+                            Intent intent = new Intent(CarpoolActivity.this,MeetingMapActivity.class);
+                            intent.putExtra("journey",value);
+                            startActivity(intent);
+                        }
+                    });
                     fragment.show(getFragmentManager(),"tag");
                 }
                 marker.showInfoWindow();
@@ -297,30 +303,18 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         return BitmapDescriptorFactory.defaultMarker(hsv[0]);
     }
 
-    @Override
-    public void onTypeClick(int type) {
-        if(type == 0){
-            Journey journey = new Journey();
-            User user = new User();
-            user.setFullname("ALa Amarneh");
-            user.setPhone("05923587222");
 
-            journey.setUser(user);
-            journey.setStartPoint(mMarkerStartPoint);
-            journey.setEndPoint(mMarkerEndPoint);
-            journey.setCarDescription("Red BMW 2017");
-            journey.setGoingDate(new Date());
-
-            DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance(journey);
-            fragment.show(getFragmentManager(),"tag");
-        }else{
-            setFragment(ItemsListFragment.getInstance(mMarkerStartPoint),"tag");
-        }
-    }
-
-    @Override
-    public void onJourneyClick(Journey journey) {
-        DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance(journey);
-        fragment.show(getFragmentManager(),"tag");
-    }
+//
+//    @Override
+//    public void onJourneyClick(Journey journey) {
+//        DriverDetailDialogFragment fragment = DriverDetailDialogFragment.newInstance(journey, new ITriger<Journey>() {
+//            @Override
+//            public void onTriger(Journey value) {
+//                Intent intent = new Intent(CarpoolActivity.this,MeetingMapActivity.class);
+//                intent.putExtra("journey",value);
+//                startActivity(intent);
+//            }
+//        });
+//        fragment.show(getFragmentManager(),"tag");
+//    }
 }

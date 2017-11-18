@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -50,12 +51,23 @@ public class DriverDetailDialogFragment extends DialogFragment {
     private TextView mTextViewName,mTextViewPhone,mTextViewAvilable,mTextViewDistance,
         mTextViewFrom,mTextViewTo,mTextViewCarDesc;
     private MapView mMapView;
-    private Button mButtonSendRequest,mButtonCall,mButtonCancel;
+    private Button mButtonChoose,mButtonCall,mButtonCancel;
     private ImageView mImageView;
-    public static DriverDetailDialogFragment newInstance(Journey mJourney) {
+    private ITriger<Journey> mListener;
+
+    public ITriger<Journey> getmListener() {
+        return mListener;
+    }
+
+    public void setmListener(ITriger<Journey> mListener) {
+        this.mListener = mListener;
+    }
+
+    public static DriverDetailDialogFragment newInstance(Journey mJourney, ITriger<Journey> clickListener) {
         Bundle args = new Bundle();
         args.putParcelable(J_PARAM,mJourney);
         DriverDetailDialogFragment fragment = new DriverDetailDialogFragment();
+        fragment.setmListener(clickListener);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,6 +113,7 @@ public class DriverDetailDialogFragment extends DialogFragment {
         mTextViewFrom =view.findViewById(R.id.tvFrom);
         mTextViewCarDesc=view.findViewById(R.id.tvCarDesc);
         mButtonCancel = view.findViewById(R.id.btnCancel);
+        mButtonChoose = view.findViewById(R.id.btnChoose);
         mImageView = view.findViewById(R.id.profile_image);
 
         User user = mJourney.getUser();
@@ -124,6 +137,13 @@ public class DriverDetailDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 getDialog().dismiss();
+            }
+        });
+        mButtonChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mListener != null)
+                    mListener.onTriger(mJourney);
             }
         });
     }

@@ -40,20 +40,20 @@ public class LoginFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(getContext(), UserTypeActivity.class);
-//                getActivity().finish();
-//                startActivity(i);
-                mAuthWebApi.login(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
-                        new ITriger<User>() {
-                            @Override
-                            public void onTriger(User value) {
-                                if (value!=null)
-                                {
-                                    Toast.makeText(getContext(), "Logged In", Toast.LENGTH_SHORT).show();
-                                }else
-                                    Toast.makeText(getContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                Intent i = new Intent(getContext(), UserTypeActivity.class);
+                getActivity().finish();
+                startActivity(i);
+//                mAuthWebApi.login(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
+//                        new ITriger<User>() {
+//                            @Override
+//                            public void onTriger(User value) {
+//                                if (value!=null)
+//                                {
+//                                    Toast.makeText(getContext(), "Logged In", Toast.LENGTH_SHORT).show();
+//                                }else
+//                                    Toast.makeText(getContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
 
             }
         });

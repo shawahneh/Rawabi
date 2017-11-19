@@ -238,7 +238,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
                 int type = (Integer) marker.getTag();
                 if (type == TYPE_MARK_START)
                     mMarkerStartPoint = marker.getPosition();
-                else
+                else if(type == TYPE_MARK_END)
                     mMarkerEndPoint = marker.getPosition();
             }
 

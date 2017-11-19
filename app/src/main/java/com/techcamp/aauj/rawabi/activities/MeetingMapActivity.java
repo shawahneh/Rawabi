@@ -1,20 +1,27 @@
 package com.techcamp.aauj.rawabi.activities;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private RadioButton mRadioButtonMarker,mRadioButtonHisLocation,mRadioButtonMyLocation;
@@ -26,6 +33,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerEndPoint;
     private LatLng mMarkerMeetingPoint;
     private Journey mJourney;
+    MarkerOptions markerOptions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +46,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mJourney = getIntent().getParcelableExtra("journey");
         mMarkerStartPoint = mJourney.getStartPoint();
         mMarkerEndPoint = mJourney.getEndPoint();
-        mMarkerMeetingPoint = mMarkerStartPoint;
+        mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -50,6 +58,50 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
                 RequestDriver();
             }
         });
+        mRadioButtonMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
+                    drawMarkers();
+                }
+            }
+        });
+        mRadioButtonHisLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    mMarkerMeetingPoint = mJourney.getStartPoint();
+                    drawMarkers();
+                }
+            }
+        });
+    }
+    private void drawMarkers(){
+        if(mMap == null)
+            return;
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions()
+                .position(mMarkerStartPoint)
+                .draggable(false)
+                .icon(getMarkerIcon("#475862"))
+                .title("Start point")
+        );
+        mMap.addMarker(new MarkerOptions()
+                .position(mMarkerEndPoint)
+                .draggable(false)
+                .icon(getMarkerIcon("#a1cf68"))
+                .title("End point")
+        );
+        mMap.addPolyline(new PolylineOptions().add(mMarkerStartPoint,mMarkerEndPoint));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(mMarkerMeetingPoint)
+                .draggable(true)
+                .title("Meeting Point")
+        ).showInfoWindow();
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(mMarkerMeetingPoint));
+
     }
 
     private void RequestDriver() {
@@ -59,14 +111,11 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarkerStartPoint,10));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarkerMeetingPoint,15));
 
 
-        mMap.addMarker(new MarkerOptions()
-                .position(mMarkerStartPoint)
-                .draggable(true)
-                .title("Meeting Point")
-        ).setTag("meetingPoint");
+        drawMarkers();
+
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -82,7 +131,14 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 mMarkerMeetingPoint = marker.getPosition();
+                mRadioButtonMarker.setChecked(true);
             }
         });
+    }
+
+    public BitmapDescriptor getMarkerIcon(String color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(Color.parseColor(color), hsv);
+        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
     }
 }

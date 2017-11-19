@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
     >
     <LinearLayout
@@ -35,17 +36,24 @@
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <RadioButton
                         android:id="@+id/rbMarker"
-                        android:text="Marker"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Marker"
+                        android:textColor="@color/white" />
+
                     <RadioButton
                         android:id="@+id/rbHisLocation"
-                        android:text="his location"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="his location"
+                        android:textColor="@color/white" />
                     <RadioButton
+                        android:textColor="@color/white"
                         android:id="@+id/rbMyLocation"
                         android:text="my location"
                         android:layout_width="wrap_content"
@@ -53,8 +61,11 @@
                 </RadioGroup>
             </LinearLayout>
             <Button
+                android:textStyle="bold"
+                android:textColor="@color/green"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:id="@+id/btnSubmit"
-                android:text="Submit"
+                android:text="Send Request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

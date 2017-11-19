@@ -21,6 +21,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -355,8 +356,71 @@ PoolingJourney{
 
 
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum, ITriger<ArrayList<Journey>> journeys) {
+    public void getJourneys(int userId, int limitStart, int limitNum, final ITriger<ArrayList<Journey>> journeys) {
+        User localUser = getLocalUser();
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getJourneys");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("userId",userId+"");
+        params.put("start",limitStart+"");
+        params.put("num",limitNum+"");
 
+        send(params, new ITriger<JSONObject>() {
+            @Override
+            public void onTriger(JSONObject value) {
+                try {
+                    if (value.has("journeys"))
+                    {
+                        JSONArray JArr = value.getJSONArray("journeys");
+                        JSONObject temp;
+                        Journey Jtemp;
+                        ArrayList<Journey> objArr = new ArrayList<Journey>();
+                        for (int i=0;i<JArr.length();i++)
+                        {
+                            temp = JArr.getJSONObject(i);
+                             Jtemp = new Journey();
+                             Jtemp.setId(temp.getInt("id"));
+                             Jtemp.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
+                             Jtemp.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
+                              SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                             Jtemp.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
+                             Jtemp.setSeats(temp.getInt("seats"));
+                             Jtemp.setGenderPrefer(temp.getInt("genderPrefer"));
+                             Jtemp.setCarDescription(temp.getString("carDescription"));
+                              JSONObject jsonUser = temp.getJSONObject("user");
+                              User tempUser = new User();
+                              tempUser.setUsername(jsonUser.getString("username"));
+                              tempUser.setFullname(jsonUser.getString("fullname"));
+                              tempUser.setId(jsonUser.getInt("id"));
+                              tempUser.setGender(jsonUser.getInt("gender"));
+                              tempUser.setPhone(jsonUser.getString("phone"));
+                              tempUser.setAddress(jsonUser.getString("address"));
+                              SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
+                              tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
+                              Jtemp.setUser(tempUser);
+                                objArr.add(Jtemp);
+
+                        }
+                        journeys.onTriger(objArr);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tag","Error on JSON getting item");
+                    journeys.onTriger(null);
+                    e.printStackTrace();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new ITriger<VolleyError>() {
+            @Override
+            public void onTriger(VolleyError value) {
+                Log.d("tag", "Error while getting data from send() method ");
+                value.printStackTrace();
+            }
+        });
     }
 
     @Override

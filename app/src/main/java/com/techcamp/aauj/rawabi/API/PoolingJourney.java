@@ -20,5 +20,4 @@ public interface PoolingJourney {
     void setNewJourney(Journey newJourney,ITriger<Integer> journeyId);
     void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, ITriger<ArrayList<Journey>> Journeys);
         //sortBy: 1-> Distance, 2-> Time
-
 }

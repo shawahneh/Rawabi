@@ -17,9 +17,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
+import com.techcamp.aauj.rawabi.utils.IResponeTriger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,7 +39,7 @@ import java.util.Map;
  */
 
 public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi ,
-PoolingJourney{
+PoolingJourney,PoolingPlace{
     public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
     RequestQueue requestQueue;
     private static WebApi instance;
@@ -536,4 +539,19 @@ PoolingJourney{
     }
 
 
+    @Override
+    public void getPlaces(IResponeTriger<List<MyPlace>> listIResponeTriger) {
+        // TODO: 12/7/2017
+        // Dummy places
+        ArrayList<MyPlace> places = new ArrayList<>();
+        for (int i =0;i<10;i++){
+        MyPlace place = new MyPlace();
+        place.setName("place #"+i);
+        place.setSummery("s#"+i);
+        place.setImageurl(null);
+
+        places.add(place);
+        }
+        listIResponeTriger.onResponse(places);
+    }
 }

@@ -39,6 +39,7 @@ import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.DriverFragments.DriverDetailDialogFragment;
 import com.techcamp.aauj.rawabi.fragments.ItemsListFragment;
+import com.techcamp.aauj.rawabi.fragments.PickerFragment;
 import com.techcamp.aauj.rawabi.fragments.UserTypeFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
@@ -301,6 +302,10 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         float[] hsv = new float[3];
         Color.colorToHSV(Color.parseColor(color), hsv);
         return BitmapDescriptorFactory.defaultMarker(hsv[0]);
+    }
+
+    public void onClick(View view) {
+        startActivity(new Intent(this, PickerActivity.class));
     }
 
 

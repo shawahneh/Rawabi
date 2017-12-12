@@ -1,7 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import com.techcamp.aauj.rawabi.Beans.MyPlace;
-import com.techcamp.aauj.rawabi.utils.IResponeTriger;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 
 import java.util.List;
 

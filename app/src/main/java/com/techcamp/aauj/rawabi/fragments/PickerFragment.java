@@ -1,7 +1,6 @@
 package com.techcamp.aauj.rawabi.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +15,9 @@ import com.techcamp.aauj.rawabi.API.PoolingPlace;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.utils.IResponeTriger;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * Created by alaam on 12/7/2017.

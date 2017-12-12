@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.utils;
+package com.techcamp.aauj.rawabi;
 
 /**
  * Created by alaam on 12/7/2017.

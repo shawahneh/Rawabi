@@ -50,7 +50,10 @@
             android:name=".activities.UserTypeActivity"
             android:theme="@style/AppTheme.No" />
         <activity android:name=".activities.PendingActivity" />
-        <activity android:name=".activities.MeetingMapActivity" android:label="Choosing Meeting Location"></activity>
+        <activity
+            android:name=".activities.MeetingMapActivity"
+            android:label="Choosing Meeting Location" />
+        <activity android:name=".activities.carpoolActivities.MapActivity" android:theme="@style/AppTheme.No"></activity>
     </application>
 
 </manifest>

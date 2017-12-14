@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.API;
 
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 
 import java.util.ArrayList;
@@ -11,10 +12,10 @@ import java.util.ArrayList;
  */
 
 public interface PoolingRides {
-    void getRides(int userId,int limitStart,int limitNum,ITriger<ArrayList<Ride>> rides);
-    void getRideDetails(int rideId,ITriger<Ride> ride);
+    void getRides(int userId,int limitStart,int limitNum,IResponeTriger<ArrayList<Ride>> rides);
+    void getRideDetails(int rideId,IResponeTriger<Ride> ride);
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITriger<Boolean> result);
 
-    void setRideOnJourney(Ride newRide, ITriger<Integer> rideId);
-    void changeRideStatus(int rideId, int status, ITriger<Boolean> result);
+    void setRideOnJourney(Ride newRide, IResponeTriger<Integer> rideId);
+    void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result);
 }

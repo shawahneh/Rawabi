@@ -52,9 +52,9 @@ PoolingJourney,PoolingPlace{
         return instance;
     }
 
-    private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
+    private void send(final Map<String,String> params, final IResponeTriger<JSONObject> result)
     {
-        Log.d("tag","send");
+        Log.d("tagWebApi","send");
 
         if (requestQueue==null)
         {
@@ -64,13 +64,13 @@ PoolingJourney,PoolingPlace{
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("tag","Response : "+ response);
+                Log.i("tagWebApi","Response : "+ response);
                 Gson gson = new Gson();
                 try {
 //                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
                     JSONObject jsonObject = new JSONObject(response);
-                    Log.d("tag",jsonObject.toString());
-                    result.onTriger(jsonObject);
+                    Log.d("tagWebApi",jsonObject.toString());
+                    result.onResponse(jsonObject);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -80,8 +80,8 @@ PoolingJourney,PoolingPlace{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("tag","ERROR "+ error.toString());
-                errorResponse.onTriger(error);
+                Log.i("tagWebApi","ERROR "+ error.toString());
+                result.onError(error.toString());
             }
         }){
             @Override
@@ -161,7 +161,7 @@ PoolingJourney,PoolingPlace{
     }
 
     @Override
-    public void userRegister(User user, final ITriger<Boolean> booleanITriger) {
+    public void userRegister(User user, final IResponeTriger<Boolean> booleanITriger) {
         Map<String,String> params = new HashMap<String, String>();
 
         //($username,$password,$fullname,$gender,$birthdate,$address,$userType,$image,$phone)
@@ -176,42 +176,43 @@ PoolingJourney,PoolingPlace{
         params.put("userType","1");
         params.put("image",user.getImageurl());
         params.put("phone",user.getPhone());
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
                     if (value.getString("registration").equals("success")){
-                        Log.i("tag", "register process is done");
-                        booleanITriger.onTriger(true);
+                        Log.i("tagWebApi", "register process is done");
+                        booleanITriger.onResponse(true);
                     }else
                     {
-                        Log.i("tag", "register process is failed");
-                        booleanITriger.onTriger(false);
+                        Log.i("tagWebApi", "register process is failed");
+                        booleanITriger.onResponse(false);
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    booleanITriger.onTriger(false);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    booleanITriger.onError("Error ");
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.i("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+                Log.i("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
+
         });
     }
 
     @Override
-    public void setUserDetails(User user, String OldPassword, ITriger<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, IResponeTriger<Boolean> booleanITriger) {
 
     }
     // if userId <= 0 then give me the details of current user
     // if username = null give me the current user
     // if username = null gime me the current user
     @Override
-    public void getUserDetails(int userId, final ITriger<User> resultUser) {
+    public void getUserDetails(int userId, final IResponeTriger<User> resultUser) {
 
 
         Map<String,String> params = new HashMap<String, String>();
@@ -221,9 +222,9 @@ PoolingJourney,PoolingPlace{
         params.put("password",localUser.getPassword());
         params.put("userId",userId+"");
 
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
 
                     if (value.has("username") && !value.isNull("username")){
@@ -239,17 +240,17 @@ PoolingJourney,PoolingPlace{
                         userDetails.setGender(value.getInt("gender"));
                         userDetails.setId(value.getInt("id"));
                         userDetails.setImageurl(value.getString("image"));
-                        Log.i("tag", "Getting user details for user : "+userDetails.getUsername());
-                        resultUser.onTriger(userDetails);
+                        Log.i("tagWebApi", "Getting user details for user : "+userDetails.getUsername());
+                        resultUser.onResponse(userDetails);
                     }else
                     {
 
-                        Log.i("tag", "Getting user details");
-                        resultUser.onTriger(null);
+                        Log.i("tagWebApi", "Getting user details");
+                        resultUser.onResponse(null);
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    resultUser.onTriger(null);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    resultUser.onError(e.toString());
                     e.printStackTrace();
                 }
                 catch (Exception e)
@@ -257,27 +258,27 @@ PoolingJourney,PoolingPlace{
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.d("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
         });
     }
 
     @Override
-    public void login(final String username, final String password, final ITriger<User> resultUser) {
+    public void login(final String username, final String password, final IResponeTriger<User> resultUser) {
         Map<String,String> params = new HashMap<String, String>();
-        Log.i("tag", "login: u: "+username+" p: "+password);
+        Log.i("tagWebApi", "login: u: "+username+" p: "+password);
         params.put("action","getUserDetails");
         params.put("username",username);
         params.put("password",password);
         params.put("userId","-1");
 
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
                     if (value.has("username")){
 
@@ -285,24 +286,24 @@ PoolingJourney,PoolingPlace{
                         userDetails.setUsername(username);
                         userDetails.setPassword(password);
                         userDetails.setFullname(value.getString("fullname").toString());
-                        userDetails.setAddress(value.getString("address").toString());
-                        userDetails.setPhone(value.getString("phone").toString());
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
                         userDetails.setBirthdate(simpleDateFormat.parse(value.getString("birthdate")));
                         userDetails.setGender(value.getInt("gender"));
                         userDetails.setId(value.getInt("id"));
+                        userDetails.setAddress(value.getString("address").toString());
+                        userDetails.setPhone(value.getString("phone").toString());
                         userDetails.setImageurl(value.getString("image").toString());
-                        Log.i("tag", "Getting user details for user : "+userDetails.getUsername());
-                        resultUser.onTriger(userDetails);
+                        Log.i("tagWebApi", "Getting user details for user : "+userDetails.getUsername());
+                        resultUser.onResponse(userDetails);
                     }else
                     {
 
-                        Log.i("tag", "Getting user details failed");
-                        resultUser.onTriger(null);
+                        Log.i("tagWebApi", "Getting user details failed");
+                        resultUser.onResponse(null);
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    resultUser.onTriger(null);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    resultUser.onError(e.toString());
                     e.printStackTrace();
                 }
                 catch (Exception e)
@@ -310,54 +311,55 @@ PoolingJourney,PoolingPlace{
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.d("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
         });
     }
 
 
     @Override
-    public void checkAuth(String username, String password, final ITriger<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, final IResponeTriger<Boolean> booleanITriger) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","userAuth");
         params.put("username",username);
         params.put("password",password);
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
                     if (value.getString("auth").equals("true")){
 
-                        Log.i("tag", "user auth is ok");
-                        booleanITriger.onTriger(true);
+                        Log.i("tagWebApi", "user auth is ok");
+                        booleanITriger.onResponse(true);
                     }else
                     {
 
-                        Log.i("tag", "user auth is not ok");
-                        booleanITriger.onTriger(false);
+                        Log.i("tagWebApi", "user auth is not ok");
+                        booleanITriger.onResponse(false);
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    booleanITriger.onTriger(false);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    booleanITriger.onError("Error on JSON getting item: "+e.toString());
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.d("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
         });
     }
 
 
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum, final ITriger<ArrayList<Journey>> journeys) {
+    public void getJourneys(int userId, int limitStart, int limitNum, final IResponeTriger<ArrayList<Journey>> journeys) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getJourneys");
@@ -367,9 +369,9 @@ PoolingJourney,PoolingPlace{
         params.put("start",limitStart+"");
         params.put("num",limitNum+"");
 
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
                     if (value.has("journeys"))
                     {
@@ -403,34 +405,36 @@ PoolingJourney,PoolingPlace{
                                 objArr.add(Jtemp);
 
                         }
-                        journeys.onTriger(objArr);
+                        journeys.onResponse(objArr);
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    journeys.onTriger(null);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    journeys.onError(e.toString());
                     e.printStackTrace();
                 }
                 catch (Exception e)
                 {
+                    journeys.onError(e.toString());
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.d("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
         });
     }
 
     @Override
-    public void getJourneyDetails(int id, ITriger<Journey> journey) {
+    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
 
     }
 
     @Override
-    public void setNewJourney(Journey newJourney, final ITriger<Integer> journeyId) {
+    public void setNewJourney(Journey newJourney, final IResponeTriger<Integer> journeyId) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","setNewJourney");
@@ -445,24 +449,24 @@ PoolingJourney,PoolingPlace{
         params.put("genderPrefer",newJourney.getGenderPrefer()+"");
         params.put("carDescription",newJourney.getCarDescription());
 
-        send(params, new ITriger<JSONObject>() {
+        send(params, new IResponeTriger<JSONObject>() {
             @Override
-            public void onTriger(JSONObject value) {
+            public void onResponse(JSONObject value) {
                 try {
                     int id = Integer.parseInt(value.getString("status"));
                     if (id>0){
 
-                        Log.i("tag", "Creating Journey Process Done With id : "+id);
-                        journeyId.onTriger(id);
+                        Log.i("tagWebApi", "Creating Journey Process Done With id : "+id);
+                        journeyId.onResponse(id);
                     }else
                     {
 
-                        Log.i("tag", "Creating Journey Process Failed");
-                        journeyId.onTriger(-1);
+                        Log.i("tagWebApi", "Creating Journey Process Failed");
+                        journeyId.onError("Creating Journey Process Failed");
                     }
                 } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    journeyId.onTriger(-1);
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    journeyId.onError("Error on JSON getting item");
                     e.printStackTrace();
                 }
                 catch (Exception e)
@@ -470,18 +474,19 @@ PoolingJourney,PoolingPlace{
                     e.printStackTrace();
                 }
             }
-        }, new ITriger<VolleyError>() {
+
             @Override
-            public void onTriger(VolleyError value) {
-                Log.d("tag", "Error while getting data from send() method ");
-                value.printStackTrace();
+            public void onError(String err) {
+
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
             }
         });
     }
 
 
     @Override
-    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate,int sortBy, ITriger<ArrayList<Journey>> Journeys) {
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate,int sortBy, IResponeTriger<ArrayList<Journey>> Journeys) {
         ArrayList<Journey> journeys = new ArrayList<>();
 
 
@@ -533,7 +538,7 @@ PoolingJourney,PoolingPlace{
         j3.setUser(user3);
         journeys.add(j3 );
 
-        Journeys.onTriger(journeys);
+        Journeys.onResponse(journeys);
     }
 
 

@@ -10,7 +10,7 @@ public class Ride {
     private Journey journey;
     private int meetingLocationX;
     private int meetingLocationY;
-    private int orderStatus;//Pending : 0 , Accepted : 1 , rejected : 2
+    private int orderStatus;//Pending : 0 , Accepted : 1 , rejected : 2, cancelled from rider : 4
 
     public Ride(){
 

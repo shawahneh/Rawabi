@@ -24,6 +24,7 @@ import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapActivity;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
@@ -46,7 +47,9 @@ public class DashbordActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StartCarPoolActivity();
+
+                Intent i = new Intent(DashbordActivity.this, MapActivity.class);
+                startActivity(i);
             }
         });
 
@@ -136,15 +139,15 @@ public class DashbordActivity extends AppCompatActivity
 
     private void StartCarPoolActivity() {
 
-//        boolean login = WebApi.getInstance(this).isLogin();
-//        if(login) {
-//            Intent i = new Intent(this, CarpoolActivity.class);
-//            startActivity(i);
-//        }
-//        else {
-//            Intent i = new Intent(this, LoginRegisterActivity.class);
-//            startActivity(i);
-//        }
+        boolean login = WebApi.getInstance(this).isLogin();
+        if(login) {
+            Intent i = new Intent(this, CarpoolActivity.class);
+            startActivity(i);
+        }
+        else {
+            Intent i = new Intent(this, LoginRegisterActivity.class);
+            startActivity(i);
+        }
     }
     private void setFragment(android.support.v4.app.Fragment fragment, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();

@@ -135,15 +135,16 @@ public class DashbordActivity extends AppCompatActivity
     }
 
     private void StartCarPoolActivity() {
-        boolean login = WebApi.getInstance(this).isLogin();
-        if(login) {
-            Intent i = new Intent(this, CarpoolActivity.class);
-            startActivity(i);
-        }
-        else {
-            Intent i = new Intent(this, LoginRegisterActivity.class);
-            startActivity(i);
-        }
+
+//        boolean login = WebApi.getInstance(this).isLogin();
+//        if(login) {
+//            Intent i = new Intent(this, CarpoolActivity.class);
+//            startActivity(i);
+//        }
+//        else {
+//            Intent i = new Intent(this, LoginRegisterActivity.class);
+//            startActivity(i);
+//        }
     }
     private void setFragment(android.support.v4.app.Fragment fragment, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();

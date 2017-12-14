@@ -35,6 +35,7 @@ import com.techcamp.aauj.rawabi.API.PoolingJourney;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.DriverFragments.DriverDetailDialogFragment;
@@ -158,13 +159,7 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
 
     }
     public void downloadJournays(){
-        mPoolingJourney.filterJourneys(mMarkerStartPoint, mMarkerEndPoint, goingDate, 0, new ITriger<ArrayList<Journey>>() {
-            @Override
-            public void onTriger(ArrayList<Journey> value) {
-                journeys = value;
-                updateMap();
-            }
-        });
+
     }
 
     private void updateMap() {
@@ -202,10 +197,15 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
         journey.setSeats(seats);
         journey.setGenderPrefer(0);
         journey.setId(-1);
-        mPoolingJourney.setNewJourney(journey, new ITriger<Integer>() {
+        mPoolingJourney.setNewJourney(journey, new IResponeTriger<Integer>() {
             @Override
-            public void onTriger(Integer value) {
-                Toast.makeText(CarpoolActivity.this, "joueney created " + value, Toast.LENGTH_SHORT).show();
+            public void onResponse(Integer item) {
+                Toast.makeText(CarpoolActivity.this, "journey created ", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String err) {
+                Toast.makeText(CarpoolActivity.this, "error creating journey", Toast.LENGTH_SHORT).show();
             }
         });
     }

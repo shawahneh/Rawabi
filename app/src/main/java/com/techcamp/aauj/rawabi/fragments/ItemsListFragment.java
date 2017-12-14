@@ -24,6 +24,7 @@ import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
@@ -63,12 +64,17 @@ public class ItemsListFragment<T extends Journey> extends Fragment {
         mLatLng = latLng;
         mProgressBar.setVisibility(View.VISIBLE);
 
-        mPoolingJourney.filterJourneys(mLatLng,mLatLng,new Date(),0, new ITriger<ArrayList<Journey>>() {
+        mPoolingJourney.filterJourneys(mLatLng,mLatLng,new Date(),0, new IResponeTriger<ArrayList<Journey>>() {
             @Override
-            public void onTriger(ArrayList<Journey> value) {
+            public void onResponse(ArrayList<Journey> value) {
                 mProgressBar.setVisibility(View.GONE);
                 MyAdapter adapter = new MyAdapter(getContext(),value);
                 mRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(String err) {
+
             }
         });
     }

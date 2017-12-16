@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,8 +67,9 @@ public class Journey implements Parcelable{
         this.endPoint = endPoint;
     }
 
-
-
+    public String getRealDate(){
+        return DateUtil.formatDateToTime(goingDate.getTime());
+    }
 
     public void setUser(User user) {
         this.user = user;

@@ -9,7 +9,7 @@ import java.util.Locale;
  */
 
 public class DateUtil {
-    public static String formatDate(long time){
+    public static String formatDateToTime(long time){
         Date date = new Date(time);
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, h:mm a", Locale.getDefault());
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());

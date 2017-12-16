@@ -121,7 +121,7 @@ public class DriverDetailDialogFragment extends DialogFragment {
         mTextViewName.setText(user.getFullname());
         mTextViewPhone.setText(user.getPhone());
 
-        String date = DateUtil.formatDate(mJourney.getGoingDate().getTime());
+        String date = DateUtil.formatDateToTime(mJourney.getGoingDate().getTime());
 
         mTextViewAvilable.setText("Available at " + date);
         mTextViewDistance.setText(getDistance()+" Distance");

@@ -135,7 +135,7 @@ refreshView(mLatLng);
         public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
             final Journey obj = objs.get(position);
             holder.mTextViewName.setText(obj.getUser().getFullname());
-            holder.mTextViewAvailable.setText("Going at" + DateUtil.formatDate(obj.getGoingDate().getTime()));
+            holder.mTextViewAvailable.setText("Going at" + DateUtil.formatDateToTime(obj.getGoingDate().getTime()));
             holder.mTextViewDistance.setText(MapUtil.getDistance(obj.getStartPoint(),obj.getEndPoint()) + " away");
             holder.mTextViewRating.setText("5/5");
             if(obj.getEndPoint() != null)

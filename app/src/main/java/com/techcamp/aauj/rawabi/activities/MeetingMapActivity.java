@@ -24,7 +24,8 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private RadioButton mRadioButtonMarker,mRadioButtonHisLocation,mRadioButtonMyLocation;
+    private RadioButton mRadioButtonHisLocation,mRadioButtonMyLocation;
+    private View mRadioButtonMarker;
     private Button mButtonSubmit;
     private static final int TYPE_MARK_START = 0;
     private static final int TYPE_MARK_END = 1;
@@ -32,6 +33,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerStartPoint;
     private LatLng mMarkerEndPoint;
     private LatLng mMarkerMeetingPoint;
+    private LatLng mMarkerCenter;
     private Journey mJourney;
     MarkerOptions markerOptions;
     @Override
@@ -76,6 +78,13 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
                 }
             }
         });
+        mRadioButtonMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMarkerMeetingPoint = mMarkerCenter;
+                drawMarkers();
+            }
+        });
     }
     private void drawMarkers(){
         if(mMap == null)
@@ -97,7 +106,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
 
         mMap.addMarker(new MarkerOptions()
                 .position(mMarkerMeetingPoint)
-                .draggable(true)
+                .draggable(false)
                 .title("Meeting Point")
         ).showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLng(mMarkerMeetingPoint));
@@ -117,21 +126,10 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         drawMarkers();
 
 
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
-            public void onMarkerDragStart(Marker marker) {
-
-            }
-
-            @Override
-            public void onMarkerDrag(Marker marker) {
-
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                mMarkerMeetingPoint = marker.getPosition();
-                mRadioButtonMarker.setChecked(true);
+            public void onCameraMove() {
+                mMarkerCenter = mMap.getCameraPosition().target;
             }
         });
     }

@@ -25,6 +25,7 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
@@ -48,7 +49,7 @@ public class DashbordActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(DashbordActivity.this, MapActivity.class);
+                Intent i = new Intent(DashbordActivity.this, MapRiderActivity.class);
                 startActivity(i);
             }
         });

@@ -511,7 +511,7 @@ PoolingJourney,PoolingPlace{
         User user = new User();
         user.setFullname("ALA AMARNEH");
         user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-
+        user.setPhone("0592355");
         journey.setUser(user);
 
         journeys.add(journey );
@@ -521,8 +521,8 @@ PoolingJourney,PoolingPlace{
         j2.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
         j2.setEndPoint(endPoint);
         User user2 = new User();
-        user.setFullname("Moh AMARNEH");
-        user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+        user2.setFullname("Moh AMARNEH");
+        user2.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
 
         j2.setUser(user2);
         journeys.add(j2 );
@@ -532,8 +532,8 @@ PoolingJourney,PoolingPlace{
         j3.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
         j3.setEndPoint(endPoint);
         User user3 = new User();
-        user.setFullname("Moh sfdfdsf");
-        user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+        user3.setFullname("Moh sfdfdsf");
+        user3.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
 
         j3.setUser(user3);
         journeys.add(j3 );

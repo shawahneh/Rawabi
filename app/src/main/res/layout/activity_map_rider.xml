@@ -42,6 +42,14 @@
                     android:layout_gravity="center"
                     android:layout_width="10dp"
                     android:layout_height="10dp" />
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.CoordinatorLayout>
             <fragment
                 android:id="@+id/place_autocomplete_fragment"

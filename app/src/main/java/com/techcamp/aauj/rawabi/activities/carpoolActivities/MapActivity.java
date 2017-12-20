@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected GoogleMap mMap;
     private boolean getLocation = false;
 
-
+    protected ProgressBar mProgressBarLoading;
     private LatLng mLatLngCenter;
     protected Marker mMarkerCenter;
     protected Marker mMarkerFrom,mMarkerTo;
@@ -76,6 +77,8 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         // Construct a GeoDataClient.
+        mProgressBarLoading = findViewById(R.id.progressBar);
+        startLoading(false);
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
         // Construct a PlaceDetectionClient.
@@ -342,5 +345,9 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }
 
 
+    }
+
+    void startLoading(boolean b){
+        mProgressBarLoading.setVisibility(b?View.VISIBLE:View.GONE);
     }
 }

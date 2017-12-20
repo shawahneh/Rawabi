@@ -99,15 +99,24 @@ public class MapRiderActivity extends MapActivity {
         if(mMarkerFrom == null || mMarkerTo == null || mDateRiding == null)
             return;
 
+        startLoading(true);
+
         webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new IResponeTriger<ArrayList<Journey>>() {
             @Override
-            public void onResponse(ArrayList<Journey> item) {
-                drawJourneys(item);
+            public void onResponse(final ArrayList<Journey> item) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startLoading(false);
+                        drawJourneys(item);
+                    }
+                });
+
             }
 
             @Override
             public void onError(String err) {
-
+                startLoading(false);
             }
         });
 

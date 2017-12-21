@@ -64,8 +64,10 @@
         <activity android:name=".activities.carpoolActivities.MapRiderActivity" />
         <activity android:name=".activities.carpoolActivities.ProfileActivity" />
         <activity android:name=".activities.carpoolActivities.ListActivity" />
-        <activity android:name=".activities.carpoolActivities.RideDetailActivity"></activity>
+        <activity android:name=".activities.carpoolActivities.RideDetailActivity" />
         <activity android:name=".activities.carpoolActivities.MyRiderActivity" />
+        <activity android:name=".activities.carpoolActivities.MyJourneysActivity" />
+        <activity android:name=".activities.carpoolActivities.JourneyDetailActivity"></activity>
     </application>
 
 </manifest>

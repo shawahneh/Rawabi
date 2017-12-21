@@ -27,10 +27,10 @@ import java.util.Locale;
 public class MapUtil {
 
     public static Location CurrentLocation = null;
-    public static String getAddress(Context context, double lat, double lng) {
+    public static String getAddress(Context context, LatLng latLng) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
-            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
             if (addresses.isEmpty())
                 return "EmUnknown";
             Address obj = addresses.get(0);

@@ -21,6 +21,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.utils.Dummy;
 
 import org.json.JSONArray;
@@ -147,20 +148,7 @@ PoolingJourney,PoolingRides,PoolingPlace{
     public User getLocalUser(){
         if(mContext == null)
             return null;
-        SharedPreferences sp = mContext.getSharedPreferences("db",Context.MODE_PRIVATE);
-
-        String username = sp.getString("username",null);
-        String password = sp.getString("password",null);
-        int id = sp.getInt("id",-1);
-        User user = new User();
-
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setId(id);
-
-        if(username == null)
-            return null;
-        return user;
+        return SPController.getLocalUser(mContext);
     }
 
     //DONE
@@ -532,8 +520,6 @@ PoolingJourney,PoolingRides,PoolingPlace{
     @Override
     public void getRides(int userId, int limitStart, int limitNum, final IResponeTriger<ArrayList<Ride>> rides) {
 
-        Dummy.getRides(rides);
-        /*
         User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -621,11 +607,15 @@ PoolingJourney,PoolingRides,PoolingPlace{
             }
         });
 
-        */
     }
 
     @Override
     public void getRideDetails(int rideId, IResponeTriger<Ride> ride) {
+
+    }
+
+    @Override
+    public void getRidersOfJourney(int jID, IResponeTriger<ArrayList<Ride>> triger) {
 
     }
 

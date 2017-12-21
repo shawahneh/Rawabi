@@ -13,14 +13,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
+import com.techcamp.aauj.rawabi.utils.Dummy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,90 +36,85 @@ import java.util.Map;
  * Created by User on 11/15/2017.
  */
 
-public class WebService {
-    public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
-    RequestQueue requestQueue;
+public class WebService implements PoolingJourney,PoolingRides{
     Context context;
+    private static WebService instance;
     public WebService(Context context){
        this.context = context;
+    }
+    public static WebService getInstance(Context context) {
+        if (instance == null)
+            instance = new WebService(context);
+        return instance;
+    }
 
+    @Override
+    public void getRides(int userId, int limitStart, int limitNum, IResponeTriger<ArrayList<Ride>> rides) {
+        Dummy.getRides(rides);
+    }
 
+    @Override
+    public void getRideDetails(int rideId, IResponeTriger<Ride> ride) {
 
     }
-    private void send(final Map<String,String> params, final ITriger<JSONObject> result, final ITriger<VolleyError> errorResponse)
-    {
-        Log.d("tag","send");
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
+    @Override
+    public void getRidersOfJourney(int jID, final IResponeTriger<ArrayList<Ride>> triger) {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(String response) {
-                Log.i("tag","Response : "+ response);
-                Gson gson = new Gson();
+            public void run() {
                 try {
-//                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
-                JSONObject jsonObject = new JSONObject(response);
-                Log.d("tag",jsonObject.toString());
-                result.onTriger(jsonObject);
+                    Thread.sleep(1500);
+                    ArrayList<Ride> rides = new ArrayList<>();
+                    for (int i = 0; i < 3; i++) {
+                        Ride ride = new Ride();
+                        ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
+                        User user = new User();
+                        user.setFullname("ALA AMARNEH");
+                        user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+                        user.setPhone("0592355");
 
-                    Toast.makeText(context, jsonObject.getString("auth") +"", Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    Toast.makeText(context, "Error get auth", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                        ride.setUser(user);
 
-                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("tag","ERROR "+ error.toString());
-                errorResponse.onTriger(error);
-                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String,String> paramss = new HashMap<String, String>();
-//                paramss.put("action","userAuth");
-//                paramss.put("username","driver1");
-//                paramss.put("password","driver1");
-//                return paramss;
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
-    public void getAuth(String username, String password, final ITriger<Boolean> result){
-        Log.d("tag","getAuth");
-        Map<String,String> params = new HashMap<String, String>();
-        params.put("action","userAuth");
-        params.put("username",username);
-        params.put("password",password);
-        send(params, new ITriger<JSONObject>() {
-            @Override
-            public void onTriger(JSONObject value) {
-                Log.d("tag","On userAuth : " + value.toString());
-                try {
-                    Toast.makeText(context, value.getString("auth").toString(), Toast.LENGTH_SHORT).show();
-                    if (value.getString("auth").equals("true")){
+                        ride.setOrderStatus(i);
+                        ride.setId(i);
 
-                        result.onTriger(true);
-                    }else
-                    {
-                        result.onTriger(false);
+                        rides.add(ride);
                     }
-                } catch (JSONException e) {
-                    Log.i("tag","Error on JSON getting item");
-                    result.onTriger(false);
-                    e.printStackTrace();
-                }
+                    triger.onResponse(rides);
+                }catch (Exception e){}
             }
-        }, new ITriger<VolleyError>() {
-            @Override
-            public void onTriger(VolleyError value) {
-                value.printStackTrace();
-            }
-        });
+        }).start();
+
+    }
+
+    @Override
+    public void setRideOnJourney(Ride newRide, IResponeTriger<Integer> rideId) {
+
+    }
+
+    @Override
+    public void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result) {
+
+    }
+
+    @Override
+    public void getJourneys(int userId, int limitStart, int limitNum, IResponeTriger<ArrayList<Journey>> journeys) {
+        Dummy.filterJouneys(journeys);
+    }
+
+    @Override
+    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
+
+    }
+
+    @Override
+    public void setNewJourney(Journey newJourney, IResponeTriger<Integer> journeyId) {
+
+    }
+
+    @Override
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys) {
+        Dummy.filterJouneys(Journeys);
     }
 }

@@ -20,7 +20,6 @@ public class Dummy {
         filterJouneys(new IResponeTriger<ArrayList<Journey>>() {
             @Override
             public void onResponse(ArrayList<Journey> item) {
-                Ride ride = new Ride();
                 int i =0;
                 for (Journey j :
                         item) {
@@ -30,13 +29,15 @@ public class Dummy {
                     r.setOrderStatus(1);
                     r.setJourney(j);
                     r.setMeetingLocation(j.getStartPoint());
+
+                    rideArrayList.add(r);
                 }
                 rides.onResponse(rideArrayList);
             }
 
             @Override
             public void onError(String err) {
-
+                rides.onError(err);
             }
         });
     }
@@ -58,6 +59,7 @@ public class Dummy {
                     user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
                     user.setPhone("0592355");
                     journey.setUser(user);
+                    journey.setStatus(1);
 
                     journeys.add(journey );
 
@@ -70,6 +72,7 @@ public class Dummy {
                     user2.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
 
                     j2.setUser(user2);
+                    j2.setStatus(0);
                     journeys.add(j2 );
 
                     Journey j3 = new Journey();
@@ -81,6 +84,7 @@ public class Dummy {
                     user3.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
 
                     j3.setUser(user3);
+                    j3.setStatus(2);
                     journeys.add(j3 );
 
 

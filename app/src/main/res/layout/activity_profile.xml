@@ -6,10 +6,71 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:padding="10dp"
     tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity">
-
-    <FrameLayout
-        android:id="@+id/content"
+    <ImageView
+        android:id="@+id/imageView"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+    <TextView
+        android:id="@+id/tvName"
+        android:textColor="@color/black"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvEmail"
+        android:textColor="@color/black"
+        android:text="Email@mail.com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnMyRides"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="My Rides"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnMyJourneys"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="My Journeys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnEditProfile"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="Edit profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnLogout"
+                android:textColor="@color/red"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="Logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

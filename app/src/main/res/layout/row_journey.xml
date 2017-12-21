@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:layout_margin="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal|top"
-                android:src="@mipmap/ic_launcher"
-                app:civ_border_color="#ffffff"
-                app:civ_border_width="2dp" />
-    <TextView
-        android:id="@+id/tvName"
-        android:textColor="@color/black"
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvAvailable"
-        android:textColor="@color/black"
-        android:text="available"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvDistance"
-        android:textColor="@color/black"
-        android:text="distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:layout_marginTop="5dp">
 
 
 
-    <TextView
-        android:id="@+id/tvTo"
-        android:textColor="@color/black"
-        android:text="Distination To Rawabi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RatingBar
-        android:id="@+id/rb1"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="2" />
-    <TextView
-        android:id="@+id/tvRating"
-        android:textColor="@color/black"
-        android:text="2/5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:padding="5dp">
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:textColor="@color/black"
+                    android:text="date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvFrom"
+                    android:textColor="@color/black"
+                    android:text="from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvTo"
+                    android:textColor="@color/black"
+                    android:text="to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvStatus"
+            android:text="Complete"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
 import com.techcamp.aauj.rawabi.fragments.RegisterFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -45,12 +47,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
     }
 
     private void setPerson() {
-        SharedPreferences sp = getSharedPreferences("db",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("username","driver1");
-        editor.putString("password","driver1");
-        editor.putInt("id",1);
-        editor.commit();
+        User user = new User();
+        user.setFullname("Driver1 driver");
+        user.setPhone("0599");
+        user.setUsername("driver1");
+        user.setPassword("driver1");
+        user.setId(1);
+        user.setImageurl("https://upload.wikimedia.org/wikipedia/commons/6/65/Circle-icons-car.svg");
+        SPController.saveLocalUser(this,user);
 
     }
 

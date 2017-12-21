@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -132,6 +133,7 @@ public class MapRiderActivity extends MapActivity {
                 arrayList) {
         mMap.addMarker(new MarkerOptions()
             .position(j.getStartPoint())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.car2))
                 .title(j.getUser().getFullname())
                 .snippet(j.getRealDate())
         ).setTag(j);

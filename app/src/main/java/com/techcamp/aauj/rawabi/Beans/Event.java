@@ -1,12 +1,13 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by alaam on 11/15/2017.
  */
 
-public class Event {
+public class Event implements Serializable {
     private String name,description,imageUrl;
     private Date date;
     public Event(){}

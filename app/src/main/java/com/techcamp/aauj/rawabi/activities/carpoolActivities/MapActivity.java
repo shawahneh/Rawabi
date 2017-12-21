@@ -377,7 +377,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     }
 
     protected void startProfileActivity() {
-        Intent i = new Intent(this,MyRiderActivity.class);
+        Intent i = new Intent(this,ProfileActivity.class);
         startActivity(i);
 
     }

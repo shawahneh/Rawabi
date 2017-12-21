@@ -116,41 +116,10 @@ public class DriverDetailDialogFragment extends DialogFragment {
         mButtonChoose = view.findViewById(R.id.btnChoose);
         mImageView = view.findViewById(R.id.profile_image);
 
-        User user = mJourney.getUser();
-        Log.d("tag","username: " + user.getFullname());
-        mTextViewName.setText(user.getFullname());
-        mTextViewPhone.setText(user.getPhone());
 
-        String date = DateUtil.formatDateToTime(mJourney.getGoingDate().getTime());
-
-        mTextViewAvilable.setText("Available at " + date);
-        mTextViewDistance.setText(getDistance()+" Distance");
-        if(mJourney.getStartPoint() != null)
-        mTextViewTo.setText(getLocName(mJourney.getStartPoint().latitude,mJourney.getStartPoint().longitude));
-        if(mJourney.getEndPoint() != null)
-        mTextViewFrom.setText(getLocName(mJourney.getEndPoint().latitude,mJourney.getEndPoint().longitude));
-
-        mTextViewCarDesc.setText(mJourney.getCarDescription());
-        Glide.with(getActivity()).load(mJourney.getUser().getImageurl()).into(mImageView);
-
-        mButtonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDialog().dismiss();
-            }
-        });
-        mButtonChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mListener != null)
-                    mListener.onTriger(mJourney);
-            }
-        });
     }
 
-    private String getLocName(double endLocationX, double endLocationY) {
-       return MapUtil.getAddress(getActivity(),endLocationX,endLocationY);
-    }
+
 
     private double getDistance() {
         LatLng start = mJourney.getStartPoint();

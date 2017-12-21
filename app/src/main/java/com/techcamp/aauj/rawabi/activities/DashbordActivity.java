@@ -107,7 +107,7 @@ public class DashbordActivity extends AppCompatActivity
                 StartCarPoolActivity();
                 break;
             case R.id.nav_media:
-                test();
+
                 break;
             case R.id.nav_calendar:
                 setFragment(CalendarPageFragment.newInstance(),"tag");
@@ -127,16 +127,6 @@ public class DashbordActivity extends AppCompatActivity
         return true;
     }
 
-    private void test() {
-        WebService webService = new WebService(this);
-        webService.getAuth("driver1", "driver1", new ITriger<Boolean>() {
-            @Override
-            public void onTriger(Boolean value) {
-                Log.d("tag","result " + value);
-                Toast.makeText(DashbordActivity.this, "" + value, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void StartCarPoolActivity() {
 

@@ -15,6 +15,9 @@ import java.util.Date;
  */
 
 public class Journey implements Parcelable{
+    public final static int STATUS_PENDING = 0;
+    public final static int STATUS_CANCELLED = 1;
+    public final static int STATUS_COMPLETED = 2;
     private int id;
     private User user;
     private LatLng startPoint;
@@ -23,7 +26,15 @@ public class Journey implements Parcelable{
     private Date goingDate;
     private int genderPrefer;//0 : male , 1 : female
     private String carDescription;
+    private int status; // 0 : pending , 1 : cancelled , 2 : completed
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     protected Journey(Parcel in) {
         id = in.readInt();
@@ -33,6 +44,8 @@ public class Journey implements Parcelable{
         seats = in.readInt();
         genderPrefer = in.readInt();
         carDescription = in.readString();
+        status = in.readInt();
+        goingDate = new Date(in.readLong());
     }
 
     public static final Creator<Journey> CREATOR = new Creator<Journey>() {
@@ -68,6 +81,9 @@ public class Journey implements Parcelable{
     }
 
     public String getRealDate(){
+        return DateUtil.formatDate(goingDate.getTime());
+    }
+    public String getRealTime(){
         return DateUtil.formatDateToTime(goingDate.getTime());
     }
 
@@ -140,5 +156,7 @@ public class Journey implements Parcelable{
         parcel.writeInt(seats);
         parcel.writeInt(genderPrefer);
         parcel.writeString(carDescription);
+        parcel.writeInt(status);
+        parcel.writeLong(goingDate.getTime());
     }
 }

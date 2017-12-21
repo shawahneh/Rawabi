@@ -4,22 +4,13 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.fragments.ItemsListFragment;
-import com.techcamp.aauj.rawabi.utils.DateUtil;
-import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.ArrayList;
 
@@ -46,6 +37,9 @@ public abstract class ListActivity<T> extends AppCompatActivity {
         setupRecyclerViewAdapter(mRecyclerView);
 
 
+    }
+    protected void setSwipeRefresh(boolean b){
+        mSwipeRefreshLayout.setRefreshing(b);
     }
 
     protected abstract void setupRecyclerViewAdapter(RecyclerView mRecyclerView);

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     android:gravity="center_horizontal"
-    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity">
+    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -57,40 +57,64 @@
         android:layout_height="150dp" />
 
     <TextView
+        android:layout_margin="5dp"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:id="@+id/tvStatus"
         android:text="status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textColor="@color/black"
+        android:text="car "
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/black"
-            android:text="driver "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvDriverName"
-            android:textColor="@color/black"
-            android:text="driver name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvCarDesc"
+        android:textColor="@color/black"
+        android:text="driver name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:id="@+id/layout_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/black"
-            android:text="care "
-            android:layout_width="wrap_content"
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btnCancel"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/red"
+            android:text="Cancell"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvCarDesc"
-            android:textColor="@color/black"
-            android:text="driver name"
-            android:layout_width="wrap_content"
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btnComplete"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/green"
+            android:text="Complete"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

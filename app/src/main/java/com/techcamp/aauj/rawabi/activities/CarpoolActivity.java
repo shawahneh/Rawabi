@@ -5,13 +5,11 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -34,14 +30,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.techcamp.aauj.rawabi.API.PoolingJourney;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.DriverFragments.DriverDetailDialogFragment;
-import com.techcamp.aauj.rawabi.fragments.ItemsListFragment;
-import com.techcamp.aauj.rawabi.fragments.PickerFragment;
-import com.techcamp.aauj.rawabi.fragments.UserTypeFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.ArrayList;
@@ -152,8 +144,8 @@ public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void refreshData() {
-        mTextViewFrom.setText(MapUtil.getAddress(this,mMarkerStartPoint.latitude,mMarkerStartPoint.longitude));
-        mTextViewTo.setText(MapUtil.getAddress(this,mMarkerEndPoint.latitude,mMarkerEndPoint.longitude));
+        mTextViewFrom.setText(MapUtil.getAddress(this,mMarkerStartPoint));
+        mTextViewTo.setText(MapUtil.getAddress(this,mMarkerEndPoint));
         if(mMode == 0)
             downloadJournays();
 

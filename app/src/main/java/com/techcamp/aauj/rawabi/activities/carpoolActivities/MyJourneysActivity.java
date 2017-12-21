@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.techcamp.aauj.rawabi.API.PoolingRides;
+import com.techcamp.aauj.rawabi.API.PoolingJourney;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
@@ -23,41 +23,44 @@ import java.util.ArrayList;
  * Created by alaam on 12/21/2017.
  */
 
-public class MyRiderActivity extends ListActivity<Ride> {
-    PoolingRides poolingRides = WebService.getInstance(this);
+public class MyJourneysActivity extends ListActivity<Journey> {
+    PoolingJourney poolingJourney = WebService.getInstance(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("MY RIDES");
+        setTitle("MY JOURNEYS");
     }
+
     @Override
     protected void setupRecyclerViewAdapter(final RecyclerView mRecyclerView) {
         setSwipeRefresh(true);
-        poolingRides.getRides(0, 0, 0, new IResponeTriger<ArrayList<Ride>>() {
+        poolingJourney.getJourneys(0, 0, 0, new IResponeTriger<ArrayList<Journey>>() {
             @Override
-            public void onResponse(final ArrayList<Ride> item) {
+            public void onResponse(final ArrayList<Journey> item) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        MyAdapter adapter = new MyAdapter(MyRiderActivity.this,item);
-                        mRecyclerView.setAdapter(adapter);
                         setSwipeRefresh(false);
+                        MyAdapter adapter = new MyAdapter(MyJourneysActivity.this,item);
+                        mRecyclerView.setAdapter(adapter);
                     }
                 });
-
             }
 
             @Override
             public void onError(String err) {
-                Log.d("tag","error "+err);
+                setSwipeRefresh(false);
             }
         });
-
     }
 
-    class MyAdapter extends ListActivity<Ride>.MyAdapter{
 
-        class MyHolder extends ListActivity<Ride>.MyAdapter.ItemViewHolder{
+
+
+    class MyAdapter extends ListActivity<Journey>.MyAdapter{
+
+        class MyHolder extends ListActivity<Journey>.MyAdapter.ItemViewHolder{
             private TextView tvDate,tvFrom,tvTo,tvStatus;
             public MyHolder(View view) {
                 super(view);
@@ -69,30 +72,33 @@ public class MyRiderActivity extends ListActivity<Ride> {
             }
 
             @Override
-            public void bind(Ride ride) {
-                tvDate.setText(ride.getJourney().getRealDate());
-                tvFrom.setText(MapUtil.getAddress(MyRiderActivity.this,ride.getJourney().getStartPoint()));
-                tvTo.setText(MapUtil.getAddress(MyRiderActivity.this,ride.getJourney().getEndPoint()));
-                tvStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));
+            public void bind(Journey journey) {
+                tvDate.setText(journey.getRealDate());
+                tvFrom.setText(MapUtil.getAddress(MyJourneysActivity.this,journey.getStartPoint()));
+                tvTo.setText(MapUtil.getAddress(MyJourneysActivity.this,journey.getEndPoint()));
+
+                tvStatus.setText(StringUtil.getJourneyStatus(journey.getStatus()));
+
             }
         }
-        public MyAdapter(Context mContext, ArrayList<Ride> objs) {
+        public MyAdapter(Context mContext, ArrayList<Journey> objs) {
             super(mContext, objs);
         }
 
         @Override
         protected int getLayout() {
-            return R.layout.row_ride;
+            return R.layout.row_journey;
         }
 
         @Override
         protected ItemViewHolder getHolder(View view) {
-            return new MyHolder(view);
+            return new MyAdapter.MyHolder(view);
         }
 
         @Override
-        protected void onItemClick(Ride item, int pos) {
-            Intent i = RideDetailActivity.getIntent(MyRiderActivity.this,item);
+        protected void onItemClick(Journey item, int pos) {
+            Intent i = new Intent(MyJourneysActivity.this,JourneyDetailActivity.class);
+            i.putExtra(JourneyDetailActivity.ARG_JOURNEY,item);
             startActivity(i);
         }
     }

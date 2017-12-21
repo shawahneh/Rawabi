@@ -1,17 +1,25 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
 
 /**
  * Created by User on 11/16/2017.
  */
 
-public class Ride {
+public class Ride implements Parcelable{
+    public final static int STATUS_PENDING = 0;
+    public final static int STATUS_CANCELLED = 2;
+    public final static int STATUS_ACCEPTED = 1;
     private int id;
     private User user;
     private Journey journey;
     private LatLng meetingLocation;
-    private int orderStatus;//Pending : 0 , Accepted : 1 , rejected : 2
+    private int orderStatus;//Pending : 0 , Accepted : 1 , cancelled : 2
 
     public Ride(){
 
@@ -25,6 +33,27 @@ public class Ride {
         this.meetingLocation = meetingLocation;
         this.orderStatus = orderStatus;
     }
+
+
+    protected Ride(Parcel in) {
+        id = in.readInt();
+        user = in.readParcelable(User.class.getClassLoader());
+        journey = in.readParcelable(Journey.class.getClassLoader());
+        meetingLocation = in.readParcelable(LatLng.class.getClassLoader());
+        orderStatus = in.readInt();
+    }
+
+    public static final Creator<Ride> CREATOR = new Creator<Ride>() {
+        @Override
+        public Ride createFromParcel(Parcel in) {
+            return new Ride(in);
+        }
+
+        @Override
+        public Ride[] newArray(int size) {
+            return new Ride[size];
+        }
+    };
 
     public void setId(int id) {
         this.id = id;
@@ -69,5 +98,19 @@ public class Ride {
 
     public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeParcelable(user, i);
+        parcel.writeParcelable(journey, i);
+        parcel.writeParcelable(meetingLocation, i);
+        parcel.writeInt(orderStatus);
     }
 }

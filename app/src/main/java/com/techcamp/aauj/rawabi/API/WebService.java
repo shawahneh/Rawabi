@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 
 /**
  * Created by User on 11/15/2017.
@@ -94,8 +95,23 @@ public class WebService implements PoolingJourney,PoolingRides{
     }
 
     @Override
-    public void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result) {
+    public void changeRideStatus(int rideId, int status, final IResponeTriger<Boolean> result) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                result.onResponse(true);
+            }
+        }, 1000);
+    }
 
+    @Override
+    public void getStatusOfRide(int rideId, final IResponeTriger<Integer> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                triger.onResponse((int)(Math.random() * 3));
+            }
+        }, 1000);
     }
 
     @Override
@@ -109,12 +125,22 @@ public class WebService implements PoolingJourney,PoolingRides{
     }
 
     @Override
-    public void setNewJourney(Journey newJourney, IResponeTriger<Integer> journeyId) {
-
+    public void setNewJourney(Journey newJourney, final IResponeTriger<Integer> journeyId) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                journeyId.onResponse(1);
+            }
+        }, 1000);
     }
 
     @Override
     public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys) {
         Dummy.filterJouneys(Journeys);
+    }
+
+    @Override
+    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
+        getRidersOfJourney(0,triger);
     }
 }

@@ -17,5 +17,7 @@ public interface PoolingRides {
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITriger<Boolean> result);
     void getRidersOfJourney(int jID, IResponeTriger<ArrayList<Ride>> triger);
     void setRideOnJourney(Ride newRide, IResponeTriger<Integer> rideId); // create ride request
-    void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result); // accept ride request or reject
+    void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result); // accept ride request or reject or the rider cancel the ride
+
+    void getStatusOfRide(int rideId, IResponeTriger<Integer> triger);
 }

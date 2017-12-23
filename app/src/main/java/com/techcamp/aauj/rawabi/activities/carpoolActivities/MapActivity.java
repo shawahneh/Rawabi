@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -50,8 +51,11 @@ import com.google.android.gms.maps.model.internal.zzp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public abstract class MapActivity extends AppCompatActivity implements OnMapReadyCallback,TimePickerDialog.OnTimeSetListener{
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -131,11 +135,14 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         mMap = googleMap;
         setMyLocationEnable();
 
-        getDeviceLocation();
+
 
         // setup center marker
         mMarkerCenter = mMap.addMarker(new MarkerOptions().position(googleMap.getCameraPosition().target));
         mMarkerCenter.setVisible(false);
+
+        getDeviceLocation();
+
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -187,6 +194,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void getDeviceLocation() {
+
     /*
      * Get the best and most recent location of the device, which may be null in rare
      * cases when a location is not available.
@@ -200,6 +208,8 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = (Location) task.getResult();
+                            mLatLngCenter = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude());
+                            mMarkerCenter.setPosition(mLatLngCenter );
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
@@ -214,7 +224,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
             }
         } catch(SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
-        }
+        }catch (Exception e){e.printStackTrace();}
     }
     private void updateLocationUI() {
         getLocationPermission();
@@ -239,21 +249,22 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected void pressFromMode(View view){
         if(mMarkerFrom == null){
             mMarkerFrom = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
-                    .icon(getMarkerIcon("#63d25d"))
+                    .icon(MapUtil.getMarkerIcon("#63d25d"))
             );
         }else{
             mMarkerFrom.setPosition(mMarkerCenter.getPosition());
         }
-
+        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
     }
     protected void pressToMode(View view){
         if(mMarkerTo == null){
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
-                .icon(getMarkerIcon("#475862"))
+                .icon(MapUtil.getMarkerIcon("#475862"))
             );
         }else{
             mMarkerTo.setPosition(mMarkerCenter.getPosition());
         }
+        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
     }
     protected void pressTime(View view){
         Calendar mcurrentTime = Calendar.getInstance();
@@ -312,11 +323,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
             return;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,DEFAULT_ZOOM));
     }
-    public BitmapDescriptor getMarkerIcon(String color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(Color.parseColor(color), hsv);
-        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
-    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -329,6 +336,17 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
+        Button btnSetTime = ((Button)findViewById(R.id.btnSetTime));
+
+        btnSetTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+        Date date = new Date();
+        date.setHours(i);
+        date.setMinutes(i1);
+
+        String time = DateUtil.formatDateToTime(date.getTime());
+
+        btnSetTime.setText(time);
+
 
     }
     protected void drawMarkers(){
@@ -337,13 +355,13 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         if(mMarkerFrom != null){
             mMarkerFrom.remove();
             mMarkerFrom = mMap.addMarker(new MarkerOptions().position(mMarkerFrom.getPosition())
-                .icon(getMarkerIcon("#63d25d"))
+                .icon(MapUtil.getMarkerIcon("#63d25d"))
             );
         }
         if(mMarkerTo != null){
             mMarkerTo.remove();
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerTo.getPosition())
-                    .icon(getMarkerIcon("#475862")));
+                    .icon(MapUtil.getMarkerIcon("#475862")));
         }
 
 

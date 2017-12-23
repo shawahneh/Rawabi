@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     sothree:layout_collapseMode="pin"
-    sothree:umanoPanelHeight="68dp"
+    sothree:umanoPanelHeight="60dp"
     sothree:umanoShadowHeight="4dp">
 
 
@@ -101,7 +101,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/layout_driver_detail"/>
+        <include layout="@layout/layout_journey_details"/>
     </LinearLayout>
 
 

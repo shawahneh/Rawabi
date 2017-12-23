@@ -97,6 +97,8 @@ public class MyJourneysActivity extends ListActivity<Journey> {
 
         @Override
         protected void onItemClick(Journey item, int pos) {
+            if(mSwipeRefreshLayout.isRefreshing())
+                return;
             Intent i = new Intent(MyJourneysActivity.this,JourneyDetailActivity.class);
             i.putExtra(JourneyDetailActivity.ARG_JOURNEY,item);
             startActivity(i);

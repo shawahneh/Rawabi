@@ -24,9 +24,9 @@ public class Dummy {
                 for (Journey j :
                         item) {
                     Ride r = new Ride();
+                    r.setOrderStatus(i);
                     r.setId(i++);
 
-                    r.setOrderStatus(1);
                     r.setJourney(j);
                     r.setMeetingLocation(j.getStartPoint());
 
@@ -51,7 +51,7 @@ public class Dummy {
                     Thread.sleep(1500);
 
                     Journey journey = new Journey();
-                    journey.setGoingDate(new Date());
+                    journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60)));
                     journey.setStartPoint(new LatLng(32.01183468173907,35.18930286169053));
                     journey.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
                     User user = new User();
@@ -64,7 +64,7 @@ public class Dummy {
                     journeys.add(journey );
 
                     Journey j2 = new Journey();
-                    j2.setGoingDate(new Date());
+                    j2.setGoingDate(new Date(System.currentTimeMillis() - (1000*30)));
                     j2.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
                     j2.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
                     User user2 = new User();

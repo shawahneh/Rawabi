@@ -499,6 +499,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
     }
 
+    @Override
+    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
+
+    }
+
 
     @Override
     public void getPlaces(IResponeTriger<List<MyPlace>> listIResponeTriger) {
@@ -626,6 +631,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
     @Override
     public void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result) {
+
+    }
+
+    @Override
+    public void getStatusOfRide(int rideId, IResponeTriger<Integer> triger) {
 
     }
 }

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapDriverActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;
 import com.techcamp.aauj.rawabi.fragments.UserTypeFragment;
 
 public class UserTypeActivity extends AppCompatActivity implements UserTypeFragment.IUserTypeFragmenetListener {
@@ -26,8 +28,15 @@ public class UserTypeActivity extends AppCompatActivity implements UserTypeFragm
 
     @Override
     public void onTypeClick(int type) {
-            Intent i = new Intent(this,CarpoolActivity.class);
+        if(type == 0){
+
+            Intent i = new Intent(this,MapRiderActivity.class);
             i.putExtra("mode",type);
             startActivity(i);
+        }else{
+            Intent i = new Intent(this,MapDriverActivity.class);
+            i.putExtra("mode",type);
+            startActivity(i);
+        }
     }
 }

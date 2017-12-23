@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public abstract class ListActivity<T> extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +34,17 @@ public abstract class ListActivity<T> extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        setupRecyclerViewAdapter(mRecyclerView);
+
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupRecyclerViewAdapter(mRecyclerView);
+    }
+
     protected void setSwipeRefresh(boolean b){
         mSwipeRefreshLayout.setRefreshing(b);
     }

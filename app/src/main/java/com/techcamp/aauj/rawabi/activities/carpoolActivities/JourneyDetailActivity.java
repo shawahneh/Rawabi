@@ -31,7 +31,7 @@ import com.techcamp.aauj.rawabi.utils.StringUtil;
 
 import java.util.ArrayList;
 
-public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback,IResponeTriger<ArrayList<Ride>> {
     PoolingRides poolingRides = WebService.getInstance(this);
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
@@ -40,9 +40,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private GoogleMap mMap;
     private RecyclerView mRecyclerView;
     private Button btnCancel,btnComplete;
-
+    TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private int prevStatus;
     private ArrayList<Ride> mRiders;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         setContentView(R.layout.activity_journey_detail);
 
         mJourney = getIntent().getParcelableExtra(ARG_JOURNEY);
+        prevStatus = mJourney.getStatus();
         mMapView = findViewById(R.id.mapView);
         mRecyclerView = findViewById(R.id.rv);
         btnCancel = findViewById(R.id.btnCancel);
@@ -76,18 +77,18 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
-        TextView tvDate = findViewById(R.id.tvDate);
-        TextView tvFrom = findViewById(R.id.tvFrom);
-        TextView tvTo = findViewById(R.id.tvTo);
-        TextView tvCarDesc = findViewById(R.id.tvCarDesc);
-        TextView tvStatus = findViewById(R.id.tvStatus);
+         tvDate = findViewById(R.id.tvDate);
+         tvFrom = findViewById(R.id.tvFrom);
+         tvTo = findViewById(R.id.tvTo);
+         tvCarDesc = findViewById(R.id.tvCarDesc);
+         tvStatus = findViewById(R.id.tvStatus);
 
         tvDate.setText(mJourney.getRealDate());
         tvFrom.setText(MapUtil.getAddress(this,mJourney.getStartPoint()));
         tvTo.setText(MapUtil.getAddress(this,mJourney.getEndPoint()));
         tvCarDesc.setText(mJourney.getCarDescription());
         tvStatus.setText(StringUtil.getJourneyStatus(mJourney.getStatus()));
-
+        setupStatus();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -96,26 +97,30 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     }
 
+    private void setupStatus() {
+
+        if(mJourney.getStatus() == Journey.STATUS_PENDING){
+            btnComplete.setText("Complete");
+            btnCancel.setVisibility(View.VISIBLE);
+            btnComplete.setVisibility(View.VISIBLE);
+        }else if(mJourney.getStatus() == Journey.STATUS_CANCELLED){
+            btnComplete.setVisibility(View.GONE);
+            btnCancel.setVisibility(View.VISIBLE);
+            btnCancel.setText("Cancelled");
+            btnComplete.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }else if(mJourney.getStatus() == Journey.STATUS_COMPLETED){
+            btnComplete.setVisibility(View.VISIBLE);
+            btnCancel.setVisibility(View.GONE);
+            btnComplete.setText("Completed");
+            btnComplete.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }
+
     private void refreshRiders() {
         mSwipeRefreshLayout.setRefreshing(true);
-        poolingRides.getRidersOfJourney(0, new IResponeTriger<ArrayList<Ride>>() {
-            @Override
-            public void onResponse(final ArrayList<Ride> item) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRiders = item;
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        updateRecycler();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(String err) {
-
-            }
-        });
+        poolingRides.getRidersOfJourney(0,this);
     }
 
     private void updateRecycler() {
@@ -149,8 +154,18 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             return;
         for (Ride r :
                 rides) {
-            mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname())).setTag(r);
+            if(r.getOrderStatus()==Ride.STATUS_ACCEPTED)
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#63d25d"))).setTag(r);
+            else if(r.getOrderStatus() == Ride.STATUS_PENDING)
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#21b5cc"))).setTag(r);
+            else if(r.getOrderStatus() == Ride.STATUS_CANCELLED)
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#cf0000"))).setTag(r);
         }
+    }
+    public void changeStatus(int s){
+        tvStatus.setText("...");
+        mSwipeRefreshLayout.setRefreshing(true);
+        WebService.getInstance(this).changeJourneyStatusAndGetRiders(mJourney, s,this);
     }
 
     public void onClick(View view) {
@@ -162,20 +177,43 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 btnComplete.setEnabled(false);
                 TransitionManager.beginDelayedTransition(viewGroup);
                 btnComplete.setVisibility(View.GONE);
+                btnCancel.setText("Cancelling..");
                 mJourney.setStatus(Journey.STATUS_CANCELLED);
                 updateRecycler();
-                refreshRiders();
+                changeStatus(Journey.STATUS_CANCELLED);
                 break;
             case R.id.btnComplete:
                 btnCancel.setEnabled(false);
                 btnComplete.setEnabled(false);
                 TransitionManager.beginDelayedTransition(viewGroup);
                 btnCancel.setVisibility(View.GONE);
+                btnComplete.setText("Completing..");
                 mJourney.setStatus(Journey.STATUS_COMPLETED);
                 updateRecycler();
-                refreshRiders();
+                changeStatus(Journey.STATUS_COMPLETED);
                 break;
         }
+    }
+
+    @Override
+    public void onResponse(final ArrayList<Ride> item) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setupStatus();
+                mRiders = item;
+                mSwipeRefreshLayout.setRefreshing(false);
+                updateRecycler();
+                drawMarkers(mRiders);
+            }
+        });
+    }
+
+    @Override
+    public void onError(String err) {
+        mJourney.setStatus(prevStatus);
+        setupStatus();
+        updateRecycler();
     }
 
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{

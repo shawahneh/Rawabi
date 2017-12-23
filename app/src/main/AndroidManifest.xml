@@ -62,12 +62,13 @@
             android:name=".activities.carpoolActivities.MapActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.carpoolActivities.MapRiderActivity" />
-        <activity android:name=".activities.carpoolActivities.ProfileActivity" />
+        <activity android:name=".activities.carpoolActivities.ProfileActivity" android:label="@string/my_profile"/>
         <activity android:name=".activities.carpoolActivities.ListActivity" />
-        <activity android:name=".activities.carpoolActivities.RideDetailActivity" />
+        <activity android:name=".activities.carpoolActivities.RideDetailActivity" android:label="@string/my_rides" />
         <activity android:name=".activities.carpoolActivities.MyRiderActivity" />
         <activity android:name=".activities.carpoolActivities.MyJourneysActivity" />
-        <activity android:name=".activities.carpoolActivities.JourneyDetailActivity"></activity>
+        <activity android:name=".activities.carpoolActivities.JourneyDetailActivity" android:label="@string/my_journeys"></activity>
+        <activity android:name=".activities.carpoolActivities.MapDriverActivity" />
     </application>
 
 </manifest>

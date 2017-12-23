@@ -53,7 +53,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         user.setUsername("driver1");
         user.setPassword("driver1");
         user.setId(1);
-        user.setImageurl("https://upload.wikimedia.org/wikipedia/commons/6/65/Circle-icons-car.svg");
+        user.setImageurl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
         SPController.saveLocalUser(this,user);
 
     }

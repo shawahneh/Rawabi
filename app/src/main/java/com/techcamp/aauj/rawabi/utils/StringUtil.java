@@ -1,5 +1,7 @@
 package com.techcamp.aauj.rawabi.utils;
 
+import com.techcamp.aauj.rawabi.Beans.*;
+
 /**
  * Created by alaam on 12/21/2017.
  */
@@ -7,11 +9,15 @@ package com.techcamp.aauj.rawabi.utils;
 public class StringUtil {
     public static String getRideStatus(int status){
         switch (status){
-            case 0:
+            case Ride.STATUS_PENDING:
                 return "Pending";
-            case 1:
+            case Ride.STATUS_ACCEPTED:
                 return "Accepted";
-            case 2:
+            case Ride.STATUS_CANCELLED:
+                return "Cancelled";
+            case Ride.STATUS_DRIVER_REJECTED:
+                return "REJECTED";
+            case Ride.STATUS_RIDER_CANCELLED:
                 return "Cancelled";
 
         }
@@ -19,11 +25,11 @@ public class StringUtil {
     }
     public static String getJourneyStatus(int status){
         switch (status){
-            case 0:
+            case Journey.STATUS_PENDING:
                 return "Pending";
-            case 1:
+            case Journey.STATUS_CANCELLED:
                 return "Cancelled";
-            case 2:
+            case Journey.STATUS_COMPLETED:
                 return "Completed";
 
         }

@@ -249,7 +249,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected void pressFromMode(View view){
         if(mMarkerFrom == null){
             mMarkerFrom = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
-                    .icon(MapUtil.getMarkerIcon("#63d25d"))
+                    .icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT))
             );
         }else{
             mMarkerFrom.setPosition(mMarkerCenter.getPosition());
@@ -259,7 +259,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected void pressToMode(View view){
         if(mMarkerTo == null){
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
-                .icon(MapUtil.getMarkerIcon("#475862"))
+                .icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT))
             );
         }else{
             mMarkerTo.setPosition(mMarkerCenter.getPosition());
@@ -272,7 +272,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         int minute = mcurrentTime.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, this
-        ,hour,minute,true);
+        ,hour,minute,false);
 
         timePickerDialog.setTitle("Set Going Time");
         timePickerDialog.show();
@@ -355,13 +355,13 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         if(mMarkerFrom != null){
             mMarkerFrom.remove();
             mMarkerFrom = mMap.addMarker(new MarkerOptions().position(mMarkerFrom.getPosition())
-                .icon(MapUtil.getMarkerIcon("#63d25d"))
+                .icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT))
             );
         }
         if(mMarkerTo != null){
             mMarkerTo.remove();
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerTo.getPosition())
-                    .icon(MapUtil.getMarkerIcon("#475862")));
+                    .icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT)));
         }
 
 

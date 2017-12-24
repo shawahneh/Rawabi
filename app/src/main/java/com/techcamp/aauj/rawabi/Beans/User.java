@@ -21,17 +21,7 @@ public class User implements Parcelable{
     private String imageurl;
     private String phone;
     private String address;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public User() {
-    }
+    private float rating;
 
     protected User(Parcel in) {
         fullname = in.readString();
@@ -42,7 +32,8 @@ public class User implements Parcelable{
         imageurl = in.readString();
         phone = in.readString();
         address = in.readString();
-
+        rating = in.readFloat();
+        birthdate = new Date(in.readLong());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -56,6 +47,27 @@ public class User implements Parcelable{
             return new User[size];
         }
     };
+
+    public String getAddress() {
+        return address;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public User() {
+    }
+
+
 
     public String getFullname() {
         return fullname;
@@ -134,6 +146,7 @@ public class User implements Parcelable{
         this.address = address;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -149,5 +162,7 @@ public class User implements Parcelable{
         parcel.writeString(imageurl);
         parcel.writeString(phone);
         parcel.writeString(address);
+        parcel.writeFloat(rating);
+        parcel.writeLong(birthdate ==null?0:birthdate.getTime());
     }
 }

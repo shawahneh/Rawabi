@@ -65,16 +65,22 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="200dp" />
 
     <TextView
-        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:background="@color/green"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
         android:id="@+id/tvStatus"
         android:text="status"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
-        android:visibility="gone"
+        android:textColor="@color/white"
+        android:background="@color/red"
+        android:visibility="visible"
         android:id="@+id/btnCancel"
         android:text="Cancel"
         android:layout_width="match_parent"

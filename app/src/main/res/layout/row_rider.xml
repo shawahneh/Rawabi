@@ -12,7 +12,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dp">
+        <ImageView
+            android:id="@+id/imageView"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
     <LinearLayout
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -42,23 +48,27 @@
                 android:text="from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@color/black"
-                android:text="to"
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="2.5" />
             <TextView
-                android:id="@+id/tvTo"
+                android:id="@+id/tvRating"
                 android:textColor="@color/black"
-                android:text="to"
+                android:text="2/5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
+
     </LinearLayout>
     <Button
         android:id="@+id/btnStatus"

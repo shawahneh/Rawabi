@@ -157,6 +157,6 @@ public class Journey implements Parcelable{
         parcel.writeInt(genderPrefer);
         parcel.writeString(carDescription);
         parcel.writeInt(status);
-        parcel.writeLong(goingDate.getTime());
+        parcel.writeLong(goingDate == null?0:goingDate.getTime());
     }
 }

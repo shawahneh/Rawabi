@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
+import android.app.Dialog;
 import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -44,6 +49,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int prevStatus;
     private ArrayList<Ride> mRiders;
+    private  MyJourneysAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,12 +129,17 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         poolingRides.getRidersOfJourney(0,this);
     }
 
-    private void updateRecycler() {
+    private void updateAdapter() {
         if(mRiders == null)
             return;
-        MyJourneysAdapter adapter = new MyJourneysAdapter(mRiders);
+        adapter = new MyJourneysAdapter(mRiders);
         mRecyclerView.setAdapter(adapter);
         drawMarkers(mRiders);
+    }
+    private void updateRecycler() {
+        if(adapter == null)
+            return;
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -138,28 +149,90 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mJourney.getStartPoint(),DEFAULT_ZOOM));
     }
-    public void acceptRider(Ride ride){
+    public void openDialog(final Ride ride){
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_two_buttons);
+        Button btnAccept = dialog.findViewById(R.id.btnAccept);
+        Button btnReject = dialog.findViewById(R.id.btnReject);
+
+
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acceptRider(ride);
+                dialog.dismiss();
+            }
+        });
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rejectRider(ride);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
 
     }
+
+    private void rejectRider(final Ride ride) {
+        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new IResponeTriger<Boolean>() {
+            @Override
+            public void onResponse(Boolean item) {
+                //rider accepted
+                if(item){
+                    ride.setOrderStatus(Ride.STATUS_DRIVER_REJECTED);
+                }
+                if(adapter != null)
+                    adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
+    }
+
+    private void acceptRider(final Ride ride) {
+        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new IResponeTriger<Boolean>() {
+            @Override
+            public void onResponse(Boolean item) {
+                //rider accepted
+                if(item){
+                    ride.setOrderStatus(Ride.STATUS_ACCEPTED);
+                }
+                if(adapter != null)
+                    adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
+    }
+
     public void showRiderOnMap(Ride ride){
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ride.getMeetingLocation(),DEFAULT_ZOOM));
     }
 
     private void drawMarkers(ArrayList<Ride> rides) {
         mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(mJourney.getStartPoint()).title("Start point"));
-        mMap.addMarker(new MarkerOptions().position(mJourney.getEndPoint()).title("End point"));
+        mMap.addMarker(new MarkerOptions().position(mJourney.getStartPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT)).title("Start point"));
+        mMap.addMarker(new MarkerOptions().position(mJourney.getEndPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT)).title("End point"));
         mMap.addPolyline(new PolylineOptions().add(mJourney.getStartPoint(),mJourney.getEndPoint()));
         if(rides == null)
             return;
         for (Ride r :
                 rides) {
             if(r.getOrderStatus()==Ride.STATUS_ACCEPTED)
-                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#63d25d"))).setTag(r);
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_RIDER_ACCEPTED))).setTag(r);
             else if(r.getOrderStatus() == Ride.STATUS_PENDING)
-                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#21b5cc"))).setTag(r);
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_RIDER_PENDING))).setTag(r);
             else if(r.getOrderStatus() == Ride.STATUS_CANCELLED)
-                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon("#cf0000"))).setTag(r);
+                mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_RIDER_CANCELLED))).setTag(r);
         }
     }
     public void changeStatus(int s){
@@ -203,7 +276,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 setupStatus();
                 mRiders = item;
                 mSwipeRefreshLayout.setRefreshing(false);
-                updateRecycler();
+                updateAdapter();
                 drawMarkers(mRiders);
             }
         });
@@ -213,7 +286,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     public void onError(String err) {
         mJourney.setStatus(prevStatus);
         setupStatus();
-        updateRecycler();
+        updateAdapter();
     }
 
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{
@@ -247,17 +320,26 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         }
 
         class MyJourneyHolder extends RecyclerView.ViewHolder{
-            private TextView tvName;
+            private TextView tvName,tvRating;
             private Button btnStatus;
+            private RatingBar ratingBar;
+            private ImageView imageView;
             public MyJourneyHolder(View itemView) {
                 super(itemView);
                 btnStatus = itemView.findViewById(R.id.btnStatus);
                 tvName = itemView.findViewById(R.id.tvName);
+                tvRating = itemView.findViewById(R.id.tvRating);
+                ratingBar = itemView.findViewById(R.id.ratingBar);
+                imageView = itemView.findViewById(R.id.imageView);
             }
             public void bind(final Ride ride){
                 tvName.setText(ride.getUser().getFullname());
                 btnStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));
+                ratingBar.setRating(ride.getUser().getRating());
+                tvRating.setText(ride.getUser().getRating() + "/5");
 
+                if(ride.getUser().getImageurl() != null)
+                    Glide.with(itemView.getContext()).load(ride.getUser().getImageurl()).apply(RequestOptions.circleCropTransform()).into(imageView);
                 if (ride.getOrderStatus() == Ride.STATUS_PENDING && mJourney.getStatus() == Journey.STATUS_PENDING)
                     btnStatus.setEnabled(true);
                 else
@@ -265,7 +347,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 btnStatus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        JourneyDetailActivity.this.acceptRider(ride);
+                        btnStatus.setText("..");
+                        JourneyDetailActivity.this.openDialog(ride);
                     }
                 });
             }

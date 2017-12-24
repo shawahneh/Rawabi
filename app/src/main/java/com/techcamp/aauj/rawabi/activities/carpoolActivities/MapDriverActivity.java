@@ -2,10 +2,12 @@ package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.PoolingJourney;
@@ -53,6 +55,11 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
     }
 
     private void createJourney() {
+        if(!validate())
+        {
+            showError("please enter valid data");
+            return;
+        }
         int sNumber = Integer.parseInt(txtSeatsNumber.getText().toString());
         String carDesc = txtCarDesc.getText().toString();
         User user = SPController.getLocalUser(this);
@@ -68,6 +75,10 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
 
         btnCreateJourney.setEnabled(false);
         poolingJourney.setNewJourney(mJourney,this);
+    }
+
+    private boolean validate() {
+        return !(TextUtils.isEmpty(txtSeatsNumber.getText()) || TextUtils.isEmpty(txtCarDesc.getText()));
     }
 
     @Override
@@ -113,5 +124,8 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
     @Override
     public void onError(String err) {
 
+    }
+    private void showError(String error){
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

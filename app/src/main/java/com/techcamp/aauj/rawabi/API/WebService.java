@@ -37,7 +37,7 @@ import java.util.logging.Handler;
  * Created by User on 11/15/2017.
  */
 
-public class WebService implements PoolingJourney,PoolingRides{
+public class WebService implements PoolingJourney,PoolingRides,AuthWebApi{
     Context context;
     private static WebService instance;
     public WebService(Context context){
@@ -90,8 +90,14 @@ public class WebService implements PoolingJourney,PoolingRides{
     }
 
     @Override
-    public void setRideOnJourney(Ride newRide, IResponeTriger<Integer> rideId) {
+    public void setRideOnJourney(Ride newRide, final IResponeTriger<Integer> rideId) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+                rideId.onResponse( 1);
+            }
+        }, 1000);
     }
 
     @Override
@@ -99,7 +105,8 @@ public class WebService implements PoolingJourney,PoolingRides{
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                result.onResponse(true);
+
+                result.onResponse( true);
             }
         }, 1000);
     }
@@ -142,5 +149,40 @@ public class WebService implements PoolingJourney,PoolingRides{
     @Override
     public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
         getRidersOfJourney(0,triger);
+    }
+
+    @Override
+    public void userRegister(User user, IResponeTriger<Boolean> booleanITriger) {
+
+    }
+
+    @Override
+    public void setUserDetails(User user, String OldPassword, final IResponeTriger<Boolean> booleanITriger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                booleanITriger.onResponse(true);
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void getUserDetails(int userId, IResponeTriger<User> resultUser) {
+
+    }
+
+    @Override
+    public void login(String username, String password, final IResponeTriger<User> resultUser) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                resultUser.onResponse(new User());
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void checkAuth(String username, String password, IResponeTriger<Boolean> booleanITriger) {
+
     }
 }

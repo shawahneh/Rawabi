@@ -16,6 +16,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.Date;
@@ -114,6 +115,8 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
     public void onResponse(Integer item) {
         // journey created
         if(item > 0){
+            AlarmController.addAlarm(this,mJourney);
+
             Intent i = new Intent(this,JourneyDetailActivity.class);
             i.putExtra(JourneyDetailActivity.ARG_JOURNEY,mJourney);
             startActivity(i);

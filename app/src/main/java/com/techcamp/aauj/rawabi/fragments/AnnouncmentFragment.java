@@ -12,22 +12,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.ArrayList;
 
 
-public class AnnouncmentFragment extends Fragment {
+public class AnnouncmentFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private AnnouncmentWebApi mAnnouncmentWebApi = WebApi.getInstance(getContext());
+    private AnnouncmentWebApi mAnnouncmentWebApi = WebService.getInstance(getContext());
     public AnnouncmentFragment() {
     }
 
@@ -44,18 +47,23 @@ public class AnnouncmentFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mProgressBar.setVisibility(View.VISIBLE);
-        mAnnouncmentWebApi.getAnnouns(new ITriger<ArrayList<Event>>() {
-            @Override
-            public void onTriger(ArrayList<Event> value) {
-                mProgressBar.setVisibility(View.GONE);
-                MyAdapter adapter = new MyAdapter(getContext(),value);
-                mRecyclerView.setAdapter(adapter);
-            }
-        });
+        mAnnouncmentWebApi.getAnnouns(this);
         return view;
     }
 
- public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    @Override
+    public void onResponse(ArrayList<Event> value) {
+        mProgressBar.setVisibility(View.GONE);
+        MyAdapter adapter = new MyAdapter(getContext(),value);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onError(String err) {
+        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+    }
+
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<Event> events;
     public MyAdapter(Context context,ArrayList<Event> events){
@@ -113,7 +121,7 @@ public class AnnouncmentFragment extends Fragment {
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                         int viewType) {
         View view =  LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_event, parent, false);
+                .inflate(R.layout.row_announcment, parent, false);
 
         MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(view);
         return vh;
@@ -125,7 +133,7 @@ public class AnnouncmentFragment extends Fragment {
         Event event = events.get(position);
         holder.getmEventDesc().setText(event.getDescription());
         holder.getmEventName().setText(event.getName());
-        holder.getmEventDate().setText(event.getDate().toString());
+        holder.getmEventDate().setText(event.getRealDate());
 
         Glide.with(mContext).load(event.getImageUrl()).into(holder.getmEventImage());
     }

@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 
 import java.util.ArrayList;
@@ -10,5 +11,5 @@ import java.util.ArrayList;
  */
 
 public interface AnnouncmentWebApi {
-    void getAnnouns(ITriger<ArrayList<Event>> eventITriger);
+    void getAnnouns(IResponeTriger<ArrayList<Event>> eventITriger);
 }

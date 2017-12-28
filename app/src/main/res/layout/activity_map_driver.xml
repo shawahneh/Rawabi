@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    android:background="@color/green"
+    sothree:umanoOverlay="true"
     sothree:layout_collapseMode="pin"
     sothree:umanoPanelHeight="60dp"
     sothree:umanoShadowHeight="4dp">
@@ -33,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    tools:context="com.techcamp.aauj.rawabi.activities.MapsActivity"/>
+                    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.MapDriverActivity"/>
 
                 <ImageView
                     android:visibility="gone"
@@ -97,6 +99,7 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout
+        android:background="@color/green"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"

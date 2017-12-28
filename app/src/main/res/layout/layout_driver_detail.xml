@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/border_full_radius"
+
+    android:background="@color/blue2"
     >
 
 
@@ -37,11 +38,12 @@
                 android:padding="10dp">
 
                 <TextView
+                    android:fontFamily="@font/abeezee"
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -55,6 +57,8 @@
 
             </LinearLayout>
             <Button
+                android:fontFamily="@font/abeezee"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:textSize="20sp"
@@ -152,6 +156,7 @@
                 android:orientation="horizontal"
                 >
                 <Button
+                    android:fontFamily="@font/abeezee"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:id="@+id/btnCancel"
                     android:layout_width="wrap_content"
@@ -159,6 +164,7 @@
                     android:text="Cancel"
                     android:textColor="@color/red" />
                 <Button
+                    android:fontFamily="@font/abeezee"
                     android:id="@+id/btnChoose"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"

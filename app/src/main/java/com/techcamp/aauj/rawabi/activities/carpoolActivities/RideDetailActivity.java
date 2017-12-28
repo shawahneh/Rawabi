@@ -23,6 +23,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -145,8 +146,9 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onResponse(Boolean changed) {
         mSwipeRefreshLayout.setRefreshing(false);
-        // status changed
+        // status changed (cancelled)
         if(changed) {
+            AlarmController.cancelAlarm(this,mRide.getJourney());
             mRide.setOrderStatus(Ride.STATUS_CANCELLED);
             setupStatus();
         }else{

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#475862</color>
     <color name="colorAccent">#63d25d</color>
 
+    <color name="colorAccent2">#63d25d</color>
     <color name="black">#000000</color>
     <color name="blue1">#e0e4e7</color>
     <color name="white">#ffffff</color>
@@ -11,4 +12,11 @@
     <color name="red">#cf0000</color>
     <color name="gray">#c7c7c7</color>
     <color name="blue">#21b5cc</color>
+    <color name="qcenter">#6b2246</color>
+
+    <color name="blue2">#427294</color>
+    <color name="blue_sky">#e2e9ee</color>
+    <color name="blue_sky2">#f5f5f5</color>
+
+    <color name="orange">#f5b104</color>
 </resources>

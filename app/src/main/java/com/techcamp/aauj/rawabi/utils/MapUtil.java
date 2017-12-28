@@ -44,13 +44,12 @@ public class MapUtil {
         try {
             List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
             if (addresses.isEmpty())
-                return "EmUnknown";
+                return "Map point";
             Address obj = addresses.get(0);
-
             return obj.getAddressLine(0);
         } catch (Exception e) {
             e.printStackTrace();
-            return "ErUnknown";
+            return "Map point";
         }
     }
 
@@ -73,37 +72,15 @@ public class MapUtil {
         Log.d("tag","getCurrentLoc");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        CurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                // called when the location provider status changes. Possible status: OUT_OF_SERVICE, TEMPORARILY_UNAVAILABLE or AVAILABLE.
+        if (locationManager != null) {
+            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                CurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+                CurrentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-
-            public void onProviderEnabled(String provider) {
-                // called when the location provider is enabled by the user
-            }
-
-            public void onProviderDisabled(String provider) {
-                // called when the location provider is disabled by the user. If it is already disabled, it's called immediately after requestLocationUpdates
-            }
-
-            public void onLocationChanged(Location location) {
-                if(locationITriger != null)
-                locationITriger.onTriger(location);
-
-                CurrentLocation = location;
-            }
-        });
+        }
     }
     public static BitmapDescriptor getMarkerIconByColor(String color) {
         float[] hsv = new float[3];

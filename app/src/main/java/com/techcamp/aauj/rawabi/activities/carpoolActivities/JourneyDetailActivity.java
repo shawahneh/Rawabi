@@ -31,6 +31,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -270,6 +271,10 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onResponse(final ArrayList<Ride> item) {
+        // update riders
+        if(mJourney.getStatus() == Journey.STATUS_CANCELLED){
+            AlarmController.cancelAlarm(this,mJourney);
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

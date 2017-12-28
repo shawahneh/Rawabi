@@ -1,5 +1,7 @@
 package com.techcamp.aauj.rawabi.Beans;
 
+import com.techcamp.aauj.rawabi.utils.DateUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -42,5 +44,8 @@ public class Event implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+    public String getRealDate(){
+        return DateUtil.formatDate(date.getTime());
     }
 }

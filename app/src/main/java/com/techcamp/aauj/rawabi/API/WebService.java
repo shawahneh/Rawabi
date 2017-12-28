@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -37,7 +38,7 @@ import java.util.logging.Handler;
  * Created by User on 11/15/2017.
  */
 
-public class WebService implements PoolingJourney,PoolingRides,AuthWebApi{
+public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,AnnouncmentWebApi,CalendarWebApi{
     Context context;
     private static WebService instance;
     public WebService(Context context){
@@ -183,6 +184,65 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi{
 
     @Override
     public void checkAuth(String username, String password, IResponeTriger<Boolean> booleanITriger) {
+
+    }
+
+    @Override
+    public void getAnnouns(final IResponeTriger<ArrayList<Event>> eventITriger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Event> dummyEvents = new ArrayList<>();
+                for(int i=0;i<3;i++){
+
+                    Event event = new Event();
+                    event.setDate(new Date());
+                    event.setName("Event name " +i);
+                    event.setDescription("Description ... " +i);
+
+                    dummyEvents.add(event);
+                }
+                Event event = new Event();
+                event.setDate(new Date());
+                event.setName("Event name");
+                event.setDescription("Description ...");
+                event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
+
+                dummyEvents.add(event);
+                dummyEvents.add(event);
+
+                eventITriger.onResponse(dummyEvents);
+            }
+        },1000);
+    }
+
+    @Override
+    public void getEventAtDate(Date date, final IResponeTriger<ArrayList<Event>> eventITriger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Event> dummyEvents = new ArrayList<>();
+                for(int i=0;i<3;i++){
+
+                    Event event = new Event();
+                    event.setDate(new Date());
+                    event.setName("Event name " +i);
+                    event.setDescription("Description ... " +i);
+
+                    dummyEvents.add(event);
+                }
+                Event event = new Event();
+                event.setDate(new Date());
+                event.setName("Event name");
+                event.setDescription("Description ...");
+                event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
+
+                dummyEvents.add(event);
+                dummyEvents.add(event);
+
+                eventITriger.onResponse(dummyEvents);
+            }
+        },1000);
 
     }
 }

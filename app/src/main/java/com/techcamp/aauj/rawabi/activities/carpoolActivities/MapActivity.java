@@ -47,6 +47,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.internal.zzp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,7 +73,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     private LatLng mLatLngCenter;
     protected Marker mMarkerCenter;
     protected Marker mMarkerFrom,mMarkerTo;
-
+    protected Polyline mPolyline;
     private boolean mLocationPermissionGranted;
     private GeoDataClient mGeoDataClient;
 //    private PlaceDetectionClient mPlaceDetectionClient;
@@ -82,6 +84,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        getSupportActionBar().setElevation(0);
         // Construct a GeoDataClient.
         mProgressBarLoading = findViewById(R.id.progressBar);
         startLoading(false);
@@ -255,7 +258,20 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
             mMarkerFrom.setPosition(mMarkerCenter.getPosition());
         }
         ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+        drawPolyline();
     }
+
+    private void drawPolyline() {
+        if(mMap == null)
+            return;
+        if(mMarkerFrom == null || mMarkerTo == null)
+            return;
+        if(mPolyline != null)
+            mPolyline.remove();
+        mPolyline= mMap.addPolyline(new PolylineOptions().add(mMarkerFrom.getPosition(),mMarkerTo.getPosition()).color(Color.GREEN));
+
+    }
+
     protected void pressToMode(View view){
         if(mMarkerTo == null){
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
@@ -265,6 +281,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
             mMarkerTo.setPosition(mMarkerCenter.getPosition());
         }
         ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+        drawPolyline();
     }
     protected void pressTime(View view){
         Calendar mcurrentTime = Calendar.getInstance();

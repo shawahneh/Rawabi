@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Blue">
         <activity android:name=".MainActivity" />
         <activity
             android:name=".activities.DashbordActivity"
@@ -43,29 +43,28 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity
             android:name=".activities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
         <activity android:name=".activities.PickerActivity" />
         <activity
             android:name=".activities.UserTypeActivity"
+            android:parentActivityName=".activities.DashbordActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".activities.PendingActivity" />
         <activity
             android:name=".activities.MeetingMapActivity"
             android:label="Choosing Meeting Location" />
-        <activity
-            android:name=".activities.carpoolActivities.MapActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.carpoolActivities.MapRiderActivity" />
+
+        <activity android:name=".activities.carpoolActivities.MapRiderActivity"
+            android:parentActivityName=".activities.UserTypeActivity"/>
         <activity
             android:name=".activities.carpoolActivities.ProfileActivity"
             android:label="@string/my_profile" />
-        <activity android:name=".activities.carpoolActivities.ListActivity" />
+
         <activity
             android:name=".activities.carpoolActivities.RideDetailActivity"
             android:label="@string/my_rides" />
@@ -74,8 +73,12 @@
         <activity
             android:name=".activities.carpoolActivities.JourneyDetailActivity"
             android:label="@string/my_journeys" />
-        <activity android:name=".activities.carpoolActivities.MapDriverActivity" />
+        <activity android:name=".activities.carpoolActivities.MapDriverActivity"
+            android:parentActivityName=".activities.UserTypeActivity"
+            />
         <activity android:name=".activities.carpoolActivities.EditProfileActivity"></activity>
+
+        <receiver android:name=".receivers.AlarmReceiver"/>
     </application>
 
 </manifest>

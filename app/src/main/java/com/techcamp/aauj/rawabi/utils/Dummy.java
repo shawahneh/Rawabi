@@ -51,7 +51,7 @@ public class Dummy {
                     Thread.sleep(1500);
 
                     Journey journey = new Journey();
-                    journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60)));
+                    journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60*48)));
                     journey.setStartPoint(new LatLng(32.01183468173907,35.18930286169053));
                     journey.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
                     User user = new User();

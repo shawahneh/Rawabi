@@ -28,6 +28,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity;
+import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
@@ -159,8 +160,9 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onResponse(Integer item) {
-        // request created
+        // request created successfully
         if(item >0){
+            AlarmController.addAlarm(this,mRide.getJourney());
             Intent i = RideDetailActivity.getIntent(this,mRide);
             startActivity(i);
             finish();

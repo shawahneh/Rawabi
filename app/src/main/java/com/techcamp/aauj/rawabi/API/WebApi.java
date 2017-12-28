@@ -100,39 +100,6 @@ PoolingJourney,PoolingRides,PoolingPlace{
         };
         requestQueue.add(stringRequest);
     }
-    @Override
-    public void getEventAtDate(Date date, ITriger<ArrayList<Event>> eventITriger) {
-        ArrayList<Event> dummyEvents = new ArrayList<>();
-        Event event = new Event();
-        event.setDate(date);
-        event.setName("Event name");
-        event.setDescription("Description ...");
-        event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
-
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-
-        eventITriger.onTriger(dummyEvents);
-    }
-
-    @Override
-    public void getAnnouns(ITriger<ArrayList<Event>> eventITriger) {
-        ArrayList<Event> dummyEvents = new ArrayList<>();
-        Event event = new Event();
-        event.setDate(new Date());
-        event.setName("Event name");
-        event.setDescription("Description ...");
-        event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
-
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-        dummyEvents.add(event);
-
-        eventITriger.onTriger(dummyEvents);
-    }
 
 
 
@@ -636,6 +603,17 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
     @Override
     public void getStatusOfRide(int rideId, IResponeTriger<Integer> triger) {
+
+    }
+
+
+    @Override
+    public void getEventAtDate(Date date, IResponeTriger<ArrayList<Event>> eventITriger) {
+
+    }
+
+    @Override
+    public void getAnnouns(IResponeTriger<ArrayList<Event>> eventITriger) {
 
     }
 }

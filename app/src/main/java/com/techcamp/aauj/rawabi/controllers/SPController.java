@@ -3,7 +3,12 @@ package com.techcamp.aauj.rawabi.controllers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
+
+import java.util.Date;
 
 /**
  * Created by alaam on 12/21/2017.
@@ -39,4 +44,53 @@ public class SPController {
         editor.putString("imageurl",user.getImageurl());
         editor.apply();
     }
+    public static void savePendingJourney(Context context, Journey journey){
+        SharedPreferences sp = context.getSharedPreferences("pendingJourney",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("jid",journey.getId());
+        editor.putString("startPoint_lat",journey.getStartPoint().latitude + "");
+        editor.putString("startPoint_lng",journey.getStartPoint().longitude + "");
+        editor.putString("endPoint_lat",journey.getEndPoint().latitude + "");
+        editor.putString("endPoint_lng",journey.getEndPoint().longitude + "");
+        editor.putInt("seats",journey.getSeats());
+        editor.putLong("goingDate",journey.getGoingDate().getTime());
+        editor.putInt("genderPrefer",journey.getGenderPrefer());
+        editor.putString("carDescription",journey.getCarDescription());
+        editor.putInt("status",journey.getStatus());
+
+        editor.apply();
+    }
+    public static Journey getPendingJourney(Context context){
+        SharedPreferences sp = context.getSharedPreferences("pendingJourney",Context.MODE_PRIVATE);
+        int id = sp.getInt("jid",-1);
+        if(id == -1)
+            return null;
+
+        Journey journey = new Journey();
+
+        double startPoint_lat =Double.parseDouble(sp.getString("startPoint_lat","0"));
+        double startPoint_lng = Double.parseDouble(sp.getString("startPoint_lng","0"));
+        double endPoint_lat =Double.parseDouble(sp.getString("endPoint_lat","0"));
+        double endPoint_lng = Double.parseDouble(sp.getString("endPoint_lng","0"));
+
+        LatLng startPoint = new LatLng(startPoint_lat,startPoint_lng);
+        LatLng endPoint = new LatLng(endPoint_lat,endPoint_lng);
+        int seats = sp.getInt("seats",0);
+        Date goingDate = new Date(sp.getLong("goingDate",0));
+        int genderPrefer = sp.getInt("genderPrefer",0);
+        String carDescription = sp.getString("carDescription",null);
+        int status = sp.getInt("status",0);
+
+        journey.setId(id);
+        journey.setStartPoint(startPoint);
+        journey.setEndPoint(endPoint);
+        journey.setSeats(seats);
+        journey.setGoingDate(goingDate);
+        journey.setGenderPrefer(genderPrefer);
+        journey.setCarDescription(carDescription);
+        journey.setStatus(status);
+
+       return journey;
+    }
+
 }

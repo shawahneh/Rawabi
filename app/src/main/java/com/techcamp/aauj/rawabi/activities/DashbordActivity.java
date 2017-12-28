@@ -26,8 +26,10 @@ import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;
+import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
+import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.LoginFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -42,17 +44,13 @@ public class DashbordActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashbord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content,new HomeFragment(),"tag")
+                .commit();
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(DashbordActivity.this, MapRiderActivity.class);
-                startActivity(i);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,6 +88,7 @@ public class DashbordActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            new UsersDB(this);
             return true;
         }
 
@@ -103,6 +102,9 @@ public class DashbordActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id){
+            case R.id.nav_home:
+                setFragment(new HomeFragment(),"home");
+                break;
             case R.id.nav_carpool:
                 StartCarPoolActivity();
                 break;
@@ -144,6 +146,7 @@ public class DashbordActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content,fragment,tag)
+                .addToBackStack(tag)
                 .commit();
     }
 

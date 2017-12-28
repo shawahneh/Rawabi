@@ -14,11 +14,14 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.CalendarWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 
@@ -26,12 +29,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class CalendarPageFragment extends Fragment {
+public class CalendarPageFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
 
 
     private OnFragmentInteractionListener mListener;
     private CalendarView mCalendarView;
-    private CalendarWebApi mCalendarWebApi = WebApi.getInstance(getContext());
+    private CalendarWebApi mCalendarWebApi = WebService.getInstance(getContext());
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     public CalendarPageFragment() {
@@ -76,14 +79,7 @@ public class CalendarPageFragment extends Fragment {
 
     private void DateChangeClick(Date date) {
         mProgressBar.setVisibility(View.VISIBLE);
-        mCalendarWebApi.getEventAtDate(date, new ITriger<ArrayList<Event>>() {
-            @Override
-            public void onTriger(ArrayList<Event> value) {
-                mProgressBar.setVisibility(View.GONE);
-                MyAdapter myAdapter = new MyAdapter(getContext(),value);
-                mRecyclerView.swapAdapter(myAdapter,false);
-            }
-        });
+        mCalendarWebApi.getEventAtDate(date,this);
     }
 
 
@@ -104,6 +100,18 @@ public class CalendarPageFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onResponse(ArrayList<Event> item) {
+        mProgressBar.setVisibility(View.GONE);
+        MyAdapter myAdapter = new MyAdapter(getContext(),item);
+        mRecyclerView.swapAdapter(myAdapter,false);
+    }
+
+    @Override
+    public void onError(String err) {
+        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
     }
 
     public interface OnFragmentInteractionListener {

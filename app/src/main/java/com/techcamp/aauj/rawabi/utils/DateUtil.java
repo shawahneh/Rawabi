@@ -1,5 +1,8 @@
 package com.techcamp.aauj.rawabi.utils;
 
+import android.content.Context;
+import android.text.format.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.Calendar;
@@ -42,5 +45,9 @@ public class DateUtil {
         if(date.getTime() < date1.getTime())
             return true;
         return false;
+    }
+
+    public String getRelativeDate(Context context, Date date){
+        return DateUtils.getRelativeDateTimeString(context,date.getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0).toString();
     }
 }

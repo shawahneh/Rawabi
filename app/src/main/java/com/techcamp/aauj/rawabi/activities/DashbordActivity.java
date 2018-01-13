@@ -1,42 +1,47 @@
 package com.techcamp.aauj.rawabi.activities;
 
-import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.View;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;
 import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
-import com.techcamp.aauj.rawabi.fragments.LoginFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
-import com.techcamp.aauj.rawabi.utils.MapUtil;
+import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
+import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
+
+import java.util.List;
 
 public class DashbordActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        CalendarPageFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener
+        {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +49,32 @@ public class DashbordActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashbord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(0);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content,new HomeFragment(),"tag")
-                .commit();
+//        getSupportActionBar().setElevation(0);
+
 
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        ViewPager vp_pages= (ViewPager) findViewById(R.id.vp_pages);
+        PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
+        vp_pages.setAdapter(pagerAdapter);
+
+        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
+        tbl_pages.setupWithViewPager(vp_pages);
+        tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
+        tbl_pages.getTabAt(1).setIcon(R.drawable.logo_qcenter);
+        tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+        tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        tbl_pages.addOnTabSelectedListener(this);
     }
 
     @Override
@@ -150,8 +165,57 @@ public class DashbordActivity extends AppCompatActivity
                 .commit();
     }
 
+
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onTabSelected(TabLayout.Tab tab) {
+        tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        tab.getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+
+    class FragmentAdapter extends FragmentPagerAdapter {
+
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            switch (position){
+                case 0:
+                    return new HomeFragment();
+                case 1:
+                    return AnnouncementsListFragment.newInstance(1);
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                //
+                //Your tab titles
+                //
+                case 0:return "";
+                case 1:return "";
+                case 2: return "Contacts";
+                default:return null;
+            }
+        }
+    }
+
 }

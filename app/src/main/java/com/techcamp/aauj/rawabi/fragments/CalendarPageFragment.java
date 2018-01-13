@@ -31,8 +31,6 @@ import java.util.Date;
 
 public class CalendarPageFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
 
-
-    private OnFragmentInteractionListener mListener;
     private CalendarView mCalendarView;
     private CalendarWebApi mCalendarWebApi = WebService.getInstance(getContext());
     private RecyclerView mRecyclerView;
@@ -46,13 +44,7 @@ public class CalendarPageFragment extends Fragment implements IResponeTriger<Arr
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
 
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,24 +76,6 @@ public class CalendarPageFragment extends Fragment implements IResponeTriger<Arr
 
 
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     @Override
     public void onResponse(ArrayList<Event> item) {
         mProgressBar.setVisibility(View.GONE);
@@ -112,10 +86,6 @@ public class CalendarPageFragment extends Fragment implements IResponeTriger<Arr
     @Override
     public void onError(String err) {
         Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
 

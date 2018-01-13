@@ -1,6 +1,10 @@
 package com.techcamp.aauj.rawabi.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.techcamp.aauj.rawabi.Beans.User;
 
 import java.util.zip.CheckedOutputStream;
 
@@ -39,4 +43,45 @@ public class UsersDB extends DBHelper {
         super(context);
     }
 
+    public boolean addUser(User user){
+        SQLiteDatabase db = null;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Cols.COL_ID,user.getId());
+        contentValues.put(Cols.COL_FULLNAME,user.getFullname());
+        contentValues.put(Cols.COL_GENDER,user.getGender());
+        contentValues.put(Cols.COL_BIRTHDATE,user.getBirthdate().getTime());
+        contentValues.put(Cols.COL_USERNAME,user.getUsername());
+        contentValues.put(Cols.COL_PASSWORD,user.getPassword());
+        contentValues.put(Cols.COL_IMAGEURL,user.getImageurl());
+        contentValues.put(Cols.COL_PHONE,user.getPhone());
+        contentValues.put(Cols.COL_ADDRESS,user.getAddress());
+        contentValues.put(Cols.COL_RATING,user.getRating());
+
+        try {
+            db = getWritableDatabase();
+            if(db.insert(TABLE_NAME,null,contentValues) > 0){
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+        return false;
+
+    }
+    public User getUser(int uid){
+        SQLiteDatabase db = null;
+        try {
+            db = getReadableDatabase();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

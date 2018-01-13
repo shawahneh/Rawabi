@@ -14,10 +14,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -613,7 +616,17 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
-    public void getAnnouns(IResponeTriger<ArrayList<Event>> eventITriger) {
+    public void getAnnouns(IResponeTriger<ArrayList<Announcement>> eventITriger) {
+
+    }
+
+    @Override
+    public void getJobs(IResponeTriger<ArrayList<Job>> triger) {
+
+    }
+
+    @Override
+    public void getTransportation(IResponeTriger<Transportation> triger) {
 
     }
 }

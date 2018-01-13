@@ -17,9 +17,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
@@ -188,30 +191,48 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
-    public void getAnnouns(final IResponeTriger<ArrayList<Event>> eventITriger) {
+    public void getAnnouns(final IResponeTriger<ArrayList<Announcement>> eventITriger) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ArrayList<Event> dummyEvents = new ArrayList<>();
+                ArrayList<Announcement> dummyEvents = new ArrayList<>();
                 for(int i=0;i<3;i++){
 
-                    Event event = new Event();
-                    event.setDate(new Date());
-                    event.setName("Event name " +i);
-                    event.setDescription("Description ... " +i);
+                    Announcement announcement = new Announcement();
+                    announcement.setDate(new Date());
+                    announcement.setName("Event name " +i);
+                    announcement.setDescription("Description ... " +i);
 
-                    dummyEvents.add(event);
+                    dummyEvents.add(announcement);
                 }
-                Event event = new Event();
-                event.setDate(new Date());
-                event.setName("Event name");
-                event.setDescription("Description ...");
-                event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
-
-                dummyEvents.add(event);
-                dummyEvents.add(event);
 
                 eventITriger.onResponse(dummyEvents);
+            }
+        },1000);
+    }
+
+    @Override
+    public void getJobs(IResponeTriger<ArrayList<Job>> triger) {
+
+    }
+
+    @Override
+    public void getTransportation(final IResponeTriger<Transportation> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> list1 = new ArrayList<>();
+                for (int i=0;i<10;i++){
+                list1.add(i+":30");
+
+                }
+                ArrayList<String> list2 = (ArrayList<String>)list1.clone();
+                list2.add("12:12");
+                Transportation t = new Transportation();
+                t.setFromRamallah(list1);
+                t.setFromRawabi(list2);
+
+                triger.onResponse(t);
             }
         },1000);
     }

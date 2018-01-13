@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
@@ -26,7 +27,7 @@ import com.techcamp.aauj.rawabi.R;
 import java.util.ArrayList;
 
 
-public class AnnouncmentFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
+public class AnnouncmentFragment extends Fragment implements IResponeTriger<ArrayList<Announcement>> {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -52,7 +53,7 @@ public class AnnouncmentFragment extends Fragment implements IResponeTriger<Arra
     }
 
     @Override
-    public void onResponse(ArrayList<Event> value) {
+    public void onResponse(ArrayList<Announcement> value) {
         mProgressBar.setVisibility(View.GONE);
         MyAdapter adapter = new MyAdapter(getContext(),value);
         mRecyclerView.setAdapter(adapter);
@@ -65,8 +66,8 @@ public class AnnouncmentFragment extends Fragment implements IResponeTriger<Arra
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<Event> events;
-    public MyAdapter(Context context,ArrayList<Event> events){
+    private ArrayList<Announcement> events;
+    public MyAdapter(Context context,ArrayList<Announcement> events){
         mContext = context;
         this.events = events;
     }
@@ -130,7 +131,7 @@ public class AnnouncmentFragment extends Fragment implements IResponeTriger<Arra
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
-        Event event = events.get(position);
+        Announcement event = events.get(position);
         holder.getmEventDesc().setText(event.getDescription());
         holder.getmEventName().setText(event.getName());
         holder.getmEventDate().setText(event.getRealDate());

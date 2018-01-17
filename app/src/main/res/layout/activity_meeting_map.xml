@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
     >
     <LinearLayout
@@ -25,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:context="com.techcamp.aauj.rawabi.activities.MeetingMapActivity"/>
+                tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.MeetingMapActivity"/>
             <ImageView
                 android:visibility="visible"
                 android:id="@+id/imgCenterMarker"
@@ -36,40 +35,36 @@
         </android.support.design.widget.CoordinatorLayout>
         <LinearLayout
             android:orientation="vertical"
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/rbMarker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Marker"
-                android:textColor="@color/white" />
+
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/btnMarker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Marker"
+                    android:textColor="@color/colorAccent" />
 
 
-
-                    <RadioButton
-                        android:id="@+id/rbHisLocation"
+                    <Button
+                        android:id="@+id/btnHisLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="false"
                         android:text="his location"
-                        android:textColor="@color/white" />
-                    <RadioButton
-                        android:textColor="@color/white"
-                        android:id="@+id/rbMyLocation"
+                        android:textColor="@color/colorAccent" />
+                    <Button
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/btnMyLocation"
                         android:text="my location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </RadioGroup>
+
             </LinearLayout>
             <Button
                 android:textStyle="bold"

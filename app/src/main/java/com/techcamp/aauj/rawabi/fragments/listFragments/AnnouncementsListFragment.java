@@ -1,11 +1,18 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
+import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +21,8 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.AnnouncmentDetailsActivity;
+import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +62,21 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
     private class MyHolder extends ListFragment.Holder<Announcement>{
         private TextView mEventName,mEventDesc,mEventDate;
         private ImageView mEventImage;
+        private View mView;
+
         public MyHolder(View view) {
             super(view);
+            mView = view;
             mEventDesc = view.findViewById(R.id.eventDescTestView);
             mEventName = view.findViewById(R.id.eventNameTextView);
             mEventDate = view.findViewById(R.id.eventDateTextView);
             mEventImage = view.findViewById(R.id.imageView);
+            itemView.setOnClickListener(this);
+        }
 
+        @Override
+        public View details() {
+            return mView.findViewById(R.id.layoutDetails);
         }
 
         @Override
@@ -71,12 +88,75 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
                 Glide.with(getContext()).load(announcement.getImageUrl()).into(mEventImage);
 
         }
+//        @Override
+//        public void onClicked(View v) {
+//            Intent i = AnnouncmentDetailsActivity.getIntent(getContext(),mItem);
+//            startActivity(i);
+//        }
         @Override
         public void onClicked(View v) {
-
+            final int originalHeight = details().getHeight();
+            animationDown((LinearLayout) details(), originalHeight);//here put the name of you layout that have the options to expand.
         }
 
+        //Animation for devices with kitkat and below
+        public void animationDown(final LinearLayout billChoices, int originalHeight){
+
+            // Declare a ValueAnimator object
+            ValueAnimator valueAnimator;
+            if (!(billChoices.getVisibility() == View.VISIBLE)) {
+                Log.d("tag","animationDown");
+                billChoices.setVisibility(View.VISIBLE);
+                billChoices.setEnabled(true);
+                valueAnimator = ValueAnimator.ofInt(0, 168); // These values in this method can be changed to expand however much you like
+            } else {
+                valueAnimator = ValueAnimator.ofInt(originalHeight, 0);
+
+                Animation a = new AlphaAnimation(1.00f, 0.00f); // Fade out
+
+                a.setDuration(200);
+                // Set a listener to the animation and configure onAnimationEnd
+                a.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        billChoices.setVisibility(View.GONE);
+                        billChoices.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                // Set the animation on the custom view
+                billChoices.startAnimation(a);
+            }
+            valueAnimator.setDuration(200);
+            valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    billChoices.getLayoutParams().height = value.intValue();
+                    billChoices.requestLayout();
+                    Log.d("tag",value.intValue()+" v");
+                }
+            });
+
+
+            valueAnimator.start();
+        }
     }
+
+
+
+
+
+
     private class MyAdapter extends ListFragment.Adapter<Announcement>{
 
         public MyAdapter(List<Announcement> items) {

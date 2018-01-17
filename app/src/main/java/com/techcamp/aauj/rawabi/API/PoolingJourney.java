@@ -21,6 +21,6 @@ public interface PoolingJourney {
     void setNewJourney(Journey newJourney,IResponeTriger<Integer> journeyId);
     void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys);
         //sortBy: 1-> Distance, 2-> Time
-
+    void getNumberOfJourneys(IResponeTriger<Integer> triger);
     void changeJourneyStatusAndGetRiders(Journey journey,int status,IResponeTriger<ArrayList<Ride>> triger);
 }

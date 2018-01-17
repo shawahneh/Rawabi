@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.JobDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
             mEventDate = view.findViewById(R.id.eventDateTextView);
 
             mEventImage = view.findViewById(R.id.imageView);
-
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -72,7 +74,8 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
         }
         @Override
         public void onClicked(View v) {
-
+            Intent i = JobDetailsActivity.getIntent(getContext(),mItem);
+            startActivity(i);
         }
 
     }

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="10dp"
-    tools:context="com.techcamp.aauj.rawabi.activities.UserTypeActivity">
+    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity">
     <include layout="@layout/layout_toolbar1"/>
 
     <ImageView

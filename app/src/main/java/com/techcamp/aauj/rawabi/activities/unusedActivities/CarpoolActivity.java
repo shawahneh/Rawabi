@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities;
+package com.techcamp.aauj.rawabi.activities.unusedActivities;
 
 import android.Manifest;
 import android.app.TimePickerDialog;
@@ -33,6 +33,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MeetingMapActivity;
 import com.techcamp.aauj.rawabi.fragments.DriverFragments.DriverDetailDialogFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 

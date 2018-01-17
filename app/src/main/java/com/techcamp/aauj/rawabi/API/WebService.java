@@ -151,6 +151,16 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
+    public void getNumberOfJourneys(final IResponeTriger<Integer> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               triger.onResponse(10);
+            }
+        }, 1000);
+    }
+
+    @Override
     public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
         getRidersOfJourney(0,triger);
     }
@@ -180,7 +190,13 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                resultUser.onResponse(new User());
+                User user = new User();
+                user.setFullname("ALa Amarneh");
+                user.setPassword("driver1");
+                user.setUsername("driver1");
+                user.setId(1);
+
+                resultUser.onResponse(user);
             }
         }, 1000);
     }
@@ -212,8 +228,24 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
-    public void getJobs(IResponeTriger<ArrayList<Job>> triger) {
+    public void getJobs(final IResponeTriger<ArrayList<Job>> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Job> dummyEvents = new ArrayList<>();
+                for(int i=0;i<3;i++){
 
+                    Job announcement = new Job();
+                    announcement.setDate(new Date());
+                    announcement.setName("Event name " +i);
+                    announcement.setDescription("Description ... " +i);
+
+                    dummyEvents.add(announcement);
+                }
+
+                triger.onResponse(dummyEvents);
+            }
+        },1000);
     }
 
     @Override
@@ -235,6 +267,16 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
                 triger.onResponse(t);
             }
         },1000);
+    }
+
+    @Override
+    public void getWeather(final IResponeTriger<String> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                triger.onResponse("25 C Sunny");
+            }
+        }, 1000);
     }
 
     @Override

@@ -5,20 +5,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-
-    android:background="@color/blue2"
+    android:background="@color/white"
     >
 
 
 
     <LinearLayout
         android:paddingTop="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/colorPrimary" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -58,7 +58,7 @@
             </LinearLayout>
             <Button
                 android:fontFamily="@font/abeezee"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textAlignment="center"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:textSize="20sp"
@@ -84,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/tvAvailable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -112,6 +114,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -129,13 +132,25 @@
                     android:text="Rawabi"
                     android:textColor="@color/black" />
             </LinearLayout>
-            <TextView
-                android:autoLink="phone"
-                android:id="@+id/tvPhone"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone"
-                android:textColor="@color/black" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone number: "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:autoLink="phone"
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
             <com.google.android.gms.maps.MapView
                 android:visibility="gone"
                 android:layout_weight="1"
@@ -143,6 +158,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
             <TextView
+                android:fontFamily="@font/abeezee"
                 android:textColor="@color/black"
                 android:id="@+id/tvCarDesc"
                 android:text="cardDesc"

@@ -470,6 +470,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
+    public void getNumberOfJourneys(IResponeTriger<Integer> triger) {
+
+    }
+
+    @Override
     public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
 
     }
@@ -627,6 +632,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
     @Override
     public void getTransportation(IResponeTriger<Transportation> triger) {
+
+    }
+
+    @Override
+    public void getWeather(IResponeTriger<String> triger) {
 
     }
 }

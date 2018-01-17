@@ -12,7 +12,9 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application
+
+    <application xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:icon"
         android:allowBackup="true"
         android:icon="@drawable/rawabi_white"
         android:label="@string/app_name"
@@ -31,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CarpoolActivity"
+            android:name=".activities.unusedActivities.CarpoolActivity"
             android:theme="@style/AppTheme" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,41 +51,46 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".activities.LoginRegisterActivity"
+            android:name=".activities.carpoolActivities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".activities.PickerActivity" />
+        <activity android:name=".activities.unusedActivities.PickerActivity" />
         <activity
-            android:name=".activities.UserTypeActivity"
-            android:parentActivityName=".activities.DashbordActivity"
+            android:name=".activities.carpoolActivities.UserTypeActivity"
             android:theme="@style/AppTheme.No" />
         <activity
-            android:name=".activities.MeetingMapActivity"
-            android:label="Choosing Meeting Location" />
-        <activity
-            android:name=".activities.carpoolActivities.MapRiderActivity"
-            android:parentActivityName=".activities.UserTypeActivity" />
+            android:name=".activities.carpoolActivities.MeetingMapActivity"
+            android:theme="@style/AppTheme.Carpool"
+            android:label="Choose Meeting Location" />
+        <activity android:name=".activities.carpoolActivities.MapRiderActivity"
+            android:theme="@style/AppTheme.Carpool"/>
         <activity
             android:name=".activities.carpoolActivities.ProfileActivity"
             android:label="@string/my_profile" />
         <activity
             android:name=".activities.carpoolActivities.RideDetailActivity"
+            android:theme="@style/AppTheme.Carpool"
             android:label="@string/my_rides" />
         <activity android:name=".activities.carpoolActivities.MyRiderActivity" />
         <activity android:name=".activities.carpoolActivities.MyJourneysActivity" />
         <activity
             android:name=".activities.carpoolActivities.JourneyDetailActivity"
             android:label="@string/my_journeys" />
-        <activity
-            android:name=".activities.carpoolActivities.MapDriverActivity"
-            android:parentActivityName=".activities.UserTypeActivity" />
+        <activity android:name=".activities.carpoolActivities.MapDriverActivity" />
         <activity android:name=".activities.carpoolActivities.EditProfileActivity" />
 
         <receiver android:name=".receivers.AlarmReceiver" />
 
-        <activity android:name=".activities.listActivities.List2Activity"></activity>
-        <activity android:name=".activities.listActivities.JobsListActivity" />
-        <activity android:name=".activities.listActivities.CalendarActivity" android:parentActivityName=".activities.DashbordActivity" />
-        <activity android:name=".activities.listActivities.TransportationActivity" />
+        <activity android:name=".activities.listActivities.CalendarActivity" />
+        <activity
+            android:name=".activities.listActivities.TransportationActivity" />
+        <activity
+            android:name=".activities.listActivities.JobsListActivity" />
+        <activity android:name=".activities.ItemDetailsActivities.AnnouncmentDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.ItemDetailsActivities.JobDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.ItemDetailsActivities.EventDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

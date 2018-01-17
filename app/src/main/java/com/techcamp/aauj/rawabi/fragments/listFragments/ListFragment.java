@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.fragments.listFragments;
 
 
 import android.os.Bundle;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,14 +30,15 @@ public abstract class ListFragment extends Fragment {
     private void initRecyclerView(){
         mRecyclerView.setHasFixedSize(true);
         int numberOfCols = getNumberOfCols();
-        if(numberOfCols == 1)
+        if(numberOfCols <= 1)
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         else
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),numberOfCols));
     }
 
     private int getNumberOfCols(){
-        return getArguments().getInt(ARG_NUM_OF_COLS);
+        return 1;
+//        return getArguments().getInt(ARG_NUM_OF_COLS);
     }
     public abstract void setupRecyclerViewAdapter();
 
@@ -73,7 +75,7 @@ public abstract class ListFragment extends Fragment {
         public void onClick(View v) {
             onClicked(v);
         }
-
+        public  View details(){return null;}
         public abstract void onClicked(View v);
         public abstract void bind(T item, int pos);
         public void setItem(T item){mItem = item;}
@@ -83,7 +85,7 @@ public abstract class ListFragment extends Fragment {
     public abstract class Adapter<T> extends RecyclerView.Adapter<Holder>
     {
         private List<T> mItems;
-
+        private int mExpandedPosition =-1;
         public Adapter(List<T> items)
         {
             mItems = items;
@@ -98,11 +100,22 @@ public abstract class ListFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(Holder holder, int position)
+        public void onBindViewHolder(Holder holder, final int position)
         {
             T item = mItems.get(position);
             holder.setItem(item);
             holder.bind(item,position);
+
+//            final boolean isExpanded = position==mExpandedPosition;
+//            if(holder.details() != null)
+//            holder.details().setVisibility(isExpanded?View.VISIBLE:View.GONE);
+//
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mExpandedPosition = isExpanded ? -1:position;
+//                }
+//            });
         }
 
         @Override

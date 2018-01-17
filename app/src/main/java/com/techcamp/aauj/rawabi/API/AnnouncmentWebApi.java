@@ -17,4 +17,5 @@ public interface AnnouncmentWebApi {
     void getAnnouns(IResponeTriger<ArrayList<Announcement>> eventITriger);
     void getJobs(IResponeTriger<ArrayList<Job>> triger);
     void getTransportation(IResponeTriger<Transportation> triger);
+    void getWeather(IResponeTriger<String> triger);
 }

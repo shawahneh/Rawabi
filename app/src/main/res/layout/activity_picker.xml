@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.techcamp.aauj.rawabi.activities.PickerActivity">
+    tools:context="com.techcamp.aauj.rawabi.activities.unusedActivities.PickerActivity">
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"

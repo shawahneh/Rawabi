@@ -1,9 +1,10 @@
-package com.techcamp.aauj.rawabi.activities;
+package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.PoolingRides;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
@@ -33,8 +35,8 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,IResponeTriger<Integer>{
-    private RadioButton mRadioButtonHisLocation,mRadioButtonMyLocation;
-    private View mRadioButtonMarker;
+    private Button btnHisLocation,btnMyLocation;
+    private View btnMarker;
     private Button mButtonSubmit;
     private static final int TYPE_MARK_START = 0;
     private static final int TYPE_MARK_END = 1;
@@ -45,15 +47,20 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerCenter;
     private Journey mJourney;
     private Ride mRide;
-    MarkerOptions markerOptions;
     PoolingRides poolingRides = WebService.getInstance(this);
+    SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_map);
-        mRadioButtonHisLocation = findViewById(R.id.rbHisLocation);
-        mRadioButtonMarker = findViewById(R.id.rbMarker);
-        mRadioButtonMyLocation = findViewById(R.id.rbMyLocation);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        btnHisLocation = findViewById(R.id.btnHisLocation);
+        btnMyLocation= findViewById(R.id.btnMyLocation);
+
+        btnMarker = findViewById(R.id.btnMarker);
+
         mButtonSubmit = findViewById(R.id.btnSubmit);
 
         mJourney = getIntent().getParcelableExtra("journey");
@@ -71,25 +78,21 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
                 RequestDriver();
             }
         });
-        mRadioButtonMyLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnHisLocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
-                    drawMarkers();
-                }
+            public void onClick(View view) {
+                mMarkerMeetingPoint = mJourney.getStartPoint();
+                drawMarkers();
             }
         });
-        mRadioButtonHisLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    mMarkerMeetingPoint = mJourney.getStartPoint();
-                    drawMarkers();
-                }
+            public void onClick(View view) {
+                mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
+                drawMarkers();
             }
         });
-        mRadioButtonMarker.setOnClickListener(new View.OnClickListener() {
+        btnMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mMarkerMeetingPoint = mMarkerCenter;
@@ -97,6 +100,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
     }
+
+
     private void drawMarkers(){
         if(mMap == null)
             return;
@@ -104,13 +109,13 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mMap.addMarker(new MarkerOptions()
                 .position(mMarkerStartPoint)
                 .draggable(false)
-                .icon(getMarkerIcon("#475862"))
+                .icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT))
                 .title("Start point")
         );
         mMap.addMarker(new MarkerOptions()
                 .position(mMarkerEndPoint)
                 .draggable(false)
-                .icon(getMarkerIcon("#a1cf68"))
+                .icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT))
                 .title("End point")
         );
         mMap.addPolyline(new PolylineOptions().add(mMarkerStartPoint,mMarkerEndPoint));
@@ -118,6 +123,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mMap.addMarker(new MarkerOptions()
                 .position(mMarkerMeetingPoint)
                 .draggable(false)
+                .icon(MapUtil.getMarkerIcon(MapUtil.ICON_MEETING_LOCATION))
                 .title("Meeting Point")
         ).showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLng(mMarkerMeetingPoint));
@@ -132,14 +138,25 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mRide.setUser(SPController.getLocalUser(this));
         mRide.setOrderStatus(Ride.STATUS_PENDING);
         mRide.setMeetingLocation(mMarkerMeetingPoint);
+
+        showProgress();
+
         poolingRides.setRideOnJourney(mRide,this);
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarkerMeetingPoint,15));
-
 
         drawMarkers();
 
@@ -152,14 +169,22 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
-    public BitmapDescriptor getMarkerIcon(String color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(Color.parseColor(color), hsv);
-        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
+    private void showProgress(){
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Sending Request");
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
-
+    private void showError(){
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText("can't send your request, try again")
+                .show();
+    }
     @Override
     public void onResponse(Integer item) {
+        pDialog.dismissWithAnimation();
         // request created successfully
         if(item >0){
             AlarmController.addAlarm(this,mRide.getJourney());
@@ -174,9 +199,10 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onError(String err) {
-        showError(err);
+        pDialog.dismissWithAnimation();
+        showError();
     }
     private void showError(String error){
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+
     }
 }

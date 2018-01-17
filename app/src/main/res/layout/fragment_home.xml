@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+
                 android:paddingTop="10dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
@@ -32,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/abeezee"
+                    android:fontFamily="abeezee"
                     android:text="Carpool"
                     android:textColor="@color/black" />
 
@@ -41,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comfortaa_light"
-                    android:text="Going to Rawabi?"
+                    android:text="Looking for a ride?"
                     android:textColor="@color/black" />
 
 
@@ -66,14 +67,25 @@
             </LinearLayout>
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton"
-                android:layout_width="match_parent"
+                android:layout_width="40dp"
                 app:backgroundTint="@color/white"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:clickable="true"
                 app:fabSize="mini"
                 android:src="@drawable/car_withtexture"
                 app:layout_anchor="@+id/layout1"
                 app:layout_anchorGravity="top|center" />
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="52dp"
+                app:layout_anchor="@+id/layout1"
+                app:layout_anchorGravity="top|center"
+                android:layout_height="52dp" />
+
+
         </android.support.design.widget.CoordinatorLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
@@ -98,7 +110,7 @@
                 <TextView
                     android:fontFamily="@font/comfortaa_light"
                     android:id="@+id/tvEventName"
-                    android:text="No events today"
+                    android:text="see events today"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -124,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Weather"
+                android:text="Weather in Rawabi"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -132,7 +144,7 @@
                 android:fontFamily="@font/abeezee"
                 android:id="@+id/tvWeather"
                 android:textStyle="bold"
-                android:text="18 C Sunny"
+                android:text="..."
                 android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

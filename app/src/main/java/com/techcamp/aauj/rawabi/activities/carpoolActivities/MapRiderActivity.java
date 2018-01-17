@@ -2,34 +2,28 @@ package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.PoolingJourney;
-import com.techcamp.aauj.rawabi.API.PoolingPlace;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.MeetingMapActivity;
+import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.NumberUtil;
 
@@ -102,24 +96,24 @@ public class MapRiderActivity extends MapActivity {
     }
 
     @Override
-    protected void pressFromMode(View view) {
+    public void pressFromMode(View view) {
         super.pressFromMode(view);
 
         getJourneys();
     }
 
     @Override
-    protected void pressToMode(View view) {
+    public void pressToMode(View view) {
         super.pressToMode(view);
 
         getJourneys();
     }
 
     @Override
-    protected void pressTime(View view) {
+    public void pressTime(View view) {
         super.pressTime(view);
 
-        getJourneys();
+
     }
 
     @Override
@@ -166,7 +160,9 @@ public class MapRiderActivity extends MapActivity {
             return;
 
         mMap.clear();
+
         drawMarkers();
+        drawPolyline();
         for (Journey j :
                 arrayList) {
         mMap.addMarker(new MarkerOptions()
@@ -179,6 +175,8 @@ public class MapRiderActivity extends MapActivity {
 
         }
     }
+
+
 
     class DriverDetailLayout{
         private Journey mJourney;

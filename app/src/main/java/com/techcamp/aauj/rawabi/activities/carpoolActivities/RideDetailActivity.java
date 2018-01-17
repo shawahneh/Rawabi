@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.PoolingRides;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
@@ -24,6 +27,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.AlarmController;
+import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -35,8 +39,9 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     Button btnCancel;
     TextView tvStatus;
     private PoolingRides poolingRides = WebService.getInstance(this);
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private IResponeTriger<Integer> statusRespones;
+    private SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +53,6 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         mMapView.getMapAsync(this);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
-        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
 
         TextView tvDate = findViewById(R.id.tvDate);
         TextView tvFrom = findViewById(R.id.tvFrom);
@@ -69,28 +73,35 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnCancel.setEnabled(false);
-                mSwipeRefreshLayout.setRefreshing(true);
-                poolingRides.changeRideStatus(mRide.getId(),Ride.STATUS_CANCELLED,RideDetailActivity.this);
+                new SweetAlertDialog(RideDetailActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("Cancel this Ride")
+                        .setConfirmText("Yes,cancel it!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                btnCancel.setEnabled(false);
+                                showProgress();
+                                poolingRides.changeRideStatus(mRide.getId(),Ride.STATUS_CANCELLED,RideDetailActivity.this);
+                            }
+                        })
+                        .show();
+
             }
         });
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestStatus();
-            }
-        });
+
         statusRespones = new IResponeTriger<Integer>() {
             @Override
             public void onResponse(Integer item) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                pDialog.dismissWithAnimation();
                 mRide.setOrderStatus(item);
                 setupStatus();
             }
 
             @Override
             public void onError(String err) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                pDialog.dismissWithAnimation();
             }
         };
         setupStatus();
@@ -112,18 +123,18 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         // setup status color
         if(mRide.getOrderStatus() == Ride.STATUS_CANCELLED){
-            tvStatus.setBackgroundColor(Color.RED);
+//            tvStatus.setBackgroundColor(Color.RED);
         }else if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
-            tvStatus.setBackgroundColor(Color.BLUE);
+//            tvStatus.setBackgroundColor(Color.BLUE);
         }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
-            tvStatus.setBackgroundColor(Color.GREEN);
+//            tvStatus.setBackgroundColor(Color.GREEN);
         }
 
         tvStatus.setText(StringUtil.getRideStatus(mRide.getOrderStatus()));
     }
     private void requestStatus(){
         btnCancel.setEnabled(false);
-        mSwipeRefreshLayout.setRefreshing(true);
+        showProgress();
         poolingRides.getStatusOfRide(mRide.getId(), statusRespones);
     }
 
@@ -142,10 +153,26 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         googleMap.addPolyline(new PolylineOptions().add(mJourney.getStartPoint(),mJourney.getEndPoint()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mRide.getMeetingLocation(),DEFAULT_ZOOM));
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_refresh, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            requestStatus();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onResponse(Boolean changed) {
-        mSwipeRefreshLayout.setRefreshing(false);
+        pDialog.dismissWithAnimation();
         // status changed (cancelled)
         if(changed) {
             AlarmController.cancelAlarm(this,mRide.getJourney());
@@ -156,10 +183,16 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
             showError("Error, we couldn't change the status!");
         }
     }
-
+    private void showProgress(){
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Refreshing");
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
     @Override
     public void onError(String err) {
-        mSwipeRefreshLayout.setRefreshing(false);
+        pDialog.dismissWithAnimation();
         showError("Error, we couldn't change the status!");
     }
 

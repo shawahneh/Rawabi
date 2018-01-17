@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.carpoolActivities;
+package com.techcamp.aauj.rawabi.activities.abstractActivities;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

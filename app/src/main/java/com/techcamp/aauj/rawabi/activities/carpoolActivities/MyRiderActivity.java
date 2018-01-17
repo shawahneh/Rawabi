@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.PoolingRides;
-import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.abstractActivities.ListActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 

@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities;
+package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;

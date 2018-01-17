@@ -3,7 +3,7 @@
     <color name="colorPrimary">#475862</color>
     <color name="colorPrimaryDark">#475862</color>
     <color name="colorAccent">#63d25d</color>
-
+    <!--<color name="colorAccent">#63d25d</color>-->
     <color name="colorAccent2">#63d25d</color>
     <color name="black">#000000</color>
     <color name="blue1">#e0e4e7</color>
@@ -20,4 +20,7 @@
     <color name="blue_sky2">#f5f5f5</color>
 
     <color name="orange">#f5b104</color>
+
+
+
 </resources>

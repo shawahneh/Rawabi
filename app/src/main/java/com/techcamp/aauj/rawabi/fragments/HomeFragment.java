@@ -1,26 +1,38 @@
 package com.techcamp.aauj.rawabi.fragments;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
+import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
+import com.techcamp.aauj.rawabi.API.CalendarWebApi;
+import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.LoginRegisterActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.CalendarActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.TransportationActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -31,6 +43,11 @@ public class HomeFragment extends Fragment {
     private Button btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
+    private IResponeTriger<Integer> trigerCars;
+    private IResponeTriger<String> trigerWeather;
+    private IResponeTriger<ArrayList<Event>> trigerEvents;
+    private TextView tvCarpool,tvWeather,tvEventName;
+    private ProgressBar progressBar;
     public HomeFragment() {
     }
 
@@ -43,6 +60,9 @@ public class HomeFragment extends Fragment {
         btnOpenCarpool = view.findViewById(R.id.btnOpenCarpool);
         btnOpenCalendar =view.findViewById(R.id.btnOpenCalendar);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv);
+        tvCarpool = view.findViewById(R.id.tvCarpool);
+        tvWeather = view.findViewById(R.id.tvWeather);
+        tvEventName= view.findViewById(R.id.tvEventName);
 
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +78,95 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        progressBar = view.findViewById(R.id.progressBar);
 
+        trigerCars = new IResponeTriger<Integer>() {
+            @Override
+            public void onResponse(Integer item) {
+                progressBar.setVisibility(View.GONE);
+                if(item>0) {
+                    ValueAnimator valueAnimator = ValueAnimator.ofInt(0, item);
+                    valueAnimator.setDuration(500);
 
+                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                            tvCarpool.setText(valueAnimator.getAnimatedValue().toString()+ " cars available");
+
+                        }
+                    });
+                    valueAnimator.start();
+
+                }
+                else
+                    tvCarpool.setText("Looking for a ride?");
+            }
+
+            @Override
+            public void onError(String err) {
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        trigerWeather = new IResponeTriger<String>() {
+            @Override
+            public void onResponse(String item) {
+                tvWeather.setText(item);
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        };
+        trigerEvents = new IResponeTriger<ArrayList<Event>>() {
+            @Override
+            public void onResponse(ArrayList<Event> item) {
+                int n = item.size();
+                if(n>0)
+                    tvEventName.setText(n + " events today");
+                else
+                    tvEventName.setText("no events today");
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        };
+        FloatingActionButton fabView = view.findViewById(R.id.floatingActionButton);
+        fabView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                getNumberOfCars();
+
+            }
+        });
         setupRecyclerView();
+
+
+        getWeather();
+        getEventsToday();
         return view;
+    }
+
+    private void getEventsToday() {
+        CalendarWebApi api = WebService.getInstance(getActivity());
+        api.getEventAtDate(new Date(),trigerEvents);
+    }
+
+    private void getWeather() {
+        AnnouncmentWebApi api = WebService.getInstance(getActivity());
+        api.getWeather(trigerWeather);
+    }
+
+    private void getNumberOfCars() {
+        if(progressBar.getVisibility() == View.VISIBLE)
+            return;
+        tvCarpool.setText("Looking for a ride?");
+        PoolingJourney api = WebService.getInstance(getActivity());
+        api.getNumberOfJourneys(trigerCars);
+        progressBar.setVisibility(View.VISIBLE);
+
     }
 
     private void setupRecyclerView() {

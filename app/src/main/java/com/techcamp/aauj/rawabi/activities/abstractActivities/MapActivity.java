@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.carpoolActivities;
+package com.techcamp.aauj.rawabi.activities.abstractActivities;
 
 import android.Manifest;
 import android.app.TimePickerDialog;
@@ -53,6 +53,7 @@ import com.google.android.gms.maps.model.internal.zzp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
@@ -84,7 +85,8 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        getSupportActionBar().setElevation(0);
+        setTitle("Carpool");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Construct a GeoDataClient.
         mProgressBarLoading = findViewById(R.id.progressBar);
         startLoading(false);
@@ -249,7 +251,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
-    protected void pressFromMode(View view){
+    public void pressFromMode(View view){
         if(mMarkerFrom == null){
             mMarkerFrom = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
                     .icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT))
@@ -257,11 +259,11 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }else{
             mMarkerFrom.setPosition(mMarkerCenter.getPosition());
         }
-        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+//        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
         drawPolyline();
     }
 
-    private void drawPolyline() {
+    protected void drawPolyline() {
         if(mMap == null)
             return;
         if(mMarkerFrom == null || mMarkerTo == null)
@@ -272,7 +274,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    protected void pressToMode(View view){
+    public void pressToMode(View view){
         if(mMarkerTo == null){
             mMarkerTo = mMap.addMarker(new MarkerOptions().position(mMarkerCenter.getPosition())
                 .icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT))
@@ -280,7 +282,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }else{
             mMarkerTo.setPosition(mMarkerCenter.getPosition());
         }
-        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+//        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
         drawPolyline();
     }
     protected void pressTime(View view){
@@ -384,7 +386,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    void startLoading(boolean b){
+    public void startLoading(boolean b){
         mProgressBarLoading.setVisibility(b?View.VISIBLE:View.GONE);
     }
 
@@ -397,17 +399,16 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.menu_profile) {
             startProfileActivity();
             return true;
+        }else
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

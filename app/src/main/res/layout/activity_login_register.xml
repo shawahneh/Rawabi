@@ -8,7 +8,7 @@
     android:gravity="center_horizontal"
     android:padding="10dp"
     android:background="@color/colorPrimary"
-    tools:context="com.techcamp.aauj.rawabi.activities.LoginRegisterActivity">
+    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity">
 
     <ImageView
         android:src="@drawable/rawabi_white"

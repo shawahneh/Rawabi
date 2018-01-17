@@ -16,6 +16,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
@@ -88,12 +89,12 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
     }
 
     @Override
-    protected void pressFromMode(View view) {
+    public void pressFromMode(View view) {
         super.pressFromMode(view);
         openPanel();
     }
     @Override
-    protected void pressToMode(View view) {
+    public void pressToMode(View view) {
         super.pressToMode(view);
         openPanel();
     }

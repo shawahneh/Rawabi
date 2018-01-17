@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swiperefresh"
-    android:background="@color/blue2"
+    android:orientation="vertical"
     tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity">
 
 
-
+    <TextView
+        android:textAlignment="center"
+        android:background="@color/blue_sky"
+        android:textSize="20sp"
+        android:textColor="@color/blue2"
+        android:id="@+id/tvStatus"
+        android:text="status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,25 +26,11 @@
         android:padding="10dp"
         android:gravity="center_horizontal">
 
-        <TextView
-            android:textAlignment="center"
-            android:background="@color/blue_sky"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:textColor="@color/blue2"
-            android:id="@+id/tvStatus"
-            android:text="status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvDate"
-            android:textColor="@color/white"
-            android:text="date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
     </LinearLayout>
         <android.support.v7.widget.CardView
             android:layout_marginTop="5dp"
@@ -48,6 +41,12 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:textColor="@color/colorPrimary"
+                    android:text="date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -66,6 +65,7 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
@@ -86,7 +86,7 @@
         android:layout_marginTop="5dp"
         app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp">
         <LinearLayout
             android:background="@color/blue_sky"
             android:padding="10dp"
@@ -100,6 +100,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/btnFrom"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:text="From"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/btnMeetingLoc"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:text="Meeting Loc"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/btnTo"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:text="To"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
@@ -115,6 +145,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
@@ -153,4 +184,4 @@
 
 
 </LinearLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

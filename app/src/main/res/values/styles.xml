@@ -14,6 +14,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.Blue" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/blue2</item>
@@ -21,7 +22,12 @@
         <item name="colorAccent">@color/blue_sky</item>
         <item name="android:textColorTertiary">#fff</item>
     </style>
-
+    <style name="AppTheme.Carpool" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#64d25e</item>
+        <item name="colorPrimaryDark">#64d25e</item>
+        <item name="colorAccent">#485963</item>
+        <item name="android:textColorTertiary">#fff</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme.No" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
@@ -30,6 +36,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">#fff</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

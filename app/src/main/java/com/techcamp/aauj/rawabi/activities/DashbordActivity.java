@@ -3,41 +3,31 @@ package com.techcamp.aauj.rawabi.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
+import com.techcamp.aauj.rawabi.activities.unusedActivities.CarpoolActivity;
 import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
-import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
-
-import java.util.List;
 
 public class DashbordActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener
@@ -75,6 +65,7 @@ public class DashbordActivity extends AppCompatActivity
         tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
         tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         tbl_pages.addOnTabSelectedListener(this);
+
     }
 
     @Override
@@ -168,6 +159,7 @@ public class DashbordActivity extends AppCompatActivity
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+
         tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
     }
 

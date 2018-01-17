@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:background="@color/blue2"
     sothree:layout_collapseMode="parallax"
+    sothree:umanoOverlay="true"
     sothree:umanoPanelHeight="68dp"
     sothree:umanoShadowHeight="4dp">
 

@@ -43,4 +43,6 @@ dependencies {
     compile 'in.shadowfax:proswipebutton:1.0.1'
     compile 'com.github.thomper:sweet-alert-dialog:v1.4.0'
     compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
+    compile 'com.google.firebase:firebase-database:11.6.2'
 }
+apply plugin: 'com.google.gms.google-services'

@@ -94,7 +94,7 @@ public class MapUtil {
             case ICON_END_POINT:
                 return getMarkerIconByColor("#475862");
             case ICON_START_POINT:
-                return getMarkerIconByColor("#63d25d");
+                return getMarkerIconByColor("#475862");
             case ICON_MEETING_LOCATION:
                 return getMarkerIconByColor("#cf0000");
             case ICON_RIDER:

@@ -62,6 +62,9 @@ public class DashbordActivity extends AppCompatActivity
         tbl_pages.setupWithViewPager(vp_pages);
         tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
         tbl_pages.getTabAt(1).setIcon(R.drawable.logo_qcenter);
+        tbl_pages.getTabAt(0).setTag("home");
+        tbl_pages.getTabAt(1).setTag("qcenter");
+
         tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
         tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         tbl_pages.addOnTabSelectedListener(this);
@@ -159,7 +162,9 @@ public class DashbordActivity extends AppCompatActivity
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-
+        if(tab.getTag().equals("qcenter")){
+            tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+        }else
         tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
     }
 
@@ -204,7 +209,6 @@ public class DashbordActivity extends AppCompatActivity
                 //
                 case 0:return "";
                 case 1:return "";
-                case 2: return "Contacts";
                 default:return null;
             }
         }

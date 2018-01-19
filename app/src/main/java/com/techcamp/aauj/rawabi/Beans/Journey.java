@@ -18,6 +18,15 @@ public class Journey implements Parcelable{
     public final static int STATUS_PENDING = 0;
     public final static int STATUS_CANCELLED = 1;
     public final static int STATUS_COMPLETED = 2;
+    public final static int STATUS_DRIVER_CANCELLED = 3;
+    public final static int STATUS_DRIVER_CLOSED = 4;
+
+    // if pending and started => STATUS_COMPLETED
+    // STATUS_DRIVER_CLOSED and started -> STATUS_COMPLETED
+    // STATUS_DRIVER_CLOSED and still not started -> STATUS_DRIVER_CLOSED
+    // STATUS_PENDING and not started -> pending
+
+
     private int id;
     private User user;
     private LatLng startPoint;

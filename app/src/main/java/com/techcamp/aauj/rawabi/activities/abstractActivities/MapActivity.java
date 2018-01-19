@@ -106,23 +106,23 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 
         enableGetLocation();
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                mapGoTo(place.getLatLng());
-                Log.i(TAG, "Place: " + place.getName());
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
+//        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+//                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+//
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(Place place) {
+//                // TODO: Get info about the selected place.
+//                mapGoTo(place.getLatLng());
+//                Log.i(TAG, "Place: " + place.getName());
+//            }
+//
+//            @Override
+//            public void onError(Status status) {
+//                // TODO: Handle the error.
+//                Log.i(TAG, "An error occurred: " + status);
+//            }
+//        });
 
     }
 
@@ -259,7 +259,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }else{
             mMarkerFrom.setPosition(mMarkerCenter.getPosition());
         }
-//        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
         drawPolyline();
     }
 
@@ -282,7 +282,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         }else{
             mMarkerTo.setPosition(mMarkerCenter.getPosition());
         }
-//        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+        ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
         drawPolyline();
     }
     protected void pressTime(View view){
@@ -393,7 +393,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.carpool_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
 
@@ -401,8 +401,11 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_profile) {
+        if (id == R.id.action_profile) {
             startProfileActivity();
+            return true;
+        }else if (id == R.id.action_search) {
+            findPlace(item.getActionView());
             return true;
         }else
         if (id == android.R.id.home) {

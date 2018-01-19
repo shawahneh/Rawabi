@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -17,10 +18,11 @@ import java.util.List;
 
 public interface PoolingJourney {
     public void getJourneys(int userId,int limitStart,int limitNum,IResponeTriger<ArrayList<Journey>> journeys);
-    public void getJourneyDetails(int id,IResponeTriger<Journey> journey);
+    public void getJourneyDetails(int id,IResponeTriger<CustomJourney> journey);
     void setNewJourney(Journey newJourney,IResponeTriger<Integer> journeyId);
     void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys);
         //sortBy: 1-> Distance, 2-> Time
     void getNumberOfJourneys(IResponeTriger<Integer> triger);
-    void changeJourneyStatusAndGetRiders(Journey journey,int status,IResponeTriger<ArrayList<Ride>> triger);
+    void changeJourneyStatusAndGetRiders(Journey journey,int status,IResponeTriger<CustomJourney> triger);
+
 }

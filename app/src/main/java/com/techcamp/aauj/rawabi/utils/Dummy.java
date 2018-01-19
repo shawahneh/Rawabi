@@ -60,7 +60,7 @@ public class Dummy {
                     user.setPhone("0592355");
                     journey.setUser(user);
                     journey.setStatus(1);
-
+                    journey.setId(1);
                     journeys.add(journey );
 
                     Journey j2 = new Journey();

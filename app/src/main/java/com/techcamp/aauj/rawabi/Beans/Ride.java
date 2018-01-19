@@ -15,8 +15,12 @@ public class Ride implements Parcelable{
     public final static int STATUS_PENDING = 0;
     public final static int STATUS_CANCELLED = 2;
     public final static int STATUS_ACCEPTED = 1;
+    public final static int STATUS_ACCEPTED_TIME_LEFT = 7; // accepted and it can't be cancelled ( journey started )
     public final static int STATUS_RIDER_CANCELLED = 3;
     public final static int STATUS_DRIVER_REJECTED = 4;
+    public final static int STATUS_JOURNEY_CANCELLED = 5;
+    public final static int STATUS_TIME_LEFT = 6;
+
     private int id;
     private User user;
     private Journey journey;

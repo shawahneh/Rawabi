@@ -82,7 +82,7 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
         @Override
         public void bind(Announcement announcement, int pos) {
             mEventDesc.setText(announcement.getDescription());
-            mEventDate.setText(DateUtils.formatDateTime(getContext(),announcement.getDate().getTime(),DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_TIME));
+            mEventDate.setText(DateUtils.getRelativeDateTimeString(getContext(),announcement.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
             mEventName.setText(announcement.getName());
             if(announcement.getImageUrl() != null)
                 Glide.with(getContext()).load(announcement.getImageUrl()).into(mEventImage);

@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
@@ -402,7 +403,7 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
-    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
+    public void getJourneyDetails(int id, IResponeTriger<CustomJourney> journey) {
 
     }
 
@@ -475,7 +476,7 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
-    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
+    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<CustomJourney> triger) {
 
     }
 

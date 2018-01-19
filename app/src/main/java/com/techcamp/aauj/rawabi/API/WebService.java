@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
@@ -65,32 +66,29 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
 
     @Override
     public void getRidersOfJourney(int jID, final IResponeTriger<ArrayList<Ride>> triger) {
-        new Thread(new Runnable() {
+        new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-                    ArrayList<Ride> rides = new ArrayList<>();
-                    for (int i = 0; i < 3; i++) {
-                        Ride ride = new Ride();
-                        ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
-                        User user = new User();
-                        user.setFullname("ALA AMARNEH");
-                        user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-                        user.setPhone("0592355");
 
-                        ride.setUser(user);
+                ArrayList<Ride> rides = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    Ride ride = new Ride();
+                    ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
+                    User user = new User();
+                    user.setFullname("ALA AMARNEH");
+                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+                    user.setPhone("0592355");
 
-                        ride.setOrderStatus(i);
-                        ride.setId(i);
+                    ride.setUser(user);
 
-                        rides.add(ride);
-                    }
-                    triger.onResponse(rides);
-                }catch (Exception e){}
+                    ride.setOrderStatus(i);
+                    ride.setId(i+1);
+
+                    rides.add(ride);
+                }
+                triger.onResponse(rides);
             }
-        }).start();
-
+        }, 1000);
     }
 
     @Override
@@ -131,8 +129,10 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
-    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
-
+    public void getJourneyDetails(int id, IResponeTriger<CustomJourney> triger) {
+        Journey journey1 = new Journey();
+        journey1.setId(id);
+        changeJourneyStatusAndGetRiders(journey1,Journey.STATUS_PENDING,triger);
     }
 
     @Override
@@ -161,8 +161,21 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
-    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<ArrayList<Ride>> triger) {
-        getRidersOfJourney(0,triger);
+    public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final IResponeTriger<CustomJourney> triger) {
+        getRidersOfJourney(0, new IResponeTriger<ArrayList<Ride>>() {
+            @Override
+            public void onResponse(ArrayList<Ride> item) {
+                CustomJourney cj = new CustomJourney();
+                cj.setStatus(status);
+                cj.setRiders(item);
+                triger.onResponse(cj);
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
     }
 
     @Override

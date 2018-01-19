@@ -27,6 +27,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.AlarmController;
+import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
@@ -36,10 +37,10 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     private static final float DEFAULT_ZOOM = 15;
     private Ride mRide;
     private MapView mMapView;
-    Button btnCancel;
+    Button btnCancel,btnFrom,btnTo,btnMeetingLoc;
     TextView tvStatus;
     private PoolingRides poolingRides = WebService.getInstance(this);
-
+    private GoogleMap mMap;
     private IResponeTriger<Integer> statusRespones;
     private SweetAlertDialog pDialog;
     @Override
@@ -61,6 +62,11 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         TextView tvDriverName = findViewById(R.id.tvDriverName);
         tvStatus = findViewById(R.id.tvStatus);
         btnCancel = findViewById(R.id.btnCancel);
+        btnFrom = findViewById(R.id.btnFrom);
+        btnTo = findViewById(R.id.btnTo);
+        btnMeetingLoc = findViewById(R.id.btnMeetingLoc);
+
+
         tvDate.setText(mRide.getJourney().getRealDate());
         tvFrom.setText(MapUtil.getAddress(this,mRide.getJourney().getStartPoint()));
         tvTo.setText(MapUtil.getAddress(this,mRide.getJourney().getEndPoint()));
@@ -90,6 +96,31 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
             }
         });
+        btnFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mMap != null){
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(mRide.getJourney().getStartPoint()));
+                }
+            }
+        });
+        btnMeetingLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mMap != null){
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(mRide.getMeetingLocation()));
+                }
+            }
+        });
+        btnTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mMap != null){
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(mRide.getJourney().getEndPoint()));
+                }
+            }
+        });
+
 
         statusRespones = new IResponeTriger<Integer>() {
             @Override
@@ -110,25 +141,26 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
 
     private void setupStatus() {
-        if(mRide.getOrderStatus() == Ride.STATUS_CANCELLED || mRide.getJourney().getGoingDate().getTime() < System.currentTimeMillis()){ // ? System.currentTimeMillis()
+        if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
+            btnCancel.setVisibility(View.VISIBLE);
+            btnCancel.setEnabled(true);
+        }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
+            btnCancel.setVisibility(View.VISIBLE);
+            btnCancel.setEnabled(true);
+        }else {
+
             btnCancel.setEnabled(false);
             btnCancel.setVisibility(View.GONE);
-        }else if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
-            btnCancel.setVisibility(View.VISIBLE);
-            btnCancel.setEnabled(true);
-        }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
-            btnCancel.setVisibility(View.VISIBLE);
-            btnCancel.setEnabled(true);
         }
 
-        // setup status color
-        if(mRide.getOrderStatus() == Ride.STATUS_CANCELLED){
-//            tvStatus.setBackgroundColor(Color.RED);
-        }else if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
-//            tvStatus.setBackgroundColor(Color.BLUE);
-        }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
-//            tvStatus.setBackgroundColor(Color.GREEN);
-        }
+//        // setup status color
+//        if(mRide.getOrderStatus() == Ride.STATUS_CANCELLED){
+////            tvStatus.setBackgroundColor(Color.RED);
+//        }else if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
+////            tvStatus.setBackgroundColor(Color.BLUE);
+//        }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
+////            tvStatus.setBackgroundColor(Color.GREEN);
+//        }
 
         tvStatus.setText(StringUtil.getRideStatus(mRide.getOrderStatus()));
     }
@@ -146,6 +178,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
         Journey mJourney = mRide.getJourney();
         googleMap.addMarker(new MarkerOptions().position(mRide.getMeetingLocation()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_MEETING_LOCATION)).title("Meeting location"));
         googleMap.addMarker(new MarkerOptions().position(mJourney.getStartPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT)).title("Start point"));
@@ -173,10 +206,11 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onResponse(Boolean changed) {
         pDialog.dismissWithAnimation();
-        // status changed (cancelled)
+        // status changed (rider cancelled)
         if(changed) {
-            AlarmController.cancelAlarm(this,mRide.getJourney());
-            mRide.setOrderStatus(Ride.STATUS_CANCELLED);
+//            AlarmController.cancelAlarm(this,mRide.getJourney());
+            ServiceController.cancelRide(this,mRide.getId());
+            mRide.setOrderStatus(Ride.STATUS_RIDER_CANCELLED);
             setupStatus();
         }else{
             btnCancel.setEnabled(true);

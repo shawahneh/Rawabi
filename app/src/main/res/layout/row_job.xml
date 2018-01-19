@@ -1,56 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="7dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    app:cardCornerRadius="5dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_bottom"
+    android:foreground="?android:attr/selectableItemBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
         <LinearLayout
-            android:background="@color/colorPrimary"
-            android:padding="1dp"
-            android:gravity="center_horizontal"
+            android:padding="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:text="date"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/eventDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
         <LinearLayout
-            android:padding="10dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:fontFamily="@font/abeezee"
-                android:text="@string/app_name"
-                android:textColor="@color/green"
-                android:id="@+id/eventNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/eventDescTestView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <ImageView
-                android:id="@+id/imageView"
+                android:layout_margin="10dp"
+                android:src="@drawable/job_notexture"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <LinearLayout
+                android:padding="10dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:fontFamily="@font/abeezee"
+                    android:text="@string/app_name"
+                    android:textColor="@color/green"
+                    android:id="@+id/eventNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/eventDescTestView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
+
 
     </LinearLayout>
 
-
-</android.support.v7.widget.CardView>

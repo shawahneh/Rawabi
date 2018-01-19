@@ -51,12 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.CoordinatorLayout>
-                <fragment
-                    android:id="@+id/place_autocomplete_fragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                    />
+
                 <Button
                     android:visibility="gone"
                     android:onClick="findPlace"
@@ -64,24 +59,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <LinearLayout
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Button
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_weight="1"
                         android:onClick="pressFromMode"
-                        android:text="From"
-                        android:layout_width="wrap_content"
+                        android:text="Start"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
                     <Button
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_weight="1"
                         android:onClick="pressToMode"
-                        android:text="To"
-                        android:layout_width="wrap_content"
+                        android:text="End"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
                     <Button
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_weight="1"
                         android:id="@+id/btnSetTime"
                         android:onClick="pressTime"
                         android:text="Time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 

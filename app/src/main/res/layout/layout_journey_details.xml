@@ -6,6 +6,7 @@
     >
 
     <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:id="@+id/btnContinue"
         android:text="Continue"
         android:layout_width="match_parent"

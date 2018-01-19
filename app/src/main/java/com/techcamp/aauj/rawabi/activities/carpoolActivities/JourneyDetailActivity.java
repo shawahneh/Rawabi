@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,20 +27,23 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.PoolingJourney;
 import com.techcamp.aauj.rawabi.API.PoolingRides;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.AlarmController;
+import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
 import java.util.ArrayList;
 
-public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback,IResponeTriger<ArrayList<Ride>> {
+public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     PoolingRides poolingRides = WebService.getInstance(this);
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
@@ -47,10 +53,11 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private RecyclerView mRecyclerView;
     private Button btnCancel,btnComplete;
     TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private int prevStatus;
     private ArrayList<Ride> mRiders;
     private  MyJourneysAdapter adapter;
+    private SweetAlertDialog pDialog;
+    private IResponeTriger<CustomJourney> trigerCustomJourney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,18 +65,19 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         mJourney = getIntent().getParcelableExtra(ARG_JOURNEY);
         prevStatus = mJourney.getStatus();
+
         mMapView = findViewById(R.id.mapView);
         mRecyclerView = findViewById(R.id.rv);
         btnCancel = findViewById(R.id.btnCancel);
         btnComplete = findViewById(R.id.btnComplete);
 
-        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshRiders();
-            }
-        });
+//        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                refreshRiders();
+//            }
+//        });
 
         // setup buttons
         if(mJourney.getStatus() == Journey.STATUS_PENDING){
@@ -79,6 +87,26 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             btnCancel.setVisibility(View.GONE);
             btnComplete.setVisibility(View.GONE);
         }
+
+        trigerCustomJourney = new IResponeTriger<CustomJourney>() {
+            @Override
+            public void onResponse(CustomJourney item) {
+                if(pDialog != null)
+                    pDialog.dismissWithAnimation();
+                mJourney.setStatus(item.getStatus());
+                setupStatus();
+                mRiders = item.getRiders();
+                updateAdapter();
+                drawMarkers(mRiders);
+            }
+
+            @Override
+            public void onError(String err) {
+                if(pDialog != null)
+                    pDialog.dismissWithAnimation();
+                Toast.makeText(JourneyDetailActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        };
 
         mMapView.getMapAsync(this);
         mMapView.onCreate(savedInstanceState);
@@ -100,7 +128,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
 
-        refreshRiders();
+        refreshJourney();
 
     }
 
@@ -110,24 +138,26 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             btnComplete.setText("Complete");
             btnCancel.setVisibility(View.VISIBLE);
             btnComplete.setVisibility(View.VISIBLE);
-        }else if(mJourney.getStatus() == Journey.STATUS_CANCELLED){
+        }else {
+
             btnComplete.setVisibility(View.GONE);
-            btnCancel.setVisibility(View.VISIBLE);
             btnCancel.setText("Cancelled");
             btnComplete.setEnabled(false);
             btnCancel.setEnabled(false);
-        }else if(mJourney.getStatus() == Journey.STATUS_COMPLETED){
-            btnComplete.setVisibility(View.VISIBLE);
+
             btnCancel.setVisibility(View.GONE);
             btnComplete.setText("Completed");
-            btnComplete.setEnabled(false);
-            btnCancel.setEnabled(false);
         }
     }
 
-    private void refreshRiders() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        poolingRides.getRidersOfJourney(0,this);
+//    private void refreshRiders() {
+//        mSwipeRefreshLayout.setRefreshing(true);
+//        poolingRides.getRidersOfJourney(0,this);
+//    }
+    private void refreshJourney(){
+        showProgress("Refreshing");
+        PoolingJourney api = WebService.getInstance(this);
+        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 
     private void updateAdapter() {
@@ -150,67 +180,84 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mJourney.getStartPoint(),DEFAULT_ZOOM));
     }
-    public void openDialog(final Ride ride){
-
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_two_buttons);
-        Button btnAccept = dialog.findViewById(R.id.btnAccept);
-        Button btnReject = dialog.findViewById(R.id.btnReject);
+    public void openDialog(final Ride ride,int status){
 
 
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                acceptRider(ride);
-                dialog.dismiss();
-            }
-        });
-        btnReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rejectRider(ride);
-                dialog.dismiss();
-            }
-        });
+        if(status == Ride.STATUS_ACCEPTED){
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Are you sure?")
+                    .setContentText("Accept this Rider")
+                    .setConfirmText("Yes")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            acceptRider(ride);
 
-        dialog.show();
+                        }
+                    })
+                    .show();
+        }else if(status == Ride.STATUS_DRIVER_REJECTED){
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Are you sure?")
+                    .setContentText("Reject this Rider")
+                    .setConfirmText("Yes")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            rejectRider(ride);
+                        }
+                    })
+                    .show();
+        }
+
+
 
     }
 
+
     private void rejectRider(final Ride ride) {
+        showProgress("Rejecting");
         poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new IResponeTriger<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
+                pDialog.dismissWithAnimation();
                 //rider accepted
                 if(item){
+                    ServiceController.changeRideStatus(ride.getId(),"reject");
                     ride.setOrderStatus(Ride.STATUS_DRIVER_REJECTED);
                 }
-                if(adapter != null)
-                    adapter.notifyDataSetChanged();
+                updateRecycler();
             }
 
             @Override
             public void onError(String err) {
+            pDialog.dismissWithAnimation();
 
             }
         });
     }
 
     private void acceptRider(final Ride ride) {
+        showProgress("Accepting");
         poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new IResponeTriger<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
+                if(pDialog != null)
+                pDialog.dismissWithAnimation();
                 //rider accepted
                 if(item){
+                    ServiceController.changeRideStatus(ride.getId(),"accept");
                     ride.setOrderStatus(Ride.STATUS_ACCEPTED);
                 }
-                if(adapter != null)
-                    adapter.notifyDataSetChanged();
+                updateRecycler();
             }
 
             @Override
             public void onError(String err) {
-
+                if(pDialog != null)
+                pDialog.dismissWithAnimation();
             }
         });
     }
@@ -237,63 +284,45 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         }
     }
     public void changeStatus(int s){
-        tvStatus.setText("...");
-        mSwipeRefreshLayout.setRefreshing(true);
-        WebService.getInstance(this).changeJourneyStatusAndGetRiders(mJourney, s,this);
+        showProgress("Refreshing");
+        WebService.getInstance(this).changeJourneyStatusAndGetRiders(mJourney, s,trigerCustomJourney);
     }
 
     public void onClick(View view) {
-        ViewGroup viewGroup = (ViewGroup)findViewById(R.id.layout_container);
+
         int id = view.getId();
         switch (id){
             case R.id.btnCancel:
-                btnCancel.setEnabled(false);
-                btnComplete.setEnabled(false);
-                TransitionManager.beginDelayedTransition(viewGroup);
-                btnComplete.setVisibility(View.GONE);
-                btnCancel.setText("Cancelling..");
-                mJourney.setStatus(Journey.STATUS_CANCELLED);
-                updateRecycler();
-                changeStatus(Journey.STATUS_CANCELLED);
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("Cancel this journey?!")
+                        .setConfirmText("Yes")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                changeStatus(Journey.STATUS_CANCELLED);
+                                ServiceController.stopService(JourneyDetailActivity.this);
+                            }
+                        })
+                        .show();
+
+
                 break;
             case R.id.btnComplete:
-                btnCancel.setEnabled(false);
-                btnComplete.setEnabled(false);
-                TransitionManager.beginDelayedTransition(viewGroup);
-                btnCancel.setVisibility(View.GONE);
-                btnComplete.setText("Completing..");
-                mJourney.setStatus(Journey.STATUS_COMPLETED);
-                updateRecycler();
-                changeStatus(Journey.STATUS_COMPLETED);
+
+                changeStatus(Journey.STATUS_DRIVER_CLOSED);
                 break;
         }
     }
 
-    @Override
-    public void onResponse(final ArrayList<Ride> item) {
-        // update riders
-        if(mJourney.getStatus() == Journey.STATUS_CANCELLED){
-            AlarmController.cancelAlarm(this,mJourney);
-        }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setupStatus();
-                mRiders = item;
-                mSwipeRefreshLayout.setRefreshing(false);
-                updateAdapter();
-                drawMarkers(mRiders);
-            }
-        });
+    private void showProgress(String text){
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(text);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
-
-    @Override
-    public void onError(String err) {
-        mJourney.setStatus(prevStatus);
-        setupStatus();
-        updateAdapter();
-    }
-
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{
         ArrayList<Ride> rides = new ArrayList<>();
 
@@ -325,13 +354,15 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         }
 
         class MyJourneyHolder extends RecyclerView.ViewHolder{
-            private TextView tvName,tvRating;
-            private Button btnStatus;
+            private TextView tvName,tvRating,tvStatus;
+            private Button btnAccept,btnReject;
             private RatingBar ratingBar;
             private ImageView imageView;
             public MyJourneyHolder(View itemView) {
                 super(itemView);
-                btnStatus = itemView.findViewById(R.id.btnStatus);
+                btnAccept = itemView.findViewById(R.id.btnAccept);
+                btnReject = itemView.findViewById(R.id.btnReject);
+                tvStatus = itemView.findViewById(R.id.tvStatus);
                 tvName = itemView.findViewById(R.id.tvName);
                 tvRating = itemView.findViewById(R.id.tvRating);
                 ratingBar = itemView.findViewById(R.id.ratingBar);
@@ -339,21 +370,33 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             }
             public void bind(final Ride ride){
                 tvName.setText(ride.getUser().getFullname());
-                btnStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));
+                tvStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));
                 ratingBar.setRating(ride.getUser().getRating());
                 tvRating.setText(ride.getUser().getRating() + "/5");
 
                 if(ride.getUser().getImageurl() != null)
                     Glide.with(itemView.getContext()).load(ride.getUser().getImageurl()).apply(RequestOptions.circleCropTransform()).into(imageView);
-                if (ride.getOrderStatus() == Ride.STATUS_PENDING && mJourney.getStatus() == Journey.STATUS_PENDING)
-                    btnStatus.setEnabled(true);
-                else
-                    btnStatus.setEnabled(false);
-                btnStatus.setOnClickListener(new View.OnClickListener() {
+                if (ride.getOrderStatus() == Ride.STATUS_PENDING && mJourney.getStatus() == Journey.STATUS_PENDING){
+                    btnAccept.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                    tvStatus.setVisibility(View.GONE);
+                }
+                else{
+                    tvStatus.setVisibility(View.VISIBLE);
+                    tvStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));
+                    btnAccept.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                }
+                btnAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        btnStatus.setText("..");
-                        JourneyDetailActivity.this.openDialog(ride);
+                        JourneyDetailActivity.this.openDialog(ride,Ride.STATUS_ACCEPTED);
+                    }
+                });
+                btnReject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        JourneyDetailActivity.this.openDialog(ride,Ride.STATUS_DRIVER_REJECTED);
                     }
                 });
             }

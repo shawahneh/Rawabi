@@ -107,14 +107,13 @@
                     android:id="@+id/btnFrom"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:text="From"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:textColor="@color/colorAccent"
                     android:id="@+id/btnMeetingLoc"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:text="Meeting Loc"
+                    android:text="Meeting Location"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -123,8 +122,7 @@
                     android:id="@+id/btnTo"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:text="To"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>

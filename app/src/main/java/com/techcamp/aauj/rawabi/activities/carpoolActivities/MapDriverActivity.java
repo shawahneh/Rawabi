@@ -99,6 +99,12 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
         super.pressToMode(view);
         openPanel();
     }
+
+    @Override
+    public void pressTime(View view) {
+        super.pressTime(view);
+    }
+
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         super.onTimeSet(timePicker, i, i1);

@@ -83,7 +83,8 @@
 
         <receiver android:name=".receivers.AlarmReceiver" />
 
-        <activity android:name=".activities.listActivities.CalendarActivity" />
+        <activity android:name=".activities.listActivities.CalendarActivity"
+            android:theme="@style/AppTheme.No"/>
         <activity
             android:name=".activities.listActivities.TransportationActivity"
             android:theme="@style/AppTheme.No" />

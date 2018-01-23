@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">#fff</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme.No" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,6 +18,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">#fff</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
     <style name="AppTheme.Blue" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

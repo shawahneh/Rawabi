@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -217,9 +218,9 @@ public class HomeFragment extends Fragment {
         public Holder(View itemView)
         {
             super(itemView);
-            itemView.setOnClickListener(this);
 
             mImageView= (ImageView)itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(this);
             mTextView=(TextView)itemView.findViewById(R.id.textView);
             mSummeryTextView=(TextView)itemView.findViewById(R.id.summeryTextView);
             lineView= itemView.findViewById(R.id.lineView);
@@ -238,13 +239,15 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v)
         {
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(getActivity(), mImageView, "trImage");
             switch (mDashboardItem.getTag()){
                 case TAG_JOBS:
                     Intent i = new Intent(getContext(),JobsListActivity.class);
-                    startActivity(i);
+                    startActivity(i,options.toBundle());
                     break;
                 case TAG_TRANSPORTATION:
-                    startActivity(new Intent(getContext(),TransportationActivity.class));
+                    startActivity(new Intent(getContext(),TransportationActivity.class),options.toBundle());
                     break;
             }
         }

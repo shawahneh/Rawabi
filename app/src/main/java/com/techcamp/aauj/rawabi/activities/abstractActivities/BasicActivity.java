@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.R;
@@ -17,6 +18,8 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     public static final String ARG_BEAN = "bean";
     protected Fragment mFragment;
     protected TextView tvTitle;
+    protected ImageView imgTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,15 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
             fm.beginTransaction().replace(R.id.content,mFragment).commit();
         }
         tvTitle = findViewById(R.id.tvTitle);
+        imgTitle = findViewById(R.id.imgTitle);
         tvTitle.setText(getBarTitle());
+        imgTitle.setImageResource(getImage());
 //        setTitle(getBarTitle());
 
     }
+
+    protected abstract int getImage();
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection

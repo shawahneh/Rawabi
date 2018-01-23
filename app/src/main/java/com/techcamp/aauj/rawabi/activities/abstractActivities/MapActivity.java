@@ -285,7 +285,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         ((Button)view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
         drawPolyline();
     }
-    protected void pressTime(View view){
+    public void pressTime(View view){
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);

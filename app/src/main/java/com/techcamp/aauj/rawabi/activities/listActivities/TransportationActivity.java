@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.activities.listActivities;
 import android.support.v4.app.Fragment;
 
 import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.EmptyActivity;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.List2Activity;
@@ -16,6 +17,11 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.ListFragment;
  */
 
 public class TransportationActivity extends BasicActivity<Transportation> {
+
+    @Override
+    protected int getImage() {
+        return R.drawable.bus_notexture;
+    }
 
     @Override
     protected String getBarTitle() {

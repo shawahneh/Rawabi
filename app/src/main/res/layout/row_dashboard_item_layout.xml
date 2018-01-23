@@ -20,6 +20,7 @@
             android:padding="10dp">
 
             <ImageView
+                android:transitionName="trImage"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="70dp"
                 android:src="@drawable/car_withtexture"

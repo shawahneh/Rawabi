@@ -23,7 +23,7 @@ public class JobsListActivity extends BasicActivity<Job> {
 
     @Override
     protected String getBarTitle() {
-        return "Jobs";
+        return "JOBS";
     }
 
     @Override

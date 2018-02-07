@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public class MyPlace {
+
     private LatLng latLng;
 
     public LatLng getLatLng() {

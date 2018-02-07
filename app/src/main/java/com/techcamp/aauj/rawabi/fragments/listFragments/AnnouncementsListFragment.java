@@ -1,7 +1,6 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,8 +19,9 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.AnnouncmentDetailsActivity;
-import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
+import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
+import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
+import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    private class MyHolder extends ListFragment.Holder<Announcement>{
+    private class MyHolder extends Holder<Announcement> {
         private TextView mEventName,mEventDesc,mEventDate;
         private ImageView mEventImage;
         private View mView;
@@ -74,7 +73,7 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
             itemView.setOnClickListener(this);
         }
 
-        @Override
+
         public View details() {
             return mView.findViewById(R.id.layoutDetails);
         }
@@ -95,8 +94,8 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
 //        }
         @Override
         public void onClicked(View v) {
-            final int originalHeight = details().getHeight();
-            animationDown((LinearLayout) details(), originalHeight);//here put the name of you layout that have the options to expand.
+//            final int originalHeight = details().getHeight();
+//            animationDown((LinearLayout) details(), originalHeight);//here put the name of you layout that have the options to expand.
         }
 
         //Animation for devices with kitkat and below
@@ -157,7 +156,7 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
 
 
 
-    private class MyAdapter extends ListFragment.Adapter<Announcement>{
+    private class MyAdapter extends RecyclerAdapter<Announcement> {
 
         public MyAdapter(List<Announcement> items) {
             super(items);
@@ -165,7 +164,7 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
 
         @Override
         public int getLayoutId() {
-            return R.layout.row_announcment;
+            return R.layout.row_qcenter;
         }
 
         @Override

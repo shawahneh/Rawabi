@@ -1,6 +1,5 @@
 package com.techcamp.aauj.rawabi.fragments;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,13 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.jorgecastilloprz.FABProgressCircle;
+import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
 import com.techcamp.aauj.rawabi.API.CalendarWebApi;
 import com.techcamp.aauj.rawabi.API.PoolingJourney;
@@ -27,9 +25,11 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.CalendarActivity;
+import com.techcamp.aauj.rawabi.activities.listActivities.EventsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
+import com.techcamp.aauj.rawabi.activities.listActivities.MediaListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.TransportationActivity;
 
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG_JOBS = "tag_jobs";
     private static final String TAG_MEDIA = "tag_media";
     private static final String TAG_TRANSPORTATION = "tag_trans";
+    private static final String TAG_CARPOOL = "tag_carpool";
 
     private Button btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
     private IResponeTriger<ArrayList<Event>> trigerEvents;
     private TextView tvCarpool,tvWeather,tvEventName;
     private ProgressBar progressBar;
+    private ImageView imgWeather;
     public HomeFragment() {
     }
 
@@ -65,6 +67,8 @@ public class HomeFragment extends Fragment {
         tvWeather = view.findViewById(R.id.tvWeather);
         tvEventName= view.findViewById(R.id.tvEventName);
 
+        imgWeather = view.findViewById(R.id.imgWeather);
+
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +79,7 @@ public class HomeFragment extends Fragment {
         btnOpenCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), CalendarActivity.class);
+                Intent i = new Intent(getContext(), EventsListActivity.class);
                 startActivity(i);
             }
         });
@@ -147,6 +151,8 @@ public class HomeFragment extends Fragment {
 
         getWeather();
         getEventsToday();
+
+        Glide.with(getContext()).load("https://data.whicdn.com/images/245762463/original.gif").into(imgWeather);
         return view;
     }
 
@@ -193,17 +199,17 @@ public class HomeFragment extends Fragment {
         DashboardItem jobs = new DashboardItem(TAG_JOBS,getResources().getDrawable(R.drawable.job_notexture),"JOBS");
         DashboardItem media = new DashboardItem(TAG_MEDIA,getResources().getDrawable(R.drawable.media_notexture),"MEDIA");
         DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,getResources().getDrawable(R.drawable.bus_notexture),"Transportation");
-        DashboardItem media2 = new DashboardItem(TAG_MEDIA,getResources().getDrawable(R.drawable.car_notexture),"CARPOOL");
+        DashboardItem carpool = new DashboardItem(TAG_CARPOOL,getResources().getDrawable(R.drawable.car_notexture),"CARPOOL");
 
-        jobs.setSummery("Find and explore new jobs");
-        media.setSummery("explore Rawabi Media");
-        transportation.setSummery("See timetable");
+        jobs.setSummery("Bobs and Internships");
+        media.setSummery("Explore Rawabi Media");
+        transportation.setSummery("Public Buses Transportation");
 
         ArrayList<DashboardItem> items = new ArrayList<>();
         items.add(jobs);
         items.add(media);
         items.add(transportation);
-        items.add(media2);
+        items.add(carpool);
 
         return items;
     }
@@ -248,6 +254,12 @@ public class HomeFragment extends Fragment {
                     break;
                 case TAG_TRANSPORTATION:
                     startActivity(new Intent(getContext(),TransportationActivity.class),options.toBundle());
+                    break;
+                case TAG_MEDIA:
+                    startActivity(new Intent(getContext(),MediaListActivity.class),options.toBundle());
+                    break;
+                case TAG_CARPOOL:
+                    startActivity(new Intent(getContext(),QCenterActivity.class),options.toBundle());
                     break;
             }
         }

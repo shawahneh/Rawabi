@@ -9,10 +9,48 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/imgWeather"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:padding="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:tint="@color/qcenter"
+                    android:src="@drawable/logo_qcenter"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <TextView
+                    android:fontFamily="@font/abeezee"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Q-Center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
             app:cardCornerRadius="5dp"
             android:layout_margin="5dp"
@@ -89,6 +127,7 @@
         </android.support.design.widget.CoordinatorLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
+            app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="5dp"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
@@ -104,21 +143,21 @@
                 <TextView
                     android:text="Events today"
                     android:fontFamily="@font/abeezee"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:fontFamily="@font/comfortaa_light"
                     android:id="@+id/tvEventName"
                     android:text="see events today"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/btnOpenCalendar"
                     android:textColor="@color/colorAccent"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:text="Open Calendar"
+                    android:text="Show Events"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -129,26 +168,29 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:padding="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="Weather in Rawabi"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:fontFamily="@font/abeezee"
-                android:id="@+id/tvWeather"
-                android:textStyle="bold"
-                android:text="..."
-                android:textColor="@color/blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+
+
+                <LinearLayout
+                    android:padding="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Weather in Rawabi"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:fontFamily="@font/abeezee"
+                        android:id="@+id/tvWeather"
+                        android:textStyle="bold"
+                        android:text="..."
+                        android:textColor="@color/blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
     </LinearLayout>

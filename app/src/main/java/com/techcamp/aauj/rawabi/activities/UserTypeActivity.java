@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.carpoolActivities;
+package com.techcamp.aauj.rawabi.activities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapDriverActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.UserTypeFragment;
 
 public class UserTypeActivity extends AppCompatActivity implements UserTypeFragment.IUserTypeFragmenetListener {
@@ -19,7 +22,6 @@ public class UserTypeActivity extends AppCompatActivity implements UserTypeFragm
         setContentView(R.layout.activity_user_type);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(savedInstanceState == null)
             setFragment(new UserTypeFragment(),"tag");
     }

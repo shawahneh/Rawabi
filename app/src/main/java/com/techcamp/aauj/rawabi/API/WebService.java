@@ -22,6 +22,7 @@ import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -42,7 +43,7 @@ import java.util.logging.Handler;
  * Created by User on 11/15/2017.
  */
 
-public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,AnnouncmentWebApi,CalendarWebApi{
+public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,AnnouncmentWebApi,CalendarWebApi, BasicApi{
     Context context;
     private static WebService instance;
     public WebService(Context context){
@@ -227,12 +228,28 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
                 ArrayList<Announcement> dummyEvents = new ArrayList<>();
                 for(int i=0;i<3;i++){
 
-                    Announcement announcement = new Announcement();
-                    announcement.setDate(new Date());
-                    announcement.setName("Event name " +i);
-                    announcement.setDescription("Description ... " +i);
+                    Announcement announcement1 = new Announcement();
+                    announcement1.setDate(new Date());
+                    announcement1.setName("");
+                    announcement1.setDescription("Description ... " +i);
+                    announcement1.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/26907083_2009955205948738_1687566795894215353_n.jpg?oh=80ba2e78704a59233b9f4a287220d8bc&oe=5B262BBB");
+                    dummyEvents.add(announcement1);
 
-                    dummyEvents.add(announcement);
+
+                    Announcement announcement2 = new Announcement();
+                    announcement2.setDate(new Date());
+                    announcement2.setName("TOMMY HILFIGER, PAUL&SHARK");
+                    announcement2.setDescription("Description ... " +i);
+                    announcement2.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/26173178_1995119340765658_5030634414212496139_o.jpg?oh=b70574238d7dd0e166d7c07325371426&oe=5ADE543D");
+                    dummyEvents.add(announcement2);
+
+                    Announcement announcement3 = new Announcement();
+                    announcement3.setDate(new Date());
+                    announcement3.setName("دورة تأسيسية لتعليم الأطفال الشطرنج");
+                    announcement3.setDescription("Description ... " +i);
+                    announcement3.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/25354153_1987912081486384_6247984867950597829_n.jpg?oh=a947fb219a2c6c1575a1fb50f87a6d28&oe=5AE0722E");
+                    dummyEvents.add(announcement3);
+
                 }
 
                 eventITriger.onResponse(dummyEvents);
@@ -246,15 +263,15 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
             @Override
             public void run() {
                 ArrayList<Job> dummyEvents = new ArrayList<>();
-                for(int i=0;i<3;i++){
-
-                    Job announcement = new Job();
-                    announcement.setDate(new Date());
-                    announcement.setName("Event name " +i);
-                    announcement.setDescription("Description ... " +i);
-
-                    dummyEvents.add(announcement);
-                }
+//                for(int i=0;i<3;i++){
+//
+//                    Job announcement = new Job();
+//                    announcement.setDate(new Date());
+//                    announcement.setName("Event name " +i);
+//                    announcement.setDescription("Description ... " +i);
+//
+//                    dummyEvents.add(announcement);
+//                }
 
                 triger.onResponse(dummyEvents);
             }
@@ -302,16 +319,22 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
 
                     Event event = new Event();
                     event.setDate(new Date());
-                    event.setName("Event name " +i);
+                    event.setName("Tech Talk at COnnect - The Myth of the Visionary");
                     event.setDescription("Description ... " +i);
-
+                    event.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/27500564_217423392159403_6308589131273449865_o.jpg?oh=57bccd73d39fd59e4feccd01d945db68&oe=5B251B42");
                     dummyEvents.add(event);
                 }
                 Event event = new Event();
                 event.setDate(new Date());
-                event.setName("Event name");
-                event.setDescription("Description ...");
-                event.setImageUrl("http://edugate.aauj.edu/faces/javax.faces.resource/images/logo1.png?ln=demo");
+                event.setName("Tech Talk at COnnect - The Myth of the Visionary");
+                event.setDescription("Many believe that people are born to be successful entrepreneurs – that a “Eureka moment” gifts those people with a great idea and the ability to see the future and that the market will beat a path to their door.\n" +
+                        "\n" +
+                        "But that is a myth. Brant’s talk empowers startup founders to make the changes they want to see in the world. Using lean innovation principles — Empathy, Experiments and Evidence — anyone willing to hustle, persevere, act bold can “learn” their way to success.\n" +
+                        "Whether you are just forming an idea or have already started your own business, this talk has something for entrepreneurs at any stage.\n" +
+                        "\n" +
+                        "Speaker Biography:\n" +
+                        "Brant Cooper is the CEO of Moves the Needle and author of the New York Times best seller The Lean Entrepreneur. He also serves as an advisor to entrepreneurs, accelerators and corporate innovation teams. With over a decade of expertise helping companies bring innovative products to market, he blends design thinking and lean methodology to ignite entrepreneurial action within large organizations. He has been in leadership roles in notable startups such as: Tumbleweed, Timestamp, WildPackets, inCode, and more. His current venture, Moves The Needle, empowers organizations to be closer to customers, move faster, and act bolder.");
+                event.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/27500564_217423392159403_6308589131273449865_o.jpg?oh=57bccd73d39fd59e4feccd01d945db68&oe=5B251B42");
 
                 dummyEvents.add(event);
                 dummyEvents.add(event);
@@ -320,5 +343,30 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
             }
         },1000);
 
+    }
+
+    @Override
+    public void getEvents(IResponeTriger<ArrayList<Event>> triger) {
+        getEventAtDate(new Date(),triger);
+    }
+
+    @Override
+    public void getMedia(final IResponeTriger<ArrayList<MediaItem>> triger) {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<MediaItem> dummyMedia = new ArrayList<>();
+                for(int i=0;i<3;i++){
+
+                    MediaItem item = new MediaItem();
+                    item.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/27500564_217423392159403_6308589131273449865_o.jpg?oh=57bccd73d39fd59e4feccd01d945db68&oe=5B251B42");
+
+                    dummyMedia.add(item);
+
+                }
+
+                triger.onResponse(dummyMedia);
+            }
+        },1000);
     }
 }

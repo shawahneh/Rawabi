@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.fragments.listFragments.ListFragment;
 
 public abstract class List2Activity<T> extends AppCompatActivity {
     protected T mBean;

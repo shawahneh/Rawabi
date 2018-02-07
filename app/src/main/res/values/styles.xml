@@ -44,6 +44,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">#fff</item>
     </style>
+    <style name="AppTheme.Basic" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/city</item>
+        <item name="colorPrimaryDark">@color/city</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorTertiary">#fff</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

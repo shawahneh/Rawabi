@@ -622,6 +622,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
+    public void getEvents(IResponeTriger<ArrayList<Event>> triger) {
+
+    }
+
+    @Override
     public void getAnnouns(IResponeTriger<ArrayList<Announcement>> eventITriger) {
 
     }

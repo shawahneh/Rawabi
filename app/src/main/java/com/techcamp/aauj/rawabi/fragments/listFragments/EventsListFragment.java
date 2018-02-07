@@ -8,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
+import com.techcamp.aauj.rawabi.API.CalendarWebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.JobDetailsActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
@@ -21,13 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 12/31/2017.
+ * Created by alaam on 2/1/2018.
  */
 
-public class JobsListFragment extends ListFragment implements IResponeTriger<ArrayList<Job>> {
-    AnnouncmentWebApi api = WebService.getInstance(getContext());
+public class EventsListFragment extends ListFragment implements IResponeTriger<ArrayList<Event>>{
+    CalendarWebApi mCalendarWebApi = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
-        Fragment fragment = new JobsListFragment();
+        Fragment fragment = new EventsListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_NUM_OF_COLS,numberOfCols);
         fragment.setArguments(bundle);
@@ -35,17 +37,17 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
     }
     @Override
     public void setupRecyclerViewAdapter() {
-        api.getJobs(this);
+        mCalendarWebApi.getEvents(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void onResponse(ArrayList<Job> value) {
+    public void onResponse(ArrayList<Event> value) {
         mSwipeRefreshLayout.setRefreshing(false);
         if(isAdded()){{
             //  available
             if(value.size() <= 0){
-                showMessageLayout("No internet connection",R.drawable.ic_signal_wifi_off_black_48dp);
+                showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(value);
@@ -57,10 +59,11 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
 
     @Override
     public void onError(String err) {
-        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
-    private class MyHolder extends com.techcamp.aauj.rawabi.abstractAdapters.Holder<Job> {
+
+    private class MyHolder extends Holder<Event> {
         private TextView mEventName,mEventDesc,mEventDate;
         private ImageView mEventImage;
         public MyHolder(View view) {
@@ -74,33 +77,33 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
         }
 
         @Override
-        public void bind(Job job, int pos) {
-            mEventDesc.setText(job.getDescription());
-            mEventDate.setText(job.getRealDate());
-            mEventName.setText(job.getName());
-            if(job.getImageUrl() != null)
-                Glide.with(getContext()).load(job.getImageUrl()).into(mEventImage);
+        public void bind(Event event, int pos) {
+            super.bind(event,pos);
+            mEventDesc.setText(event.getDescription());
+            mEventDate.setText(event.getRealDate());
+            mEventName.setText(event.getName());
+            if(event.getImageUrl() != null)
+                Glide.with(getContext()).load(event.getImageUrl()).into(mEventImage);
         }
         @Override
         public void onClicked(View v) {
-            Intent i = JobDetailsActivity.getIntent(getContext(),mItem);
-            startActivity(i);
+
         }
 
     }
-    private class MyAdapter extends RecyclerAdapter<Job> {
+    private class MyAdapter extends RecyclerAdapter<Event> {
 
-        public MyAdapter(List<Job> items) {
+        public MyAdapter(List<Event> items) {
             super(items);
         }
 
         @Override
         public int getLayoutId() {
-            return R.layout.row_job;
+            return R.layout.row_event;
         }
 
         @Override
-        public com.techcamp.aauj.rawabi.abstractAdapters.Holder getNewHolder(View v) {
+        public Holder getNewHolder(View v) {
             return new MyHolder(v);
         }
     }

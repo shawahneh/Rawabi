@@ -13,4 +13,5 @@ import java.util.Date;
 
 public interface CalendarWebApi {
     void getEventAtDate(Date date, IResponeTriger<ArrayList<Event>> eventITriger);
+    void getEvents(IResponeTriger<ArrayList<Event>> triger); // get all events
 }

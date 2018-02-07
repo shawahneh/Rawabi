@@ -1,20 +1,17 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
-import com.techcamp.aauj.rawabi.fragments.LoginFragment;
-import com.techcamp.aauj.rawabi.fragments.RegisterFragment;
+import com.techcamp.aauj.rawabi.fragments.carpoolFragments.LoginFragment;
+import com.techcamp.aauj.rawabi.fragments.carpoolFragments.RegisterFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class LoginRegisterActivity extends AppCompatActivity {

@@ -2,29 +2,28 @@ package com.techcamp.aauj.rawabi.activities.listActivities;
 
 import android.support.v4.app.Fragment;
 
-import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
-import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
+import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 
 /**
- * Created by alaam on 1/1/2018.
+ * Created by alaam on 2/2/2018.
  */
 
-public class TransportationActivity extends BasicActivity<Transportation> {
-
+public class EventsListActivity extends BasicActivity<Event> {
     @Override
     protected int getImage() {
-        return R.drawable.bus_notexture;
+        return R.drawable.media_notexture;
     }
 
     @Override
     protected String getBarTitle() {
-        return "Transportation";
+        return "Events";
     }
 
     @Override
     public Fragment getFragment() {
-        return new TransportationPageFragment();
+        return EventsListFragment.newInstance(1);
     }
 }

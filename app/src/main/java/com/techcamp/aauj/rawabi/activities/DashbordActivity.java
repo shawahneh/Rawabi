@@ -61,7 +61,7 @@ public class DashbordActivity extends AppCompatActivity
         TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
         tbl_pages.setupWithViewPager(vp_pages);
         tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
-        tbl_pages.getTabAt(1).setIcon(R.drawable.logo_qcenter);
+        tbl_pages.getTabAt(1).setIcon(R.drawable.news_48px);
         tbl_pages.getTabAt(0).setTag("home");
         tbl_pages.getTabAt(1).setTag("qcenter");
 

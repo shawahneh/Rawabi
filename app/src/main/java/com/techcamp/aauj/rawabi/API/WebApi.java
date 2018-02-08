@@ -403,7 +403,7 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
     @Override
-    public void getJourneyDetails(int id, IResponeTriger<CustomJourney> journey) {
+    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
 
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface PoolingJourney {
     public void getJourneys(int userId,int limitStart,int limitNum,IResponeTriger<ArrayList<Journey>> journeys);
-    public void getJourneyDetails(int id,IResponeTriger<CustomJourney> journey);
+    public void getJourneyDetails(int id,IResponeTriger<Journey> journey);
     void setNewJourney(Journey newJourney,IResponeTriger<Integer> journeyId);
     void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys);
         //sortBy: 1-> Distance, 2-> Time

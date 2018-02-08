@@ -130,10 +130,10 @@ public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,Announ
     }
 
     @Override
-    public void getJourneyDetails(int id, IResponeTriger<CustomJourney> triger) {
+    public void getJourneyDetails(int id, IResponeTriger<Journey> triger) {
         Journey journey1 = new Journey();
         journey1.setId(id);
-        changeJourneyStatusAndGetRiders(journey1,Journey.STATUS_PENDING,triger);
+//        changeJourneyStatusAndGetRiders(journey1,Journey.STATUS_PENDING,triger);
     }
 
     @Override

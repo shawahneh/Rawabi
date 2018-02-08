@@ -157,7 +157,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private void refreshJourney(){
         showProgress("Refreshing");
         PoolingJourney api = WebService.getInstance(this);
-        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
+//        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 
     private void updateAdapter() {

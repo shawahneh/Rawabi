@@ -7,12 +7,12 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="10dp"
-    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity">
+    tools:context="com.techcamp.aauj.rawabi.fragments.carpoolFragments.ProfileFragment">
     <ImageView
         android:id="@+id/imageView"
         android:src="@mipmap/ic_launcher"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
     <TextView
         android:id="@+id/tvName"
         android:textColor="@color/black"
@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.CardView
+        app:cardBackgroundColor="@color/green"
         app:cardCornerRadius="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -35,12 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:textColor="@color/white"
                 android:id="@+id/btnMyRides"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:text="My Rides"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
+                android:textColor="@color/white"
                 android:id="@+id/btnMyJourneys"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:text="My Journeys"
@@ -50,6 +53,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        app:cardBackgroundColor="@color/green"
         app:cardCornerRadius="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -59,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:textColor="@color/white"
                 android:id="@+id/btnEditProfile"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:text="Edit profile"
@@ -74,3 +79,4 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
+

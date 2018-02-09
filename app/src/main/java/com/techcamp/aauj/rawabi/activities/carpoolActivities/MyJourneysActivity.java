@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 
 public class MyJourneysActivity extends ListActivity<Journey> {
-    PoolingJourney poolingJourney = WebService.getInstance(this);
+    CarpoolApi poolingJourney = WebService.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

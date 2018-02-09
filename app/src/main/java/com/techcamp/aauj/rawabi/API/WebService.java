@@ -43,7 +43,7 @@ import java.util.logging.Handler;
  * Created by User on 11/15/2017.
  */
 
-public class WebService implements PoolingJourney,PoolingRides,AuthWebApi,AnnouncmentWebApi,CalendarWebApi, BasicApi{
+public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     Context context;
     private static WebService instance;
     public WebService(Context context){

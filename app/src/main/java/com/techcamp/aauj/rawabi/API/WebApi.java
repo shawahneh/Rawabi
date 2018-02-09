@@ -19,6 +19,7 @@ import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
@@ -44,8 +45,8 @@ import java.util.Map;
  * Created by alaam on 11/15/2017.
  */
 
-public class WebApi implements CalendarWebApi,AnnouncmentWebApi,AuthWebApi ,
-PoolingJourney,PoolingRides,PoolingPlace{
+public class WebApi implements BasicApi,AuthWebApi
+,CarpoolApi{
     public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
     RequestQueue requestQueue;
     private static WebApi instance;
@@ -107,13 +108,8 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
 
 
-    public Boolean isLogin(){
-
-        if(mContext != null) {
-            SharedPreferences sp = mContext.getSharedPreferences("db", Context.MODE_PRIVATE);
-            return sp.getBoolean("login", false);
-        }
-        return false;
+    public Boolean isLogin() {
+        return mContext != null && SPController.getLocalUser(mContext) != null;
     }
     @Nullable
     public User getLocalUser(){
@@ -481,22 +477,6 @@ PoolingJourney,PoolingRides,PoolingPlace{
     }
 
 
-    @Override
-    public void getPlaces(IResponeTriger<List<MyPlace>> listIResponeTriger) {
-        // TODO: 12/7/2017
-        // Dummy places
-        ArrayList<MyPlace> places = new ArrayList<>();
-        for (int i =0;i<10;i++){
-        MyPlace place = new MyPlace();
-        place.setName("place #"+i);
-        place.setSummery("s#"+i);
-        place.setImageurl(null);
-
-        places.add(place);
-        }
-        listIResponeTriger.onResponse(places);
-    }
-
     //DONE
     @Override
     public void getRides(int userId, int limitStart, int limitNum, final IResponeTriger<ArrayList<Ride>> rides) {
@@ -643,6 +623,11 @@ PoolingJourney,PoolingRides,PoolingPlace{
 
     @Override
     public void getWeather(IResponeTriger<String> triger) {
+
+    }
+
+    @Override
+    public void getMedia(IResponeTriger<ArrayList<MediaItem>> triger) {
 
     }
 }

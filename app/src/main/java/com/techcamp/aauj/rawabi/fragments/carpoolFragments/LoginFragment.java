@@ -16,6 +16,7 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
@@ -23,17 +24,15 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 public class LoginFragment extends Fragment {
 
     private EditText mEditTextEmail,mEditTextPassword;
-    private AuthWebApi mAuthWebApi = WebService.getInstance(getContext());
+    private AuthWebApi mAuthWebApi = WebApi.getInstance(getContext());
     SweetAlertDialog pDialog;
     public LoginFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
         View btn = view.findViewById(R.id.btnLogin);
         mEditTextEmail = view.findViewById(R.id.txtEmail);
@@ -50,10 +49,15 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void onResponse(User item) {
                                 pDialog.dismissWithAnimation();
+                                if (item != null){
+
                                 SPController.saveLocalUser(getContext(),item);
-                                    Intent i = new Intent(getContext(), UserTypeActivity.class);
+                                    Intent i = new Intent(getContext(), CarpoolMainActivity.class);
                                     getActivity().finish();
                                     startActivity(i);
+                                }else{
+                                    onError("errror");
+                                }
                             }
 
                             @Override

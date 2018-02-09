@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.techcamp.aauj.rawabi.API.PoolingRides;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class MyRiderActivity extends ListActivity<Ride> {
-    PoolingRides poolingRides = WebService.getInstance(this);
+    CarpoolApi poolingRides = WebService.getInstance(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

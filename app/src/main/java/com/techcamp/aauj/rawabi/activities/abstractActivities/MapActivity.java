@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -81,6 +82,9 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mLastKnownLocation;
 
+    private View layoutMessage;
+    private TextView tvMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,45 +93,32 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Construct a GeoDataClient.
         mProgressBarLoading = findViewById(R.id.progressBar);
+        layoutMessage = findViewById(R.id.layoutMessage);
+        tvMessage = findViewById(R.id.tvMessage);
+
+
         startLoading(false);
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
-        // Construct a PlaceDetectionClient.
-//        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
 
-        // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (savedInstanceState != null) {
-//            mCurrentLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-//            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-        }
         setupMap();
 
         enableGetLocation();
 
-//        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-//                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-//
-//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(Place place) {
-//                // TODO: Get info about the selected place.
-//                mapGoTo(place.getLatLng());
-//                Log.i(TAG, "Place: " + place.getName());
-//            }
-//
-//            @Override
-//            public void onError(Status status) {
-//                // TODO: Handle the error.
-//                Log.i(TAG, "An error occurred: " + status);
-//            }
-//        });
+        hideMessage();
 
     }
 
     protected abstract int getLayout();
 
+    protected void hideMessage(){
+        layoutMessage.setVisibility(View.GONE);
+    }
+    protected void showMessage(String msg){
+        layoutMessage.setVisibility(View.VISIBLE);
+        tvMessage.setText(msg);
+    }
 
     private void setupMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

@@ -18,7 +18,7 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     public static final String ARG_BEAN = "bean";
     protected Fragment mFragment;
     protected TextView tvTitle;
-    protected ImageView imgTitle;
+    protected ImageView imgTitle,imgBackground,imgTop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,24 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         }
         tvTitle = findViewById(R.id.tvTitle);
         imgTitle = findViewById(R.id.imgTitle);
+        imgBackground = findViewById(R.id.imgBackground);
+        imgTop = findViewById(R.id.imgTop);
+
+
+
         tvTitle.setText(getBarTitle());
         imgTitle.setImageResource(getImage());
-//        setTitle(getBarTitle());
+        imgBackground.setImageResource(getImageBackground());
+        imgTop.setImageResource(getImageTop());
 
+    }
+
+    protected int getImageTop() {
+        return R.drawable.logo;
+    }
+
+    protected int getImageBackground() {
+        return R.drawable.city;
     }
 
     protected abstract int getImage();

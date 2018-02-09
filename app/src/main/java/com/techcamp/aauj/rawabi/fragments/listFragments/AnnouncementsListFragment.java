@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
+import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class AnnouncementsListFragment extends ListFragment implements IResponeTriger<ArrayList<Announcement>> {
-    AnnouncmentWebApi api = WebService.getInstance(getContext());
+    BasicApi api = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new AnnouncementsListFragment();
         Bundle bundle = new Bundle();

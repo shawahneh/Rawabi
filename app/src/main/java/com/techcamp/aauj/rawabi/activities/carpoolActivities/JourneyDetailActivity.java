@@ -1,15 +1,10 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
-import android.app.Dialog;
 import android.graphics.Color;
-import android.support.transition.Transition;
-import android.support.transition.TransitionManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +23,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
-import com.techcamp.aauj.rawabi.API.PoolingRides;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
@@ -44,7 +37,7 @@ import com.techcamp.aauj.rawabi.utils.StringUtil;
 import java.util.ArrayList;
 
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-    PoolingRides poolingRides = WebService.getInstance(this);
+    CarpoolApi poolingRides = WebService.getInstance(this);
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
     private Journey mJourney;
@@ -156,7 +149,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 //    }
     private void refreshJourney(){
         showProgress("Refreshing");
-        PoolingJourney api = WebService.getInstance(this);
+        CarpoolApi api = WebService.getInstance(this);
 //        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 

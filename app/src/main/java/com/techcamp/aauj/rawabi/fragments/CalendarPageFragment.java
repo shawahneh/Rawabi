@@ -3,7 +3,6 @@ package com.techcamp.aauj.rawabi.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -19,14 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.techcamp.aauj.rawabi.API.CalendarWebApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.IResponeTriger;
-import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.EventDetailsActivity;
 
@@ -39,7 +35,7 @@ import java.util.Date;
 public class CalendarPageFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
 
     private CalendarView mCalendarView;
-    private CalendarWebApi mCalendarWebApi = WebService.getInstance(getContext());
+    private BasicApi mCalendarWebApi = WebService.getInstance(getContext());
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private SweetAlertDialog  pDialog;

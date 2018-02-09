@@ -12,6 +12,8 @@ import java.util.Date;
  */
 
 public class User implements Parcelable{
+    public static final int MALE = 0;
+    public static final int FEMALE = 1;
     private String fullname;
     private int gender;
     private Date birthdate;

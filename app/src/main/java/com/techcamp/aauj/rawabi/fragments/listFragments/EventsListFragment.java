@@ -1,6 +1,5 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,15 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.CalendarWebApi;
+import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
-import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.JobDetailsActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ import java.util.List;
  */
 
 public class EventsListFragment extends ListFragment implements IResponeTriger<ArrayList<Event>>{
-    CalendarWebApi mCalendarWebApi = WebService.getInstance(getContext());
+    BasicApi mCalendarWebApi = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new EventsListFragment();
         Bundle bundle = new Bundle();

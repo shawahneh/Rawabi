@@ -18,15 +18,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
-import com.techcamp.aauj.rawabi.API.CalendarWebApi;
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.EventsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.MediaListActivity;
@@ -72,8 +74,14 @@ public class HomeFragment extends Fragment {
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(WebApi.getInstance(getContext()).isLogin()){
+                    Intent i = new Intent(getContext(), CarpoolMainActivity.class);
+                    startActivity(i);
+                }else{
+
                 Intent i = new Intent(getContext(), LoginRegisterActivity.class);
                 startActivity(i);
+                }
             }
         });
         btnOpenCalendar.setOnClickListener(new View.OnClickListener() {
@@ -157,12 +165,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void getEventsToday() {
-        CalendarWebApi api = WebService.getInstance(getActivity());
+        BasicApi api = WebService.getInstance(getActivity());
         api.getEventAtDate(new Date(),trigerEvents);
     }
 
     private void getWeather() {
-        AnnouncmentWebApi api = WebService.getInstance(getActivity());
+        BasicApi api = WebService.getInstance(getActivity());
         api.getWeather(trigerWeather);
     }
 
@@ -170,7 +178,7 @@ public class HomeFragment extends Fragment {
         if(progressBar.getVisibility() == View.VISIBLE)
             return;
         tvCarpool.setText("Looking for a ride?");
-        PoolingJourney api = WebService.getInstance(getActivity());
+        CarpoolApi api = WebService.getInstance(getActivity());
         api.getNumberOfJourneys(trigerCars);
         progressBar.setVisibility(View.VISIBLE);
 

@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -42,7 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CarpoolActivity extends AppCompatActivity implements OnMapReadyCallback{
-    private PoolingJourney mPoolingJourney = WebApi.getInstance(this);
+    private CarpoolApi mPoolingJourney = WebApi.getInstance(this);
     private static final int TYPE_MARK_START = 0;
     private static final int TYPE_MARK_END = 1;
     private GoogleMap mMap;

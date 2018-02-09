@@ -15,13 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.IResponeTriger;
-import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class AnnouncmentFragment extends Fragment implements IResponeTriger<Arra
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private AnnouncmentWebApi mAnnouncmentWebApi = WebService.getInstance(getContext());
+    private BasicApi mAnnouncmentWebApi = WebService.getInstance(getContext());
     public AnnouncmentFragment() {
     }
 

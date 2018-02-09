@@ -1,30 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:background="@color/white"
     android:padding="10dp"
-    android:background="@color/colorPrimary"
-    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity">
+    tools:context="com.techcamp.aauj.rawabi.fragments.carpoolFragments.CarpoolMainFragment">
 
     <ImageView
-        android:src="@drawable/car_notexture"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:id="@+id/imgProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <TextView
+        android:id="@+id/tvName"
+        android:text="Name here"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:fontFamily="@font/abeezee"
-        android:textColor="@color/white"
-        android:text="@string/carpool"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:text="You are a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/white"
-        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@color/green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -33,24 +41,20 @@
             android:layout_height="wrap_content">
             <Button
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:textColor="@color/green"
-                android:id="@+id/btnLogin"
-                android:text="Login"
+                android:textColor="@color/white"
+                android:id="@+id/btnRider"
+                android:text="Rider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
-                android:textColor="@color/green"
+                android:textColor="@color/white"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:id="@+id/btnRegister"
-                android:text="Register"
+                android:id="@+id/btnDriver"
+                android:text="Driver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>

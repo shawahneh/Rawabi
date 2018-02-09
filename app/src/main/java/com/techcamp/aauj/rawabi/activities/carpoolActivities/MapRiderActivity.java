@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -36,7 +36,7 @@ import java.util.Date;
 
 public class MapRiderActivity extends MapActivity {
     //mMap
-    private PoolingJourney webApi = WebApi.getInstance(this);
+    private CarpoolApi webApi = WebApi.getInstance(this);
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
     private ArrayList<Journey> mJourneys;
@@ -142,6 +142,10 @@ public class MapRiderActivity extends MapActivity {
                         mJourneys = item;
                         startLoading(false);
                         drawJourneys(mJourneys);
+                        if(mJourneys.size() > 0)
+                            showMessage("There is " + mJourneys.size() + " " + "Drivers available");
+                        else
+                            showMessage("No drivers available");
                     }
                 });
 

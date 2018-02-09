@@ -10,14 +10,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.techcamp.aauj.rawabi.API.PoolingJourney;
+import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
-import com.techcamp.aauj.rawabi.controllers.AlarmController;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.controllers.ServiceController;
 
@@ -28,7 +27,7 @@ import java.util.Date;
  */
 
 public class MapDriverActivity extends MapActivity implements IResponeTriger<Integer>{
-    private PoolingJourney poolingJourney = WebService.getInstance(this);
+    private CarpoolApi poolingJourney = WebService.getInstance(this);
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;
     private Button btnContinue,btnCreateJourney;

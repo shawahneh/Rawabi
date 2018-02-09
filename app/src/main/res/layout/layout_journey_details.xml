@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     >
 
     <Button
@@ -40,6 +42,8 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:textColor="@color/white"
+        android:backgroundTint="@color/green"
         android:id="@+id/btnCreateJourney"
         android:text="Create journey"
         android:layout_width="match_parent"

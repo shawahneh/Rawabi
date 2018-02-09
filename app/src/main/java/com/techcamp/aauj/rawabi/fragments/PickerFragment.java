@@ -11,11 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.PoolingPlace;
-import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.IResponeTriger;
 
 import java.util.List;
 
@@ -52,18 +49,7 @@ public class PickerFragment extends ItemFragment {
     }
 
     private void getPlaces() {
-        PoolingPlace poolingPlace = WebApi.getInstance(getContext());
-        poolingPlace.getPlaces(new IResponeTriger<List<MyPlace>>() {
-            @Override
-            public void onResponse(List<MyPlace> item) {
-                updateRecycler(item);
-            }
 
-            @Override
-            public void onError(String err) {
-
-            }
-        });
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder>{

@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class SPController {
     public static User getLocalUser(Context context){
-        SharedPreferences sp = context.getSharedPreferences("db",Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences("dbUser",Context.MODE_PRIVATE);
 
         String username = sp.getString("username",null);
         String password = sp.getString("password",null);
@@ -35,13 +35,18 @@ public class SPController {
         return user;
     }
     public static void saveLocalUser(Context context, User user){
-        SharedPreferences sp = context.getSharedPreferences("db",Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences("dbUser",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
+        if(user == null){
+            editor.clear();
+        }else{
+
         editor.putString("username",user.getUsername());
         editor.putString("password",user.getPassword());
         editor.putString("name",user.getFullname());
         editor.putInt("id",user.getId());
         editor.putString("imageurl",user.getImageurl());
+        }
         editor.apply();
     }
     public static void savePendingJourney(Context context, Journey journey){

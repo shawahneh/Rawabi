@@ -21,7 +21,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
         MapUtil.getCurrentLoc(this,null);
-        setPerson();
         if(savedInstanceState == null){
             setFragment(new LoginFragment(),"tag");
         }
@@ -43,17 +42,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void setPerson() {
-        User user = new User();
-        user.setFullname("Driver1 driver");
-        user.setPhone("0599");
-        user.setUsername("driver1");
-        user.setPassword("driver1");
-        user.setId(1);
-        user.setImageurl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
-        SPController.saveLocalUser(this,user);
-
-    }
 
     private void setFragment(Fragment fragment, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();

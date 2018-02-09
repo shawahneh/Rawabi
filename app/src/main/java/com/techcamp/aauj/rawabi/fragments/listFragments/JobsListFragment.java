@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.AnnouncmentWebApi;
+import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 public class JobsListFragment extends ListFragment implements IResponeTriger<ArrayList<Job>> {
-    AnnouncmentWebApi api = WebService.getInstance(getContext());
+    BasicApi api = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new JobsListFragment();
         Bundle bundle = new Bundle();

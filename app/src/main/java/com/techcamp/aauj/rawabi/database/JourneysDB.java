@@ -1,43 +1,146 @@
 package com.techcamp.aauj.rawabi.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by alaam on 12/24/2017.
  */
 
-public class JourneysDB extends DBHelper {
-    public JourneysDB(Context context) {
-        super(context);
+public class JourneysDB<B extends Journey,T extends JourneyTable> extends DBHelper<Journey> {
+
+    private static JourneysDB instance;
+    public static JourneysDB getInstance(Context context){
+        if(instance == null){
+            instance = new JourneysDB(context);
+        }
+        return instance;
     }
 
-    public static final String TABLE_NAME = "journeys";
-    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
-            + Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
-            + Cols.COL_UID + " integer ,"
-            + Cols.COL_StartPointX + " real ,"
-            + Cols.COL_StartPointY + " real ,"
-            + Cols.COL_EndPointX + " real ,"
-            + Cols.COL_EndPointY + " real ,"
-            + Cols.COL_Seats + " integer ,"
-
-            + Cols.COL_GoingDate + " integer ,"
-            + Cols.COL_GenderPrefer + " integer ,"
-            + Cols.COL_CarDescription + " varchar ,"
-            + Cols.COL_Status + " integer"
-
-            + ")";
-    class Cols{
-        public static final String COL_ID = "jid";
-        public static final String COL_UID = "uid";
-        public static final String COL_StartPointX = "startPointX";
-        public static final String COL_StartPointY = "startPointY";
-        public static final String COL_EndPointX = "endPointX";
-        public static final String COL_EndPointY = "endPointY";
-        public static final String COL_Seats = "seats";
-        public static final String COL_GoingDate = "goingDate";
-        public static final String COL_GenderPrefer = "genderPrefer";
-        public static final String COL_CarDescription = "carDescription";
-        public static final String COL_Status = "status";
+    private JourneysDB(Context context) {
+        super(context,Journey.class);
     }
+
+
+    public int saveBean(B bean)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        fillValuesFromBean(bean, values);
+
+        if(this.getBeanById(bean.getId()) != null)
+        {
+            db.update(T.TBL_NAME, values, T.Cols.COL_ID + " = ?",
+                    new String[]{bean.getId()+""});
+        }
+        else
+            db.insert(T.TBL_NAME, null, values);
+
+        return 1;
+    }
+
+    public B getBeanById(int id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        B bean = null;
+        Cursor rs = null;
+        try {
+            rs = db.query(T.TBL_NAME, null
+                    , T.Cols.COL_ID + "=?", new String[]{id+""}, null, null, null);
+            if (rs.moveToFirst()) {
+                bean = (B)newBean();
+                fillBeanFromCursor(rs, bean);
+            }
+        }finally {
+            if (rs != null)
+                rs.close();
+        }
+        return bean;
+    }
+
+
+
+    @Override
+    protected String getTableName() {
+        return T.TBL_NAME;
+    }
+
+    @Override
+    protected void fillBeanFromCursor(Cursor rs, Journey bean) {
+        bean.setId(rs.getInt(rs.getColumnIndex(T.Cols.COL_ID)));
+        bean.setStatus(rs.getInt(rs.getColumnIndex(T.Cols.COL_Status)));
+        bean.setGoingDate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.COL_GoingDate))));
+        bean.setCarDescription(rs.getString(rs.getColumnIndex(T.Cols.COL_CarDescription)));
+        bean.setGenderPrefer(rs.getInt(rs.getColumnIndex(T.Cols.COL_GenderPrefer)));
+        bean.setSeats(rs.getInt(rs.getColumnIndex(T.Cols.COL_Seats)));
+
+        long eX = rs.getLong(rs.getColumnIndex(T.Cols.COL_EndPointX));
+        long eY = rs.getLong(rs.getColumnIndex(T.Cols.COL_EndPointY));
+        LatLng endPonit = new LatLng(eX,eY);
+        bean.setEndPoint(endPonit);
+
+        long sX = rs.getLong(rs.getColumnIndex(T.Cols.COL_StartPointX));
+        long sY = rs.getLong(rs.getColumnIndex(T.Cols.COL_StartPointY));
+        LatLng startPoint = new LatLng(sX,sY);
+        bean.setStartPoint(startPoint);
+
+        User user = new User();
+        user.setId(rs.getInt(rs.getColumnIndex(T.Cols.COL_UID)));
+        bean.setUser(user);
+
+    }
+
+    public int updateBean(B bean)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        fillValuesFromBean(bean, values);
+        db.update(T.TBL_NAME, values, T.Cols.COL_ID + " = ?",
+                new String[]{bean.getId()+""});
+
+        return 1;
+    }
+
+
+    private void fillValuesFromBean(B bean, ContentValues values) {
+        values.put(T.Cols.COL_ID, bean.getId());
+        values.put(T.Cols.COL_CarDescription, bean.getCarDescription());
+        values.put(T.Cols.COL_EndPointX,bean.getEndPoint().latitude);
+        values.put(T.Cols.COL_EndPointY,bean.getEndPoint().longitude);
+        values.put(T.Cols.COL_StartPointX,bean.getStartPoint().latitude);
+        values.put(T.Cols.COL_StartPointY,bean.getStartPoint().longitude);
+        values.put(T.Cols.COL_GenderPrefer,bean.getGenderPrefer());
+        values.put(T.Cols.COL_Seats,bean.getSeats());
+        values.put(T.Cols.COL_UID,bean.getUser().getId());
+        values.put(T.Cols.COL_GoingDate,bean.getGoingDate().getTime());
+        values.put(T.Cols.COL_Status,bean.getStatus());
+    }
+
+    public boolean deleteBean(int key){
+        B person = getBeanById(key);
+        if(person != null){
+            //delete
+            String selection = T.Cols.COL_ID + " = ? ";
+            String[] selectionArgs = new String[]{key + ""};
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete(T.TBL_NAME, selection, selectionArgs);
+        }
+        return person != null;
+    }
+
+
+
 }
+
+

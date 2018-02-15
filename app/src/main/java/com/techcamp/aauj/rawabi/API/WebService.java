@@ -1,22 +1,8 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
-import android.location.Location;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Event;
@@ -27,22 +13,16 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
-import com.techcamp.aauj.rawabi.ITriger;
-import com.techcamp.aauj.rawabi.utils.Dummy;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Handler;
 
 /**
  * Created by User on 11/15/2017.
  */
 
+
+// Dummy API
 public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     Context context;
     private static WebService instance;
@@ -56,8 +36,31 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRides(int userId, int limitStart, int limitNum, IResponeTriger<ArrayList<Ride>> rides) {
-        Dummy.getRides(rides);
+    public void getRides(int userId, int limitStart, int limitNum,final IResponeTriger<ArrayList<Ride>> rides) {
+        final ArrayList<Ride> rideArrayList = new ArrayList<>();
+        filterJourneys(null,null,null,0,new IResponeTriger<ArrayList<Journey>>() {
+            @Override
+            public void onResponse(ArrayList<Journey> item) {
+                int i =0;
+                for (Journey j :
+                        item) {
+                    Ride r = new Ride();
+                    r.setOrderStatus(i);
+                    r.setId(i++);
+
+                    r.setJourney(j);
+                    r.setMeetingLocation(j.getStartPoint());
+
+                    rideArrayList.add(r);
+                }
+                rides.onResponse(rideArrayList);
+            }
+
+            @Override
+            public void onError(String err) {
+                rides.onError(err);
+            }
+        });
     }
 
     @Override
@@ -126,7 +129,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
     @Override
     public void getJourneys(int userId, int limitStart, int limitNum, IResponeTriger<ArrayList<Journey>> journeys) {
-        Dummy.filterJouneys(journeys);
+        filterJourneys(null,null,null,0,journeys);
     }
 
     @Override
@@ -147,8 +150,60 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IResponeTriger<ArrayList<Journey>> Journeys) {
-        Dummy.filterJouneys(Journeys);
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final IResponeTriger<ArrayList<Journey>> triger) {
+        final ArrayList<Journey> journeys = new ArrayList<>();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+
+                    Journey journey = new Journey();
+                    journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60*48)));
+                    journey.setStartPoint(new LatLng(32.01183468173907,35.18930286169053));
+                    journey.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+                    User user = new User();
+                    user.setFullname("ALA AMARNEH");
+                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+                    user.setPhone("0592355");
+                    journey.setUser(user);
+                    journey.setStatus(1);
+                    journey.setId(1);
+                    journeys.add(journey );
+
+                    Journey j2 = new Journey();
+                    j2.setGoingDate(new Date(System.currentTimeMillis() - (1000*30)));
+                    j2.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
+                    j2.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+                    User user2 = new User();
+                    user2.setFullname("Moh AMARNEH");
+                    user2.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+
+                    j2.setUser(user2);
+                    j2.setStatus(0);
+                    journeys.add(j2 );
+
+                    Journey j3 = new Journey();
+                    j3.setGoingDate(new Date());
+                    j3.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
+                    j3.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+                    User user3 = new User();
+                    user3.setFullname("Moh sfdfdsf");
+                    user3.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+
+                    j3.setUser(user3);
+                    j3.setStatus(2);
+                    journeys.add(j3 );
+
+
+
+                    triger.onResponse(journeys);
+
+
+                }catch (Exception e){e.printStackTrace();}
+            }
+        }).start();
     }
 
     @Override
@@ -263,15 +318,15 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             @Override
             public void run() {
                 ArrayList<Job> dummyEvents = new ArrayList<>();
-//                for(int i=0;i<3;i++){
-//
-//                    Job announcement = new Job();
-//                    announcement.setDate(new Date());
-//                    announcement.setName("Event name " +i);
-//                    announcement.setDescription("Description ... " +i);
-//
-//                    dummyEvents.add(announcement);
-//                }
+                for(int i=0;i<3;i++){
+
+                    Job announcement = new Job();
+                    announcement.setDate(new Date());
+                    announcement.setName("Event name " +i);
+                    announcement.setDescription("Description ... " +i);
+
+                    dummyEvents.add(announcement);
+                }
 
                 triger.onResponse(dummyEvents);
             }

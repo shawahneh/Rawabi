@@ -2,86 +2,140 @@ package com.techcamp.aauj.rawabi.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.database.schema.RideTable;
+import com.techcamp.aauj.rawabi.database.schema.UserTable;
 
+import java.util.Date;
 import java.util.zip.CheckedOutputStream;
 
 /**
  * Created by alaam on 12/24/2017.
  */
 
-public class UsersDB extends DBHelper {
-    public static final String TABLE_NAME = "rides";
-    class Cols{
-        public static final String COL_ID = "uid";
-        public static final String COL_FULLNAME = "fullname";
-        public static final String COL_GENDER = "gender";
-        public static final String COL_BIRTHDATE = "birthdate";
-        public static final String COL_USERNAME = "username";
-        public static final String COL_PASSWORD = "password";
-        public static final String COL_IMAGEURL = "imageurl";
-        public static final String COL_PHONE = "phone";
-        public static final String COL_ADDRESS = "address";
-        public static final String COL_RATING = "rating";
-    }
-    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
-             + Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
-            + Cols.COL_FULLNAME + " VARCHAR ,"
-            + Cols.COL_GENDER + " INTEGER ,"
-            + Cols.COL_BIRTHDATE + " INTEGER ,"
-            + Cols.COL_USERNAME + " VARCHAR, "
-            + Cols.COL_PASSWORD + " VARCHAR, "
-            + Cols.COL_IMAGEURL + " VARCHAR, "
-            + Cols.COL_PHONE + " VARCHAR, "
-            + Cols.COL_ADDRESS + " VARCHAR, "
-            + Cols.COL_RATING + " INTEGER "
-            + ")";
+public class UsersDB<B extends User,T extends UserTable> extends DBHelper<User> {
 
-    public UsersDB(Context context) {
-        super(context);
+    private static UsersDB instance;
+    public static UsersDB getInstance(Context context){
+        if(instance == null){
+            instance = new UsersDB(context);
+        }
+        return instance;
     }
 
-    public boolean addUser(User user){
-        SQLiteDatabase db = null;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Cols.COL_ID,user.getId());
-        contentValues.put(Cols.COL_FULLNAME,user.getFullname());
-        contentValues.put(Cols.COL_GENDER,user.getGender());
-        contentValues.put(Cols.COL_BIRTHDATE,user.getBirthdate().getTime());
-        contentValues.put(Cols.COL_USERNAME,user.getUsername());
-        contentValues.put(Cols.COL_PASSWORD,user.getPassword());
-        contentValues.put(Cols.COL_IMAGEURL,user.getImageurl());
-        contentValues.put(Cols.COL_PHONE,user.getPhone());
-        contentValues.put(Cols.COL_ADDRESS,user.getAddress());
-        contentValues.put(Cols.COL_RATING,user.getRating());
+    private UsersDB(Context context) {
+        super(context,User.class);
+    }
 
+
+    public int saveBean(B bean)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        fillValuesFromBean(bean, values);
+
+        if(this.getBeanById(bean.getId()) != null)
+        {
+            db.update(T.TBL_NAME, values, T.Cols.COL_ID + " = ?",
+                    new String[]{bean.getId()+""});
+        }
+        else
+            db.insert(T.TBL_NAME, null, values);
+
+        return 1;
+    }
+
+    public B getBeanById(int id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        B bean = null;
+        Cursor rs = null;
         try {
-            db = getWritableDatabase();
-            if(db.insert(TABLE_NAME,null,contentValues) > 0){
-                return true;
+            rs = db.query(T.TBL_NAME, null
+                    , T.Cols.COL_ID + "=?", new String[]{id+""}, null, null, null);
+            if (rs.moveToFirst()) {
+                bean = (B)newBean();
+                fillBeanFromCursor(rs, bean);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }finally {
-            if (db != null) {
-                db.close();
-            }
+            if (rs != null)
+                rs.close();
         }
-        return false;
+        return bean;
+    }
+
+
+
+    @Override
+    protected String getTableName() {
+        return T.TBL_NAME;
+    }
+
+    @Override
+    protected void fillBeanFromCursor(Cursor rs, User bean) {
+        bean.setId(rs.getInt(rs.getColumnIndex(T.Cols.COL_ID)));
+        bean.setImageurl(rs.getString(rs.getColumnIndex(T.Cols.COL_IMAGEURL)));
+        bean.setPassword(rs.getString(rs.getColumnIndex(T.Cols.COL_PASSWORD)));
+
+
+        bean.setBirthdate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.COL_BIRTHDATE))));
+
+        bean.setGender(rs.getInt(rs.getColumnIndex(T.Cols.COL_GENDER)));
+        bean.setPhone(rs.getString(rs.getColumnIndex(T.Cols.COL_PHONE)));
+        bean.setUsername(rs.getString(rs.getColumnIndex(T.Cols.COL_USERNAME)));
+        bean.setFullname(rs.getString(rs.getColumnIndex(T.Cols.COL_FULLNAME)));
+        bean.setAddress(rs.getString(rs.getColumnIndex(T.Cols.COL_ADDRESS)));
+        bean.setRating(rs.getInt(rs.getColumnIndex(T.Cols.COL_RATING)));
+
+
 
     }
-    public User getUser(int uid){
-        SQLiteDatabase db = null;
-        try {
-            db = getReadableDatabase();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public int updateBean(B bean)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        fillValuesFromBean(bean, values);
+        db.update(T.TBL_NAME, values, T.Cols.COL_ID + " = ?",
+                new String[]{bean.getId()+""});
 
-        return null;
+        return 1;
     }
+
+
+    private void fillValuesFromBean(B bean, ContentValues values) {
+        values.put(T.Cols.COL_ID, bean.getId());
+        values.put(T.Cols.COL_IMAGEURL, bean.getImageurl());
+        values.put(T.Cols.COL_PASSWORD, bean.getPassword());
+        values.put(T.Cols.COL_BIRTHDATE, bean.getBirthdate().getTime());
+        values.put(T.Cols.COL_GENDER, bean.getGender());
+        values.put(T.Cols.COL_PHONE, bean.getPhone());
+        values.put(T.Cols.COL_USERNAME, bean.getUsername());
+        values.put(T.Cols.COL_FULLNAME, bean.getFullname());
+        values.put(T.Cols.COL_ADDRESS, bean.getAddress());
+        values.put(T.Cols.COL_RATING, bean.getRating());
+
+
+    }
+
+    public boolean deleteBean(int key){
+        B person = getBeanById(key);
+        if(person != null){
+            //delete
+            String selection = T.Cols.COL_ID + " = ? ";
+            String[] selectionArgs = new String[]{key + ""};
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete(T.TBL_NAME, selection, selectionArgs);
+        }
+        return person != null;
+    }
+
+
+
 }

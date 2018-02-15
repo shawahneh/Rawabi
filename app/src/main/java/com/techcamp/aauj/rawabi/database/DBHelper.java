@@ -1,34 +1,137 @@
 package com.techcamp.aauj.rawabi.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
+import com.techcamp.aauj.rawabi.database.schema.RideTable;
+import com.techcamp.aauj.rawabi.database.schema.UserTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alaam on 12/24/2017.
  */
 
-public class DBHelper extends SQLiteOpenHelper {
-    public static final String DB_NAME = "database1";
-    public static final int DB_VERSION = 1;
-    public DBHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+public abstract class DBHelper<T> extends SQLiteOpenHelper
+{
+
+    protected Class<T> entityClass;
+
+    protected Context mContext;
+    private int mNumberOfItems = 100;
+
+    public static final int VERSION = 2;
+    public static final String DATABASE_NAME = "vaccinations.db";
+
+    protected DBHelper(Context context)
+    {
+        super(context, DATABASE_NAME, null, VERSION);
+        mContext = context;
+    }
+
+    protected DBHelper(Context context, Class<T> entityClass){
+        this(context);
+        this.entityClass = entityClass;
+    }
+
+    protected T newBean(){
+        T bean = null;
+        try {
+            bean = (T)entityClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return bean;
+    }
+
+    public void setNumberOfItems(int numberOfItems){
+        mNumberOfItems = numberOfItems;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(UsersDB.CREATE_TABLE);
-        db.execSQL(JourneysDB.CREATE_TABLE);
-        db.execSQL(RidesDB.CREATE_TABLE);
+    public void onCreate(SQLiteDatabase db)
+    {
+        db.execSQL(UserTable.CREATE_TABLE);
+        db.execSQL(JourneyTable.CREATE_TABLE);
+        db.execSQL(RideTable.CREATE_TABLE);
+
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + RidesDB.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + JourneysDB.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + UsersDB.TABLE_NAME);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
+        db.execSQL("drop table if EXISTS " + UserTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + JourneyTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + RideTable.TBL_NAME);
         onCreate(db);
     }
+
+    public int getNoOfBeans(){
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM " + getTableName();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql, null);
+            if(cursor.moveToFirst())
+                count = cursor.getInt(0);
+
+        }finally {
+            if(cursor != null)
+                cursor.close();
+            db.close();
+        }
+        return count;
+    }
+
+    public List<T> getAll()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        List<T> list = new ArrayList<>();
+        String selection=null;
+        String[] args = null;
+
+        Cursor rs = null;
+        try {
+            rs = db.query(getTableName(), null
+                    , selection, args , null, null, orderBy());
+
+            if (rs.moveToFirst())
+            {
+                while (!rs.isAfterLast()) {
+                    T bean = (T)newBean();
+                    fillBeanFromCursor(rs, bean);
+                    list.add(bean);
+                    rs.moveToNext();
+                }
+            }
+        }finally {
+            if (rs != null)
+                rs.close();
+        }
+        return list;
+    }
+
+    protected String orderBy(){
+        return null;
+    }
+
+    public int deleteAll()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        int result = db.delete(getTableName(), null, null);
+        return result;
+    }
+
+
+    public abstract T getBeanById(int id);
+    protected abstract String getTableName();
+    protected abstract void fillBeanFromCursor(Cursor rs,T bean);
 }

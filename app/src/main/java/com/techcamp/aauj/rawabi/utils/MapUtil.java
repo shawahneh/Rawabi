@@ -1,7 +1,9 @@
 package com.techcamp.aauj.rawabi.utils;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -9,6 +11,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -81,6 +85,39 @@ public class MapUtil {
                 CurrentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
         }
+    }
+
+    public static boolean isConnectionAvailable(Context context) {
+
+        boolean netCon = false;
+
+        try {
+
+            //Internet & network information "Object" initialization
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = null;
+            if (connectivityManager != null) {
+                networkInfo = connectivityManager.getActiveNetworkInfo();
+            }
+            //Internet enable & connectivity checking
+            if (networkInfo != null && ("WIFI".equals(networkInfo.getTypeName()) || "MOBILE".equals(networkInfo.getTypeName())) &&  networkInfo.isAvailable() && networkInfo.isConnectedOrConnecting()) {
+                netCon = true;
+            }
+        } catch (Exception e) {
+
+        }
+        return netCon;
+    }
+
+    public static  boolean isGpsAvailable(Context context) {
+
+        boolean gpsCon = false;
+
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gpsCon = true;
+        }
+        return gpsCon;
     }
     public static BitmapDescriptor getMarkerIconByColor(String color) {
         float[] hsv = new float[3];

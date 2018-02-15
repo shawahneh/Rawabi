@@ -1,9 +1,7 @@
 package com.techcamp.aauj.rawabi.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +19,6 @@ import android.view.MenuItem;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
-import com.techcamp.aauj.rawabi.activities.unusedActivities.CarpoolActivity;
 import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
@@ -97,7 +94,7 @@ public class DashbordActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            new UsersDB(this);
+
             return true;
         }
 
@@ -115,7 +112,7 @@ public class DashbordActivity extends AppCompatActivity
                 setFragment(new HomeFragment(),"home");
                 break;
             case R.id.nav_carpool:
-                StartCarPoolActivity();
+
                 break;
             case R.id.nav_media:
 
@@ -139,18 +136,7 @@ public class DashbordActivity extends AppCompatActivity
     }
 
 
-    private void StartCarPoolActivity() {
 
-        boolean login = WebApi.getInstance(this).isLogin();
-        if(login) {
-            Intent i = new Intent(this, CarpoolActivity.class);
-            startActivity(i);
-        }
-        else {
-            Intent i = new Intent(this, LoginRegisterActivity.class);
-            startActivity(i);
-        }
-    }
     private void setFragment(android.support.v4.app.Fragment fragment, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

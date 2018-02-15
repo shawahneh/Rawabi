@@ -1,7 +1,6 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -20,14 +19,11 @@ import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.MediaItem;
-import com.techcamp.aauj.rawabi.Beans.MyPlace;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.controllers.SPController;
-import com.techcamp.aauj.rawabi.utils.Dummy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -462,7 +457,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     @Override
     public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final IResponeTriger<ArrayList<Journey>> Journeys) {
-        Dummy.filterJouneys(Journeys);
+
 
     }
 

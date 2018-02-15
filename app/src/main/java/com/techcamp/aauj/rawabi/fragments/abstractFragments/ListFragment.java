@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.List;
 
@@ -66,6 +67,13 @@ public abstract class ListFragment extends Fragment {
         initRecyclerView();
         initSwipeToRefresh();
         setupRecyclerViewAdapter();
+
+        checkConnection();
+    }
+
+    private void checkConnection() {
+        if(!MapUtil.isConnectionAvailable(getContext()))
+            showMessageLayout("No Internet Connection",R.drawable.ic_signal_wifi_off_black_48dp);
     }
 
     protected void showMessageLayout(String msg, String url){

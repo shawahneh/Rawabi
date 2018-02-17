@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -15,10 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
+import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
 import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
@@ -49,7 +54,17 @@ public class DashbordActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        View view = navigationView.getHeaderView(0);
+        ImageView imageView = view.findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(DashbordActivity.this, view, "trImage");
+                Intent i = new Intent(DashbordActivity.this,JobsListActivity.class);
+                startActivity(i,options.toBundle());
+            }
+        });
 
         ViewPager vp_pages= (ViewPager) findViewById(R.id.vp_pages);
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
@@ -112,7 +127,14 @@ public class DashbordActivity extends AppCompatActivity
                 setFragment(new HomeFragment(),"home");
                 break;
             case R.id.nav_carpool:
+                if(WebApi.getInstance(this).isLogin()){
+                    Intent i = new Intent(this, CarpoolMainActivity.class);
+                    startActivity(i);
+                }else{
 
+                    Intent i = new Intent(this, LoginRegisterActivity.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.nav_media:
 

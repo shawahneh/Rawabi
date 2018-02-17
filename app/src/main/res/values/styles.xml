@@ -33,10 +33,11 @@
     <style name="AppTheme.Carpool" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--<item name="colorPrimary">#64d25e</item>-->
         <!--<item name="colorPrimaryDark">#64d25e</item>-->
+
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green</item>
         <item name="colorAccent">#65d25f</item>
-        <item name="android:textColorTertiary">#fff</item>
+        <item name="android:textColorTertiary">@color/white</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme.No" parent="Theme.AppCompat.NoActionBar">

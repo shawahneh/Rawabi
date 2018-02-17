@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -26,23 +28,30 @@ import java.util.Date;
  * Created by alaam on 12/22/2017.
  */
 
+
 public class MapDriverActivity extends MapActivity implements IResponeTriger<Integer>{
     private CarpoolApi poolingJourney = WebService.getInstance(this);
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;
-    private Button btnContinue,btnCreateJourney;
+    private Button btnCreateJourney;
+    private View layoutContinue;
+    private TextView tvContinue;
+    private ImageView imgContinue;
+
     private EditText txtSeatsNumber,txtCarDesc;
     private Journey mJourney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlidingUpPanelLayout = findViewById(R.id.sliding_layout);
-        btnContinue = findViewById(R.id.btnContinue);
+        layoutContinue = findViewById(R.id.layoutContinue);
+        tvContinue = findViewById(R.id.tvContinue);
+        imgContinue = findViewById(R.id.imgContinue);
         btnCreateJourney = findViewById(R.id.btnCreateJourney);
         txtSeatsNumber = findViewById(R.id.txtSeatsNumber);
         txtCarDesc = findViewById(R.id.txtCarDesc);
         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        btnContinue.setOnClickListener(new View.OnClickListener() {
+        layoutContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -54,6 +63,27 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
                 createJourney();
             }
         });
+
+
+        mSlidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if(newState == SlidingUpPanelLayout.PanelState.EXPANDED){
+                    tvContinue.setText("Show Map");
+                    imgContinue.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                }else if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED || newState == SlidingUpPanelLayout.PanelState.HIDDEN){
+                    tvContinue.setText("Continue");
+                    imgContinue.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                }
+            }
+        });
+
+
     }
 
     private void createJourney() {

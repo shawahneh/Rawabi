@@ -7,29 +7,54 @@
     android:paddingEnd="10dp"
     >
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:id="@+id/btnContinue"
-        android:text="Continue"
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/layoutContinue"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="60dp">
+
+        <TextView
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/tvContinue"
+            android:text="Continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginEnd="10dp"
+            android:id="@+id/imgContinue"
+            android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/car_notexture"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
     <TextView
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:text="Seats number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:textSize="25sp"
         android:id="@+id/txtSeatsNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number" />
     <TextView
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:text="Enter car description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
+        android:hint="model, color"
+        android:textSize="20sp"
         android:id="@+id/txtCarDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -43,7 +68,7 @@
 
     <Button
         android:textColor="@color/white"
-        android:backgroundTint="@color/green"
+        android:background="@drawable/green_button_background"
         android:id="@+id/btnCreateJourney"
         android:text="Create journey"
         android:layout_width="match_parent"

@@ -5,9 +5,6 @@ import android.support.v4.app.Fragment;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.EmptyActivity;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.List2Activity;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
 
 /**

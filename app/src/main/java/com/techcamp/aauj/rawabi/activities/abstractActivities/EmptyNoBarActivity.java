@@ -4,21 +4,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.techcamp.aauj.rawabi.R;
 
-public abstract class List2Activity<T> extends AppCompatActivity {
+public abstract class EmptyNoBarActivity<T> extends AppCompatActivity {
     protected T mBean;
     public static final String ARG_NUMBER_OF_COLS = "numberOfCols";
     public static final String ARG_BEAN = "bean";
-
-    Fragment mFragment;
+    protected Fragment mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list2);
+        setContentView(R.layout.activity_empty_no_bar);
 
         mBean = getIntent().getParcelableExtra(ARG_BEAN);
+
 
 
         FragmentManager fm = getSupportFragmentManager();
@@ -27,13 +28,16 @@ public abstract class List2Activity<T> extends AppCompatActivity {
             mFragment = getFragment();
             fm.beginTransaction().replace(R.id.content,mFragment).commit();
         }
+
     }
-    protected int getNumberOfCols(){
-        int numberOfCols = getIntent().getIntExtra(ARG_NUMBER_OF_COLS,1);
-        if (numberOfCols > 0){
-            return numberOfCols;
-        }else {
-            return 1;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
     public abstract Fragment getFragment();

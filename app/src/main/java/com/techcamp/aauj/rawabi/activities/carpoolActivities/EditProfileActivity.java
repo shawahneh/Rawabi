@@ -50,6 +50,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 openGallery();
             }
         });
+
+        setTitle("Edit Profile");
     }
 
     private void openGallery() {

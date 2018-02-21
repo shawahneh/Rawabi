@@ -83,8 +83,8 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
         }
         @Override
         public void onClicked(View v) {
-            Intent i = JobDetailsActivity.getIntent(getContext(),mItem);
-            startActivity(i);
+//            Intent i = JobDetailsActivity.getIntent(getContext(),mItem);
+//            startActivity(i);
         }
 
     }

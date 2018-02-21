@@ -20,7 +20,7 @@
             android:background="@color/gray"/>
         <ImageView
             android:tint="@color/green"
-            android:src="@drawable/point_marker"
+            android:src="@drawable/marker"
             android:layout_width="15dp"
             android:layout_height="15dp" />
         <View

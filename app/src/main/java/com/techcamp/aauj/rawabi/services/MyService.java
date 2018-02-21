@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysActivity;
+import com.techcamp.aauj.rawabi.activities.unusedActivities.MyJourneysActivity;
 
 public class MyService extends Service {
     ChildEventListener listener;
@@ -31,7 +31,7 @@ public class MyService extends Service {
 
     @Override
     public void onCreate() {
-        mData = FirebaseDatabase.getInstance().getReference().child("journeys");
+        mData = FirebaseDatabase.getInstance().getReference().child("journeys_riders");
         listener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -82,7 +82,7 @@ public class MyService extends Service {
 
         mBuilder.setAutoCancel(true);
         int notificationID = ((int)(Math.random()*1000));
-        startForeground(notificationID,mBuilder.getNotification());
+//        startForeground(notificationID,mBuilder.getNotification());
 
 
 
@@ -150,7 +150,6 @@ public class MyService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

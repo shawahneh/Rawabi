@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -39,10 +40,12 @@ import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private static final String TAG_JOBS = "tag_jobs";
-    private static final String TAG_MEDIA = "tag_media";
-    private static final String TAG_TRANSPORTATION = "tag_trans";
-    private static final String TAG_CARPOOL = "tag_carpool";
+    public static final String TAG_JOBS = "tag_jobs";
+    public static final String TAG_MEDIA = "tag_media";
+    public static final String TAG_TRANSPORTATION = "tag_trans";
+    public static final String TAG_CARPOOL = "tag_carpool";
+    public static final String TAG_EVENTS = "tag_events";
+    public static final String TAG_NEWS = "tag_news";
 
     private Button btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
@@ -53,6 +56,9 @@ public class HomeFragment extends Fragment {
     private TextView tvCarpool,tvWeather,tvEventName;
     private ProgressBar progressBar;
     private ImageView imgWeather;
+    private View btnOpenQCenter;
+
+    private IListener mListener;
     public HomeFragment() {
     }
 
@@ -68,7 +74,7 @@ public class HomeFragment extends Fragment {
         tvCarpool = view.findViewById(R.id.tvCarpool);
         tvWeather = view.findViewById(R.id.tvWeather);
         tvEventName= view.findViewById(R.id.tvEventName);
-
+        btnOpenQCenter = view.findViewById(R.id.btnOpenQCenter);
         imgWeather = view.findViewById(R.id.imgWeather);
 
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +97,14 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        btnOpenQCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),QCenterActivity.class));
+            }
+        });
+
+
         progressBar = view.findViewById(R.id.progressBar);
 
         trigerCars = new IResponeTriger<Integer>() {
@@ -203,21 +217,41 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof IListener){
+            mListener = (IListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + " must implement IListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     private List<DashboardItem> getItems() {
         DashboardItem jobs = new DashboardItem(TAG_JOBS,getResources().getDrawable(R.drawable.job_notexture),"JOBS");
         DashboardItem media = new DashboardItem(TAG_MEDIA,getResources().getDrawable(R.drawable.media_notexture),"MEDIA");
         DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,getResources().getDrawable(R.drawable.bus_notexture),"Transportation");
-        DashboardItem carpool = new DashboardItem(TAG_CARPOOL,getResources().getDrawable(R.drawable.car_notexture),"CARPOOL");
+        DashboardItem news = new DashboardItem(TAG_NEWS,getResources().getDrawable(R.drawable.news),"NEWS");
+//        DashboardItem events = new DashboardItem(TAG_EVENTS,getResources().getDrawable(R.drawable.events_48px),"EVENTS");
 
-        jobs.setSummery("Bobs and Internships");
+
+        jobs.setSummery("Jobs and Internships");
         media.setSummery("Explore Rawabi Media");
-        transportation.setSummery("Public Buses Transportation");
+        transportation.setSummery("Public Transportation");
+        news.setSummery("Rawabi News");
 
         ArrayList<DashboardItem> items = new ArrayList<>();
+        items.add(transportation);
         items.add(jobs);
         items.add(media);
-        items.add(transportation);
-        items.add(carpool);
+        items.add(news);
 
         return items;
     }
@@ -267,7 +301,15 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(getContext(),MediaListActivity.class),options.toBundle());
                     break;
                 case TAG_CARPOOL:
-                    startActivity(new Intent(getContext(),QCenterActivity.class),options.toBundle());
+
+                    break;
+                case TAG_EVENTS:
+                    startActivity(new Intent(getContext(),EventsListActivity.class),options.toBundle());
+                    break;
+
+                case TAG_NEWS:
+                    if(mListener != null)
+                        mListener.onCardClick(TAG_NEWS);
                     break;
             }
         }
@@ -371,4 +413,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public interface IListener{
+        void onCardClick(String tag);
+    }
 }

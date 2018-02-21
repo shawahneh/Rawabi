@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.ITriger;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.List;
 import java.util.Locale;
@@ -56,7 +57,11 @@ public class MapUtil {
             return "Map point";
         }
     }
-
+    public static String getSavedAddress(Context context, LatLng latLng) {
+        if(latLng.latitude == 32.008049 && latLng.longitude == 35.187367)
+            return "Rawabi";
+        return "Map point";
+    }
     public static double getDistance(LatLng LatLng1, LatLng LatLng2) {
         if(LatLng1 == null || LatLng2 == null)
             return -1;
@@ -131,7 +136,7 @@ public class MapUtil {
             case ICON_END_POINT:
                 return getMarkerIconByColor("#475862");
             case ICON_START_POINT:
-                return getMarkerIconByColor("#475862");
+                return getMarkerIconByColor("#a1cf68");
             case ICON_MEETING_LOCATION:
                 return getMarkerIconByColor("#cf0000");
             case ICON_RIDER:

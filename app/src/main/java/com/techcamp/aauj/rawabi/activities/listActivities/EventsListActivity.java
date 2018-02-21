@@ -14,7 +14,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 public class EventsListActivity extends BasicActivity<Event> {
     @Override
     protected int getImage() {
-        return R.drawable.events_48px;
+        return R.drawable.events;
     }
 
     @Override

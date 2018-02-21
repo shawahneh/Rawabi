@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
@@ -118,7 +119,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
                 .icon(MapUtil.getMarkerIcon(MapUtil.ICON_MEETING_LOCATION))
                 .title("Meeting Point")
         ).showInfoWindow();
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(mMarkerMeetingPoint));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLng(mMarkerMeetingPoint));
 
     }
 
@@ -148,7 +149,17 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarkerMeetingPoint,15));
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(mJourney.getStartPoint());
+        builder.include(mJourney.getEndPoint());
+        builder.include(mMarkerMeetingPoint);
+        LatLngBounds bounds = builder.build();
+
+        final int zoomWidth = getResources().getDisplayMetrics().widthPixels;
+        final int zoomHeight = getResources().getDisplayMetrics().heightPixels;
+        final int zoomPadding = (int) (zoomWidth * 0.10); // offset from edges of the map 12% of screen
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,zoomWidth,zoomHeight,zoomPadding));
 
         drawMarkers();
 
@@ -179,7 +190,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         pDialog.dismissWithAnimation();
         // request created successfully
         if(item >0){
-            ServiceController.createRide(this,item,mJourney.getId());
+            mRide.setId(item);
+            ServiceController.createRide(this,mRide,mJourney.getId());
                         //            AlarmController.addAlarm(this,mRide.getJourney());
             Intent i = RideDetailActivity.getIntent(this,mRide);
             startActivity(i);

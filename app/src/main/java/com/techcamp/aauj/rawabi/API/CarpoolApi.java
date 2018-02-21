@@ -21,7 +21,7 @@ public interface CarpoolApi {
     //sortBy: 1-> Distance, 2-> Time
     void getNumberOfJourneys(IResponeTriger<Integer> triger);
     void changeJourneyStatusAndGetRiders(Journey journey,int status,IResponeTriger<CustomJourney> triger);
-
+    void getCustomJourney(int jid, IResponeTriger<CustomJourney> triger);
 
     void getRides(int userId,int limitStart,int limitNum,IResponeTriger<ArrayList<Ride>> rides);
     void getRideDetails(int rideId,IResponeTriger<Ride> ride);

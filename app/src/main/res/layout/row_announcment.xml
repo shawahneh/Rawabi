@@ -55,7 +55,7 @@
     </LinearLayout>
     <LinearLayout
 
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/layoutDetails"
         android:padding="10dp"
         android:orientation="vertical"

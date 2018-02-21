@@ -38,7 +38,10 @@ public class StringUtil {
                 return "Cancelled";
             case Journey.STATUS_COMPLETED:
                 return "Completed";
-
+            case Journey.STATUS_DRIVER_CANCELLED:
+                return "You cancel the journey";
+            case Journey.STATUS_DRIVER_CLOSED:
+                return "Closed";
         }
         return null;
     }

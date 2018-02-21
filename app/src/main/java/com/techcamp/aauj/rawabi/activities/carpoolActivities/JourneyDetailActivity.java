@@ -112,8 +112,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
          tvStatus = findViewById(R.id.tvStatus);
 
         tvDate.setText(mJourney.getRealDate());
-        tvFrom.setText(MapUtil.getAddress(this,mJourney.getStartPoint()));
-        tvTo.setText(MapUtil.getAddress(this,mJourney.getEndPoint()));
+        tvFrom.setText(MapUtil.getSavedAddress(this,mJourney.getStartPoint()));
+        tvTo.setText(MapUtil.getSavedAddress(this,mJourney.getEndPoint()));
         tvCarDesc.setText(mJourney.getCarDescription());
         tvStatus.setText(StringUtil.getJourneyStatus(mJourney.getStatus()));
         setupStatus();
@@ -148,8 +148,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 //        poolingRides.getRidersOfJourney(0,this);
 //    }
     private void refreshJourney(){
-        showProgress("Refreshing");
+//        showProgress("Refreshing");
         CarpoolApi api = WebService.getInstance(this);
+        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
 //        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 
@@ -218,7 +219,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismissWithAnimation();
                 //rider accepted
                 if(item){
-                    ServiceController.changeRideStatus(ride.getId(),"reject");
+//                    ServiceController.changeRideStatus(ride.getId(),Ride.STATUS_DRIVER_REJECTED);
                     ride.setOrderStatus(Ride.STATUS_DRIVER_REJECTED);
                 }
                 updateRecycler();
@@ -241,7 +242,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismissWithAnimation();
                 //rider accepted
                 if(item){
-                    ServiceController.changeRideStatus(ride.getId(),"accept");
+//                    ServiceController.changeRideStatus(ride.getId(),Ride.STATUS_ACCEPTED);
                     ride.setOrderStatus(Ride.STATUS_ACCEPTED);
                 }
                 updateRecycler();

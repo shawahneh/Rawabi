@@ -24,7 +24,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 public class LoginFragment extends Fragment {
 
     private EditText mEditTextEmail,mEditTextPassword;
-    private AuthWebApi mAuthWebApi = WebApi.getInstance(getContext());
+    private AuthWebApi mAuthWebApi = WebService.getInstance(getContext());
     SweetAlertDialog pDialog;
     public LoginFragment() {
     }
@@ -40,9 +40,7 @@ public class LoginFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(getContext(), UserTypeActivity.class);
-//                getActivity().finish();
-//                startActivity(i);
+
                 showProgress();
                 mAuthWebApi.login(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
                         new IResponeTriger<User>() {
@@ -50,16 +48,14 @@ public class LoginFragment extends Fragment {
                             public void onResponse(User item) {
                                 pDialog.dismissWithAnimation();
                                 if (item != null){
-
-                                SPController.saveLocalUser(getContext(),item);
+                                    SPController.saveLocalUser(getContext(),item);
                                     Intent i = new Intent(getContext(), CarpoolMainActivity.class);
                                     getActivity().finish();
                                     startActivity(i);
                                 }else{
-                                    onError("errror");
+                                    onError("error");
                                 }
                             }
-
                             @Override
                             public void onError(String err) {
                                 pDialog.dismissWithAnimation();

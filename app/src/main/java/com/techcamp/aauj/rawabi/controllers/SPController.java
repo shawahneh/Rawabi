@@ -29,6 +29,7 @@ public class SPController {
         user.setPassword(password);
         user.setId(id);
         user.setImageurl(imageurl);
+        user.setPhone(sp.getString("phone",null));
 
         if(username == null)
             return null;
@@ -46,6 +47,7 @@ public class SPController {
         editor.putString("name",user.getFullname());
         editor.putInt("id",user.getId());
         editor.putString("imageurl",user.getImageurl());
+        editor.putString("phone",user.getPhone());
         }
         editor.apply();
     }
@@ -96,6 +98,10 @@ public class SPController {
         journey.setStatus(status);
 
        return journey;
+    }
+
+    public static LatLng getLocationOfRawabi(){
+        return new LatLng(32.008049, 35.187367);
     }
 
 }

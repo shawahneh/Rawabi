@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
@@ -36,7 +38,8 @@ import java.util.Date;
 
 public class MapRiderActivity extends MapActivity {
     //mMap
-    private CarpoolApi webApi = WebApi.getInstance(this);
+    private final int CODE_SELECT_DRIVER =11;
+    private CarpoolApi webApi = WebService.getInstance(this);
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
     private ArrayList<Journey> mJourneys;
@@ -67,15 +70,35 @@ public class MapRiderActivity extends MapActivity {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 if(marker.getTag() instanceof Journey) {
-                    mDriverDetailLayout.show(null, (Journey) marker.getTag());
-                    drawDestination((Journey) marker.getTag());
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+                    selectDriver((Journey) marker.getTag());
                 }
                 marker.showInfoWindow();
                 return true;
             }
         });
 
+    }
+    private void selectDriver(Journey journey){
+        mDriverDetailLayout.show(null, journey);
+        drawDestination(journey);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(journey.getStartPoint()));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == CODE_SELECT_DRIVER){
+            Journey journey = data.getParcelableExtra("data");
+            selectDriver(journey);
+        }
+    }
+
+    @Override
+    protected void onMessageClicked() {
+        if(mJourneys != null &&  mJourneys.size() > 0){
+
+        Intent i = DriversListActivity.getIntent(this,mJourneys);
+        startActivityForResult(i,CODE_SELECT_DRIVER);
+        }
     }
 
     private void drawDestination(final Journey mJourney) {
@@ -135,20 +158,14 @@ public class MapRiderActivity extends MapActivity {
 
         webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new IResponeTriger<ArrayList<Journey>>() {
             @Override
-            public void onResponse(final ArrayList<Journey> item) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            public void onResponse(ArrayList<Journey> item) {
                         mJourneys = item;
                         startLoading(false);
                         drawJourneys(mJourneys);
                         if(mJourneys.size() > 0)
-                            showMessage("There is " + mJourneys.size() + " " + "Drivers available");
+                            showMessage("There are " + mJourneys.size() + " " + "Drivers available");
                         else
                             showMessage("No drivers available");
-                    }
-                });
-
             }
 
             @Override
@@ -219,6 +236,7 @@ public class MapRiderActivity extends MapActivity {
             mTextViewAvilable.setText(mJourney.getRealDate());
             mTextViewCarDesc.setText(mJourney.getCarDescription());
             mTextViewPhone.setText(user.getPhone());
+            Log.d("tag","user.getPhone()="+user.getPhone());
             double distance = MapUtil.getDistance(mJourney.getStartPoint(),mMarkerFrom.getPosition());
             mTextViewDistance.setText(NumberUtil.getDistanceString(distance));
 

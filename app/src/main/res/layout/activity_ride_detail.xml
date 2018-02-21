@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,97 +8,34 @@
     tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity">
 
 
-    <TextView
-        android:textAlignment="center"
-        android:background="@color/blue_sky"
-        android:textSize="20sp"
-        android:textColor="@color/blue2"
-        android:id="@+id/tvStatus"
-        android:text="status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp"
         android:gravity="center_horizontal">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-    </LinearLayout>
-        <android.support.v7.widget.CardView
-            android:layout_marginTop="5dp"
+        <com.google.android.gms.maps.MapView
+            android:layout_weight="1"
+            android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:padding="10dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:textColor="@color/colorPrimary"
-                    android:text="date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:textColor="@color/black"
-                        android:text="Driver: "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:id="@+id/tvDriverName"
-                        android:textColor="@color/black"
-                        android:text="driver name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:visibility="gone"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:id="@+id/tvCarDesc"
-                        android:textColor="@color/black"
-                        android:text="Car"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            android:layout_height="0dp" />
 
     <android.support.v7.widget.CardView
-        android:layout_weight="1"
-        android:layout_marginTop="5dp"
         app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:background="@color/blue_sky"
-            android:padding="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.gms.maps.MapView
-                android:layout_weight="1"
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -165,7 +102,6 @@
 
         <android.support.v7.widget.CardView
 
-            android:layout_marginTop="10dp"
             app:cardCornerRadius="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -182,4 +118,67 @@
 
 
 </LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textAlignment="center"
+            android:background="@color/blue_sky"
+            android:textSize="20sp"
+            android:textColor="@color/blue2"
+            android:id="@+id/tvStatus"
+            android:text="status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:textColor="@color/colorPrimary"
+                    android:text="date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:fontFamily="@font/abeezee"
+                        android:textColor="@color/black"
+                        android:text="Driver: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:fontFamily="@font/abeezee"
+                        android:id="@+id/tvDriverName"
+                        android:textColor="@color/black"
+                        android:text="driver name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:fontFamily="@font/abeezee"
+                        android:id="@+id/tvCarDesc"
+                        android:textColor="@color/black"
+                        android:text="Car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

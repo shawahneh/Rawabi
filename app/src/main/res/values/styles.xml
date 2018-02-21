@@ -47,6 +47,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">#fff</item>
     </style>
+    <style name="AppTheme.Carpool.No" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorTertiary">#fff</item>
+    </style>
     <style name="AppTheme.Basic" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/city</item>
@@ -59,4 +66,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
 </resources>

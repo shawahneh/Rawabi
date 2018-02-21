@@ -471,6 +471,11 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    @Override
+    public void getCustomJourney(int jid, IResponeTriger<CustomJourney> triger) {
+
+    }
+
 
     //DONE
     @Override

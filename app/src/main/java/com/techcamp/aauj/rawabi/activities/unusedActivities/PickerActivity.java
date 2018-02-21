@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.fragments.PickerFragment;
 
 public class PickerActivity extends AppCompatActivity {
 
@@ -16,7 +15,7 @@ public class PickerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_picker);
 
         if(savedInstanceState == null){
-            setFragment(PickerFragment.getInstance(),"picker");
+//            setFragment(PickerFragment.getInstance(),"picker");
         }
 
     }

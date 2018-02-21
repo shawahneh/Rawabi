@@ -53,6 +53,19 @@
                         style="?android:attr/progressBarStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:visibility="gone"
+                        sothree:fabSize="mini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        sothree:layout_anchor="@+id/map"
+                        android:backgroundTint="@color/white"
+                        android:src="@drawable/rawabi_heart"
+                        sothree:layout_anchorGravity="right|bottom"
+                        android:layout_margin="15dp"
+                        android:id="@+id/fabRawabi"
+                        />
                 </android.support.design.widget.CoordinatorLayout>
 
                 <Button

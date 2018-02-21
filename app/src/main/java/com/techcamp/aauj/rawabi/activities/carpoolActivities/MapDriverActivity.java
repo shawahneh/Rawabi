@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
@@ -37,7 +39,7 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
     private View layoutContinue;
     private TextView tvContinue;
     private ImageView imgContinue;
-
+    private SweetAlertDialog pDialog;
     private EditText txtSeatsNumber,txtCarDesc;
     private Journey mJourney;
     @Override
@@ -101,12 +103,21 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
         mJourney.setSeats(sNumber);
         mJourney.setUser(user);
         mJourney.setCarDescription(carDesc);
-        mJourney.setStartPoint(mMarkerFrom.getPosition());
+        mJourney.setStartPoint( mMarkerFrom.getPosition());
         mJourney.setEndPoint(mMarkerTo.getPosition());
         mJourney.setGoingDate(mDateDriving);
 
         btnCreateJourney.setEnabled(false);
+
+        showProgress("Creating..");
         poolingJourney.setNewJourney(mJourney,this);
+    }
+    private void showProgress(String str){
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(str);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     private boolean validate() {
@@ -150,10 +161,12 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
 
     @Override
     public void onResponse(Integer item) {
+        pDialog.dismissWithAnimation();
         // journey created
         if(item > 0){
 //            AlarmController.addAlarm(this,mJourney);
             ServiceController.createJourney(this,item);
+            mJourney.setId(item);
             Intent i = new Intent(this,JourneyDetailActivity.class);
             i.putExtra(JourneyDetailActivity.ARG_JOURNEY,mJourney);
             startActivity(i);
@@ -163,7 +176,7 @@ public class MapDriverActivity extends MapActivity implements IResponeTriger<Int
 
     @Override
     public void onError(String err) {
-
+    pDialog.dismissWithAnimation();
     }
     private void showError(String error){
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();

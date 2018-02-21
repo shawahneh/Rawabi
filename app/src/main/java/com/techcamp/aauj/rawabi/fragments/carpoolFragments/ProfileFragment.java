@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,9 +18,9 @@ import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.DashbordActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.EditProfileActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRiderActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysListActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRidesActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRidesListActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 /**
@@ -30,7 +29,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 public class ProfileFragment extends Fragment {
     private TextView tvName,tvEmail;
     private ImageView imageView;
-    private Button btnMyRides,btnMyJourneys,btnEditProfile,btnLogout;
+    private View btnMyRides,btnMyJourneys,btnEditProfile,btnLogout;
 
     public ProfileFragment() {
     }
@@ -56,14 +55,14 @@ public class ProfileFragment extends Fragment {
         btnMyRides.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(),MyRiderActivity.class);
+                Intent i = new Intent(getContext(),MyRidesListActivity.class);
                 startActivity(i);
             }
         });
         btnMyJourneys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(),MyJourneysActivity.class);
+                Intent i = new Intent(getContext(),MyJourneysListActivity.class);
                 startActivity(i);
             }
         });
@@ -109,8 +108,8 @@ public class ProfileFragment extends Fragment {
         tvName.setText(user.getFullname());
         tvEmail.setText(user.getUsername());
 
-        if(user.getImageurl() != null){
-            Glide.with(this).load(user.getImageurl()).apply(RequestOptions.circleCropTransform()).into(imageView);
-        }
+
+            Glide.with(this).load(user.getImageurl()).apply(RequestOptions.placeholderOf(R.drawable.person)).apply(RequestOptions.circleCropTransform()).into(imageView);
+
     }
 }

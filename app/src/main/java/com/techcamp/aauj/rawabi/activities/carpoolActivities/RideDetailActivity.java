@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +65,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         btnMeetingLoc = findViewById(R.id.btnMeetingLoc);
 
 
-        tvDate.setText(mRide.getJourney().getRealDate());
+        tvDate.setText(DateUtils.getRelativeDateTimeString(this,mRide.getJourney().getGoingDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
         tvFrom.setText(MapUtil.getAddress(this,mRide.getJourney().getStartPoint()));
         tvTo.setText(MapUtil.getAddress(this,mRide.getJourney().getEndPoint()));
         tvCarDesc.setText(mRide.getJourney().getCarDescription());

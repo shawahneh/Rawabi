@@ -6,77 +6,177 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="10dp"
+    android:background="@color/green"
     tools:context="com.techcamp.aauj.rawabi.fragments.carpoolFragments.ProfileFragment">
-    <ImageView
-        android:id="@+id/imageView"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-    <TextView
-        android:id="@+id/tvName"
-        android:textColor="@color/black"
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvEmail"
-        android:textColor="@color/black"
-        android:text="Email@mail.com"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/green"
-        app:cardCornerRadius="5dp"
-        android:layout_marginTop="10dp"
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_marginTop="20dp"
+        android:background="@color/green"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
+        android:layout_height="100dp">
+        <View
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:textColor="@color/white"
-                android:id="@+id/btnMyRides"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="My Rides"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:textColor="@color/white"
-                android:id="@+id/btnMyJourneys"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="My Journeys"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+            android:layout_height="1dp"
+            android:background="@color/white"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/white"
+            android:layout_gravity="center"
+            android:id="@+id/imageView"
+            app:civ_circle_background_color="@color/white"
+            android:src="@drawable/person"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
 
-    <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/green"
-        app:cardCornerRadius="5dp"
-        android:layout_marginTop="10dp"
+    </android.support.design.widget.CoordinatorLayout>
+    <LinearLayout
+        android:paddingBottom="5dp"
+        android:background="@color/green"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:id="@+id/tvName"
+            android:textColor="@color/white"
+            android:text="ALa Amarneh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:textColor="@color/white"
+            android:text="Email@mail.com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/btnEditProfile"
+            android:background="@drawable/gray_button_background"
+            android:text="Edit profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
-            android:orientation="vertical"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/btnMyRides"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:textColor="@color/white"
-                android:id="@+id/btnEditProfile"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="Edit profile"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_get_ride"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="My Rides"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btnLogout"
-                android:textColor="@color/red"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="Logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/btnMyJourneys"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true">
+            <ImageView
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_offer_ride"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="My Journeys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="5dp"
+                android:src="@drawable/car_notexture"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="About Carpool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/btnLogout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:tint="@color/green"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_exit_to_app_black_24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>
 

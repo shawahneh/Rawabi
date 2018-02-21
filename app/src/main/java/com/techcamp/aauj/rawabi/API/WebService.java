@@ -1,10 +1,20 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.FireJourney;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.FireRide;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.Journey;
@@ -13,9 +23,11 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Created by User on 11/15/2017.
@@ -24,41 +36,53 @@ import java.util.Date;
 
 // Dummy API
 public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
-    Context context;
+    private Context context;
     private static WebService instance;
     public WebService(Context context){
        this.context = context;
     }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public static WebService getInstance(Context context) {
-        if (instance == null)
+        if (instance == null )
             instance = new WebService(context);
+        instance.setContext(context);
+
         return instance;
     }
 
     @Override
     public void getRides(int userId, int limitStart, int limitNum,final IResponeTriger<ArrayList<Ride>> rides) {
         final ArrayList<Ride> rideArrayList = new ArrayList<>();
-        filterJourneys(null,null,null,0,new IResponeTriger<ArrayList<Journey>>() {
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
+        mRef.orderByChild("user/id").equalTo(SPController.getLocalUser(context).getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onResponse(ArrayList<Journey> item) {
-                int i =0;
-                for (Journey j :
-                        item) {
-                    Ride r = new Ride();
-                    r.setOrderStatus(i);
-                    r.setId(i++);
-
-                    r.setJourney(j);
-                    r.setMeetingLocation(j.getStartPoint());
-
-                    rideArrayList.add(r);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iterable = dataSnapshot.getChildren().iterator();
+                while (iterable.hasNext()){
+                    DataSnapshot dataSnapshot1 = iterable.next();
+                    FireRide ride =  dataSnapshot1.getValue(FireRide.class);
+                    ride.setId(Integer.parseInt( dataSnapshot1.getKey()) );
+                    if(ride.getJourney().getGoingDate().before(new Date()))
+                    {
+                        if(ride.getOrderStatus()==Ride.STATUS_ACCEPTED) ride.setOrderStatus(Ride.STATUS_ACCEPTED_TIME_LEFT);
+                        else if(ride.getOrderStatus() == Ride.STATUS_PENDING) ride.setOrderStatus(Ride.STATUS_TIME_LEFT);
+                    }
+                    rideArrayList.add(ride.toRide());
                 }
                 rides.onResponse(rideArrayList);
             }
 
             @Override
-            public void onError(String err) {
-                rides.onError(err);
+            public void onCancelled(DatabaseError databaseError) {
+                rides.onError(databaseError.getMessage());
             }
         });
     }
@@ -70,29 +94,50 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
     @Override
     public void getRidersOfJourney(int jID, final IResponeTriger<ArrayList<Ride>> triger) {
-        new android.os.Handler().postDelayed(new Runnable() {
+        final ArrayList<Ride> rides = new ArrayList<>();
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
+        mRef.orderByChild("journey/id").equalTo(jID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run() {
-
-                ArrayList<Ride> rides = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    Ride ride = new Ride();
-                    ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
-                    User user = new User();
-                    user.setFullname("ALA AMARNEH");
-                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-                    user.setPhone("0592355");
-
-                    ride.setUser(user);
-
-                    ride.setOrderStatus(i);
-                    ride.setId(i+1);
-
-                    rides.add(ride);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iterable = dataSnapshot.getChildren().iterator();
+                while (iterable.hasNext()){
+                    DataSnapshot dataSnapshot1 = iterable.next();
+                    FireRide fireRide =  dataSnapshot1.getValue(FireRide.class);
+                    fireRide.setId(Integer.parseInt( dataSnapshot1.getKey()) );
+                    rides.add(fireRide.toRide());
                 }
                 triger.onResponse(rides);
             }
-        }, 1000);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                triger.onError(databaseError.getMessage());
+            }
+        });
+
+//        new android.os.Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                ArrayList<Ride> rides = new ArrayList<>();
+//                for (int i = 0; i < 3; i++) {
+//                    Ride ride = new Ride();
+//                    ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
+//                    User user = new User();
+//                    user.setFullname("ALA AMARNEH");
+//                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+//                    user.setPhone("0592355");
+//
+//                    ride.setUser(user);
+//
+//                    ride.setOrderStatus(i);
+//                    ride.setId(i+1);
+//
+//                    rides.add(ride);
+//                }
+//                triger.onResponse(rides);
+//            }
+//        }, 1000);
     }
 
     @Override
@@ -101,35 +146,74 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             @Override
             public void run() {
 
-                rideId.onResponse( 1);
+                rideId.onResponse( (int)(Math.random()*1000));
             }
         }, 1000);
     }
 
     @Override
-    public void changeRideStatus(int rideId, int status, final IResponeTriger<Boolean> result) {
-        new android.os.Handler().postDelayed(new Runnable() {
+    public void changeRideStatus(int rideId, int status, final IResponeTriger<Boolean> triger) {
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
+        mData.child("" + rideId).child("orderStatus").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void run() {
-
-                result.onResponse( true);
+            public void onComplete(@NonNull Task<Void> task) {
+                    triger.onResponse(task.isSuccessful());
             }
-        }, 1000);
+        });
     }
 
     @Override
     public void getStatusOfRide(int rideId, final IResponeTriger<Integer> triger) {
-        new android.os.Handler().postDelayed(new Runnable() {
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
+        mData.child("" + rideId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run() {
-                triger.onResponse((int)(Math.random() * 3));
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FireRide fireRide = dataSnapshot.getValue(FireRide.class);
+                if(fireRide.getJourney().getGoingDate().before(new Date())){
+                    {
+                        if(fireRide.getOrderStatus()==Ride.STATUS_ACCEPTED) fireRide.setOrderStatus(Ride.STATUS_ACCEPTED_TIME_LEFT);
+                        else if(fireRide.getOrderStatus() == Ride.STATUS_PENDING) fireRide.setOrderStatus(Ride.STATUS_TIME_LEFT);
+                    }
+                }
+                triger.onResponse(fireRide.getOrderStatus());
             }
-        }, 1000);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                triger.onError(databaseError.getMessage());
+            }
+        });
     }
 
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum, IResponeTriger<ArrayList<Journey>> journeys) {
-        filterJourneys(null,null,null,0,journeys);
+    public void getJourneys(int userId, int limitStart, int limitNum,final IResponeTriger<ArrayList<Journey>> triger) {
+        final ArrayList<Journey> journeys = new ArrayList<>();
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
+        mRef.orderByChild("user/id").equalTo(SPController.getLocalUser(context).getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iterable = dataSnapshot.getChildren().iterator();
+                while (iterable.hasNext()){
+                    DataSnapshot dataSnapshot1 = iterable.next();
+                    FireJourney journey =  dataSnapshot1.getValue(FireJourney.class);
+                    journey.setId(Integer.parseInt( dataSnapshot1.getKey()) );
+                    updateJourneyStatus(journey);
+                    journeys.add(journey.toJourney());
+                }
+                triger.onResponse(journeys);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                triger.onError(databaseError.getMessage());
+            }
+        });
+    }
+
+    private void updateJourneyStatus(FireJourney journey) {
+        if(journey.getGoingDate().before(new Date()))
+            if (journey.getStatus()==Journey.STATUS_PENDING || journey.getStatus()==Journey.STATUS_DRIVER_CLOSED)
+                journey.setStatus(Journey.STATUS_COMPLETED);
     }
 
     @Override
@@ -141,95 +225,167 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
     @Override
     public void setNewJourney(Journey newJourney, final IResponeTriger<Integer> journeyId) {
-        new android.os.Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                journeyId.onResponse(1);
-            }
-        }, 1000);
+        final int key = (int)(Math.random()*1000);
+        FirebaseDatabase.getInstance().getReference().child("journeys").child(key+"").setValue(newJourney)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            journeyId.onResponse(key);
+                        }else
+                            journeyId.onError("error");
+                    }
+                });
     }
 
     @Override
     public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final IResponeTriger<ArrayList<Journey>> triger) {
         final ArrayList<Journey> journeys = new ArrayList<>();
-
-        new Thread(new Runnable() {
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(1500);
-
-                    Journey journey = new Journey();
-                    journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60*48)));
-                    journey.setStartPoint(new LatLng(32.01183468173907,35.18930286169053));
-                    journey.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
-                    User user = new User();
-                    user.setFullname("ALA AMARNEH");
-                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-                    user.setPhone("0592355");
-                    journey.setUser(user);
-                    journey.setStatus(1);
-                    journey.setId(1);
-                    journeys.add(journey );
-
-                    Journey j2 = new Journey();
-                    j2.setGoingDate(new Date(System.currentTimeMillis() - (1000*30)));
-                    j2.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
-                    j2.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
-                    User user2 = new User();
-                    user2.setFullname("Moh AMARNEH");
-                    user2.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-
-                    j2.setUser(user2);
-                    j2.setStatus(0);
-                    journeys.add(j2 );
-
-                    Journey j3 = new Journey();
-                    j3.setGoingDate(new Date());
-                    j3.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
-                    j3.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
-                    User user3 = new User();
-                    user3.setFullname("Moh sfdfdsf");
-                    user3.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-
-                    j3.setUser(user3);
-                    j3.setStatus(2);
-                    journeys.add(j3 );
-
-
-
-                    triger.onResponse(journeys);
-
-
-                }catch (Exception e){e.printStackTrace();}
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iterable = dataSnapshot.getChildren().iterator();
+                while (iterable.hasNext()){
+                    DataSnapshot dataSnapshot1 = iterable.next();
+                    FireJourney journey =  dataSnapshot1.getValue(FireJourney.class);
+                    journey.setId(Integer.parseInt( dataSnapshot1.getKey()) );
+                    if(journey.getGoingDate().after(new Date()))
+                        if(journey.getStatus() == Journey.STATUS_PENDING)
+                            journeys.add(journey.toJourney());
+                }
+                triger.onResponse(journeys);
             }
-        }).start();
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                triger.onError(databaseError.getMessage());
+            }
+        });
+//
+//        new android.os.Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                final ArrayList<Journey> journeys = new ArrayList<>();
+//                Journey journey = new Journey();
+//                journey.setGoingDate(new Date(System.currentTimeMillis() + (1000*60*60*48)));
+//                journey.setStartPoint(new LatLng(32.01183468173907,35.18930286169053));
+//                journey.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+//                User user = new User();
+//                user.setFullname("ALA AMARNEH");
+//                user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+//                user.setPhone("0592355");
+//                journey.setUser(user);
+//                journey.setStatus(1);
+//                journey.setId(1);
+//                journeys.add(journey );
+//
+//                Journey j2 = new Journey();
+//                j2.setGoingDate(new Date(System.currentTimeMillis() - (1000*30)));
+//                j2.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
+//                j2.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+//                User user2 = new User();
+//                user2.setFullname("Moh AMARNEH");
+//                user2.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+//
+//                j2.setUser(user2);
+//                j2.setStatus(0);
+//                journeys.add(j2 );
+//
+//                Journey j3 = new Journey();
+//                j3.setGoingDate(new Date());
+//                j3.setStartPoint(new LatLng(32.01305201874965,35.19094504415989));
+//                j3.setEndPoint(new LatLng(32.01183468173907,35.18930286169053));
+//                User user3 = new User();
+//                user3.setFullname("Moh sfdfdsf");
+//                user3.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
+//
+//                j3.setUser(user3);
+//                j3.setStatus(2);
+//                journeys.add(j3 );
+//
+//
+//
+//                triger.onResponse(journeys);
+//
+//            }
+//        }, 1000);
+
     }
 
     @Override
     public void getNumberOfJourneys(final IResponeTriger<Integer> triger) {
-        new android.os.Handler().postDelayed(new Runnable() {
+        FirebaseDatabase.getInstance().getReference().child("journeys")
+                .orderByChild("status").equalTo(Journey.STATUS_PENDING).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run() {
-               triger.onResponse(10);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long i = dataSnapshot.getChildrenCount();
+                triger.onResponse((int)i);
             }
-        }, 1000);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                triger.onError(databaseError.getMessage());
+            }
+        });
     }
 
     @Override
     public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final IResponeTriger<CustomJourney> triger) {
-        getRidersOfJourney(0, new IResponeTriger<ArrayList<Ride>>() {
+        FirebaseDatabase.getInstance().getReference().child("journeys").child(journey.getId()+"")
+                .child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onResponse(ArrayList<Ride> item) {
-                CustomJourney cj = new CustomJourney();
-                cj.setStatus(status);
-                cj.setRiders(item);
-                triger.onResponse(cj);
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    getRidersOfJourney(0, new IResponeTriger<ArrayList<Ride>>() {
+                        @Override
+                        public void onResponse(ArrayList<Ride> item) {
+                            CustomJourney cj = new CustomJourney();
+                            cj.setStatus(status);
+                            cj.setRiders(item);
+                            triger.onResponse(cj);
+                        }
+
+                        @Override
+                        public void onError(String err) {
+                            triger.onError(err);
+                        }
+                    });
+                }else
+                    triger.onError("err");
+            }
+        });
+
+
+    }
+
+    @Override
+    public void getCustomJourney(final int jid, final IResponeTriger<CustomJourney> triger) {
+        getRidersOfJourney(jid, new IResponeTriger<ArrayList<Ride>>() {
+            @Override
+            public void onResponse(final ArrayList<Ride> item) {
+                FirebaseDatabase.getInstance().getReference().child("journeys").child(jid+"").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        FireJourney fireJourney = dataSnapshot.getValue(FireJourney.class);
+                        updateJourneyStatus(fireJourney);
+                        CustomJourney customJourney = new CustomJourney();
+                        customJourney.setStatus(fireJourney.getStatus());
+                        customJourney.setRiders(item);
+                        triger.onResponse(customJourney);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        triger.onError(databaseError.getMessage());
+                    }
+                });
+
             }
 
             @Override
             public void onError(String err) {
-
+                triger.onError(err);
             }
         });
     }
@@ -262,12 +418,13 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                 User user = new User();
                 user.setFullname("ALa Amarneh");
                 user.setPassword("driver1");
-                user.setUsername("driver1");
-                user.setId(1);
-
+                user.setUsername("alaamarneh");
+                user.setImageurl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/12715321_231944050477975_3807749686171390197_n.jpg?oh=fb36d51e823d98c1581fa9525811b19b&oe=5B004C4C");
+                user.setId(2);
+                user.setPhone("0592345678");
                 resultUser.onResponse(user);
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override
@@ -318,15 +475,27 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             @Override
             public void run() {
                 ArrayList<Job> dummyEvents = new ArrayList<>();
-                for(int i=0;i<3;i++){
 
-                    Job announcement = new Job();
-                    announcement.setDate(new Date());
-                    announcement.setName("Event name " +i);
-                    announcement.setDescription("Description ... " +i);
 
-                    dummyEvents.add(announcement);
-                }
+                    Job job1 = new Job();
+                    job1.setDate(new Date());
+                    job1.setName("Jobs at Connect" );
+                    job1.setDescription("We are looking for a creative android..." );
+
+                    Job job2 = new Job();
+                    job2.setDate(new Date());
+                    job2.setName("New jobs at ASAL Technologies");
+                    job2.setDescription("Are you a  Front-End Developer Or..." );
+
+                Job job3 = new Job();
+                job3.setDate(new Date(System.currentTimeMillis() - 1000*60*60*60));
+                job3.setName("IOS Developer");
+                job3.setDescription("We are looking for a IOS Developer..." );
+
+                    dummyEvents.add(job1);
+                    dummyEvents.add(job2);
+                    dummyEvents.add(job3);
+
 
                 triger.onResponse(dummyEvents);
             }
@@ -339,12 +508,12 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             @Override
             public void run() {
                 ArrayList<String> list1 = new ArrayList<>();
-                for (int i=0;i<10;i++){
-                list1.add(i+":30");
+                for (int i=1;i<10;i++){
+                list1.add(i+":30 PM");
 
                 }
                 ArrayList<String> list2 = (ArrayList<String>)list1.clone();
-                list2.add("12:12");
+                list2.add("12:12 AM");
                 Transportation t = new Transportation();
                 t.setFromRamallah(list1);
                 t.setFromRawabi(list2);
@@ -359,7 +528,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                triger.onResponse("25 C Sunny");
+                triger.onResponse("20 °C partly cloudy");
             }
         }, 1000);
     }
@@ -411,15 +580,33 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             @Override
             public void run() {
                 ArrayList<MediaItem> dummyMedia = new ArrayList<>();
-                for(int i=0;i<3;i++){
+
 
                     MediaItem item = new MediaItem();
-                    item.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/27500564_217423392159403_6308589131273449865_o.jpg?oh=57bccd73d39fd59e4feccd01d945db68&oe=5B251B42");
+                    MediaItem item1 = new MediaItem();
+                    MediaItem item2 = new MediaItem();
+                    MediaItem item3 = new MediaItem();
+                MediaItem item4 = new MediaItem();
+                MediaItem item5 = new MediaItem();
+                MediaItem item6 = new MediaItem();
+                    item1.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27540686_10156204702514581_4143823496512946324_n.jpg?oh=b2bef4129d3b652966e7981228388759&oe=5B073AC0");
+                    item.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27751855_10156204702519581_6803973897487047225_n.jpg?oh=9a1a93a0d06812b137ea55976440451c&oe=5B1FC28F");
 
+                    item2.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/22555052_10155877170344581_6428570290616065193_n.jpg?oh=7c422d87b1a6ade919e5a6859900ff5d&oe=5B153C47");
+                    item3.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/26166338_10156104147334581_7996581899405303106_n.jpg?oh=058337a1a6a279cf88bc709c3f4026da&oe=5B053454");
+                    item4.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/25659490_10156077335224581_1978614859813627029_n.jpg?oh=680261219cee881fe065d00edf4b3cf6&oe=5B4B386D");
+                    item5.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/22528554_10155865305229581_5444081704540563130_n.jpg?oh=d8bc2c9d8a05e8d939439e838881f2c8&oe=5B0D5C55");
+                    item6.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/21768295_10155805348664581_885499770214749177_n.jpg?oh=4c856c90a90388a256db73c1bcebb4ba&oe=5B1B2B54");
                     dummyMedia.add(item);
-
-                }
-
+                dummyMedia.add(item1);
+                dummyMedia.add(item2);
+                dummyMedia.add(item3);
+                dummyMedia.add(item4);
+                dummyMedia.add(item5);
+                dummyMedia.add(item6);
+                dummyMedia.add(item2);
+                dummyMedia.add(item3);
+                dummyMedia.add(item4);
                 triger.onResponse(dummyMedia);
             }
         },1000);

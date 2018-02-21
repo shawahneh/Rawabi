@@ -12,6 +12,7 @@ public abstract class Holder<T> extends RecyclerView.ViewHolder implements View.
 
     public Holder(View itemView) {
         super(itemView);
+        itemView.setOnClickListener(this);
     }
 
     @Override

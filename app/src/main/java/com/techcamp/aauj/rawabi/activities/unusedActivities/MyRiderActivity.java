@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.carpoolActivities;
+package com.techcamp.aauj.rawabi.activities.unusedActivities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.IResponeTriger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ListActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 

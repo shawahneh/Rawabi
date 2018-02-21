@@ -45,7 +45,10 @@ public abstract class ListFragment extends Fragment {
 
     private int getNumberOfCols(){
 //        return 1;
+        if(getArguments() != null && getArguments().containsKey(ARG_NUM_OF_COLS))
         return getArguments().getInt(ARG_NUM_OF_COLS);
+
+        return 1;
     }
     public abstract void setupRecyclerViewAdapter();
 

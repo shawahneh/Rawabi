@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.techcamp.aauj.rawabi.Beans.CustomBeans.FireRide;
+import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.services.MyService;
 import com.techcamp.aauj.rawabi.services.RideService;
 
@@ -21,12 +23,14 @@ public class ServiceController {
     public static void stopService(Context context){
         context.stopService(new Intent(context,MyService.class));
     }
-    public static void createRide(Context context, int rid, int jid){
-        DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("journeys");
-        mData.child("" + jid).push().setValue(rid);
+    public static void createRide(Context context, Ride ride, int jid){
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("journeys_riders");
+        mData.child("" + jid).push().setValue(ride.getId());
+        DatabaseReference mDataRides = FirebaseDatabase.getInstance().getReference().child("rides");
+        mDataRides.child(ride.getId()+"").setValue(ride);
 
         Intent intent = new Intent(context, RideService.class);
-        intent.putExtra("rid",rid);
+        intent.putExtra("rid",ride.getId());
         intent.putExtra("mode","create");
         context.startService(intent);
     }
@@ -38,9 +42,9 @@ public class ServiceController {
         context.startService(intent);
     }
 
-    public static void changeRideStatus(int rid, String status){
+    public static void changeRideStatus(int rid, int status){
         DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
-        mData.child("" + rid).push().setValue(status);
+        mData.child("" + rid).child("orderStatus").setValue(status);
     }
 
 }

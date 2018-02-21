@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.List2Activity;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.AnnouncmentDetailsFragment;
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.ItemDetailsFragment;

@@ -19,40 +19,29 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRiderActivity;
+import com.techcamp.aauj.rawabi.activities.unusedActivities.MyRiderActivity;
 
 public class RideService extends Service {
     DatabaseReference mData;
-    ChildEventListener listener;
+    ValueEventListener listener;
     public RideService() {
     }
 
     @Override
     public void onCreate() {
         mData = FirebaseDatabase.getInstance().getReference().child("rides");
-        listener = new ChildEventListener() {
+        listener = new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null && dataSnapshot.getValue() != null){
+
                 Log.d("tag","ride | received " + dataSnapshot.getValue().toString());
-                RideService.this.notify("Carpool","Ride status changed");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                if(!dataSnapshot.getValue().toString().equals(Ride.STATUS_PENDING+""))
+                    RideService.this.notify("Carpool","Ride status changed");
+                }
             }
 
             @Override
@@ -72,7 +61,7 @@ public class RideService extends Service {
 
                 Log.d("tag","rid: " + id);
                 if(id != -1){
-                    mData.child(""+id).addChildEventListener(listener);
+                    mData.child(""+id).child("OrderStatus").addValueEventListener(listener);
 
                 }
             }else if(mode.equals("cancel")){  // when cancel the  request to driver
@@ -125,7 +114,6 @@ public class RideService extends Service {
     }
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

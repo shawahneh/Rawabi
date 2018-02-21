@@ -28,13 +28,15 @@ import com.techcamp.aauj.rawabi.database.UsersDB;
 import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
+import com.techcamp.aauj.rawabi.fragments.NewsFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
 
 public class DashbordActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener
+        implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener,
+        HomeFragment.IListener
         {
-
+private ViewPager vp_pages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,32 +55,32 @@ public class DashbordActivity extends AppCompatActivity
 //        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View view = navigationView.getHeaderView(0);
-        ImageView imageView = view.findViewById(R.id.imageView);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(DashbordActivity.this, view, "trImage");
-                Intent i = new Intent(DashbordActivity.this,JobsListActivity.class);
-                startActivity(i,options.toBundle());
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(this);
+//        View view = navigationView.getHeaderView(0);
+//        ImageView imageView = view.findViewById(R.id.imageView);
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ActivityOptionsCompat options = ActivityOptionsCompat.
+//                        makeSceneTransitionAnimation(DashbordActivity.this, view, "trImage");
+//                Intent i = new Intent(DashbordActivity.this,JobsListActivity.class);
+//                startActivity(i,options.toBundle());
+//            }
+//        });
 
-        ViewPager vp_pages= (ViewPager) findViewById(R.id.vp_pages);
+        vp_pages= (ViewPager) findViewById(R.id.vp_pages);
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
         vp_pages.setAdapter(pagerAdapter);
 
         TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
         tbl_pages.setupWithViewPager(vp_pages);
         tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
-        tbl_pages.getTabAt(1).setIcon(R.drawable.news_48px);
+        tbl_pages.getTabAt(1).setIcon(R.drawable.news_outline2);
         tbl_pages.getTabAt(0).setTag("home");
-        tbl_pages.getTabAt(1).setTag("qcenter");
+        tbl_pages.getTabAt(1).setTag("news");
 
         tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
-        tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+//        tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         tbl_pages.addOnTabSelectedListener(this);
 
     }
@@ -170,15 +172,19 @@ public class DashbordActivity extends AppCompatActivity
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        if(tab.getTag().equals("qcenter")){
-            tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+        if(tab.getTag().equals("news")){
+            tab.setIcon(getResources().getDrawable(R.drawable.news));
         }else
         tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        tab.getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+
+        if(tab.getTag().equals("news")){
+            tab.setIcon(getResources().getDrawable(R.drawable.news_outline2));
+        }else
+            tab.getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -186,6 +192,14 @@ public class DashbordActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onCardClick(String tag) {
+        switch (tag){
+            case HomeFragment.TAG_NEWS:
+                vp_pages.setCurrentItem(1);
+                break;
+        }
+    }
 
     class FragmentAdapter extends FragmentPagerAdapter {
 
@@ -198,7 +212,7 @@ public class DashbordActivity extends AppCompatActivity
                 case 0:
                     return new HomeFragment();
                 case 1:
-                    return AnnouncementsListFragment.newInstance(1);
+                    return new NewsFragment();
             }
             return null;
         }
@@ -207,7 +221,6 @@ public class DashbordActivity extends AppCompatActivity
         public int getCount() {
             return 2;
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {

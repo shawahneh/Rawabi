@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -55,6 +56,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.ProfileActivity;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.mapDirectionsLib.DataParser;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -99,6 +101,8 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     Polyline mRoute;
     private Button btnSetStart,btnSetEnd,btnSetTime;
 
+    private FloatingActionButton fabRawabi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +118,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         btnSetStart = findViewById(R.id.btnSetStart);
         btnSetEnd = findViewById(R.id.btnSetEnd);
         btnSetTime = findViewById(R.id.btnSetTime);
+        fabRawabi = findViewById(R.id.fabRawabi);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -146,7 +151,26 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
         enableGetLocation();
 
         hideMessage();
+
+        fabRawabi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng rawabi = SPController.getLocationOfRawabi();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(rawabi,DEFAULT_ZOOM));
+            }
+        });
+        fabRawabi.show();
+
+
+        layoutMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMessageClicked();
+            }
+        });
     }
+
+    protected void onMessageClicked(){}
 
     protected abstract int getLayout();
 
@@ -514,7 +538,7 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
                 Log.i("tag", "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
+
                 Log.i("tag", status.getStatusMessage());
 
             } else if (resultCode == RESULT_CANCELED) {

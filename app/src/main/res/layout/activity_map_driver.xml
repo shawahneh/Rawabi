@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:backgroundTint="@color/white"
+            app:backgroundTint="@color/white"
             app:fabSize="mini"
             android:src="@drawable/rawabi_heart"
             app:layout_anchor="@+id/linearLayout"

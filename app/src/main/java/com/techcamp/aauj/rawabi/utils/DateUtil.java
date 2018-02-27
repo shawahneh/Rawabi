@@ -4,8 +4,6 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
-import java.time.Year;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 

@@ -57,6 +57,9 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
         return instance;
     }
+    public static void clear(){
+        instance = null;
+    }
 
     @Override
     public void getRides(int userId, int limitStart, int limitNum,final IResponeTriger<ArrayList<Ride>> rides) {
@@ -569,6 +572,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
     }
 
+
     @Override
     public void getEvents(IResponeTriger<ArrayList<Event>> triger) {
         getEventAtDate(new Date(),triger);
@@ -586,9 +590,9 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     MediaItem item1 = new MediaItem();
                     MediaItem item2 = new MediaItem();
                     MediaItem item3 = new MediaItem();
-                MediaItem item4 = new MediaItem();
-                MediaItem item5 = new MediaItem();
-                MediaItem item6 = new MediaItem();
+                    MediaItem item4 = new MediaItem();
+                    MediaItem item5 = new MediaItem();
+                    MediaItem item6 = new MediaItem();
                     item1.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27540686_10156204702514581_4143823496512946324_n.jpg?oh=b2bef4129d3b652966e7981228388759&oe=5B073AC0");
                     item.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27751855_10156204702519581_6803973897487047225_n.jpg?oh=9a1a93a0d06812b137ea55976440451c&oe=5B1FC28F");
 

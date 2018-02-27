@@ -19,8 +19,8 @@
             android:layout_height="0dp"
             android:background="@color/gray"/>
         <ImageView
-            android:tint="@color/green"
-            android:src="@drawable/marker"
+            android:tint="@color/colorAccent"
+            android:src="@drawable/point_marker"
             android:layout_width="15dp"
             android:layout_height="15dp" />
         <View

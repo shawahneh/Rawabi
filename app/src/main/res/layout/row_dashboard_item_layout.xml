@@ -23,7 +23,7 @@
                 android:transitionName="trImage"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="70dp"
-                android:src="@drawable/car_withtexture"
+                android:src="@drawable/car_notexture"
                 android:id="@+id/imageView"
                 android:layout_weight="3"
                 android:layout_margin="5dp"

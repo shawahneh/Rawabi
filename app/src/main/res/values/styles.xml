@@ -36,7 +36,7 @@
 
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green</item>
-        <item name="colorAccent">#65d25f</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorTertiary">@color/white</item>
     </style>
     <!-- Base application theme. -->

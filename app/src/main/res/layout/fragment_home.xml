@@ -112,7 +112,7 @@
                 android:layout_height="40dp"
                 android:clickable="true"
                 app:fabSize="mini"
-                android:src="@drawable/car_withtexture"
+                android:src="@drawable/car_notexture"
                 app:layout_anchor="@+id/layout1"
                 app:layout_anchorGravity="top|center" />
 
@@ -152,7 +152,7 @@
                 <TextView
                     android:fontFamily="@font/comfortaa_light"
                     android:id="@+id/tvEventName"
-                    android:text="see events today"
+                    android:text="5 events today"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -196,7 +196,7 @@
                         android:fontFamily="@font/comfortaa_light"
                         android:id="@+id/tvWeather"
                         android:textSize="18sp"
-                        android:text="..."
+                        android:text="20 C Partly Cloudy"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

@@ -159,7 +159,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(rawabi,DEFAULT_ZOOM));
             }
         });
-        fabRawabi.show();
+//        fabRawabi.show();
 
 
         layoutMessage.setOnClickListener(new View.OnClickListener() {

@@ -59,7 +59,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mJourney = getIntent().getParcelableExtra("journey");
         mMarkerStartPoint = mJourney.getStartPoint();
         mMarkerEndPoint = mJourney.getEndPoint();
-        mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
+        mMarkerMeetingPoint =new LatLng(MapUtil.getCurrentLoc(this,null).getLatitude(),MapUtil.getCurrentLoc(this,null).getLongitude());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

@@ -171,11 +171,19 @@ public class HomeFragment extends Fragment {
         setupRecyclerView();
 
 
-        getWeather();
-        getEventsToday();
+//        getWeather();
+//        getEventsToday();
 
-        Glide.with(getContext()).load("https://data.whicdn.com/images/245762463/original.gif").into(imgWeather);
+//        Glide.with(getContext()).load("https://data.whicdn.com/images/245762463/original.gif").into(imgWeather);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        trigerCars = null;
+        trigerEvents = null;
+        trigerWeather = null;
     }
 
     private void getEventsToday() {

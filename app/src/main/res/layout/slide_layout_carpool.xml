@@ -3,14 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="center_horizontal"
     android:padding="10dp"
+    android:background="@color/colorPrimary"
     android:layout_height="match_parent">
 
     <ImageView
+        android:layout_weight="1"
         android:id="@+id/imageView"
         android:layout_marginTop="10dp"
         android:src="@drawable/car_notexture"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
     <TextView
         android:id="@+id/tvTitle"
         android:textStyle="bold"

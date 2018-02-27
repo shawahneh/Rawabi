@@ -77,11 +77,11 @@ public class MapUtil {
         return distance;
     }
 
-    public static void getCurrentLoc(Context context,@Nullable final ITriger<Location> locationITriger) {
+    public static Location getCurrentLoc(Context context,@Nullable final ITriger<Location> locationITriger) {
         Log.d("tag","getCurrentLoc");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            return null;
         }
         if (locationManager != null) {
             if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -90,6 +90,7 @@ public class MapUtil {
                 CurrentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
         }
+        return CurrentLocation;
     }
 
     public static boolean isConnectionAvailable(Context context) {
@@ -134,11 +135,11 @@ public class MapUtil {
             case ICON_CAR:
                 return BitmapDescriptorFactory.fromResource(R.drawable.car2);
             case ICON_END_POINT:
-                return getMarkerIconByColor("#475862");
+                return getMarkerIconByColor("#cf0000");
             case ICON_START_POINT:
                 return getMarkerIconByColor("#a1cf68");
             case ICON_MEETING_LOCATION:
-                return getMarkerIconByColor("#cf0000");
+                return getMarkerIconByColor("#5898cc");
             case ICON_RIDER:
                 return getMarkerIconByColor("#cf0000");
             case ICON_RIDER_ACCEPTED:

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
@@ -95,7 +96,13 @@ private ViewPager vp_pages;
         }
     }
 
-    @Override
+            @Override
+            protected void onStop() {
+                super.onStop();
+                WebService.clear();
+            }
+
+            @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashbord, menu);

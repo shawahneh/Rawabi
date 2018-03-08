@@ -79,8 +79,8 @@ public abstract class ListFragment extends Fragment {
     }
 
     private void checkConnection() {
-        if(!MapUtil.isConnectionAvailable(getContext()))
-            showMessageLayout("No Internet Connection",R.drawable.ic_signal_wifi_off_black_48dp);
+//        if(!MapUtil.isConnectionAvailable(getContext()))
+//            showMessageLayout("No Internet Connection",R.drawable.ic_signal_wifi_off_black_48dp);
     }
 
     protected void showMessageLayout(String msg, String url){

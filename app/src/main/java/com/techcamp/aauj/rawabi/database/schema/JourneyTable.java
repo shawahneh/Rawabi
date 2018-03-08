@@ -36,5 +36,7 @@ public class JourneyTable {
         public static final String COL_GenderPrefer = "genderPrefer";
         public static final String COL_CarDescription = "carDescription";
         public static final String COL_Status = "status";
+
+
     }
 }

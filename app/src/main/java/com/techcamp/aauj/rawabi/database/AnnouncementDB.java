@@ -80,7 +80,8 @@ public class AnnouncementDB <B extends Announcement,T extends AnnouncementTable>
         bean.setName(rs.getString(rs.getColumnIndex(T.Cols.COL_NAME)));
         bean.setDescription(rs.getString(rs.getColumnIndex(T.Cols.COL_DESCRIPTION)));
         bean.setImageUrl(rs.getString(rs.getColumnIndex(T.Cols.COL_IMAGE_URL)));
-        bean.setDate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.COL_DATE))));
+        bean.setStartDate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.COL_Start_DATE))));
+        bean.setEndDate(new Date(rs.getLong(rs.getColumnIndex(T.Cols.COL_END_DATE))));
 
     }
 
@@ -101,7 +102,8 @@ public class AnnouncementDB <B extends Announcement,T extends AnnouncementTable>
         values.put(T.Cols.COL_NAME , bean.getName());
         values.put(T.Cols.COL_DESCRIPTION , bean.getDescription());
         values.put(T.Cols.COL_IMAGE_URL , bean.getImageUrl());
-        values.put(T.Cols.COL_DATE , bean.getDate().getTime());
+        values.put(T.Cols.COL_Start_DATE , bean.getStartDate().getTime());
+        values.put(T.Cols.COL_END_DATE , bean.getEndDate().getTime());
     }
 
     public boolean deleteBean(int key){

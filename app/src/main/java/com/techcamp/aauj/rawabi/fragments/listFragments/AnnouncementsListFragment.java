@@ -120,7 +120,7 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
         public void bind(Announcement announcement, int pos) {
             super.bind(announcement,pos);
             mEventDesc.setText(announcement.getDescription());
-            mEventDate.setText(DateUtils.getRelativeDateTimeString(getContext(),announcement.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
+            mEventDate.setText(DateUtils.getRelativeDateTimeString(getContext(),announcement.getStartDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
             mEventName.setText(announcement.getName());
             if(announcement.getImageUrl() != null)
                 Glide.with(getContext()).load(announcement.getImageUrl()).into(mEventImage);

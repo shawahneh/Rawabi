@@ -52,7 +52,7 @@ public class AnnouncmentDetailsFragment extends ItemDetailsFragment<Announcement
     protected void refreshView() {
         tvName.setText(mItem.getName());
         tvDescription.setText(mItem.getDescription());
-        tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(), mItem.getDate().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+        tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(), mItem.getStartDate().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
         if (mItem.getImageUrl() != null) {
             Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
         }

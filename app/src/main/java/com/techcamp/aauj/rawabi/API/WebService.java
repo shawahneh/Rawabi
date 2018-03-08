@@ -428,7 +428,8 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
                     Announcement announcement1 = new Announcement();
                     announcement1.setId(1);
-                    announcement1.setDate(new Date());
+                    announcement1.setStartDate(new Date());
+                    announcement1.setEndDate(new Date());
                     announcement1.setName("");
                     announcement1.setDescription("Description ... " +i);
                     announcement1.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/26907083_2009955205948738_1687566795894215353_n.jpg?oh=80ba2e78704a59233b9f4a287220d8bc&oe=5B262BBB");
@@ -437,7 +438,8 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
                     Announcement announcement2 = new Announcement();
                     announcement2.setId(2);
-                    announcement2.setDate(new Date());
+                    announcement2.setStartDate(new Date());
+                    announcement2.setEndDate(new Date());
                     announcement2.setName("TOMMY HILFIGER, PAUL&SHARK");
                     announcement2.setDescription("Description ... " +i);
                     announcement2.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t31.0-8/26173178_1995119340765658_5030634414212496139_o.jpg?oh=b70574238d7dd0e166d7c07325371426&oe=5ADE543D");
@@ -445,7 +447,8 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
                     Announcement announcement3 = new Announcement();
                     announcement3.setId(3);
-                    announcement3.setDate(new Date());
+                    announcement3.setStartDate(new Date());
+                    announcement3.setEndDate(new Date());
                     announcement3.setName("دورة تأسيسية لتعليم الأطفال الشطرنج");
                     announcement3.setDescription("Description ... " +i);
                     announcement3.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/25354153_1987912081486384_6247984867950597829_n.jpg?oh=a947fb219a2c6c1575a1fb50f87a6d28&oe=5AE0722E");

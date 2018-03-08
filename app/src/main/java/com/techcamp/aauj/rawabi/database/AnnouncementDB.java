@@ -101,7 +101,7 @@ public class AnnouncementDB <B extends Announcement,T extends AnnouncementTable>
         values.put(T.Cols.COL_NAME , bean.getName());
         values.put(T.Cols.COL_DESCRIPTION , bean.getDescription());
         values.put(T.Cols.COL_IMAGE_URL , bean.getImageUrl());
-        values.put(T.Cols.COL_DATE , String.valueOf(bean.getDate()));
+        values.put(T.Cols.COL_DATE , bean.getDate().getTime());
     }
 
     public boolean deleteBean(int key){

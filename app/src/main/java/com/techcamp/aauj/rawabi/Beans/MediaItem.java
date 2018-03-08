@@ -8,7 +8,9 @@ import android.os.Parcelable;
  */
 
 public class MediaItem implements Parcelable {
+    private int id;
     private String imageUrl;
+    private String description;
 
     protected MediaItem(Parcel in) {
         imageUrl = in.readString();
@@ -29,6 +31,7 @@ public class MediaItem implements Parcelable {
     public MediaItem() {
     }
 
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -45,5 +48,21 @@ public class MediaItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(imageUrl);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

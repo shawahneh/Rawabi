@@ -2,9 +2,6 @@ package com.techcamp.aauj.rawabi.Beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.format.DateUtils;
-
-import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import java.util.Date;
 
@@ -15,7 +12,9 @@ import java.util.Date;
 public class Announcement implements Parcelable{
     private int id;
     private String name,description,imageUrl;
-    private Date date;
+    private Date startDate;
+    private Date endDate;
+
     public Announcement(){}
 
     protected Announcement(Parcel in) {
@@ -23,7 +22,8 @@ public class Announcement implements Parcelable{
         name = in.readString();
         description = in.readString();
         imageUrl = in.readString();
-        date = new Date(in.readLong());
+        setStartDate(new Date(in.readLong()));
+        setEndDate(new Date(in.readLong()));
     }
 
     public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
@@ -70,12 +70,20 @@ public class Announcement implements Parcelable{
         this.imageUrl = imageUrl;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
 
@@ -90,8 +98,10 @@ public class Announcement implements Parcelable{
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeString(imageUrl);
-        parcel.writeLong(date.getTime());
+        parcel.writeLong(startDate.getTime());
+        parcel.writeLong(endDate.getTime());
     }
+
 
 
 }

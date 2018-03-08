@@ -12,14 +12,16 @@ public class AnnouncementTable {
             + Cols.COL_NAME + " VARCHAR ,"
             + Cols.COL_DESCRIPTION + " VARCHAR ,"
             + Cols.COL_IMAGE_URL + " VARCHAR ,"
-            + Cols.COL_DATE + " DATETIME "
+            + Cols.COL_Start_DATE + " DATETIME ,"
+            + Cols.COL_END_DATE + " DATETIME "
             + ")";
     public class Cols{
         public static final String COL_ID = "aid";
         public static final String COL_NAME = "name";
         public static final String COL_DESCRIPTION = "description";
         public static final String COL_IMAGE_URL = "imageUrl";
-        public static final String COL_DATE = "COL_DATE";
+        public static final String COL_Start_DATE = "COL_Start_DATE";
+        public static final String COL_END_DATE = "COL_END_DATE";
 
 
     }

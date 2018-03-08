@@ -131,7 +131,7 @@ public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList
         Announcement event = events.get(position);
         holder.getmEventDesc().setText(event.getDescription());
         holder.getmEventName().setText(event.getName());
-        holder.getmEventDate().setText(event.getDate().toString());
+        holder.getmEventDate().setText(event.getStartDate().toString());
 
         Glide.with(mContext).load(event.getImageUrl()).into(holder.getmEventImage());
     }

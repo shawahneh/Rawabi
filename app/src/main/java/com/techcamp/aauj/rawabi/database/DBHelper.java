@@ -31,7 +31,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     protected Context mContext;
     private int mNumberOfItems = 100;
 
-    public static final int VERSION = 10;
+    public static final int VERSION = 12;
     public static final String DATABASE_NAME = "rawabi.db";
 
     protected DBHelper(Context context)

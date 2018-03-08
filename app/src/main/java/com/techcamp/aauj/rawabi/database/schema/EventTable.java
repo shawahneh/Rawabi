@@ -12,7 +12,7 @@ public class EventTable {
             + EventTable.Cols.COL_NAME + " VARCHAR ,"
             + EventTable.Cols.COL_DESCRIPTION + " VARCHAR ,"
             + EventTable.Cols.COL_IMAGE_URL + "VARCHAR ,"
-            + EventTable.Cols.COL_DATE + "DATETIME ,"
+            + EventTable.Cols.COL_DATE + "DATETIME "
             + ")";
     public class Cols{
         public static final String COL_ID = "eid";

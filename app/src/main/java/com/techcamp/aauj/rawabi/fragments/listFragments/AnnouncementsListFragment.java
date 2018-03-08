@@ -118,6 +118,7 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
 
         @Override
         public void bind(Announcement announcement, int pos) {
+            super.bind(announcement,pos);
             mEventDesc.setText(announcement.getDescription());
             mEventDate.setText(DateUtils.getRelativeDateTimeString(getContext(),announcement.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
             mEventName.setText(announcement.getName());

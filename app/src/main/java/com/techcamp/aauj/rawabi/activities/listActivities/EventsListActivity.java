@@ -6,6 +6,8 @@ import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
+import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.EventDetailsFragment;
+import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.JobDetailsFragment;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 
@@ -31,6 +33,6 @@ public class EventsListActivity extends BasicActivity<Event> implements ListFrag
 
     @Override
     public void onItemClicked(Event item) {
-
+        replaceFragment(EventDetailsFragment.newInstance(item));
     }
 }

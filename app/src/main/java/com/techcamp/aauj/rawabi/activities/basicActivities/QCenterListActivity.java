@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
+import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.AnnouncmentDetailsFragment;
+import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.EventDetailsFragment;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
 
@@ -34,6 +36,6 @@ public class QCenterListActivity extends BasicActivity implements ListFragment.I
 
     @Override
     public void onItemClicked(Announcement item) {
-        // TODO: 3/7/2018
+        replaceFragment(AnnouncmentDetailsFragment.newInstance(item));
     }
 }

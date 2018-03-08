@@ -32,7 +32,7 @@ public class EventDetailsFragment extends ItemDetailsFragment<Event> {
     public static ItemDetailsFragment newInstance(Event event) {
         ItemDetailsFragment fragment = new EventDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ScrollingActivity.ARG_ITEM_ID, event);
+        bundle.putParcelable(ARG_ITEM, event);
         fragment.setArguments(bundle);
         return fragment;
     }

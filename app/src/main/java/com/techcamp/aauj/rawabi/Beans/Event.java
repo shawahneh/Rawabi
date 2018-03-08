@@ -13,11 +13,13 @@ import java.util.Date;
  */
 
 public class Event implements Parcelable {
+    int id;
     private String name,description,imageUrl;
     private Date date;
     public Event(){}
 
     protected Event(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         description = in.readString();
         imageUrl = in.readString();
@@ -36,6 +38,10 @@ public class Event implements Parcelable {
         }
     };
 
+    public int getId() {return id;}
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -76,6 +82,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeString(imageUrl);

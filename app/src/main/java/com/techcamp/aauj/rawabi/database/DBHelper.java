@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.database.schema.EventTable;
 import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
 import com.techcamp.aauj.rawabi.database.schema.RideTable;
 import com.techcamp.aauj.rawabi.database.schema.UserTable;
@@ -61,6 +62,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL(UserTable.CREATE_TABLE);
         db.execSQL(JourneyTable.CREATE_TABLE);
         db.execSQL(RideTable.CREATE_TABLE);
+        db.execSQL(EventTable.CREATE_TABLE);
 
     }
 
@@ -70,6 +72,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL("drop table if EXISTS " + UserTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + JourneyTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + RideTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + EventTable.TBL_NAME);
         onCreate(db);
     }
 

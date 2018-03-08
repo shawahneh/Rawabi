@@ -21,6 +21,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.Beans.TransportationElement;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
@@ -510,13 +511,16 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ArrayList<String> list1 = new ArrayList<>();
+                ArrayList<TransportationElement> list1 = new ArrayList<>();
                 for (int i=1;i<10;i++){
-                list1.add(i+":30 PM");
+                    TransportationElement transportationElement = new TransportationElement();
+                    transportationElement.setType(TransportationElement.TYPE_FROM_RAWABI);
+                    transportationElement.setTime(i+":30 PM");
+                    list1.add(transportationElement);
 
                 }
-                ArrayList<String> list2 = (ArrayList<String>)list1.clone();
-                list2.add("12:12 AM");
+                ArrayList<TransportationElement> list2 = (ArrayList<TransportationElement>)list1.clone();
+
                 Transportation t = new Transportation();
                 t.setFromRamallah(list1);
                 t.setFromRawabi(list2);

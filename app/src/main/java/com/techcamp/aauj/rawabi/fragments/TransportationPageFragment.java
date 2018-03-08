@@ -42,10 +42,24 @@ public class TransportationPageFragment extends Fragment {
         rvFromRawabi = view.findViewById(R.id.rvFromRawabi);
         mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
+        // transportation available from
         triger = new ICallBack<Transportation>() {
             @Override
             public void onResponse(Transportation item) {
                 mSwipeRefreshLayout.setRefreshing(false);
+
+                // clear database
+                TransportationDB.getInstance(getContext()).deleteAll();
+
+                // save to database
+                for (TransportationElement tr :
+                        item.getFromRamallah()) {
+                    TransportationDB.getInstance(getContext()).saveBean(tr);
+                }
+                for (TransportationElement tr :
+                        item.getFromRawabi()) {
+                    TransportationDB.getInstance(getContext()).saveBean(tr);
+                }
 
                 loadListToAdapter(item);
 
@@ -60,7 +74,7 @@ public class TransportationPageFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadTransportation();
+                loadTransportationFromWeb();
             }
         });
         mSwipeRefreshLayout.setRefreshing(true);
@@ -76,11 +90,6 @@ public class TransportationPageFragment extends Fragment {
         rvFromRawabi.setAdapter(adapterFromRawabi);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        loadFromDatabase();
-    }
 
     private void loadFromDatabase() {
         List<TransportationElement> listFromRawabi = TransportationDB.getInstance(getContext()).getAllByType(TransportationElement.TYPE_FROM_RAWABI);
@@ -89,6 +98,8 @@ public class TransportationPageFragment extends Fragment {
         Transportation transportation = new Transportation();
         transportation.setFromRamallah( listFromRamallah);
         transportation.setFromRawabi(listFromRawabi);
+
+        loadListToAdapter(transportation);
 
 
     }
@@ -107,10 +118,11 @@ public class TransportationPageFragment extends Fragment {
         rvFromRawabi.setHasFixedSize(true);
         rvFromRamallah.setHasFixedSize(true);
 
-        loadTransportation();
+        loadFromDatabase();
+        loadTransportationFromWeb();
     }
 
-    private void loadTransportation() {
+    private void loadTransportationFromWeb() {
         api.getTransportation(triger);
     }
 

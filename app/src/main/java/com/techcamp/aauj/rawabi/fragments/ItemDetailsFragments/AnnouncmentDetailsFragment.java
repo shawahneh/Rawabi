@@ -17,9 +17,6 @@ import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AnnouncmentDetailsFragment extends ItemDetailsFragment<Announcement> {
     private TextView tvName, tvDescription, tvDate;
     private ImageView imageView;
@@ -32,7 +29,7 @@ public class AnnouncmentDetailsFragment extends ItemDetailsFragment<Announcement
     public static ItemDetailsFragment newInstance(Announcement announcement) {
         ItemDetailsFragment fragment = new AnnouncmentDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ScrollingActivity.ARG_ITEM_ID, announcement);
+        bundle.putParcelable(ARG_ITEM, announcement);
         fragment.setArguments(bundle);
         return fragment;
     }

@@ -13,11 +13,13 @@ import java.util.Date;
  */
 
 public class Announcement implements Parcelable{
+    private int id;
     private String name,description,imageUrl;
     private Date date;
     public Announcement(){}
 
     protected Announcement(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         description = in.readString();
         imageUrl = in.readString();
@@ -36,6 +38,14 @@ public class Announcement implements Parcelable{
         }
     };
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -76,9 +86,12 @@ public class Announcement implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeString(imageUrl);
         parcel.writeLong(date.getTime());
     }
+
+
 }

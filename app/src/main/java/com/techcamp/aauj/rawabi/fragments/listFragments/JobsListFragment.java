@@ -13,6 +13,7 @@ import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
+import com.techcamp.aauj.rawabi.database.JobsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;
@@ -33,17 +34,44 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        loadFromDatabase();
         api.getJobs(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
+    private void loadFromDatabase() {
+        List<Job> list = JobsDB.getInstance(getContext()).getAll();
+        loadListToAdapter(list);
+    }
+
+    private void loadListToAdapter(List<Job> list) {
+        if(isAdded()){{
+            //  available
+            if(list.size() <= 0){
+                showMessageLayout("No internet connection",R.drawable.ic_signal_wifi_off_black_48dp);
+            }else{
+                hideMessageLayout();
+                MyAdapter adapter = new MyAdapter(list);
+                mRecyclerView.setAdapter(adapter);
+            }
+        }}
+    }
+
     @Override
     public void onResponse(ArrayList<Job> value) {
+        //clear database
+        JobsDB.getInstance(getContext()).deleteAll();
+
+        // save to database
+        for (Job j :
+                value) {
+            JobsDB.getInstance(getContext()).saveBean(j);
+        }
         mSwipeRefreshLayout.setRefreshing(false);
         if(isAdded()){{
             //  available
             if(value.size() <= 0){
-                showMessageLayout("No internet connection",R.drawable.ic_signal_wifi_off_black_48dp);
+                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(value);

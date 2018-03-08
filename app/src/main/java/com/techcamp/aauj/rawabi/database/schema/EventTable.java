@@ -8,11 +8,11 @@ public class EventTable {
 
     public static final String TBL_NAME = "events";
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TBL_NAME + "("
-            + EventTable.Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
-            + EventTable.Cols.COL_NAME + " VARCHAR ,"
-            + EventTable.Cols.COL_DESCRIPTION + " VARCHAR ,"
-            + EventTable.Cols.COL_IMAGE_URL + "VARCHAR ,"
-            + EventTable.Cols.COL_DATE + "DATETIME "
+            + Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
+            + Cols.COL_NAME + " VARCHAR ,"
+            + Cols.COL_DESCRIPTION + " VARCHAR ,"
+            + Cols.COL_IMAGE_URL + "VARCHAR ,"
+            + Cols.COL_DATE + "DATETIME "
             + ")";
     public class Cols{
         public static final String COL_ID = "eid";

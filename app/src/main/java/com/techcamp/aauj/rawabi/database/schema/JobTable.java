@@ -19,7 +19,7 @@ public class JobTable {
         public static final String COL_NAME = "name";
         public static final String COL_DESCRIPTION = "description";
         public static final String COL_IMAGE_URL = "imageUrl";
-        public static final String COL_DATE = "date";
+        public static final String COL_DATE = "COL_DATE";
 
 
     }

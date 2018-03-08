@@ -18,7 +18,7 @@ import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
@@ -31,7 +31,7 @@ import java.util.Date;
  */
 
 
-public class MapDriverActivity extends MapActivity implements IResponeTriger<Integer>{
+public class MapDriverActivity extends MapActivity implements ICallBack<Integer> {
     private CarpoolApi poolingJourney = WebService.getInstance(this);
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;

@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -30,7 +30,7 @@ import java.util.List;
  * Created by alaam on 12/31/2017.
  */
 
-public class AnnouncementsListFragment extends ListFragment implements IResponeTriger<ArrayList<Announcement>> {
+public class AnnouncementsListFragment extends ListFragment implements ICallBack<ArrayList<Announcement>> {
     BasicApi api = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new AnnouncementsListFragment();
@@ -94,6 +94,8 @@ public class AnnouncementsListFragment extends ListFragment implements IResponeT
 //        }
         @Override
         public void onClicked(View v) {
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
 //            final int originalHeight = details().getHeight();
 //            animationDown((LinearLayout) details(), originalHeight);//here put the name of you layout that have the options to expand.
         }

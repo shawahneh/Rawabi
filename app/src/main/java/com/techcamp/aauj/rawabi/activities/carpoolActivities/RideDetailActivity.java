@@ -24,13 +24,13 @@ import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
-public class RideDetailActivity extends AppCompatActivity implements OnMapReadyCallback, IResponeTriger<Boolean>{
+public class RideDetailActivity extends AppCompatActivity implements OnMapReadyCallback, ICallBack<Boolean> {
     public static final String ARG_RIDE = "ride";
     private static final float DEFAULT_ZOOM = 15;
     private Ride mRide;
@@ -39,7 +39,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     TextView tvStatus;
     private CarpoolApi poolingRides = WebService.getInstance(this);
     private GoogleMap mMap;
-    private IResponeTriger<Integer> statusRespones;
+    private ICallBack<Integer> statusRespones;
     private SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,8 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
 
         tvDate.setText(DateUtils.getRelativeDateTimeString(this,mRide.getJourney().getGoingDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
-        tvFrom.setText(MapUtil.getAddress(this,mRide.getJourney().getStartPoint()));
-        tvTo.setText(MapUtil.getAddress(this,mRide.getJourney().getEndPoint()));
+        tvFrom.setText(MapUtil.getSavedAddress(this,mRide.getJourney().getStartPoint()));
+        tvTo.setText(MapUtil.getSavedAddress(this,mRide.getJourney().getEndPoint()));
         tvCarDesc.setText(mRide.getJourney().getCarDescription());
         tvDriverName.setText(mRide.getJourney().getUser().getFullname());
         tvStatus.setText(StringUtil.getRideStatus(mRide.getOrderStatus()));
@@ -120,7 +120,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         });
 
 
-        statusRespones = new IResponeTriger<Integer>() {
+        statusRespones = new ICallBack<Integer>() {
             @Override
             public void onResponse(Integer item) {
                 pDialog.dismissWithAnimation();

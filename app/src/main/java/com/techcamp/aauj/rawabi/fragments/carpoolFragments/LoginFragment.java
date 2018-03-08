@@ -11,13 +11,11 @@ import android.widget.EditText;
 
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 
@@ -43,7 +41,7 @@ public class LoginFragment extends Fragment {
 
                 showProgress();
                 mAuthWebApi.login(mEditTextEmail.getText().toString(), mEditTextPassword.getText().toString(),
-                        new IResponeTriger<User>() {
+                        new ICallBack<User>() {
                             @Override
                             public void onResponse(User item) {
                                 pDialog.dismissWithAnimation();

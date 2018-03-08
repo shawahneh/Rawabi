@@ -18,13 +18,13 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.ArrayList;
 
 
-public class AnnouncmentFragment extends Fragment implements IResponeTriger<ArrayList<Announcement>> {
+public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList<Announcement>> {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -131,7 +131,7 @@ public class AnnouncmentFragment extends Fragment implements IResponeTriger<Arra
         Announcement event = events.get(position);
         holder.getmEventDesc().setText(event.getDescription());
         holder.getmEventName().setText(event.getName());
-        holder.getmEventDate().setText(event.getRealDate());
+        holder.getmEventDate().setText(event.getDate().toString());
 
         Glide.with(mContext).load(event.getImageUrl()).into(holder.getmEventImage());
     }

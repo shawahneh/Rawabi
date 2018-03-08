@@ -1,6 +1,5 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -11,10 +10,9 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Job;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
-import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.JobDetailsActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import java.util.List;
  * Created by alaam on 12/31/2017.
  */
 
-public class JobsListFragment extends ListFragment implements IResponeTriger<ArrayList<Job>> {
+public class JobsListFragment extends ListFragment implements ICallBack<ArrayList<Job>> {
     BasicApi api = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new JobsListFragment();
@@ -60,6 +58,8 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+
+
     private class MyHolder extends com.techcamp.aauj.rawabi.abstractAdapters.Holder<Job> {
         private TextView mEventName,mEventDesc,mEventDate;
         private ImageView mEventImage;
@@ -75,16 +75,17 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
 
         @Override
         public void bind(Job job, int pos) {
+            super.bind(job,pos);
             mEventDesc.setText(job.getDescription());
-            mEventDate.setText(job.getRealDate());
+            mEventDate.setText(job.getDate().toString());
             mEventName.setText(job.getName());
             if(job.getImageUrl() != null)
                 Glide.with(getContext()).load(job.getImageUrl()).into(mEventImage);
         }
         @Override
         public void onClicked(View v) {
-//            Intent i = JobDetailsActivity.getIntent(getContext(),mItem);
-//            startActivity(i);
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
 
     }
@@ -104,4 +105,5 @@ public class JobsListFragment extends ListFragment implements IResponeTriger<Arr
             return new MyHolder(v);
         }
     }
+
 }

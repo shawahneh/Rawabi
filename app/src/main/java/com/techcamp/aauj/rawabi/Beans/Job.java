@@ -66,9 +66,6 @@ public class Job  implements Parcelable {
     public void setDate(Date date) {
         this.date = date;
     }
-    public String getRealDate(){
-        return DateUtil.formatDate(date.getTime());
-    }
 
     @Override
     public int describeContents() {

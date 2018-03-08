@@ -22,7 +22,7 @@ import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import org.json.JSONArray;
@@ -56,7 +56,7 @@ public class WebApi implements BasicApi,AuthWebApi
         return instance;
     }
 
-    private void send(final Map<String,String> params, final IResponeTriger<JSONObject> result)
+    private void send(final Map<String,String> params, final ICallBack<JSONObject> result)
     {
         Log.d("tagWebApi","send");
 
@@ -115,7 +115,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void userRegister(User user, final IResponeTriger<Boolean> booleanITriger) {
+    public void userRegister(User user, final ICallBack<Boolean> booleanITriger) {
         Map<String,String> params = new HashMap<String, String>();
 
         //($username,$password,$fullname,$gender,$birthdate,$address,$userType,$image,$phone)
@@ -130,7 +130,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("userType","1");
         params.put("image",user.getImageurl());
         params.put("phone",user.getPhone());
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -160,7 +160,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void setUserDetails(User user, String OldPassword, IResponeTriger<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, ICallBack<Boolean> booleanITriger) {
 
     }
 
@@ -169,7 +169,7 @@ public class WebApi implements BasicApi,AuthWebApi
     // if username = null give me the current user
     // if username = null gime me the current user
     @Override
-    public void getUserDetails(int userId, final IResponeTriger<User> resultUser) {
+    public void getUserDetails(int userId, final ICallBack<User> resultUser) {
 
 
         Map<String,String> params = new HashMap<String, String>();
@@ -179,7 +179,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("password",localUser.getPassword());
         params.put("userId",userId+"");
 
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -228,7 +228,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void login(final String username, final String password, final IResponeTriger<User> resultUser) {
+    public void login(final String username, final String password, final ICallBack<User> resultUser) {
         Map<String,String> params = new HashMap<String, String>();
         Log.i("tagWebApi", "login: u: "+username+" p: "+password);
         params.put("action","getUserDetails");
@@ -236,7 +236,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("password",password);
         params.put("userId","-1");
 
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -284,12 +284,12 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void checkAuth(String username, String password, final IResponeTriger<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, final ICallBack<Boolean> booleanITriger) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","userAuth");
         params.put("username",username);
         params.put("password",password);
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -322,7 +322,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum, final IResponeTriger<ArrayList<Journey>> journeys) {
+    public void getJourneys(int userId, int limitStart, int limitNum, final ICallBack<ArrayList<Journey>> journeys) {
         User localUser = getLocalUser();
         // if the userId <= 0 then get the logged in user
         Map<String,String> params = new HashMap<String, String>();
@@ -333,7 +333,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("start",limitStart+"");
         params.put("num",limitNum+"");
 
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -394,13 +394,13 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getJourneyDetails(int id, IResponeTriger<Journey> journey) {
+    public void getJourneyDetails(int id, ICallBack<Journey> journey) {
 
     }
 
     //DONE
     @Override
-    public void setNewJourney(Journey newJourney, final IResponeTriger<Integer> journeyId) {
+    public void setNewJourney(Journey newJourney, final ICallBack<Integer> journeyId) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -417,7 +417,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("genderPrefer",newJourney.getGenderPrefer()+"");
         params.put("carDescription",newJourney.getCarDescription());
 
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -456,30 +456,30 @@ public class WebApi implements BasicApi,AuthWebApi
 
 
     @Override
-    public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final IResponeTriger<ArrayList<Journey>> Journeys) {
+    public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final ICallBack<ArrayList<Journey>> Journeys) {
 
 
     }
 
     @Override
-    public void getNumberOfJourneys(IResponeTriger<Integer> triger) {
+    public void getNumberOfJourneys(ICallBack<Integer> triger) {
 
     }
 
     @Override
-    public void changeJourneyStatusAndGetRiders(Journey journey, int status, IResponeTriger<CustomJourney> triger) {
+    public void changeJourneyStatusAndGetRiders(Journey journey, int status, ICallBack<CustomJourney> triger) {
 
     }
 
     @Override
-    public void getCustomJourney(int jid, IResponeTriger<CustomJourney> triger) {
+    public void getCustomJourney(int jid, ICallBack<CustomJourney> triger) {
 
     }
 
 
     //DONE
     @Override
-    public void getRides(int userId, int limitStart, int limitNum, final IResponeTriger<ArrayList<Ride>> rides) {
+    public void getRides(int userId, int limitStart, int limitNum, final ICallBack<ArrayList<Ride>> rides) {
 
         User localUser = getLocalUser();
 
@@ -491,7 +491,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("start",limitStart+"");
         params.put("num",limitNum+"");
 
-        send(params, new IResponeTriger<JSONObject>() {
+        send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
                 try {
@@ -571,63 +571,63 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getRideDetails(int rideId, IResponeTriger<Ride> ride) {
+    public void getRideDetails(int rideId, ICallBack<Ride> ride) {
 
     }
 
     @Override
-    public void getRidersOfJourney(int jID, IResponeTriger<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(int jID, ICallBack<ArrayList<Ride>> triger) {
 
     }
 
     @Override
-    public void setRideOnJourney(Ride newRide, IResponeTriger<Integer> rideId) {
+    public void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId) {
 
     }
 
     @Override
-    public void changeRideStatus(int rideId, int status, IResponeTriger<Boolean> result) {
+    public void changeRideStatus(int rideId, int status, ICallBack<Boolean> result) {
 
     }
 
     @Override
-    public void getStatusOfRide(int rideId, IResponeTriger<Integer> triger) {
+    public void getStatusOfRide(int rideId, ICallBack<Integer> triger) {
 
     }
 
 
     @Override
-    public void getEventAtDate(Date date, IResponeTriger<ArrayList<Event>> eventITriger) {
+    public void getEventAtDate(Date date, ICallBack<ArrayList<Event>> eventITriger) {
 
     }
 
     @Override
-    public void getEvents(IResponeTriger<ArrayList<Event>> triger) {
+    public void getEvents(ICallBack<ArrayList<Event>> triger) {
 
     }
 
     @Override
-    public void getAnnouns(IResponeTriger<ArrayList<Announcement>> eventITriger) {
+    public void getAnnouns(ICallBack<ArrayList<Announcement>> eventITriger) {
 
     }
 
     @Override
-    public void getJobs(IResponeTriger<ArrayList<Job>> triger) {
+    public void getJobs(ICallBack<ArrayList<Job>> triger) {
 
     }
 
     @Override
-    public void getTransportation(IResponeTriger<Transportation> triger) {
+    public void getTransportation(ICallBack<Transportation> triger) {
 
     }
 
     @Override
-    public void getWeather(IResponeTriger<String> triger) {
+    public void getWeather(ICallBack<String> triger) {
 
     }
 
     @Override
-    public void getMedia(IResponeTriger<ArrayList<MediaItem>> triger) {
+    public void getMedia(ICallBack<ArrayList<MediaItem>> triger) {
 
     }
 }

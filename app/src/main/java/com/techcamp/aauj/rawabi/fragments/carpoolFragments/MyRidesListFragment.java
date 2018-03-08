@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -24,7 +24,7 @@ import java.util.List;
  * Created by alaam on 2/18/2018.
  */
 
-public class MyRidesListFragment extends ListFragment implements IResponeTriger<ArrayList<Ride>> {
+public class MyRidesListFragment extends ListFragment implements ICallBack<ArrayList<Ride>> {
 
     @Override
     public void setupRecyclerViewAdapter() {
@@ -72,8 +72,8 @@ public class MyRidesListFragment extends ListFragment implements IResponeTriger<
 
         @Override
         public void onClicked(View v) {
-            Intent i = RideDetailActivity.getIntent(getContext(),mItem);
-            startActivity(i);
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
     }
     class MyAdapter extends RecyclerAdapter<Ride>{

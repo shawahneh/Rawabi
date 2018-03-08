@@ -21,13 +21,13 @@ import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
-public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,IResponeTriger<Integer>{
+public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,ICallBack<Integer> {
     private Button btnHisLocation,btnMyLocation;
     private View btnMarker;
     private Button mButtonSubmit;

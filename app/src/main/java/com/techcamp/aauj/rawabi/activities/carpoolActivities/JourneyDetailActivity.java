@@ -28,7 +28,7 @@ import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -50,7 +50,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private ArrayList<Ride> mRiders;
     private  MyJourneysAdapter adapter;
     private SweetAlertDialog pDialog;
-    private IResponeTriger<CustomJourney> trigerCustomJourney;
+    private ICallBack<CustomJourney> trigerCustomJourney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             btnComplete.setVisibility(View.GONE);
         }
 
-        trigerCustomJourney = new IResponeTriger<CustomJourney>() {
+        trigerCustomJourney = new ICallBack<CustomJourney>() {
             @Override
             public void onResponse(CustomJourney item) {
                 if(pDialog != null)
@@ -111,7 +111,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
          tvCarDesc = findViewById(R.id.tvCarDesc);
          tvStatus = findViewById(R.id.tvStatus);
 
-        tvDate.setText(mJourney.getRealDate());
+        tvDate.setText(mJourney.getGoingDate().toString());
         tvFrom.setText(MapUtil.getSavedAddress(this,mJourney.getStartPoint()));
         tvTo.setText(MapUtil.getSavedAddress(this,mJourney.getEndPoint()));
         tvCarDesc.setText(mJourney.getCarDescription());
@@ -213,7 +213,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     private void rejectRider(final Ride ride) {
         showProgress("Rejecting");
-        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new IResponeTriger<Boolean>() {
+        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
                 pDialog.dismissWithAnimation();
@@ -235,7 +235,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     private void acceptRider(final Ride ride) {
         showProgress("Accepting");
-        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new IResponeTriger<Boolean>() {
+        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
                 if(pDialog != null)

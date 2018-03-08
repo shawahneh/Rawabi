@@ -5,13 +5,15 @@ import android.support.v4.app.Fragment;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
+import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.JobDetailsFragment;
+import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
 
 /**
  * Created by alaam on 12/31/2017.
  */
 
-public class JobsListActivity extends BasicActivity<Job> {
+public class JobsListActivity extends BasicActivity<Job> implements ListFragment.IFragmentListener<Job> {
 
     @Override
     protected int getImage() {
@@ -26,5 +28,9 @@ public class JobsListActivity extends BasicActivity<Job> {
     @Override
     public Fragment getFragment() {
         return JobsListFragment.newInstance(1);
+    }
+    @Override
+    public void onItemClicked(Job item) {
+        replaceFragment(JobDetailsFragment.newInstance(item));
     }
 }

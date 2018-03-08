@@ -10,13 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.DashbordActivity;
-import com.techcamp.aauj.rawabi.fragments.HomeFragment;
-import com.techcamp.aauj.rawabi.fragments.NewsFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyJourneysListFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyRidesListFragment;
 
-public class MyRidesActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+public class MyRidesActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener
+{
     private ViewPager vp_pages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

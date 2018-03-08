@@ -33,7 +33,7 @@ import com.techcamp.aauj.rawabi.fragments.NewsFragment;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
 
-public class DashbordActivity extends AppCompatActivity
+public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener,
         HomeFragment.IListener
         {
@@ -63,8 +63,8 @@ private ViewPager vp_pages;
 //            @Override
 //            public void onClick(View view) {
 //                ActivityOptionsCompat options = ActivityOptionsCompat.
-//                        makeSceneTransitionAnimation(DashbordActivity.this, view, "trImage");
-//                Intent i = new Intent(DashbordActivity.this,JobsListActivity.class);
+//                        makeSceneTransitionAnimation(DashboardActivity.this, view, "trImage");
+//                Intent i = new Intent(DashboardActivity.this,JobsListActivity.class);
 //                startActivity(i,options.toBundle());
 //            }
 //        });

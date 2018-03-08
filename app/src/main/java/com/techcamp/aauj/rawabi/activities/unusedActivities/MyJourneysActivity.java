@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
@@ -35,7 +35,7 @@ public class MyJourneysActivity extends ListActivity<Journey> {
     @Override
     protected void setupRecyclerViewAdapter(final RecyclerView mRecyclerView) {
         setSwipeRefresh(true);
-        poolingJourney.getJourneys(0, 0, 0, new IResponeTriger<ArrayList<Journey>>() {
+        poolingJourney.getJourneys(0, 0, 0, new ICallBack<ArrayList<Journey>>() {
             @Override
             public void onResponse(final ArrayList<Journey> item) {
                 runOnUiThread(new Runnable() {
@@ -73,7 +73,7 @@ public class MyJourneysActivity extends ListActivity<Journey> {
 
             @Override
             public void bind(Journey journey) {
-                tvDate.setText(journey.getRealDate());
+                tvDate.setText(journey.getGoingDate().toString());
                 tvFrom.setText(MapUtil.getAddress(MyJourneysActivity.this,journey.getStartPoint()));
                 tvTo.setText(MapUtil.getAddress(MyJourneysActivity.this,journey.getEndPoint()));
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.techcamp.aauj.rawabi.activities.basicActivities.QCenterActivity">
+    tools:context="com.techcamp.aauj.rawabi.activities.unusedActivities.QCenterActivity">
     <android.support.design.widget.AppBarLayout
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"

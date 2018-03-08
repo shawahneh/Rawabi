@@ -16,10 +16,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.DashbordActivity;
+import com.techcamp.aauj.rawabi.activities.DashboardActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.EditProfileActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysListActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRidesActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRidesListActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
@@ -96,7 +95,7 @@ public class ProfileFragment extends Fragment {
 
     private void logout() {
         SPController.saveLocalUser(getContext(),null);
-        Intent intent = new Intent(getContext(), DashbordActivity.class);
+        Intent intent = new Intent(getContext(), DashboardActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         getActivity().finish();

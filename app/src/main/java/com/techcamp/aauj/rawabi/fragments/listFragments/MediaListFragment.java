@@ -4,16 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.MediaItem;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -26,7 +23,7 @@ import java.util.List;
  * Created by alaam on 2/3/2018.
  */
 
-public class MediaListFragment extends ListFragment implements IResponeTriger<ArrayList<MediaItem>>{
+public class MediaListFragment extends ListFragment implements ICallBack<ArrayList<MediaItem>> {
 
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new MediaListFragment();
@@ -81,9 +78,8 @@ public class MediaListFragment extends ListFragment implements IResponeTriger<Ar
         }
         @Override
         public void onClicked(View v) {
-            new ImageViewer.Builder(getContext(), new String[]{mItem.getImageUrl()})
-                    .setStartPosition(0)
-                    .show();
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
 
     }

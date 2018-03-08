@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class TransportationPageFragment extends Fragment {
     private RecyclerView rvFromRawabi,rvFromRamallah;
     private BasicApi api = WebService.getInstance(getContext());
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    private IResponeTriger<Transportation> triger;
+    private ICallBack<Transportation> triger;
     public TransportationPageFragment() {
     }
 
@@ -38,7 +38,7 @@ public class TransportationPageFragment extends Fragment {
         rvFromRawabi = view.findViewById(R.id.rvFromRawabi);
         mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
-        triger = new IResponeTriger<Transportation>() {
+        triger = new ICallBack<Transportation>() {
             @Override
             public void onResponse(Transportation item) {
                 mSwipeRefreshLayout.setRefreshing(false);

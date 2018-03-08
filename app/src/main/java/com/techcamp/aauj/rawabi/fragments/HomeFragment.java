@@ -24,12 +24,11 @@ import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.EventsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
 import com.techcamp.aauj.rawabi.activities.listActivities.MediaListActivity;
@@ -50,9 +49,9 @@ public class HomeFragment extends Fragment {
     private Button btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
-    private IResponeTriger<Integer> trigerCars;
-    private IResponeTriger<String> trigerWeather;
-    private IResponeTriger<ArrayList<Event>> trigerEvents;
+    private ICallBack<Integer> trigerCars;
+    private ICallBack<String> trigerWeather;
+    private ICallBack<ArrayList<Event>> trigerEvents;
     private TextView tvCarpool,tvWeather,tvEventName;
     private ProgressBar progressBar;
     private ImageView imgWeather;
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         btnOpenCarpool = view.findViewById(R.id.btnOpenCarpool);
         btnOpenCalendar =view.findViewById(R.id.btnOpenCalendar);
@@ -100,14 +98,14 @@ public class HomeFragment extends Fragment {
         btnOpenQCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),QCenterActivity.class));
+                startActivity(new Intent(getContext(),QCenterListActivity.class));
             }
         });
 
 
         progressBar = view.findViewById(R.id.progressBar);
 
-        trigerCars = new IResponeTriger<Integer>() {
+        trigerCars = new ICallBack<Integer>() {
             @Override
             public void onResponse(Integer item) {
                 progressBar.setVisibility(View.GONE);
@@ -135,7 +133,7 @@ public class HomeFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         };
-        trigerWeather = new IResponeTriger<String>() {
+        trigerWeather = new ICallBack<String>() {
             @Override
             public void onResponse(String item) {
                 tvWeather.setText(item);
@@ -146,7 +144,7 @@ public class HomeFragment extends Fragment {
 
             }
         };
-        trigerEvents = new IResponeTriger<ArrayList<Event>>() {
+        trigerEvents = new ICallBack<ArrayList<Event>>() {
             @Override
             public void onResponse(ArrayList<Event> item) {
                 int n = item.size();
@@ -287,7 +285,8 @@ public class HomeFragment extends Fragment {
         {
             mDashboardItem = item;
             mTextView.setText(item.getTitle());
-            mImageView.setImageDrawable(item.getDrawable());
+            Glide.with(itemView).load(item.getDrawable()).into(mImageView);
+//            mImageView.setImageDrawable(item.getDrawable());
             mSummeryTextView.setText(item.getSummery());
 //            lineView.setBackgroundColor(item.getLineColor());
         }

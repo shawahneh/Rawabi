@@ -22,7 +22,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.EventDetailsActivity;
 
@@ -32,7 +32,7 @@ import java.util.Date;
 
 
 
-public class CalendarPageFragment extends Fragment implements IResponeTriger<ArrayList<Event>> {
+public class CalendarPageFragment extends Fragment implements ICallBack<ArrayList<Event>> {
 
     private CalendarView mCalendarView;
     private BasicApi mCalendarWebApi = WebService.getInstance(getContext());

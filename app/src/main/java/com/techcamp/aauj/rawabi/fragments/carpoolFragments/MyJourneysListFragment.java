@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -24,7 +24,7 @@ import java.util.List;
  * Created by alaam on 2/18/2018.
  */
 
-public class MyJourneysListFragment extends ListFragment implements IResponeTriger<ArrayList<Journey>>{
+public class MyJourneysListFragment extends ListFragment implements ICallBack<ArrayList<Journey>> {
     @Override
     public void setupRecyclerViewAdapter() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -62,20 +62,18 @@ public class MyJourneysListFragment extends ListFragment implements IResponeTrig
         public void bind(Journey journey, int pos) {
             super.bind(journey, pos);
             tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(),journey.getGoingDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
-            tvFrom.setText(MapUtil.getAddress(getContext(),journey.getStartPoint()));
-            tvTo.setText(MapUtil.getAddress(getContext(),journey.getEndPoint()));
+            tvFrom.setText(MapUtil.getSavedAddress(getContext(),journey.getStartPoint()));
+            tvTo.setText(MapUtil.getSavedAddress(getContext(),journey.getEndPoint()));
 
             tvStatus.setText(StringUtil.getJourneyStatus(journey.getStatus()));
-
         }
 
         @Override
         public void onClicked(View v) {
             if(mSwipeRefreshLayout.isRefreshing())
                 return;
-            Intent i = new Intent(getContext(),JourneyDetailActivity.class);
-            i.putExtra(JourneyDetailActivity.ARG_JOURNEY,mItem);
-            startActivity(i);
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
     }
     class MyAdapter extends RecyclerAdapter<Journey> {

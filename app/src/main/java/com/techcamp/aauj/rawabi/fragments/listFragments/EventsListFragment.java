@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by alaam on 2/1/2018.
  */
 
-public class EventsListFragment extends ListFragment implements IResponeTriger<ArrayList<Event>>{
+public class EventsListFragment extends ListFragment implements ICallBack<ArrayList<Event>> {
     BasicApi mCalendarWebApi = WebService.getInstance(getContext());
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new EventsListFragment();
@@ -77,14 +77,15 @@ public class EventsListFragment extends ListFragment implements IResponeTriger<A
         public void bind(Event event, int pos) {
             super.bind(event,pos);
             mEventDesc.setText(event.getDescription());
-            mEventDate.setText(event.getRealDate());
+            mEventDate.setText(event.getDate().toString());
             mEventName.setText(event.getName());
             if(event.getImageUrl() != null)
                 Glide.with(getContext()).load(event.getImageUrl()).into(mEventImage);
         }
         @Override
         public void onClicked(View v) {
-
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
 
     }

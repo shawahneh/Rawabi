@@ -1,9 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.carpoolFragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,9 +17,8 @@ import android.widget.Toast;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.UserTypeActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
@@ -91,7 +88,7 @@ public class RegisterFragment extends Fragment {
             user.setBirthdate(new Date());
             user.setImageurl("non");
             showProgress();
-            api.userRegister(user, new IResponeTriger<Boolean>() {
+            api.userRegister(user, new ICallBack<Boolean>() {
                 @Override
                 public void onResponse(Boolean item) {
                     pDialog.dismissWithAnimation();

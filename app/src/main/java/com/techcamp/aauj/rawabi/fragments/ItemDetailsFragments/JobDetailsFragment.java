@@ -27,7 +27,7 @@ public class JobDetailsFragment extends ItemDetailsFragment<Job> {
     public static ItemDetailsFragment newInstance(Job job){
         ItemDetailsFragment fragment = new JobDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ScrollingActivity.ARG_ITEM_ID,job);
+        bundle.putParcelable(ARG_ITEM,job);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -47,11 +47,13 @@ public class JobDetailsFragment extends ItemDetailsFragment<Job> {
 
     @Override
     protected void refreshView() {
-        tvName.setText(mItem.getName());
-        tvDescription.setText(mItem.getDescription());
-        tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(),mItem.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
-        if(mItem.getImageUrl() != null){
-            Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
+        if(mItem != null){
+            tvName.setText(mItem.getName());
+            tvDescription.setText(mItem.getDescription());
+            tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(),mItem.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
+            if(mItem.getImageUrl() != null){
+                Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
+            }
         }
     }
 }

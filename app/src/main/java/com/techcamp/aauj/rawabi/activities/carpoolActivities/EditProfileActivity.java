@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
@@ -71,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
         user.setFullname(txtName.getText().toString());
 
         ((Button)view).setEnabled(false);
-        authWebApi.setUserDetails(user, txtOldPassword.getText().toString(), new IResponeTriger<Boolean>() {
+        authWebApi.setUserDetails(user, txtOldPassword.getText().toString(), new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean saved) {
                 if(saved){

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity;
@@ -34,7 +34,7 @@ public class MyRiderActivity extends ListActivity<Ride> {
     @Override
     protected void setupRecyclerViewAdapter(final RecyclerView mRecyclerView) {
         setSwipeRefresh(true);
-        poolingRides.getRides(0, 0, 0, new IResponeTriger<ArrayList<Ride>>() {
+        poolingRides.getRides(0, 0, 0, new ICallBack<ArrayList<Ride>>() {
             @Override
             public void onResponse(final ArrayList<Ride> item) {
                 runOnUiThread(new Runnable() {
@@ -71,7 +71,7 @@ public class MyRiderActivity extends ListActivity<Ride> {
 
             @Override
             public void bind(Ride ride) {
-                tvDate.setText(ride.getJourney().getRealDate());
+                tvDate.setText(ride.getJourney().getGoingDate().toString());
                 tvFrom.setText(MapUtil.getAddress(MyRiderActivity.this,ride.getJourney().getStartPoint()));
                 tvTo.setText(MapUtil.getAddress(MyRiderActivity.this,ride.getJourney().getEndPoint()));
                 tvStatus.setText(StringUtil.getRideStatus(ride.getOrderStatus()));

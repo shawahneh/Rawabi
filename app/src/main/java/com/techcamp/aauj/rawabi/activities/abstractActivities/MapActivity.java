@@ -310,6 +310,7 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
+                        if(mMap != null)
                         mMap.setMyLocationEnabled(true);
                     }
 
@@ -454,6 +455,7 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     }
 
     private void showAddress() {
+        // TODO: 3/8/2018 get address from network
         String add = MapUtil.getAddress(this,mMarkerCenter.getPosition());
         showMessage(add);
     }

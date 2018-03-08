@@ -89,9 +89,6 @@ public class Journey implements Parcelable{
         this.endPoint = endPoint;
     }
 
-    public String getRealDate(){
-        return DateUtil.formatDate(goingDate.getTime());
-    }
     public String getRealTime(){
         return DateUtil.formatDateToTime(goingDate.getTime());
     }

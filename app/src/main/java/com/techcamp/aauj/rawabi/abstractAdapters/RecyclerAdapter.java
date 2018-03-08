@@ -30,7 +30,6 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<Holder>
         View view = layoutInflater.inflate(getLayoutId(), parent, false);
         return getNewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(Holder holder, int position)
     {

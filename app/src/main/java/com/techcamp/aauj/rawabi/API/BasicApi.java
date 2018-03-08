@@ -5,7 +5,7 @@ import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,12 +15,12 @@ import java.util.Date;
  */
 
 public interface BasicApi {
-    void getAnnouns(IResponeTriger<ArrayList<Announcement>> eventITriger);
-    void getJobs(IResponeTriger<ArrayList<Job>> triger);
-    void getTransportation(IResponeTriger<Transportation> triger);
-    void getWeather(IResponeTriger<String> triger);
-    void getMedia(IResponeTriger<ArrayList<MediaItem>> triger);
+    void getAnnouns(ICallBack<ArrayList<Announcement>> eventITriger);
+    void getJobs(ICallBack<ArrayList<Job>> triger);
+    void getTransportation(ICallBack<Transportation> triger);
+    void getWeather(ICallBack<String> triger);
+    void getMedia(ICallBack<ArrayList<MediaItem>> triger);
 
-    void getEventAtDate(Date date, IResponeTriger<ArrayList<Event>> eventITriger);
-    void getEvents(IResponeTriger<ArrayList<Event>> triger); // get all events
+    void getEventAtDate(Date date, ICallBack<ArrayList<Event>> eventITriger);
+    void getEvents(ICallBack<ArrayList<Event>> triger); // get all events
 }

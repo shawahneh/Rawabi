@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.abstractFragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.transition.TransitionManager;
@@ -16,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 import java.util.List;
@@ -31,6 +34,7 @@ public abstract class ListFragment extends Fragment {
     protected View layoutMessage;
     protected ImageView imgMessage;
     protected TextView tvMessage;
+    protected IFragmentListener mListener;
     public ListFragment() {
     }
 
@@ -112,7 +116,24 @@ public abstract class ListFragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof IFragmentListener){
+            mListener = (IFragmentListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + " must implement IFragmentListener");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+    public interface IFragmentListener<T>{
+        void onItemClicked(T item);
+    }
 
 //    public abstract class Holder<T> extends RecyclerView.ViewHolder implements View.OnClickListener{
 //        protected T mItem;

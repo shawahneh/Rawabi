@@ -19,11 +19,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.IResponeTriger;
+import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -156,7 +155,7 @@ public class MapRiderActivity extends MapActivity {
         startLoading(true);
         mDriverDetailLayout.hide();
 
-        webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new IResponeTriger<ArrayList<Journey>>() {
+        webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new ICallBack<ArrayList<Journey>>() {
             @Override
             public void onResponse(ArrayList<Journey> item) {
                         mJourneys = item;
@@ -233,7 +232,7 @@ public class MapRiderActivity extends MapActivity {
                 Glide.with(getApplicationContext()).load(user.getImageurl()).into(mImageView);
 
             mTextViewName.setText(user.getFullname());
-            mTextViewAvilable.setText(mJourney.getRealDate());
+            mTextViewAvilable.setText(mJourney.getGoingDate().toString());
             mTextViewCarDesc.setText(mJourney.getCarDescription());
             mTextViewPhone.setText(user.getPhone());
             Log.d("tag","user.getPhone()="+user.getPhone());

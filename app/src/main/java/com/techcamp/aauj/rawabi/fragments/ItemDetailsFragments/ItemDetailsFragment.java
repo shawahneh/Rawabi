@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 
@@ -10,6 +11,7 @@ import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
  */
 
 public abstract class ItemDetailsFragment<T> extends Fragment {
+    public final static String ARG_ITEM = "item";
     protected T mItem;
     public void refresh(T item){
         mItem = item;
@@ -22,8 +24,9 @@ public abstract class ItemDetailsFragment<T> extends Fragment {
     }
 
     private void setBean() {
-        if (getArguments().containsKey(ScrollingActivity.ARG_ITEM_ID)) {
-            mItem = getArguments().getParcelable(ScrollingActivity.ARG_ITEM_ID);
+        if (getArguments().containsKey(ARG_ITEM)) {
+            Log.d("tag","getArguments().containsKey(ARG_ITEM)=true");
+            mItem = getArguments().getParcelable(ARG_ITEM);
         }else {
             mItem=null;
         }

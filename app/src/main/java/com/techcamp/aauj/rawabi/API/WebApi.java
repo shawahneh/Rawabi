@@ -578,9 +578,10 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getRidersOfJourney(int jID, ICallBack<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(Journey journey, ICallBack<ArrayList<Ride>> triger) {
 
     }
+
 
     @Override
     public void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId) {

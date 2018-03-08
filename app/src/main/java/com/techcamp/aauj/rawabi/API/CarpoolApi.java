@@ -26,7 +26,7 @@ public interface CarpoolApi {
     void getRides(int userId,int limitStart,int limitNum,ICallBack<ArrayList<Ride>> rides);
     void getRideDetails(int rideId,ICallBack<Ride> ride);
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITriger<Boolean> result);
-    void getRidersOfJourney(int jID, ICallBack<ArrayList<Ride>> triger);
+    void getRidersOfJourney(Journey journey, ICallBack<ArrayList<Ride>> triger); // hint: set journey for each ride
     void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId); // create ride request
     void changeRideStatus(int rideId, int status, ICallBack<Boolean> result); // accept ride request or reject or the rider cancel the ride
 

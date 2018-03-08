@@ -97,10 +97,10 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRidersOfJourney(int jID, final ICallBack<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(Journey journey, ICallBack<ArrayList<Ride>> triger) {
         final ArrayList<Ride> rides = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
-        mRef.orderByChild("journey/id").equalTo(jID).addListenerForSingleValueEvent(new ValueEventListener() {
+        mRef.orderByChild("journey/id").equalTo(journey.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iterable = dataSnapshot.getChildren().iterator();
@@ -118,31 +118,8 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                 triger.onError(databaseError.getMessage());
             }
         });
-
-//        new android.os.Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                ArrayList<Ride> rides = new ArrayList<>();
-//                for (int i = 0; i < 3; i++) {
-//                    Ride ride = new Ride();
-//                    ride.setMeetingLocation(new LatLng(32.01183468173907 + i, 35.18930286169053));
-//                    User user = new User();
-//                    user.setFullname("ALA AMARNEH");
-//                    user.setImageurl("https://scontent.fjrs2-1.fna.fbcdn.net/v/t1.0-9/23376279_1508595089223011_6837471793707392618_n.jpg?oh=2d620ecf5841f11c2a550b75a2fbb650&oe=5A990C1E");
-//                    user.setPhone("0592355");
-//
-//                    ride.setUser(user);
-//
-//                    ride.setOrderStatus(i);
-//                    ride.setId(i+1);
-//
-//                    rides.add(ride);
-//                }
-//                triger.onResponse(rides);
-//            }
-//        }, 1000);
     }
+
 
     @Override
     public void setRideOnJourney(Ride newRide, final ICallBack<Integer> rideId) {

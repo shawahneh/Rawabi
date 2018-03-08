@@ -6,9 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.Beans.MediaItem;
+import com.techcamp.aauj.rawabi.database.schema.AnnouncementTable;
 import com.techcamp.aauj.rawabi.database.schema.EventTable;
+import com.techcamp.aauj.rawabi.database.schema.JobTable;
 import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
+import com.techcamp.aauj.rawabi.database.schema.MediaItemTable;
 import com.techcamp.aauj.rawabi.database.schema.RideTable;
+import com.techcamp.aauj.rawabi.database.schema.TransportationTable;
 import com.techcamp.aauj.rawabi.database.schema.UserTable;
 
 import java.util.ArrayList;
@@ -63,6 +68,10 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL(JourneyTable.CREATE_TABLE);
         db.execSQL(RideTable.CREATE_TABLE);
         db.execSQL(EventTable.CREATE_TABLE);
+        db.execSQL(JobTable.CREATE_TABLE);
+        db.execSQL(MediaItemTable.CREATE_TABLE);
+        db.execSQL(TransportationTable.CREATE_TABLE);
+        db.execSQL(AnnouncementTable.CREATE_TABLE);
 
     }
 
@@ -73,6 +82,10 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL("drop table if EXISTS " + JourneyTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + RideTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + EventTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + JobTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + AnnouncementTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + MediaItemTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + TransportationTable.TBL_NAME);
         onCreate(db);
     }
 

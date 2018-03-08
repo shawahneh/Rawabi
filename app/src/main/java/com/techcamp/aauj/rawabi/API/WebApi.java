@@ -468,9 +468,10 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void changeJourneyStatusAndGetRiders(Journey journey, int status, ICallBack<CustomJourney> triger) {
+    public void changeJourneyStatus(Journey journey, int status, ICallBack<Boolean> triger) {
 
     }
+
 
     @Override
     public void getCustomJourney(int jid, ICallBack<CustomJourney> triger) {

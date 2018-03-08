@@ -20,7 +20,7 @@ public interface CarpoolApi {
     void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, ICallBack<ArrayList<Journey>> Journeys);
     //sortBy: 1-> Distance, 2-> Time
     void getNumberOfJourneys(ICallBack<Integer> triger);
-    void changeJourneyStatusAndGetRiders(Journey journey,int status,ICallBack<CustomJourney> triger);
+    void changeJourneyStatus(Journey journey,int status,ICallBack<Boolean> triger);
     void getCustomJourney(int jid, ICallBack<CustomJourney> triger);
 
     void getRides(int userId,int limitStart,int limitNum,ICallBack<ArrayList<Ride>> rides);

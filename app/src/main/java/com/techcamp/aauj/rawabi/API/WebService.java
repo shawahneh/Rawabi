@@ -335,33 +335,38 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final ICallBack<CustomJourney> triger) {
-        FirebaseDatabase.getInstance().getReference().child("journeys").child(journey.getId()+"")
-                .child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    getRidersOfJourney(0, new ICallBack<ArrayList<Ride>>() {
-                        @Override
-                        public void onResponse(ArrayList<Ride> item) {
-                            CustomJourney cj = new CustomJourney();
-                            cj.setStatus(status);
-                            cj.setRiders(item);
-                            triger.onResponse(cj);
-                        }
-
-                        @Override
-                        public void onError(String err) {
-                            triger.onError(err);
-                        }
-                    });
-                }else
-                    triger.onError("err");
-            }
-        });
-
+    public void changeJourneyStatus(Journey journey, int status, ICallBack<Boolean> triger) {
 
     }
+
+//    @Override
+//    public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final ICallBack<CustomJourney> triger) {
+//        FirebaseDatabase.getInstance().getReference().child("journeys").child(journey.getId()+"")
+//                .child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    getRidersOfJourney(0, new ICallBack<ArrayList<Ride>>() {
+//                        @Override
+//                        public void onResponse(ArrayList<Ride> item) {
+//                            CustomJourney cj = new CustomJourney();
+//                            cj.setStatus(status);
+//                            cj.setRiders(item);
+//                            triger.onResponse(cj);
+//                        }
+//
+//                        @Override
+//                        public void onError(String err) {
+//                            triger.onError(err);
+//                        }
+//                    });
+//                }else
+//                    triger.onError("err");
+//            }
+//        });
+
+
+//    }
 
     @Override
     public void getCustomJourney(final int jid, final ICallBack<CustomJourney> triger) {
@@ -482,16 +487,20 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
 
                     Job job1 = new Job();
+                    job1.setId(1);
                     job1.setDate(new Date());
                     job1.setName("Jobs at Connect" );
                     job1.setDescription("We are looking for a creative android..." );
 
+
                     Job job2 = new Job();
+                    job2.setId(2);
                     job2.setDate(new Date());
                     job2.setName("New jobs at ASAL Technologies");
                     job2.setDescription("Are you a  Front-End Developer Or..." );
 
                 Job job3 = new Job();
+                job3.setId(3);
                 job3.setDate(new Date(System.currentTimeMillis() - 1000*60*60*60));
                 job3.setName("IOS Developer");
                 job3.setDescription("We are looking for a IOS Developer..." );

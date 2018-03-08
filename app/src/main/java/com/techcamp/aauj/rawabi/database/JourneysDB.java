@@ -50,6 +50,7 @@ public class JourneysDB<B extends Journey,T extends JourneyTable> extends DBHelp
         return 1;
     }
 
+
     public B getBeanById(int id)
     {
         SQLiteDatabase db = getReadableDatabase();
@@ -67,6 +68,21 @@ public class JourneysDB<B extends Journey,T extends JourneyTable> extends DBHelp
                 rs.close();
         }
         return bean;
+    }
+
+    public B getJourneyById(int id ){
+        B journey = getBeanById(id);
+        int uid = journey.getUser().getId();
+        User user =  UsersDB.getInstance(mContext).getBeanById(uid);
+        journey.setUser(user);
+        return journey;
+    }
+
+    public void saveJourney(B journey){
+        User user = journey.getUser();
+        UsersDB.getInstance(mContext).saveBean(user);
+
+        saveBean(journey);
     }
 
 

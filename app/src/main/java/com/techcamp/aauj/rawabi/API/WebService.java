@@ -470,7 +470,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     job1.setId(1);
                     job1.setDate(new Date());
                     job1.setName("Jobs at Connect" );
-                    job1.setDescription("We are looking for a creative android..." );
+                    job1.setDescription("We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android" );
 
 
                     Job job2 = new Job();

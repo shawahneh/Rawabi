@@ -9,11 +9,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
+import com.techcamp.aauj.rawabi.database.AnnouncementDB;
+import com.techcamp.aauj.rawabi.database.EventsDB;
+import com.techcamp.aauj.rawabi.database.JobsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;
@@ -34,17 +38,44 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        loadFromDatabase();
         mCalendarWebApi.getEvents(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
+    private void loadFromDatabase() {
+        List<Event> list = EventsDB.getInstance(getContext()).getAll();
+        loadListToAdapter(list);
+    }
+
+    private void loadListToAdapter(List<Event> list) {
+        if(isAdded()){{
+            //  available
+            if(list.size() <= 0){
+                //showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
+            }else{
+                hideMessageLayout();
+                EventsListFragment.MyAdapter adapter = new EventsListFragment.MyAdapter(list);
+                mRecyclerView.setAdapter(adapter);
+            }
+        }}
+    }
+
     @Override
     public void onResponse(ArrayList<Event> value) {
+        //clear db
+        EventsDB.getInstance(getContext()).deleteAll();
+
+        //save to db
+        for (Event event :value ){
+            EventsDB.getInstance(getContext()).saveBean(event);
+        }
+
         mSwipeRefreshLayout.setRefreshing(false);
         if(isAdded()){{
             //  available
             if(value.size() <= 0){
-                showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
+                //showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(value);

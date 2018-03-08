@@ -427,6 +427,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                 for(int i=0;i<3;i++){
 
                     Announcement announcement1 = new Announcement();
+                    announcement1.setId(1);
                     announcement1.setDate(new Date());
                     announcement1.setName("");
                     announcement1.setDescription("Description ... " +i);
@@ -435,6 +436,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
 
                     Announcement announcement2 = new Announcement();
+                    announcement2.setId(2);
                     announcement2.setDate(new Date());
                     announcement2.setName("TOMMY HILFIGER, PAUL&SHARK");
                     announcement2.setDescription("Description ... " +i);
@@ -442,6 +444,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     dummyEvents.add(announcement2);
 
                     Announcement announcement3 = new Announcement();
+                    announcement3.setId(3);
                     announcement3.setDate(new Date());
                     announcement3.setName("دورة تأسيسية لتعليم الأطفال الشطرنج");
                     announcement3.setDescription("Description ... " +i);
@@ -541,6 +544,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                 for(int i=0;i<3;i++){
 
                     Event event = new Event();
+                    event.setId(i+1);
                     event.setDate(new Date());
                     event.setName("Tech Talk at COnnect - The Myth of the Visionary");
                     event.setDescription("Description ... " +i);
@@ -548,6 +552,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     dummyEvents.add(event);
                 }
                 Event event = new Event();
+                event.setId(4);
                 event.setDate(new Date());
                 event.setName("Tech Talk at COnnect - The Myth of the Visionary");
                 event.setDescription("Many believe that people are born to be successful entrepreneurs – that a “Eureka moment” gifts those people with a great idea and the ability to see the future and that the market will beat a path to their door.\n" +
@@ -590,13 +595,19 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     MediaItem item5 = new MediaItem();
                     MediaItem item6 = new MediaItem();
                     item1.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27540686_10156204702514581_4143823496512946324_n.jpg?oh=b2bef4129d3b652966e7981228388759&oe=5B073AC0");
+                    item1.setId(1);
                     item.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/27751855_10156204702519581_6803973897487047225_n.jpg?oh=9a1a93a0d06812b137ea55976440451c&oe=5B1FC28F");
-
+                    item.setId(2);
                     item2.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/22555052_10155877170344581_6428570290616065193_n.jpg?oh=7c422d87b1a6ade919e5a6859900ff5d&oe=5B153C47");
+                    item2.setId(3);
                     item3.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/26166338_10156104147334581_7996581899405303106_n.jpg?oh=058337a1a6a279cf88bc709c3f4026da&oe=5B053454");
+                    item3.setId(4);
                     item4.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/25659490_10156077335224581_1978614859813627029_n.jpg?oh=680261219cee881fe065d00edf4b3cf6&oe=5B4B386D");
+                    item4.setId(5);
                     item5.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/22528554_10155865305229581_5444081704540563130_n.jpg?oh=d8bc2c9d8a05e8d939439e838881f2c8&oe=5B0D5C55");
+                    item5.setId(6);
                     item6.setImageUrl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/21768295_10155805348664581_885499770214749177_n.jpg?oh=4c856c90a90388a256db73c1bcebb4ba&oe=5B1B2B54");
+                    item6.setId(7);
                     dummyMedia.add(item);
                 dummyMedia.add(item1);
                 dummyMedia.add(item2);

@@ -5,8 +5,8 @@ package com.techcamp.aauj.rawabi.Beans;
  */
 
 public class TransportationElement {
-    public static final int TYPE_FROM_RAWABI = 1;
-    public static final int TYPE_FROM_RAMALLAH = 2;
+    public static final int TYPE_FROM_RAWABI = 0;
+    public static final int TYPE_FROM_RAMALLAH = 1;
 
     private String time;
     private int id,type;

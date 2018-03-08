@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.techcamp.aauj.rawabi.Beans.TransportationElement;
 import com.techcamp.aauj.rawabi.database.schema.TransportationTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ALa on 3/8/2018.
  */
@@ -25,6 +28,33 @@ public class TransportationDB<B extends TransportationElement,T extends Transpor
         super(context,TransportationElement.class);
     }
 
+    public List<B> getAllByType(int type)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        List<B> list = new ArrayList<>();
+        String selection=T.Cols.COL_TYPE + " = " + type;
+        String[] args = null;
+
+        Cursor rs = null;
+        try {
+            rs = db.query(getTableName(), null
+                    , selection, args , null, null, orderBy());
+
+            if (rs.moveToFirst())
+            {
+                while (!rs.isAfterLast()) {
+                    B bean = (B)newBean();
+                    fillBeanFromCursor(rs, bean);
+                    list.add(bean);
+                    rs.moveToNext();
+                }
+            }
+        }finally {
+            if (rs != null)
+                rs.close();
+        }
+        return list;
+    }
 
     public int saveBean(B bean)
     {

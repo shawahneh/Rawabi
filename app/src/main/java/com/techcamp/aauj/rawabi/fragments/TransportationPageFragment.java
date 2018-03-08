@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +16,13 @@ import android.widget.TextView;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.Beans.TransportationElement;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.database.TransportationDB;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TransportationPageFragment extends Fragment {
@@ -42,11 +46,9 @@ public class TransportationPageFragment extends Fragment {
             @Override
             public void onResponse(Transportation item) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                MyAdapter adapterFromRamallah = new MyAdapter(getContext(),item.getFromRamallah());
-                MyAdapter adapterFromRawabi = new MyAdapter(getContext(),item.getFromRawabi());
 
-                rvFromRamallah.setAdapter(adapterFromRamallah);
-                rvFromRawabi.setAdapter(adapterFromRawabi);
+                loadListToAdapter(item);
+
             }
 
             @Override
@@ -65,6 +67,32 @@ public class TransportationPageFragment extends Fragment {
 
         return view;
     }
+
+    private void loadListToAdapter(Transportation item) {
+        MyAdapter adapterFromRamallah = new MyAdapter(getContext(),item.getFromRamallah());
+        MyAdapter adapterFromRawabi = new MyAdapter(getContext(),item.getFromRawabi());
+
+        rvFromRamallah.setAdapter(adapterFromRamallah);
+        rvFromRawabi.setAdapter(adapterFromRawabi);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadFromDatabase();
+    }
+
+    private void loadFromDatabase() {
+        List<TransportationElement> listFromRawabi = TransportationDB.getInstance(getContext()).getAllByType(TransportationElement.TYPE_FROM_RAWABI);
+        List<TransportationElement> listFromRamallah = TransportationDB.getInstance(getContext()).getAllByType(TransportationElement.TYPE_FROM_RAMALLAH);
+
+        Transportation transportation = new Transportation();
+        transportation.setFromRamallah( listFromRamallah);
+        transportation.setFromRawabi(listFromRawabi);
+
+
+    }
+
 
     @Override
     public void onDestroy() {
@@ -90,8 +118,8 @@ public class TransportationPageFragment extends Fragment {
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
         private Context mContext;
-        private ArrayList<String> times;
-        public MyAdapter(Context context,ArrayList<String> times){
+        private List<TransportationElement> times;
+        public MyAdapter(Context context,List<TransportationElement> times){
             mContext = context;
             this.times = times;
         }
@@ -101,8 +129,8 @@ public class TransportationPageFragment extends Fragment {
                 super(view);
                 tvTime = view.findViewById(R.id.tvTime);
             }
-            public void bind(String txt){
-                tvTime.setText(txt);
+            public void bind(TransportationElement transportationElement){
+                tvTime.setText(transportationElement.getTime());
             }
         }
 

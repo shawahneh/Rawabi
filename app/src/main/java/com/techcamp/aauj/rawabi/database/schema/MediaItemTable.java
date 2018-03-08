@@ -10,7 +10,7 @@ public class MediaItemTable {
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TBL_NAME + "("
             + EventTable.Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
             + EventTable.Cols.COL_DESCRIPTION + " VARCHAR ,"
-            + EventTable.Cols.COL_IMAGE_URL + "VARCHAR "
+            + EventTable.Cols.COL_IMAGE_URL + " VARCHAR "
 
             + ")";
     public class Cols{

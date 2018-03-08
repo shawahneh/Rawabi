@@ -11,8 +11,8 @@ public class EventTable {
             + Cols.COL_ID + " INTEGER NOT NULL PRIMARY KEY,"
             + Cols.COL_NAME + " VARCHAR ,"
             + Cols.COL_DESCRIPTION + " VARCHAR ,"
-            + Cols.COL_IMAGE_URL + "VARCHAR ,"
-            + Cols.COL_DATE + "DATETIME "
+            + Cols.COL_IMAGE_URL + " VARCHAR ,"
+            + Cols.COL_DATE + " DATETIME "
             + ")";
     public class Cols{
         public static final String COL_ID = "eid";

@@ -26,7 +26,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     private int mNumberOfItems = 100;
 
     public static final int VERSION = 2;
-    public static final String DATABASE_NAME = "vaccinations.db";
+    public static final String DATABASE_NAME = "rawabi.db";
 
     protected DBHelper(Context context)
     {

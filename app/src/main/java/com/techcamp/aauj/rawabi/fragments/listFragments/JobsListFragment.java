@@ -48,7 +48,7 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
         if(isAdded()){{
             //  available
             if(list.size() <= 0){
-                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
+//                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(list);
@@ -59,6 +59,24 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
 
     @Override
     public void onResponse(ArrayList<Job> value) {
+
+        updateDatabase(value);
+
+        mSwipeRefreshLayout.setRefreshing(false);
+        if(isAdded()){{
+            //  available
+            if(value.size() <= 0){
+//                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
+            }else{
+                hideMessageLayout();
+                MyAdapter adapter = new MyAdapter(value);
+                mRecyclerView.setAdapter(adapter);
+            }
+        }}
+
+    }
+
+    private void updateDatabase(ArrayList<Job> value) {
         //clear database
         JobsDB.getInstance(getContext()).deleteAll();
 
@@ -67,18 +85,6 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
                 value) {
             JobsDB.getInstance(getContext()).saveBean(j);
         }
-        mSwipeRefreshLayout.setRefreshing(false);
-        if(isAdded()){{
-            //  available
-            if(value.size() <= 0){
-                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
-                hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(value);
-                mRecyclerView.setAdapter(adapter);
-            }
-        }}
-
     }
 
     @Override

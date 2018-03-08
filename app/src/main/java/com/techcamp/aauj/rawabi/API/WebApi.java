@@ -473,10 +473,10 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
 
-    @Override
-    public void getCustomJourney(int jid, ICallBack<CustomJourney> triger) {
-
-    }
+//    @Override
+//    public void getCustomJourney(int jid, ICallBack<CustomJourney> triger) {
+//
+//    }
 
 
     //DONE

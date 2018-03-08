@@ -368,36 +368,36 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
 //    }
 
-    @Override
-    public void getCustomJourney(final int jid, final ICallBack<CustomJourney> triger) {
-        getRidersOfJourney(jid, new ICallBack<ArrayList<Ride>>() {
-            @Override
-            public void onResponse(final ArrayList<Ride> item) {
-                FirebaseDatabase.getInstance().getReference().child("journeys").child(jid+"").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        FireJourney fireJourney = dataSnapshot.getValue(FireJourney.class);
-                        updateJourneyStatus(fireJourney);
-                        CustomJourney customJourney = new CustomJourney();
-                        customJourney.setStatus(fireJourney.getStatus());
-                        customJourney.setRiders(item);
-                        triger.onResponse(customJourney);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        triger.onError(databaseError.getMessage());
-                    }
-                });
-
-            }
-
-            @Override
-            public void onError(String err) {
-                triger.onError(err);
-            }
-        });
-    }
+//    @Override
+//    public void getCustomJourney(final int jid, final ICallBack<CustomJourney> triger) {
+//        getRidersOfJourney(jid, new ICallBack<ArrayList<Ride>>() {
+//            @Override
+//            public void onResponse(final ArrayList<Ride> item) {
+//                FirebaseDatabase.getInstance().getReference().child("journeys").child(jid+"").addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        FireJourney fireJourney = dataSnapshot.getValue(FireJourney.class);
+//                        updateJourneyStatus(fireJourney);
+//                        CustomJourney customJourney = new CustomJourney();
+//                        customJourney.setStatus(fireJourney.getStatus());
+//                        customJourney.setRiders(item);
+//                        triger.onResponse(customJourney);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        triger.onError(databaseError.getMessage());
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onError(String err) {
+//                triger.onError(err);
+//            }
+//        });
+//    }
 
     @Override
     public void userRegister(User user, ICallBack<Boolean> booleanITriger) {

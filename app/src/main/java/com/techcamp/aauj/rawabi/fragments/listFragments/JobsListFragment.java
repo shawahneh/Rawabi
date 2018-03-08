@@ -48,7 +48,7 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
         if(isAdded()){{
             //  available
             if(list.size() <= 0){
-                showMessageLayout("No internet connection",R.drawable.ic_signal_wifi_off_black_48dp);
+                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(list);

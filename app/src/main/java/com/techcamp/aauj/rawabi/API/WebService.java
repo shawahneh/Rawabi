@@ -519,8 +519,14 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                     list1.add(transportationElement);
 
                 }
-                ArrayList<TransportationElement> list2 = (ArrayList<TransportationElement>)list1.clone();
+                ArrayList<TransportationElement> list2 = new ArrayList<>();
+                for (int i=1;i<10;i++){
+                    TransportationElement transportationElement = new TransportationElement();
+                    transportationElement.setType(TransportationElement.TYPE_FROM_RAMALLAH);
+                    transportationElement.setTime(i+":30 PM");
+                    list2.add(transportationElement);
 
+                }
                 Transportation t = new Transportation();
                 t.setFromRamallah(list1);
                 t.setFromRawabi(list2);

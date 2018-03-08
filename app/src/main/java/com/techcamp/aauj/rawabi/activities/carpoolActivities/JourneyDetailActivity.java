@@ -50,7 +50,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private ArrayList<Ride> mRiders;
     private  MyJourneysAdapter adapter;
     private SweetAlertDialog pDialog;
-    private ICallBack<CustomJourney> trigerCustomJourney;
+    private ICallBack<Boolean> trigerCustomJourney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +81,14 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             btnComplete.setVisibility(View.GONE);
         }
 
-        trigerCustomJourney = new ICallBack<CustomJourney>() {
+        trigerCustomJourney = new ICallBack<Boolean>() {
             @Override
-            public void onResponse(CustomJourney item) {
+            public void onResponse(Boolean item) {
                 if(pDialog != null)
                     pDialog.dismissWithAnimation();
-                mJourney.setStatus(item.getStatus());
-                setupStatus();
-                mRiders = item.getRiders();
+//                mJourney.setStatus(item.getStatus());
+//                setupStatus();
+//                mRiders = item.getRiders();
                 updateAdapter();
                 drawMarkers(mRiders);
             }
@@ -150,7 +150,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private void refreshJourney(){
 //        showProgress("Refreshing");
         CarpoolApi api = WebService.getInstance(this);
-        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
+//        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
 //        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 
@@ -279,7 +279,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     }
     public void changeStatus(int s){
         showProgress("Refreshing");
-        WebService.getInstance(this).changeJourneyStatusAndGetRiders(mJourney, s,trigerCustomJourney);
+        WebService.getInstance(this).changeJourneyStatus(mJourney, s,trigerCustomJourney);
     }
 
     public void onClick(View view) {

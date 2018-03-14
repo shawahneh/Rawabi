@@ -55,6 +55,7 @@ public abstract class ListFragment extends Fragment {
         return 1;
     }
     public abstract void setupRecyclerViewAdapter();
+    protected abstract void loadDataFromWeb();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +75,7 @@ public abstract class ListFragment extends Fragment {
         initRecyclerView();
         initSwipeToRefresh();
         setupRecyclerViewAdapter();
+        loadDataFromWeb();
 
         checkConnection();
     }
@@ -112,7 +114,7 @@ public abstract class ListFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                setupRecyclerViewAdapter();
+                loadDataFromWeb();
             }
         });
     }

@@ -50,16 +50,12 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     public void setContext(Context context) {
         this.context = context;
     }
-
-    public static WebService getInstance(Context context) {
-        if (instance == null )
+    public static void init(Context context){
+        if (instance == null)
             instance = new WebService(context);
-        instance.setContext(context);
-
-        return instance;
     }
-    public static void clear(){
-        instance = null;
+    public static WebService getInstance() {
+        return instance;
     }
 
     @Override
@@ -468,19 +464,17 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
             public void run() {
                 ArrayList<Job> dummyEvents = new ArrayList<>();
 
-
                     Job job1 = new Job();
                     job1.setId(1);
                     job1.setDate(new Date());
                     job1.setName("Jobs at Connect" );
                     job1.setDescription("We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android.We are looking for a creative android" );
 
-
                     Job job2 = new Job();
                     job2.setId(2);
                     job2.setDate(new Date());
                     job2.setName("New jobs at ASAL Technologies");
-                    job2.setDescription("Are you a  Front-End Developer Or..." );
+                    job2.setDescription("Are you a  Front-End Developer Or...Are you a  Front-End Developer Or...Are you a  Front-End Developer Or...Are you a  Front-End Developer Or...Are you a  Front-End Developer Or..." );
 
                 Job job3 = new Job();
                 job3.setId(3);

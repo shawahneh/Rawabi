@@ -38,7 +38,7 @@ import java.util.Date;
 public class MapRiderActivity extends MapActivity {
     //mMap
     private final int CODE_SELECT_DRIVER =11;
-    private CarpoolApi webApi = WebService.getInstance(this);
+    private CarpoolApi webApi = WebService.getInstance();
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
     private ArrayList<Journey> mJourneys;

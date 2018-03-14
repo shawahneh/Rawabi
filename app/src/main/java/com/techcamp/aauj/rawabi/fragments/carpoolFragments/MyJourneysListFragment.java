@@ -28,8 +28,13 @@ public class MyJourneysListFragment extends ListFragment implements ICallBack<Ar
     @Override
     public void setupRecyclerViewAdapter() {
         mSwipeRefreshLayout.setRefreshing(true);
-        CarpoolApi api = WebService.getInstance(getContext());
+        CarpoolApi api = WebService.getInstance();
         api.getJourneys(0,0,0,this);
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
+
     }
 
     @Override

@@ -41,7 +41,7 @@ import java.util.Map;
  */
 
 public class WebApi implements BasicApi,AuthWebApi
-,CarpoolApi{
+    ,CarpoolApi{
     public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
     RequestQueue requestQueue;
     private static WebApi instance;
@@ -51,9 +51,11 @@ public class WebApi implements BasicApi,AuthWebApi
     private WebApi(Context context) {
         mContext = context;
     }
-    public static WebApi getInstance(Context context) {
+    public static void init(Context context){
         if (instance == null)
             instance = new WebApi(context);
+    }
+    public static WebApi getInstance() {
         return instance;
     }
 

@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.activities.abstractActivities;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -60,8 +61,11 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     }
     protected void replaceFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.content,fragment).addToBackStack(null).commit();
+        FragmentTransaction fmTransaction = fm.beginTransaction();
+        fmTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        fmTransaction.replace(R.id.content,fragment).addToBackStack(null).commit();
     }
+
 
     protected int getImageTop() {
         return R.drawable.logo;

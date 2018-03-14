@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class MyJourneysActivity extends ListActivity<Journey> {
-    CarpoolApi poolingJourney = WebService.getInstance(this);
+    CarpoolApi poolingJourney = WebService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

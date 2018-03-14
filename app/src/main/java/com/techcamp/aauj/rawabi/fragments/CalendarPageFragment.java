@@ -35,7 +35,7 @@ import java.util.Date;
 public class CalendarPageFragment extends Fragment implements ICallBack<ArrayList<Event>> {
 
     private CalendarView mCalendarView;
-    private BasicApi mCalendarWebApi = WebService.getInstance(getContext());
+    private BasicApi mCalendarWebApi = WebService.getInstance();
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private SweetAlertDialog  pDialog;

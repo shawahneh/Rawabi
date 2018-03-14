@@ -24,7 +24,8 @@ import java.util.List;
  */
 
 public class JobsListFragment extends ListFragment implements ICallBack<ArrayList<Job>> {
-    BasicApi api = WebService.getInstance(getContext());
+    BasicApi api = WebService.getInstance();
+    private MyAdapter mAdapter;
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new JobsListFragment();
         Bundle bundle = new Bundle();
@@ -34,10 +35,19 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        if(mAdapter == null)
+            mAdapter = new MyAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
+
         loadFromDatabase();
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
         api.getJobs(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
+
 
     private void loadFromDatabase() {
         List<Job> list = JobsDB.getInstance(getContext()).getAll();
@@ -51,26 +61,25 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
 //                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(list);
-                mRecyclerView.setAdapter(adapter);
+                if(mAdapter != null)
+                mAdapter.setList(list);
             }
         }}
     }
 
+    // data available from WEB
     @Override
     public void onResponse(ArrayList<Job> value) {
 
         updateDatabase(value);
-
         mSwipeRefreshLayout.setRefreshing(false);
+
         if(isAdded()){{
-            //  available
             if(value.size() <= 0){
 //                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(value);
-                mRecyclerView.setAdapter(adapter);
+                loadListToAdapter(value);
             }
         }}
 

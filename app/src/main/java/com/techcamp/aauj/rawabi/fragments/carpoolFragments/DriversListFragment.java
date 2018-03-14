@@ -68,6 +68,11 @@ public class DriversListFragment extends ListFragment {
     }
 
     @Override
+    protected void loadDataFromWeb() {
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null ){

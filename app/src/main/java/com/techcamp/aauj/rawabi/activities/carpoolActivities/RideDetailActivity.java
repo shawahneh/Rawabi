@@ -37,7 +37,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     private MapView mMapView;
     Button btnCancel,btnFrom,btnTo,btnMeetingLoc;
     TextView tvStatus;
-    private CarpoolApi poolingRides = WebService.getInstance(this);
+    private CarpoolApi poolingRides = WebService.getInstance();
     private GoogleMap mMap;
     private ICallBack<Integer> statusRespones;
     private SweetAlertDialog pDialog;

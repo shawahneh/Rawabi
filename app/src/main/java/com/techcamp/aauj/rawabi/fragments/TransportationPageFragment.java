@@ -27,7 +27,7 @@ import java.util.List;
 
 public class TransportationPageFragment extends Fragment {
     private RecyclerView rvFromRawabi,rvFromRamallah;
-    private BasicApi api = WebService.getInstance(getContext());
+    private BasicApi api = WebService.getInstance();
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     private ICallBack<Transportation> triger;
     public TransportationPageFragment() {

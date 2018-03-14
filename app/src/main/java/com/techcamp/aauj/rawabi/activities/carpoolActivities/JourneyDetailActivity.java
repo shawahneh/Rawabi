@@ -37,7 +37,7 @@ import com.techcamp.aauj.rawabi.utils.StringUtil;
 import java.util.ArrayList;
 
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-    CarpoolApi poolingRides = WebService.getInstance(this);
+    CarpoolApi poolingRides = WebService.getInstance();
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
     private Journey mJourney;
@@ -149,7 +149,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 //    }
     private void refreshJourney(){
 //        showProgress("Refreshing");
-        CarpoolApi api = WebService.getInstance(this);
+        CarpoolApi api = WebService.getInstance();
 //        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
 //        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
@@ -279,7 +279,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     }
     public void changeStatus(int s){
         showProgress("Refreshing");
-        WebService.getInstance(this).changeJourneyStatus(mJourney, s,trigerCustomJourney);
+        WebService.getInstance().changeJourneyStatus(mJourney, s,trigerCustomJourney);
     }
 
     public void onClick(View view) {

@@ -78,7 +78,7 @@ public class RegisterFragment extends Fragment {
 
     private void registerPressed() {
         if(validate()){
-            AuthWebApi api = WebApi.getInstance(getActivity());
+            AuthWebApi api = WebApi.getInstance();
             final User user = new User();
             user.setFullname(txtName.getText().toString().trim());
             user.setUsername(txtEmail.getText().toString().trim());

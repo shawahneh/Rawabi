@@ -39,10 +39,13 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<Holder>
 
     @Override
     public int getItemCount() {
+        if(mItems == null) return 0;
         return mItems.size();
     }
     public void setList(List<T> items){
-        mItems=items;
+        mItems.clear();
+        mItems.addAll(items);
+        notifyDataSetChanged();
     }
 
     public abstract int getLayoutId();

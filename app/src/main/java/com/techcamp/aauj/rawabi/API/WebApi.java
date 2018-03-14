@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -160,8 +161,51 @@ public class WebApi implements BasicApi,AuthWebApi
         });
     }
 
+    // Done By Maysara
     @Override
-    public void setUserDetails(User user, String OldPassword, ICallBack<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanITriger) {
+        Map<String,String> params = new HashMap<String, String>();
+
+        params.put("action","setUserDetails");
+        params.put("username",user.getUsername());
+        params.put("password",OldPassword);
+        params.put("fullname",user.getFullname());
+        params.put("gender",user.getGender()+"");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
+        params.put("address",user.getAddress());
+        params.put("image",user.getImageurl());
+        params.put("phone",user.getPhone());
+        params.put("newPassword" , user.getPassword());
+        params.put("oldPassword" , OldPassword);
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject item) {
+                try {
+                    if (item.getString("status").equals("success")){
+                        Log.i("tagWebApi", "setUserDetails process is done");
+                        booleanITriger.onResponse(true);
+                    }else
+                    {
+                        Log.i("tagWebApi", "setUserDetails process is failed");
+                        booleanITriger.onResponse(false);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    booleanITriger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.i("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                booleanITriger.onError(err);
+            }
+        });
+
 
     }
 
@@ -394,8 +438,59 @@ public class WebApi implements BasicApi,AuthWebApi
         });
     }
 
+
+    //Done By Maysara
     @Override
-    public void getJourneyDetails(int id, ICallBack<Journey> journey) {
+    public void getJourneyDetails(final int id, final ICallBack<Journey> journey) {
+
+        Map<String,String> params = new HashMap<String, String>();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final User localUser = getLocalUser();
+        params.put("action","getJourneyDetails");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("journeyId",id+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                Journey tempJourney = new Journey();
+                JSONObject temp = value;
+
+                tempJourney.setId(id);
+                tempJourney.setUser(localUser);
+                tempJourney.setStatus(0);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                tempJourney.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
+                tempJourney.setSeats(temp.getInt("seats"));
+                tempJourney.setGenderPrefer(temp.getInt("genderPrefer"));
+                tempJourney.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
+                tempJourney.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
+                tempJourney.setCarDescription(temp.getString("carDescription"));
+
+                journey.onResponse(tempJourney);
+
+                } catch (JSONException e) {
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    journey.onError(e.toString());
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    journey.onError(e.toString());
+                }
+
+
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                journey.onError(err);
+
+            }
+        });
 
     }
 
@@ -572,8 +667,80 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    // Done By Maysara
     @Override
-    public void getRideDetails(int rideId, ICallBack<Ride> ride) {
+    public void getRideDetails(int rideId, final ICallBack<Ride> ride) {
+
+        final User localUser = getLocalUser();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getRideDetails");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("rideId", rideId+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject item)  {
+
+
+                Ride tempRide = new Ride();
+                int userId;
+                User tempUser = new User();
+                Journey tempJourney = new Journey();
+
+
+                try {
+                    JSONObject temp = item;
+                    tempRide.setId(temp.getInt("id"));
+
+
+                    tempUser.setUsername(localUser.getUsername());
+                    tempUser.setFullname(localUser.getFullname());
+                    tempUser.setId(localUser.getId());
+                    tempUser.setGender(localUser.getGender());
+                    tempUser.setPhone(localUser.getPhone());
+                    tempUser.setAddress(localUser.getAddress());
+                    tempUser.setBirthdate(localUser.getBirthdate());
+                    tempRide.setUser(tempUser);
+
+                    JSONObject jsonJourney = temp.getJSONObject("journey");
+                    tempJourney.setId(jsonJourney.getInt("id"));
+                    tempJourney.setUser(tempUser);
+                    tempJourney.setCarDescription(jsonJourney.getString("carDescription"));
+                    tempJourney.setStatus(jsonJourney.getInt("status"));
+                    tempJourney.setSeats(jsonJourney.getInt("seats"));
+                    tempJourney.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
+                    tempJourney.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
+                    tempJourney.setEndPoint(new LatLng(jsonJourney.getDouble("endLocationX"),jsonJourney.getDouble("endLocationY")));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                    tempJourney.setGoingDate(simpleDateFormat.parse(jsonJourney.getString("goingDate")));
+
+                    // need attention.......
+                    tempJourney.setStatus(0);
+                    // ............
+
+                    tempRide.setJourney(tempJourney);
+
+                    tempRide.setMeetingLocation(new LatLng(temp.getDouble("meetingLocationX"),temp.getDouble("meetingLocationY")));
+                    tempRide.setOrderStatus(jsonJourney.getInt("orderStatus"));
+
+                    ride.onResponse(tempRide);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    ride.onError(e.toString());
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
+                Log.e("tagWebApi",err);
+                ride.onError(err);
+            }
+        });
 
     }
 
@@ -588,8 +755,53 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    //Done By Maysara
     @Override
-    public void changeRideStatus(int rideId, int status, ICallBack<Boolean> result) {
+    public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> result) {
+
+        final User localUser = getLocalUser();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","changeRideStatus");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("rideId", rideId+"");
+        params.put("orderStatus" , status+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+
+                try {
+                    if (value.getString("status").equals("success")){
+
+                        Log.i("tagWebApi", "ride status changes successfully ");
+                        result.onResponse(true);
+                    }else
+                    {
+
+                        Log.i("tagWebApi", "ride status changes successfully");
+                        result.onResponse(false);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    result.onError(e.toString());
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(String err) {
+
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                result.onError(err);
+
+            }
+        });
+
+
 
     }
 

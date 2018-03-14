@@ -27,7 +27,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText txtName,txtOldPassword,txtNewPassword,txtConfirmNewPassword;
     private ImageView imageView;
     private Uri mUriImage;
-    private AuthWebApi authWebApi = WebService.getInstance(this);
+    private AuthWebApi authWebApi = WebService.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

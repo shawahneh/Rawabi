@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(WebApi.getInstance(getContext()).isLogin()){
+                if(WebApi.getInstance().isLogin()){
                     Intent i = new Intent(getContext(), CarpoolMainActivity.class);
                     startActivity(i);
                 }else{
@@ -185,12 +185,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void getEventsToday() {
-        BasicApi api = WebService.getInstance(getActivity());
+        BasicApi api = WebService.getInstance();
         api.getEventAtDate(new Date(),trigerEvents);
     }
 
     private void getWeather() {
-        BasicApi api = WebService.getInstance(getActivity());
+        BasicApi api = WebService.getInstance();
         api.getWeather(trigerWeather);
     }
 
@@ -198,7 +198,7 @@ public class HomeFragment extends Fragment {
         if(progressBar.getVisibility() == View.VISIBLE)
             return;
         tvCarpool.setText("Looking for a ride?");
-        CarpoolApi api = WebService.getInstance(getActivity());
+        CarpoolApi api = WebService.getInstance();
         api.getNumberOfJourneys(trigerCars);
         progressBar.setVisibility(View.VISIBLE);
 

@@ -28,7 +28,7 @@ public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private BasicApi mAnnouncmentWebApi = WebService.getInstance(getContext());
+    private BasicApi mAnnouncmentWebApi = WebService.getInstance();
     public AnnouncmentFragment() {
     }
 

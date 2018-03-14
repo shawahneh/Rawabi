@@ -34,7 +34,8 @@ import java.util.List;
  */
 
 public class AnnouncementsListFragment extends ListFragment implements ICallBack<ArrayList<Announcement>> {
-    BasicApi api = WebService.getInstance(getContext());
+    BasicApi api = WebService.getInstance();
+    private MyAdapter mAdapter;
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new AnnouncementsListFragment();
         Bundle bundle = new Bundle();
@@ -44,7 +45,16 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        if(mAdapter == null)
+            mAdapter = new MyAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
+
         loadFromDatabase();
+
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
         api.getAnnouns(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
@@ -61,8 +71,8 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
                 //showMessageLayout("No Announcement",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
-                AnnouncementsListFragment.MyAdapter adapter = new AnnouncementsListFragment.MyAdapter(list);
-                mRecyclerView.setAdapter(adapter);
+                if(mAdapter != null)
+                    mAdapter.setList(list);
             }
         }}
     }
@@ -78,16 +88,7 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
             AnnouncementDB.getInstance(getContext()).saveBean(announcement);
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        if(isAdded()){{
-            //  available
-            if(value.size() <= 0){
-                //showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
-                hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(value);
-                mRecyclerView.setAdapter(adapter);
-            }
-        }}
+        loadListToAdapter(value);
     }
 
 

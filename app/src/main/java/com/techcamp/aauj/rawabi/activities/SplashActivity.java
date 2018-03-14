@@ -18,3 +18,4 @@ public class SplashActivity extends Activity {
         finish();
     }
 }
+

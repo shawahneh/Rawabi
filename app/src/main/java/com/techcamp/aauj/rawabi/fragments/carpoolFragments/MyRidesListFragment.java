@@ -29,8 +29,13 @@ public class MyRidesListFragment extends ListFragment implements ICallBack<Array
     @Override
     public void setupRecyclerViewAdapter() {
         mSwipeRefreshLayout.setRefreshing(true);
-        CarpoolApi api = WebService.getInstance(getActivity());
+        CarpoolApi api = WebService.getInstance();
         api.getRides(0,0,0,this);
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
+
     }
 
     @Override

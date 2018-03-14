@@ -40,7 +40,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerCenter;
     private Journey mJourney;
     private Ride mRide;
-    CarpoolApi poolingRides = WebService.getInstance(this);
+    CarpoolApi poolingRides = WebService.getInstance();
     SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

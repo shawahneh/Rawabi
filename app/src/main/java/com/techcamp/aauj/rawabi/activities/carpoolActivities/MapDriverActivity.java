@@ -32,7 +32,7 @@ import java.util.Date;
 
 
 public class MapDriverActivity extends MapActivity implements ICallBack<Integer> {
-    private CarpoolApi poolingJourney = WebService.getInstance(this);
+    private CarpoolApi poolingJourney = WebService.getInstance();
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;
     private Button btnCreateJourney;

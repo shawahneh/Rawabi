@@ -11,6 +11,7 @@ import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.Beans.Job;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
@@ -28,7 +29,8 @@ import java.util.List;
  */
 
 public class EventsListFragment extends ListFragment implements ICallBack<ArrayList<Event>> {
-    BasicApi mCalendarWebApi = WebService.getInstance(getContext());
+    BasicApi mCalendarWebApi = WebService.getInstance();
+    private MyAdapter mAdapter;
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new EventsListFragment();
         Bundle bundle = new Bundle();
@@ -38,7 +40,15 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        if(mAdapter == null)
+            mAdapter = new MyAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
+
         loadFromDatabase();
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
         mCalendarWebApi.getEvents(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
@@ -52,17 +62,37 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
         if(isAdded()){{
             //  available
             if(list.size() <= 0){
-                //showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
+//                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
-                EventsListFragment.MyAdapter adapter = new EventsListFragment.MyAdapter(list);
-                mRecyclerView.setAdapter(adapter);
+                if(mAdapter != null)
+                    mAdapter.setList(list);
+            }
+        }}
+    }
+
+    // data available from WEB
+    @Override
+    public void onResponse(ArrayList<Event> value) {
+        updateDatabase(value);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        // update list
+        if(isAdded()){{
+            if(value.size() <= 0){
+//                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
+            }else{
+                hideMessageLayout();
+                loadListToAdapter(value);
             }
         }}
     }
 
     @Override
-    public void onResponse(ArrayList<Event> value) {
+    public void onError(String err) {
+
+    }
+    private void updateDatabase(ArrayList<Event> value) {
         //clear db
         EventsDB.getInstance(getContext()).deleteAll();
 
@@ -70,24 +100,6 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
         for (Event event :value ){
             EventsDB.getInstance(getContext()).saveBean(event);
         }
-
-        mSwipeRefreshLayout.setRefreshing(false);
-        if(isAdded()){{
-            //  available
-            if(value.size() <= 0){
-                //showMessageLayout("No Events",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
-                hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(value);
-                mRecyclerView.setAdapter(adapter);
-            }
-        }}
-
-    }
-
-    @Override
-    public void onError(String err) {
-
     }
 
 

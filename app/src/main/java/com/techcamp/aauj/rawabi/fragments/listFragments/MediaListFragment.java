@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 
 public class MediaListFragment extends ListFragment implements ICallBack<ArrayList<MediaItem>> {
-
+    private MyAdapter mAdapter;
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new MediaListFragment();
         Bundle bundle = new Bundle();
@@ -37,12 +38,19 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
     }
     @Override
     public void setupRecyclerViewAdapter() {
+        if(mAdapter == null)
+            mAdapter = new MyAdapter(null);
+        mRecyclerView.setAdapter(mAdapter);
+        // initialize fresco
+        Fresco.initialize(getActivity());
         loadFromDatabase();
-        BasicApi api =  WebService.getInstance(getContext());
+    }
+
+    @Override
+    protected void loadDataFromWeb() {
+        BasicApi api =  WebService.getInstance();
         api.getMedia(this);
         mSwipeRefreshLayout.setRefreshing(true);
-
-        Fresco.initialize(getActivity());
     }
 
     private void loadFromDatabase() {
@@ -54,11 +62,12 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
         if(isAdded()){{
             //  available
             if(list.size() <= 0){
+                onError("No data available");
                 //showMessageLayout("No Media",R.drawable.ic_signal_wifi_off_black_48dp);
             }else{
                 hideMessageLayout();
-                MediaListFragment.MyAdapter adapter = new MediaListFragment.MyAdapter(list);
-                mRecyclerView.setAdapter(adapter);
+                if(mAdapter != null)
+                    mAdapter.setList(list);
             }
         }}
     }
@@ -73,23 +82,13 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
             MediaItemsDB.getInstance(getContext()).saveBean(mediaItem);
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        if(isAdded()){{
-            //  available
-            if(value.size() <= 0){
-                //showMessageLayout("No Media",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
-                hideMessageLayout();
-                MyAdapter adapter = new MyAdapter(value);
-                mRecyclerView.setAdapter(adapter);
-            }
-        }}
+        loadListToAdapter(value);
     }
 
     @Override
     public void onError(String err) {
-
+        Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT).show();
     }
-
 
     private class MyHolder extends Holder<MediaItem> {
         private ImageView mImage;

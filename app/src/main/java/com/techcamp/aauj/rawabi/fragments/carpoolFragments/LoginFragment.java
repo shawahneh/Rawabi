@@ -22,7 +22,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 public class LoginFragment extends Fragment {
 
     private EditText mEditTextEmail,mEditTextPassword;
-    private AuthWebApi mAuthWebApi = WebService.getInstance(getContext());
+    private AuthWebApi mAuthWebApi = WebService.getInstance();
     SweetAlertDialog pDialog;
     public LoginFragment() {
     }

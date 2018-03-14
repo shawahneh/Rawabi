@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -48,8 +49,8 @@ private ViewPager vp_pages;
 
 
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.addDrawerListener(toggle);
@@ -96,11 +97,6 @@ private ViewPager vp_pages;
         }
     }
 
-            @Override
-            protected void onStop() {
-                super.onStop();
-                WebService.clear();
-            }
 
             @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,7 +132,7 @@ private ViewPager vp_pages;
                 setFragment(new HomeFragment(),"home");
                 break;
             case R.id.nav_carpool:
-                if(WebApi.getInstance(this).isLogin()){
+                if(WebApi.getInstance().isLogin()){
                     Intent i = new Intent(this, CarpoolMainActivity.class);
                     startActivity(i);
                 }else{

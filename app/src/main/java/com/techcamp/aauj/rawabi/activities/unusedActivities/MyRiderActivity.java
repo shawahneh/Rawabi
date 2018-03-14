@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 
 public class MyRiderActivity extends ListActivity<Ride> {
-    CarpoolApi poolingRides = WebService.getInstance(this);
+    CarpoolApi poolingRides = WebService.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

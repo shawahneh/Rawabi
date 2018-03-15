@@ -21,6 +21,7 @@ import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.Beans.TransportationElement;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
@@ -35,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -564,8 +566,44 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    //Done By Maysara
     @Override
-    public void changeJourneyStatus(Journey journey, int status, ICallBack<Boolean> triger) {
+    public void changeJourneyStatus(Journey journey, int status, final ICallBack<Boolean> triger) {
+        User localUser = getLocalUser();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","changeJourneyStatusAndGetRiders");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("journeyId" , journey.getId()+"");
+        params.put("status" , journey.getStatus()+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+
+                try {
+                    if(value.getString("status").equals("success")){
+                        Log.i("tagWebApi", "journey status changed successfully");
+                        triger.onResponse(true);
+
+                    }else {
+                        Log.i("tagWebApi", "failed to change journey status");
+                        triger.onResponse(false);
+                    }
+                } catch (JSONException e) {
+                    triger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+            }
+        });
 
     }
 
@@ -746,15 +784,78 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    // Done By Maysara
     @Override
-    public void getRidersOfJourney(Journey journey, ICallBack<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(final Journey journey, final ICallBack<ArrayList<Ride>> triger) {
+        final User localUser = getLocalUser();
 
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getRidersOfJourney");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("journeyId", journey.getId()+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try{
+                    if(value.has("rides")){
+                        JSONArray jsonArray = value.getJSONArray("rides");
+                        JSONObject jsonTemp;
+                        Ride rideTemp;
+                        ArrayList<Ride> ridesArray = new ArrayList<Ride>();
+                        for(int i=0;i<jsonArray.length();i++){
+                            rideTemp = new Ride();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            rideTemp.setId(jsonTemp.getInt("id"));
+                            rideTemp.setJourney(journey);
+                            rideTemp.setOrderStatus(jsonTemp.getInt("orderStatus"));
+                            rideTemp.setUser(localUser);
+                            rideTemp.setMeetingLocation(new LatLng(jsonTemp.getDouble("meetingLocationX"),jsonTemp.getDouble("meetingLocationY")));
+                            ridesArray.add(rideTemp);
+                        }
+                        triger.onResponse(ridesArray);
+
+                    }
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    triger.onError(e.toString());
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+            }
+        });
     }
 
-
+    // need to be edited by shawahneh
     @Override
     public void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId) {
+        final User localUser = getLocalUser();
 
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","setRideOnJourney");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("journeyId",  newRide.getJourney().getId()+"");
+        params.put("meetingLocation" , newRide.getMeetingLocation()+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject item) {
+
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
     }
 
     //Done By Maysara
@@ -807,34 +908,339 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
 
+    //Done By Maysara
     @Override
-    public void getStatusOfRide(int rideId, ICallBack<Integer> triger) {
+    public void getStatusOfRide(int rideId, final ICallBack<Integer> triger) {
+        User localUser = getLocalUser();
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getStatusOfRide");
+        params.put("rideId" , rideId+"");
+        params.put("username" , localUser.getUsername());
+        params.put("password" , localUser.getPassword());
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                    int rideStatus = value.getInt("rideStatus");
+                    triger.onResponse(rideStatus);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    triger.onError(e.toString());
+                }
+
+
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+            }
+        });
 
     }
 
-
+    //Done By Maysara
     @Override
-    public void getEventAtDate(Date date, ICallBack<ArrayList<Event>> eventITriger) {
+    public void getEventAtDate(Date date, final ICallBack<ArrayList<Event>> eventITriger) {
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getEventAtDate");
+        params.put("date" , date+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                    if(value.has("events")){
+
+                        JSONArray jsonArray = value.getJSONArray("events");
+                        JSONObject jsonTemp;
+                        Event eventTemp;
+                        ArrayList<Event> eventsArray = new ArrayList<Event>();
+
+                        for (int i=0 ; i< jsonArray.length() ; i++){
+                            eventTemp = new Event();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            eventTemp.setId(jsonTemp.getInt("id"));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
+                            eventTemp.setImageUrl(jsonTemp.getString("imageUrl"));
+                            eventTemp.setDescription(jsonTemp.getString("description"));
+                            eventTemp.setName(jsonTemp.getString("name"));
+                            eventsArray.add(eventTemp);
+
+                        }
+
+                        eventITriger.onResponse(eventsArray);
+
+
+                    }
+                } catch (JSONException e) {
+                    eventITriger.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    eventITriger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                eventITriger.onError(err);
+
+            }
+        });
 
     }
-
+    //Done By Maysara
     @Override
-    public void getEvents(ICallBack<ArrayList<Event>> triger) {
+    public void getEvents(final ICallBack<ArrayList<Event>> triger) {
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getEvents");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                if(value.has("events")){
+
+                    JSONArray jsonArray = value.getJSONArray("events");
+                    JSONObject jsonTemp;
+                    Event eventTemp;
+                    ArrayList<Event> eventsArray = new ArrayList<Event>();
+
+                    for (int i=0 ; i< jsonArray.length() ; i++){
+                        eventTemp = new Event();
+                        jsonTemp = jsonArray.getJSONObject(i);
+                        eventTemp.setId(jsonTemp.getInt("id"));
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                        eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
+                        eventTemp.setImageUrl(jsonTemp.getString("imageUrl"));
+                        eventTemp.setDescription(jsonTemp.getString("description"));
+                        eventTemp.setName(jsonTemp.getString("name"));
+                        eventsArray.add(eventTemp);
+
+                    }
+
+                    triger.onResponse(eventsArray);
+
+
+                }
+                } catch (JSONException e) {
+                    triger.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    triger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+
+            }
+        });
+
 
     }
-
+    //Done By Maysara
     @Override
-    public void getAnnouns(ICallBack<ArrayList<Announcement>> eventITriger) {
+    public void getAnnouns(final ICallBack<ArrayList<Announcement>> eventITriger) {
+
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getAnnouns");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+
+                try{
+                    if(value.has("announcement")){
+                        JSONArray jsonArray = value.getJSONArray("announcement");
+                        JSONObject jsonTemp;
+                        Announcement announcementTemp;
+                        ArrayList<Announcement> announcementsArray = new ArrayList<Announcement>();
+
+                        for (int i=0 ; i<jsonArray.length() ; i++){
+                            announcementTemp = new Announcement();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            announcementTemp.setId(jsonTemp.getInt("id"));
+                            announcementTemp.setName(jsonTemp.getString("name"));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            announcementTemp.setStartDate(simpleDateFormat.parse(jsonTemp.getString("startDate")));
+                            announcementTemp.setEndDate(simpleDateFormat.parse(jsonTemp.getString("endData")));
+                            announcementTemp.setDescription(jsonTemp.getString("description"));
+                            announcementTemp.setImageUrl(jsonTemp.getString("imageUrl"));
+
+                            announcementsArray.add(announcementTemp);
+                        }
+
+                        eventITriger.onResponse(announcementsArray);
+                    }
+
+
+                }catch (JSONException e){
+                    eventITriger.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    eventITriger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                eventITriger.onError(err);
+            }
+        });
+
 
     }
-
+    //Done By Maysara
     @Override
-    public void getJobs(ICallBack<ArrayList<Job>> triger) {
+    public void getJobs(final ICallBack<ArrayList<Job>> triger) {
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getJobs");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                    if(value.has("jobs")){
+
+                        JSONArray jsonArray = value.getJSONArray("jobs");
+                        JSONObject jsonTemp;
+                        Job jobTemp;
+                        ArrayList<Job> jobsArray = new ArrayList<Job>();
+
+                        for (int i=0 ; i< jsonArray.length() ; i++){
+                            jobTemp = new Job();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            jobTemp.setId(jsonTemp.getInt("id"));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            jobTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
+                            jobTemp.setName(jsonTemp.getString("name"));
+                            jobTemp.setDescription(jsonTemp.getString("description"));
+                            jobTemp.setImageUrl(jsonTemp.getString("imageUrl"));
+
+                            jobsArray.add(jobTemp);
+                        }
+
+                        triger.onResponse(jobsArray);
+
+
+                    }
+                } catch (JSONException e) {
+                    triger.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    triger.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+
+            }
+        });
 
     }
-
+    //Done By Maysara
     @Override
-    public void getTransportation(ICallBack<Transportation> triger) {
+    public void getTransportation(final ICallBack<Transportation> triger) {
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getTransportation");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                if(value.has("fromRawabi") && value.has("fromRamallah")){
+
+                    JSONArray fromRawabiJsonArray = value.getJSONArray("fromRawabi");
+                    JSONArray fromRamallahJsonArray = value.getJSONArray("fromRamallah");
+                    JSONObject fromRawabiJsonTemp , fromRamallahJsonTemp;
+                    TransportationElement fromRawabiTE , fromRamallahTE;
+                    ArrayList<TransportationElement>fromRamallahList = new ArrayList<TransportationElement>(), fromRawabiList = new ArrayList<TransportationElement>();
+                    Transportation transportation = new Transportation();
+                    if(fromRawabiJsonArray.length() == fromRamallahJsonArray.length()){
+
+                        for (int i=0 ; i<fromRamallahJsonArray.length() ; i++){
+
+                            fromRamallahTE = new TransportationElement();
+                            fromRawabiTE = new TransportationElement();
+                            fromRamallahJsonTemp = fromRamallahJsonArray.getJSONObject(i);
+                            fromRawabiJsonTemp = fromRawabiJsonArray.getJSONObject(i);
+                            // from ramallah
+                            fromRamallahTE.setId(fromRamallahJsonTemp.getInt("id"));
+                            fromRamallahTE.setTime(fromRamallahJsonTemp.getString("time"));
+                            fromRamallahTE.setType(fromRamallahJsonTemp.getInt("type"));
+                            //from rawabi
+                            fromRawabiTE.setId(fromRawabiJsonTemp.getInt("id"));
+                            fromRawabiTE.setType(fromRawabiJsonTemp.getInt("type"));
+                            fromRawabiTE.setTime(fromRawabiJsonTemp.getString("time"));
+
+                            fromRamallahList.add(fromRamallahTE);
+                            fromRawabiList.add(fromRawabiTE);
+
+                        }
+                        transportation.setFromRamallah(fromRamallahList);
+                        transportation.setFromRawabi(fromRawabiList);
+                        triger.onResponse(transportation);
+                    }else{
+                        for (int i=0 ; i<fromRamallahJsonArray.length() ; i++){
+                            fromRamallahTE = new TransportationElement();
+                            fromRamallahJsonTemp = fromRamallahJsonArray.getJSONObject(i);
+                            fromRamallahTE.setId(fromRamallahJsonTemp.getInt("id"));
+                            fromRamallahTE.setTime(fromRamallahJsonTemp.getString("time"));
+                            fromRamallahTE.setType(fromRamallahJsonTemp.getInt("type"));
+                            fromRamallahList.add(fromRamallahTE);
+                        }
+                        for (int i=0 ; i<fromRawabiJsonArray.length() ; i++){
+                            fromRawabiTE = new TransportationElement();
+                            fromRawabiJsonTemp = fromRawabiJsonArray.getJSONObject(i);
+                            //from rawabi
+                            fromRawabiTE.setId(fromRawabiJsonTemp.getInt("id"));
+                            fromRawabiTE.setType(fromRawabiJsonTemp.getInt("type"));
+                            fromRawabiTE.setTime(fromRawabiJsonTemp.getString("time"));
+                            fromRawabiList.add(fromRawabiTE);
+
+                        }
+                        transportation.setFromRamallah(fromRamallahList);
+                        transportation.setFromRawabi(fromRawabiList);
+                        triger.onResponse(transportation);
+                    }
+                }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    triger.onError(e.toString());
+                }
+
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                triger.onError(err);
+            }
+        });
 
     }
 
@@ -845,6 +1251,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     @Override
     public void getMedia(ICallBack<ArrayList<MediaItem>> triger) {
+
 
     }
 }

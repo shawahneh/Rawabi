@@ -551,8 +551,77 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
 
+    //Done By Maysara
     @Override
     public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final ICallBack<ArrayList<Journey>> Journeys) {
+        User localUser = getLocalUser();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","filterJourneys");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("startPointX" , startPoint.latitude+"");
+        params.put("startPointY" , startPoint.longitude+"");
+        params.put("endPointX" , endPoint.latitude+"");
+        params.put("endPointY" , endPoint.longitude+"");
+        params.put("goingDate" , goingDate+"");
+        params.put("sortBy" , sortBy+"");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try{
+                    if(value.has("journeys")){
+                        JSONArray jsonArray = value.getJSONArray("journeys");
+                        JSONObject jsonTemp;
+                        Journey journeyTemp;
+                        ArrayList<Journey> journeysArray = new ArrayList<Journey>();
+                        for (int i=0 ; i<jsonArray.length() ; i++){
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            journeyTemp = new Journey();
+                            User tempUser = new User();
+                            journeyTemp.setId(jsonTemp.getInt("id"));
+                            journeyTemp.setStartPoint(new LatLng(jsonTemp.getDouble("startLocationX"),jsonTemp.getDouble("startLocationY")));
+                            journeyTemp.setEndPoint(new LatLng(jsonTemp.getDouble("endLocationX"),jsonTemp.getDouble("endLocationY")));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            journeyTemp.setGoingDate(simpleDateFormat.parse(jsonTemp.getString("goingDate")));
+                            journeyTemp.setSeats(jsonTemp.getInt("seats"));
+                            journeyTemp.setGenderPrefer(jsonTemp.getInt("genderPrefer"));
+                            journeyTemp.setCarDescription(jsonTemp.getString("carDescription"));
+                            JSONObject jsonUser = jsonTemp.getJSONObject("user");
+                            tempUser.setUsername(jsonUser.getString("username"));
+                            tempUser.setFullname(jsonUser.getString("fullname"));
+                            tempUser.setId(jsonUser.getInt("id"));
+                            tempUser.setGender(jsonUser.getInt("gender"));
+                            tempUser.setPhone(jsonUser.getString("phone"));
+                            tempUser.setAddress(jsonUser.getString("address"));
+                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
+                            tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
+                            journeyTemp.setUser(tempUser);
+                            journeysArray.add(journeyTemp);
+                        }
+
+                        Journeys.onResponse(journeysArray);
+
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    Journeys.onError(e.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Journeys.onError(e.toString());
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                Journeys.onError(err);
+
+            }
+        });
 
 
     }
@@ -829,9 +898,9 @@ public class WebApi implements BasicApi,AuthWebApi
         });
     }
 
-    // need to be edited by shawahneh
+    // Done By Maysara
     @Override
-    public void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId) {
+    public void setRideOnJourney(Ride newRide, final ICallBack<Integer> rideId) {
         final User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -839,17 +908,38 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());
         params.put("journeyId",  newRide.getJourney().getId()+"");
-        params.put("meetingLocation" , newRide.getMeetingLocation()+"");
+        params.put("meetingLocationX",newRide.getMeetingLocation().latitude+"");
+        params.put("meetingLocationY",newRide.getMeetingLocation().longitude+"");
 
         send(params, new ICallBack<JSONObject>() {
             @Override
-            public void onResponse(JSONObject item) {
+            public void onResponse(JSONObject value) {
+                try {
+                    int rideIdTemp;
+                    if((rideIdTemp = value.getInt("rideId")) > 0){
+                        Log.i("tagWebApi", "rideId returned successfully");
+                        rideId.onResponse(rideIdTemp);
 
+                    }else {
+                        if(value.get("status").equals("noAvailableSeats")){
+                            Log.i("tagWebApi", "noAvailableSeats");
+                        }else {
+
+                            Log.i("tagWebApi", "something went wrong");
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    rideId.onError(e.toString());
+                }
             }
 
             @Override
             public void onError(String err) {
-
+                Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
+                Log.e("tagWebApi",err);
+                rideId.onError(err);
             }
         });
     }

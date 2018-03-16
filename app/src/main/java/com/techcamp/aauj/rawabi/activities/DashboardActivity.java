@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
@@ -17,74 +18,64 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
-import com.techcamp.aauj.rawabi.database.UsersDB;
-import com.techcamp.aauj.rawabi.fragments.AnnouncmentFragment;
-import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
+import com.techcamp.aauj.rawabi.activities.basicActivities.EventsListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.JobsListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.MediaListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.TransportationActivity;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.NewsFragment;
-import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
-import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener,
-        HomeFragment.IListener
-        {
-private ViewPager vp_pages;
+        HomeFragment.IListener {
+
+    private ViewPager vp_pages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashbord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setElevation(0);
 
 
-
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//        View view = navigationView.getHeaderView(0);
-//        ImageView imageView = view.findViewById(R.id.imageView);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ActivityOptionsCompat options = ActivityOptionsCompat.
-//                        makeSceneTransitionAnimation(DashboardActivity.this, view, "trImage");
-//                Intent i = new Intent(DashboardActivity.this,JobsListActivity.class);
-//                startActivity(i,options.toBundle());
-//            }
-//        });
+        navigationView.setNavigationItemSelectedListener(this);
 
-        vp_pages= (ViewPager) findViewById(R.id.vp_pages);
-        PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
-        vp_pages.setAdapter(pagerAdapter);
 
-        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
-        tbl_pages.setupWithViewPager(vp_pages);
-        tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
-        tbl_pages.getTabAt(1).setIcon(R.drawable.news_outline2);
-        tbl_pages.getTabAt(0).setTag("home");
-        tbl_pages.getTabAt(1).setTag("news");
+//        vp_pages= (ViewPager) findViewById(R.id.vp_pages);
+//        PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
+//        vp_pages.setAdapter(pagerAdapter);
+//
+//        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
+//        tbl_pages.setupWithViewPager(vp_pages);
+//        tbl_pages.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
+////        tbl_pages.getTabAt(1).setIcon(R.drawable.news_outline2);
+//        tbl_pages.getTabAt(0).setTag("home");
+////        tbl_pages.getTabAt(1).setTag("news");
+//
+//        tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+////        tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+//        tbl_pages.addOnTabSelectedListener(this);
+        replaceFragment(new HomeFragment());
 
-        tbl_pages.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
-//        tbl_pages.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
-        tbl_pages.addOnTabSelectedListener(this);
-
+    }
+    protected void replaceFragment(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fmTransaction = fm.beginTransaction();
+//        fmTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+        fmTransaction.replace(R.id.content,fragment).commit();
     }
 
     @Override
@@ -92,34 +83,14 @@ private ViewPager vp_pages;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+//        } else if(vp_pages.getCurrentItem() != 0) {
+//            vp_pages.setCurrentItem(0);
+        }else{
             super.onBackPressed();
         }
     }
 
 
-            @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashbord, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -128,48 +99,28 @@ private ViewPager vp_pages;
         int id = item.getItemId();
 
         switch (id){
-            case R.id.nav_home:
-                setFragment(new HomeFragment(),"home");
-                break;
             case R.id.nav_carpool:
-                if(WebApi.getInstance().isLogin()){
-                    Intent i = new Intent(this, CarpoolMainActivity.class);
-                    startActivity(i);
-                }else{
-
-                    Intent i = new Intent(this, LoginRegisterActivity.class);
-                    startActivity(i);
-                }
+                onCardClick(HomeFragment.TAG_CARPOOL);
                 break;
             case R.id.nav_media:
-
+                onCardClick(HomeFragment.TAG_MEDIA);
                 break;
-            case R.id.nav_calendar:
-                setFragment(CalendarPageFragment.newInstance(),"tag");
+            case R.id.nav_events:
+                onCardClick(HomeFragment.TAG_EVENTS);
                 break;
             case R.id.nav_transportation:
-                setFragment(new TransportationPageFragment(),"tag");
+                onCardClick(HomeFragment.TAG_TRANSPORTATION);
                 break;
             case R.id.nav_qcenter:
-                setFragment(new AnnouncmentFragment(),"tag");
+                onCardClick(HomeFragment.TAG_QCENTER);
                 break;
         }
 
 
-
+        // Close drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-
-    private void setFragment(android.support.v4.app.Fragment fragment, String tag){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content,fragment,tag)
-                .addToBackStack(tag)
-                .commit();
     }
 
 
@@ -195,15 +146,44 @@ private ViewPager vp_pages;
 
     }
 
+    // Handle HomeFragment Cards Clicks
     @Override
     public void onCardClick(String tag) {
         switch (tag){
             case HomeFragment.TAG_NEWS:
                 vp_pages.setCurrentItem(1);
                 break;
+            case HomeFragment.TAG_CARPOOL:
+                if(WebApi.getInstance().isLogin()){
+                    Intent i = new Intent(this, CarpoolMainActivity.class);
+                    startActivity(i);
+                }else{
+
+                    Intent i = new Intent(this, LoginRegisterActivity.class);
+                    startActivity(i);
+                }
+                break;
+            case HomeFragment.TAG_EVENTS:
+                Intent i = new Intent(this, EventsListActivity.class);
+                startActivity(i);
+                break;
+            case HomeFragment.TAG_QCENTER:
+                startActivity(new Intent(this,QCenterListActivity.class));
+                break;
+            case HomeFragment.TAG_JOBS:
+                startActivity(new Intent(this,JobsListActivity.class));
+                break;
+            case HomeFragment.TAG_TRANSPORTATION:
+                startActivity(new Intent(this,TransportationActivity.class));
+                break;
+            case HomeFragment.TAG_MEDIA:
+                startActivity(new Intent(this,MediaListActivity.class));
+                break;
+
         }
     }
 
+    // For TABS
     class FragmentAdapter extends FragmentPagerAdapter {
 
         public FragmentAdapter(FragmentManager fm) {
@@ -222,7 +202,7 @@ private ViewPager vp_pages;
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
 
         @Override

@@ -75,7 +75,6 @@ public class WebApi implements BasicApi,AuthWebApi
             @Override
             public void onResponse(String response) {
                 Log.i("tagWebApi","Response : "+ response);
-                Gson gson = new Gson();
                 try {
 //                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
                     JSONObject jsonObject = new JSONObject(response);
@@ -84,6 +83,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    result.onError(e.getMessage());
                 }
 
             }
@@ -96,11 +96,7 @@ public class WebApi implements BasicApi,AuthWebApi
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String,String> paramss = new HashMap<String, String>();
-//                paramss.put("action","userAuth");
-//                paramss.put("username","driver1");
-//                paramss.put("password","driver1");
-//                return paramss;
+
                 return params;
             }
         };
@@ -562,7 +558,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getNumberOfJourneys(ICallBack<Integer> triger) {
+    public void getNumberOfJourneys(ICallBack<Integer> trigger) {
 
     }
 
@@ -656,7 +652,7 @@ public class WebApi implements BasicApi,AuthWebApi
                                 tempUser.setAddress(jsonUser.getString("address"));
                                 SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
                                 tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
-                            Rtemp.setUser(tempUser);
+                                Rtemp.setUser(tempUser);
                                 JSONObject jsonJourney = temp.getJSONObject("journey");
                                     Journey Jtemp = new Journey();
                                     Jtemp.setId(jsonJourney.getInt("id"));

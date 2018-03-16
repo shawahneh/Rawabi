@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Announcement;
 import com.techcamp.aauj.rawabi.Beans.Event;
@@ -29,7 +31,7 @@ import java.util.List;
  */
 
 public class EventsListFragment extends ListFragment implements ICallBack<ArrayList<Event>> {
-    BasicApi mCalendarWebApi = WebService.getInstance();
+    BasicApi mCalendarWebApi = WebApi.getInstance();
     private MyAdapter mAdapter;
     public static Fragment newInstance(int numberOfCols){
         Fragment fragment = new EventsListFragment();
@@ -90,7 +92,8 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
 
     @Override
     public void onError(String err) {
-
+        Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
     private void updateDatabase(ArrayList<Event> value) {
         //clear db

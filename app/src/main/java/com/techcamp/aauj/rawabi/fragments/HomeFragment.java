@@ -21,18 +21,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Event;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.EventsListActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.JobsListActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.MediaListActivity;
-import com.techcamp.aauj.rawabi.activities.listActivities.TransportationActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.EventsListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.JobsListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.MediaListActivity;
+import com.techcamp.aauj.rawabi.activities.basicActivities.TransportationActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +41,8 @@ public class HomeFragment extends Fragment {
     public static final String TAG_CARPOOL = "tag_carpool";
     public static final String TAG_EVENTS = "tag_events";
     public static final String TAG_NEWS = "tag_news";
+    public static final String TAG_QCENTER = "TAG_QCENTER";
+
 
     private Button btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
@@ -78,27 +76,24 @@ public class HomeFragment extends Fragment {
         btnOpenCarpool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(WebApi.getInstance().isLogin()){
-                    Intent i = new Intent(getContext(), CarpoolMainActivity.class);
-                    startActivity(i);
-                }else{
-
-                Intent i = new Intent(getContext(), LoginRegisterActivity.class);
-                startActivity(i);
-                }
+               if(mListener != null)
+                   mListener.onCardClick(TAG_CARPOOL);
             }
         });
         btnOpenCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), EventsListActivity.class);
-                startActivity(i);
+                if(mListener != null)
+                    mListener.onCardClick(TAG_EVENTS);
+
             }
         });
         btnOpenQCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),QCenterListActivity.class));
+                if(mListener != null)
+                    mListener.onCardClick(TAG_QCENTER);
+
             }
         });
 
@@ -172,7 +167,6 @@ public class HomeFragment extends Fragment {
 //        getWeather();
 //        getEventsToday();
 
-//        Glide.with(getContext()).load("https://data.whicdn.com/images/245762463/original.gif").into(imgWeather);
         return view;
     }
 
@@ -240,24 +234,24 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    // Dashboard Items for HomeFragment (JOBS, Transportation, Media.. etc)
     private List<DashboardItem> getItems() {
         DashboardItem jobs = new DashboardItem(TAG_JOBS,getResources().getDrawable(R.drawable.job_notexture),"JOBS");
         DashboardItem media = new DashboardItem(TAG_MEDIA,getResources().getDrawable(R.drawable.media_notexture),"MEDIA");
         DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,getResources().getDrawable(R.drawable.bus_notexture),"Transportation");
-        DashboardItem news = new DashboardItem(TAG_NEWS,getResources().getDrawable(R.drawable.news),"NEWS");
-//        DashboardItem events = new DashboardItem(TAG_EVENTS,getResources().getDrawable(R.drawable.events_48px),"EVENTS");
+        DashboardItem events = new DashboardItem(TAG_EVENTS,getResources().getDrawable(R.drawable.events_border),"Events");
 
 
         jobs.setSummery("Jobs and Internships");
         media.setSummery("Explore Rawabi Media");
         transportation.setSummery("Public Transportation");
-        news.setSummery("Rawabi News");
+        events.setSummery("See events");
 
         ArrayList<DashboardItem> items = new ArrayList<>();
         items.add(transportation);
         items.add(jobs);
         items.add(media);
-        items.add(news);
+        items.add(events);
 
         return items;
     }
@@ -268,7 +262,6 @@ public class HomeFragment extends Fragment {
         private TextView mTextView;
         private TextView mSummeryTextView;
         private DashboardItem mDashboardItem;
-        private View lineView;
         public Holder(View itemView)
         {
             super(itemView);
@@ -277,7 +270,6 @@ public class HomeFragment extends Fragment {
             itemView.setOnClickListener(this);
             mTextView=(TextView)itemView.findViewById(R.id.textView);
             mSummeryTextView=(TextView)itemView.findViewById(R.id.summeryTextView);
-            lineView= itemView.findViewById(R.id.lineView);
         }
 
 
@@ -288,7 +280,6 @@ public class HomeFragment extends Fragment {
             Glide.with(itemView).load(item.getDrawable()).into(mImageView);
 //            mImageView.setImageDrawable(item.getDrawable());
             mSummeryTextView.setText(item.getSummery());
-//            lineView.setBackgroundColor(item.getLineColor());
         }
 
         @Override
@@ -306,9 +297,6 @@ public class HomeFragment extends Fragment {
                     break;
                 case TAG_MEDIA:
                     startActivity(new Intent(getContext(),MediaListActivity.class),options.toBundle());
-                    break;
-                case TAG_CARPOOL:
-
                     break;
                 case TAG_EVENTS:
                     startActivity(new Intent(getContext(),EventsListActivity.class),options.toBundle());

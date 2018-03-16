@@ -126,7 +126,7 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_map_driver;
+        return R.layout.activity_map_driver2;
     }
 
     @Override

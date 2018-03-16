@@ -46,74 +46,63 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:visibility="gone"
-        android:alpha="0.5"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/promo2"
-        android:tint="@color/qcenter" />
-
 
     <LinearLayout
-        android:background="@color/city"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/city"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
-            <android.support.v7.widget.CardView
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="#bdbfc1"
+                android:layout_gravity="bottom"
+                android:paddingTop="3dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <LinearLayout
-                    android:background="#bdbfc1"
-                    android:layout_gravity="bottom"
-                    android:paddingTop="3dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal"
+
+                <ImageView
+                    android:transitionName="trImage"
+                    android:id="@+id/imgTitle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/bus_notexture"
+                    />
+                <ImageView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:transitionName="trImage"
-                        android:id="@+id/imgTitle"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/bus_notexture"
-                        />
-                    <ImageView
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/promo2"
-                        android:tint="@color/green" />
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/colorPrimary"
-                        android:id="@+id/tvTitle"
-                        android:text="Transportation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/promo2"
+                    android:tint="@color/green" />
+                <TextView
+                    android:fontFamily="@font/abeezee"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/tvTitle"
+                    android:text="Transportation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
 
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
 
         <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>

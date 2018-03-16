@@ -4,6 +4,7 @@ package com.techcamp.aauj.rawabi.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +30,7 @@ public class TransportationPageFragment extends Fragment {
     private RecyclerView rvFromRawabi,rvFromRamallah;
     private BasicApi api = WebService.getInstance();
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    private ICallBack<Transportation> triger;
+    private ICallBack<Transportation> trigger;
     public TransportationPageFragment() {
     }
 
@@ -43,7 +44,7 @@ public class TransportationPageFragment extends Fragment {
         mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         // transportation available from
-        triger = new ICallBack<Transportation>() {
+        trigger = new ICallBack<Transportation>() {
             @Override
             public void onResponse(Transportation item) {
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -67,7 +68,8 @@ public class TransportationPageFragment extends Fragment {
 
             @Override
             public void onError(String err) {
-
+                Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         };
         setupRecyclersView();
@@ -108,7 +110,7 @@ public class TransportationPageFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        triger = null;
+        trigger = null;
     }
 
     private void setupRecyclersView() {
@@ -123,7 +125,7 @@ public class TransportationPageFragment extends Fragment {
     }
 
     private void loadTransportationFromWeb() {
-        api.getTransportation(triger);
+        api.getTransportation(trigger);
     }
 
 

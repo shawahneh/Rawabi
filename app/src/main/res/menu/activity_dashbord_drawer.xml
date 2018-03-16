@@ -4,25 +4,22 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/home" />
-        <item
-            android:id="@+id/nav_calendar"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/calendar" />
+            android:id="@+id/nav_events"
+            android:icon="@drawable/events"
+            android:title="@string/events" />
         <item
             android:id="@+id/nav_transportation"
-            android:icon="@drawable/ic_action_name"
+            android:icon="@drawable/bus_notexture"
             android:title="@string/transportation" />
         <item
             android:id="@+id/nav_carpool"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/car_notexture"
             android:title="@string/carpool" />
         <item
             android:id="@+id/nav_qcenter"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/logo_qcenter"
             android:title="@string/q_center_announcment" />
 
     </group>
@@ -30,11 +27,11 @@
         <menu>
             <item
                 android:id="@+id/nav_jobs"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/job_notexture"
                 android:title="@string/jobs_internships" />
             <item
                 android:id="@+id/nav_media"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/media_notexture"
                 android:title="@string/media" />
 
         </menu>

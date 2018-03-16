@@ -89,10 +89,10 @@
             android:name=".activities.unusedActivities.CalendarActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
-            android:name=".activities.listActivities.TransportationActivity"
+            android:name=".activities.basicActivities.TransportationActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
-            android:name=".activities.listActivities.JobsListActivity"
+            android:name=".activities.basicActivities.JobsListActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
             android:name=".activities.ItemDetailsActivities.AnnouncmentDetailsActivity"
@@ -104,10 +104,10 @@
             android:name=".activities.ItemDetailsActivities.EventDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.listActivities.EventsListActivity"
+            android:name=".activities.basicActivities.EventsListActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
-            android:name=".activities.listActivities.MediaListActivity"
+            android:name=".activities.basicActivities.MediaListActivity"
             android:theme="@style/AppTheme.Basic" />
 
         <service

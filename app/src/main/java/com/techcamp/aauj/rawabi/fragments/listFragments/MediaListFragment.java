@@ -87,7 +87,8 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
 
     @Override
     public void onError(String err) {
-        Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private class MyHolder extends Holder<MediaItem> {

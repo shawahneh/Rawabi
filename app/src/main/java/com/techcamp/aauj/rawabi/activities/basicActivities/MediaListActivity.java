@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.listActivities;
+package com.techcamp.aauj.rawabi.activities.basicActivities;
 
 import android.support.v4.app.Fragment;
 

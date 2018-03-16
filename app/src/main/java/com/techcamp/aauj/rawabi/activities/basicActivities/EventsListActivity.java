@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.listActivities;
+package com.techcamp.aauj.rawabi.activities.basicActivities;
 
 import android.support.v4.app.Fragment;
 
@@ -18,7 +18,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 public class EventsListActivity extends BasicActivity<Event> implements ListFragment.IFragmentListener<Event> {
     @Override
     protected int getImage() {
-        return R.drawable.events;
+        return R.drawable.events_border;
     }
 
     @Override

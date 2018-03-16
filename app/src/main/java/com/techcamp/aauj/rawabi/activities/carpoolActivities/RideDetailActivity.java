@@ -21,12 +21,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -35,12 +35,13 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     private static final float DEFAULT_ZOOM = 15;
     private Ride mRide;
     private MapView mMapView;
-    Button btnCancel,btnFrom,btnTo,btnMeetingLoc;
-    TextView tvStatus;
-    private CarpoolApi poolingRides = WebService.getInstance();
+    private Button btnCancel,btnFrom,btnTo,btnMeetingLoc;
+    private TextView tvStatus;
+    private CarpoolApi poolingRides = WebApi.getInstance();
     private GoogleMap mMap;
     private ICallBack<Integer> statusRespones;
     private SweetAlertDialog pDialog;
+    private View layoutDetails,layoutExtra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,9 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         btnFrom = findViewById(R.id.btnFrom);
         btnTo = findViewById(R.id.btnTo);
         btnMeetingLoc = findViewById(R.id.btnMeetingLoc);
+        layoutExtra = findViewById(R.id.layoutExtra);
+        layoutDetails = findViewById(R.id.layoutDetails);
+
 
 
         tvDate.setText(DateUtils.getRelativeDateTimeString(this,mRide.getJourney().getGoingDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
@@ -72,6 +76,13 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         tvDriverName.setText(mRide.getJourney().getUser().getFullname());
         tvStatus.setText(StringUtil.getRideStatus(mRide.getOrderStatus()));
 
+        layoutDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // toggle layoutExtra visibility
+                layoutExtra.setVisibility(layoutExtra.getVisibility() == View.VISIBLE?View.GONE:View.VISIBLE);
+            }
+        });
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +141,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
             @Override
             public void onError(String err) {
+                showError(err);
                 pDialog.dismissWithAnimation();
             }
         };
@@ -151,14 +163,6 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
             btnCancel.setVisibility(View.GONE);
         }
 
-//        // setup status color
-//        if(mRide.getOrderStatus() == Ride.STATUS_CANCELLED){
-////            tvStatus.setBackgroundColor(Color.RED);
-//        }else if (mRide.getOrderStatus() == Ride.STATUS_PENDING){
-////            tvStatus.setBackgroundColor(Color.BLUE);
-//        }else if (mRide.getOrderStatus() == Ride.STATUS_ACCEPTED){
-////            tvStatus.setBackgroundColor(Color.GREEN);
-//        }
 
         tvStatus.setText(StringUtil.getRideStatus(mRide.getOrderStatus()));
     }
@@ -201,13 +205,12 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         return super.onOptionsItemSelected(item);
     }
 
+    // called when change the status(when clicked on cancel)
     @Override
     public void onResponse(Boolean changed) {
         pDialog.dismissWithAnimation();
         // status changed (rider cancelled)
         if(changed) {
-//            AlarmController.cancelAlarm(this,mRide.getJourney());
-            ServiceController.cancelRide(this,mRide.getId());
             mRide.setOrderStatus(Ride.STATUS_RIDER_CANCELLED);
             setupStatus();
         }else{
@@ -222,6 +225,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         pDialog.setCancelable(false);
         pDialog.show();
     }
+    //called when there is an error in changing the status of ride ( in cancelling the Ride)
     @Override
     public void onError(String err) {
         pDialog.dismissWithAnimation();

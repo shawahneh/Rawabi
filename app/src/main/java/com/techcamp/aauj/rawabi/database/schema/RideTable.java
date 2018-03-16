@@ -3,7 +3,7 @@ package com.techcamp.aauj.rawabi.database.schema;
 import com.techcamp.aauj.rawabi.database.RidesDB;
 
 /**
- * Created by alaam on 2/14/2018.
+ * Created by ALa on 2/14/2018.
  */
 
 public class RideTable {

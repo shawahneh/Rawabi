@@ -1,7 +1,7 @@
 package com.techcamp.aauj.rawabi.database.schema;
 
 /**
- * Created by alaam on 2/14/2018.
+ * Created by ALa on 2/14/2018.
  */
 
 public class UserTable {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 2/1/2018.
+ * Created by ALa on 2/1/2018.
  */
 
 public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<Holder>

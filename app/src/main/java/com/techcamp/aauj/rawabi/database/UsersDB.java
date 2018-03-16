@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.zip.CheckedOutputStream;
 
 /**
- * Created by alaam on 12/24/2017.
+ * Created by ALa on 12/24/2017.
  */
 
 public class UsersDB<B extends User,T extends UserTable> extends DBHelper<User> {

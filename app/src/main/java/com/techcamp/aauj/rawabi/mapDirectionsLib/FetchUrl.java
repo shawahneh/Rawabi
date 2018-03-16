@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by alaam on 2/15/2018.
+ * Created by ALa on 2/15/2018.
  */
 
 // Fetches data from url passed

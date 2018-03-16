@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.ICallBack;
@@ -21,19 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 2/18/2018.
+ * Created by ALa on 2/18/2018.
  */
 
 public class MyJourneysListFragment extends ListFragment implements ICallBack<ArrayList<Journey>> {
     @Override
     public void setupRecyclerViewAdapter() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        CarpoolApi api = WebService.getInstance();
-        api.getJourneys(0,0,0,this);
     }
 
     @Override
     protected void loadDataFromWeb() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        CarpoolApi api = WebApi.getInstance();
+        api.getJourneys(-1,0,100,this);
 
     }
 

@@ -7,7 +7,7 @@ import android.util.Log;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 
 /**
- * Created by alaam on 1/14/2018.
+ * Created by ALa on 1/14/2018.
  */
 
 public abstract class ItemDetailsFragment<T> extends Fragment {

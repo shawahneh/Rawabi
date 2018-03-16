@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.techcamp.aauj.rawabi.R;
 
 /**
- * Created by alaam on 12/21/2017.
+ * Created by ALa on 12/21/2017.
  */
 
 public class SettingsFragment extends PreferenceFragment {

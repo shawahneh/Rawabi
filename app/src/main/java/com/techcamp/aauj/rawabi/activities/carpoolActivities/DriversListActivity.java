@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +19,10 @@ import com.techcamp.aauj.rawabi.fragments.carpoolFragments.DriversListFragment;
 import java.util.ArrayList;
 
 /**
- * Created by alaam on 2/19/2018.
+ * Created by ALa on 2/19/2018.
  */
 
-public class DriversListActivity extends AppCompatActivity {
+public class DriversListActivity extends AppCompatActivity implements DriversListFragment.IFragmentListener<Journey> {
     private ArrayList<Journey> mJourneys;
     private Fragment mFragment;
     public static Intent getIntent(Context ctx, ArrayList<Journey> journeys){
@@ -67,5 +68,14 @@ public class DriversListActivity extends AppCompatActivity {
 
     public Fragment getFragment() {
         return DriversListFragment.newInstance(mJourneys);
+    }
+
+    // on viewButton in DriversListFragment clicked
+    @Override
+    public void onItemClicked(Journey item) {
+        Intent i = new Intent();
+        i.putExtra("data",item);
+        setResult(Activity.RESULT_OK,i);
+        finish();
     }
 }

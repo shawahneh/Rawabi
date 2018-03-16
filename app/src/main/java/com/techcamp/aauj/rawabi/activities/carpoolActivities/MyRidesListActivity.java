@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyRidesListFragment;
 
 /**
- * Created by alaam on 2/18/2018.
+ * Created by ALa on 2/18/2018.
  */
 
 public class MyRidesListActivity extends EmptyActivity implements ListFragment.IFragmentListener<Ride> {

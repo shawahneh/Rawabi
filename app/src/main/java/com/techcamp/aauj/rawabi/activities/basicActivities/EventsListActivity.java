@@ -12,7 +12,7 @@ import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 
 /**
- * Created by alaam on 2/2/2018.
+ * Created by ALa on 2/2/2018.
  */
 
 public class EventsListActivity extends BasicActivity<Event> implements ListFragment.IFragmentListener<Event> {

@@ -11,9 +11,10 @@ import com.techcamp.aauj.rawabi.services.MyService;
 import com.techcamp.aauj.rawabi.services.RideService;
 
 /**
- * Created by alaam on 1/18/2018.
+ * Created by ALa on 1/18/2018.
  */
 
+// unused ( used for testing on Firebase )
 public class ServiceController {
     public static void createJourney(Context context, int jid){
         Intent intent = new Intent(context, MyService.class);

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by alaam on 12/24/2017.
+ * Created by ALa on 12/24/2017.
  */
 
 public class JourneysDB<B extends Journey,T extends JourneyTable> extends DBHelper<Journey> {

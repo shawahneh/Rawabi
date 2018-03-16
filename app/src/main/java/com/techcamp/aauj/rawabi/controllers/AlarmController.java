@@ -13,9 +13,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by alaam on 12/28/2017.
+ * Created by ALa on 12/28/2017.
  */
-
+// unused
 public class AlarmController {
     public static void addAlarm(Context context, Journey journey){
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);

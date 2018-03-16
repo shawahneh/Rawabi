@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.ItemDetailsFragme
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.JobDetailsFragment;
 
 /**
- * Created by alaam on 1/15/2018.
+ * Created by ALa on 1/15/2018.
  */
 
 public class JobDetailsActivity extends ScrollingActivity<Job> {

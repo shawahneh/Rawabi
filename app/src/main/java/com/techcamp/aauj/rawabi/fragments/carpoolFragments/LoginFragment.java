@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.User;
 import com.techcamp.aauj.rawabi.ICallBack;
@@ -22,7 +23,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 public class LoginFragment extends Fragment {
 
     private EditText mEditTextEmail,mEditTextPassword;
-    private AuthWebApi mAuthWebApi = WebService.getInstance();
+    private AuthWebApi mAuthWebApi = WebApi.getInstance();
     SweetAlertDialog pDialog;
     public LoginFragment() {
     }

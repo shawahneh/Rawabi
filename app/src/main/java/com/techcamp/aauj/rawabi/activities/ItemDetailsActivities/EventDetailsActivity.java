@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.EventDetailsFragm
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.ItemDetailsFragment;
 
 /**
- * Created by alaam on 1/15/2018.
+ * Created by ALa on 1/15/2018.
  */
 
 public class EventDetailsActivity extends ScrollingActivity<Event>{

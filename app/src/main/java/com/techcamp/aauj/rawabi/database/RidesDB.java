@@ -15,7 +15,7 @@ import com.techcamp.aauj.rawabi.database.schema.RideTable;
 import java.util.Date;
 
 /**
- * Created by alaam on 12/24/2017.
+ * Created by ALa on 12/24/2017.
  */
 
 public class RidesDB<B extends Ride,T extends RideTable> extends DBHelper<Ride> {

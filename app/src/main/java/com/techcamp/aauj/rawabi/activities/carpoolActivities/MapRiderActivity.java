@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -32,13 +33,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by alaam on 12/16/2017.
+ * Created by ALa on 12/16/2017.
  */
 
 public class MapRiderActivity extends MapActivity {
     //mMap
     private final int CODE_SELECT_DRIVER =11;
-    private CarpoolApi webApi = WebService.getInstance();
+    private CarpoolApi webApi = WebApi.getInstance();
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
     private ArrayList<Journey> mJourneys;

@@ -9,7 +9,7 @@ import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyJourneysListFragment;
 
 /**
- * Created by alaam on 2/18/2018.
+ * Created by ALa on 2/18/2018.
  */
 
 public class MyJourneysListActivity extends EmptyActivity implements ListFragment.IFragmentListener<Journey> {

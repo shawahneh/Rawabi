@@ -5,7 +5,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import java.util.ArrayList;
 
 /**
- * Created by alaam on 1/18/2018.
+ * Created by ALa on 1/18/2018.
  */
 
 public class CustomJourney {

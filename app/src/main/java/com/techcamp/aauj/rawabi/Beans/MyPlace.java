@@ -3,7 +3,7 @@ package com.techcamp.aauj.rawabi.Beans;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by alaam on 12/7/2017.
+ * Created by ALa on 12/7/2017.
  */
 
 public class MyPlace {

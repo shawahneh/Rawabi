@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by alaam on 11/15/2017.
+ * Created by ALa on 11/15/2017.
  */
 
 public class WebApi implements BasicApi,AuthWebApi
@@ -969,7 +969,7 @@ public class WebApi implements BasicApi,AuthWebApi
                     }else
                     {
 
-                        Log.i("tagWebApi", "ride status changes successfully");
+                        Log.i("tagWebApi", "error in changing ride's status ");
                         result.onResponse(false);
                     }
                 } catch (JSONException e) {

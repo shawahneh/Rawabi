@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.AnnouncmentDetail
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.ItemDetailsFragment;
 
 /**
- * Created by alaam on 1/14/2018.
+ * Created by ALa on 1/14/2018.
  */
 
 public class AnnouncmentDetailsActivity extends ScrollingActivity<Announcement> {

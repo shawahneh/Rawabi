@@ -24,20 +24,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
 import java.util.ArrayList;
 
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-    CarpoolApi poolingRides = WebService.getInstance();
+    CarpoolApi carpoolApi = WebApi.getInstance();
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
     private Journey mJourney;
@@ -148,8 +147,22 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 //        poolingRides.getRidersOfJourney(0,this);
 //    }
     private void refreshJourney(){
-//        showProgress("Refreshing");
+        showProgress("Refreshing");
         CarpoolApi api = WebService.getInstance();
+        api.getRidersOfJourney(mJourney, new ICallBack<ArrayList<Ride>>() {
+            @Override
+            public void onResponse(ArrayList<Ride> item) {
+                pDialog.dismiss();
+                mRiders = item;
+                updateAdapter();
+                drawMarkers(mRiders);
+            }
+
+            @Override
+            public void onError(String err) {
+                pDialog.dismiss();
+            }
+        });
 //        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
 //        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
@@ -213,7 +226,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     private void rejectRider(final Ride ride) {
         showProgress("Rejecting");
-        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new ICallBack<Boolean>() {
+        carpoolApi.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
                 pDialog.dismissWithAnimation();
@@ -235,7 +248,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     private void acceptRider(final Ride ride) {
         showProgress("Accepting");
-        poolingRides.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new ICallBack<Boolean>() {
+        carpoolApi.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean item) {
                 if(pDialog != null)
@@ -279,7 +292,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     }
     public void changeStatus(int s){
         showProgress("Refreshing");
-        WebService.getInstance().changeJourneyStatus(mJourney, s,trigerCustomJourney);
+        carpoolApi.changeJourneyStatus(mJourney, s,trigerCustomJourney);
     }
 
     public void onClick(View view) {
@@ -296,7 +309,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismissWithAnimation();
                                 changeStatus(Journey.STATUS_CANCELLED);
-                                ServiceController.stopService(JourneyDetailActivity.this);
+//                                ServiceController.stopService(JourneyDetailActivity.this); //
                             }
                         })
                         .show();

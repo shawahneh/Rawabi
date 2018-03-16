@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 2/3/2018.
+ * Created by ALa on 2/3/2018.
  */
 
 public class MediaListFragment extends ListFragment implements ICallBack<ArrayList<MediaItem>> {

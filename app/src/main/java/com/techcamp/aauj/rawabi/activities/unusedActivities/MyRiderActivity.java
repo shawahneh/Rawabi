@@ -21,7 +21,7 @@ import com.techcamp.aauj.rawabi.utils.StringUtil;
 import java.util.ArrayList;
 
 /**
- * Created by alaam on 12/21/2017.
+ * Created by ALa on 12/21/2017.
  */
 
 public class MyRiderActivity extends ListActivity<Ride> {

@@ -3,7 +3,7 @@ package com.techcamp.aauj.rawabi.utils;
 import com.techcamp.aauj.rawabi.Beans.*;
 
 /**
- * Created by alaam on 12/21/2017.
+ * Created by ALa on 12/21/2017.
  */
 
 public class StringUtil {

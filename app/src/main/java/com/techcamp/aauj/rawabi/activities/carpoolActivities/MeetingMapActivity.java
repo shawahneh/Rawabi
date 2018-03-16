@@ -18,13 +18,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
-import com.techcamp.aauj.rawabi.controllers.ServiceController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
 public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,ICallBack<Integer> {
@@ -40,7 +40,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerCenter;
     private Journey mJourney;
     private Ride mRide;
-    CarpoolApi poolingRides = WebService.getInstance();
+    CarpoolApi poolingRides = WebApi.getInstance();
     SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +191,6 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         // request created successfully
         if(item >0){
             mRide.setId(item);
-            ServiceController.createRide(this,mRide,mJourney.getId());
                         //            AlarmController.addAlarm(this,mRide.getJourney());
             Intent i = RideDetailActivity.getIntent(this,mRide);
             startActivity(i);

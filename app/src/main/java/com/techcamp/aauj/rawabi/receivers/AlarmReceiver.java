@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 /**
- * Created by alaam on 12/28/2017.
+ * Created by ALa on 12/28/2017.
  */
 
 public class AlarmReceiver extends BroadcastReceiver {

@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by alaam on 2/3/2018.
+ * Created by ALa on 2/3/2018.
  */
 
 public class MediaItem implements Parcelable {

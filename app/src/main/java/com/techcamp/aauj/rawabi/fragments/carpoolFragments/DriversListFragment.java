@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 2/19/2018.
+ * Created by ALa on 2/19/2018.
  */
 
 public class DriversListFragment extends ListFragment {
@@ -119,10 +119,9 @@ public class DriversListFragment extends ListFragment {
                 @Override
                 public void onClick(View view) {
                     if(isAdded()){
-                        Intent i = new Intent();
-                        i.putExtra("data",mItem);
-                        getActivity().setResult(Activity.RESULT_OK,i);
-                        getActivity().finish();
+                       if(mListener != null)
+                           mListener.onItemClicked(mItem);
+
                     }
                 }
             });

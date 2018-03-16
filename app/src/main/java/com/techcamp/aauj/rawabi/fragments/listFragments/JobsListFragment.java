@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alaam on 12/31/2017.
+ * Created by ALa on 12/31/2017.
  */
 
 public class JobsListFragment extends ListFragment implements ICallBack<ArrayList<Job>> {

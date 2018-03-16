@@ -63,38 +63,7 @@
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="@color/black"
-                    android:text="from "
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tvFrom"
-                    android:textColor="@color/black"
-                    android:text="from"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="@color/black"
-                    android:text="to "
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tvTo"
-                    android:textColor="@color/black"
-                    android:text="to"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -136,16 +105,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/layoutDetails"
                 android:padding="10dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:text="Time of Ride: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tvDate"
                     android:textColor="@color/colorPrimary"
                     android:text="date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -165,18 +144,81 @@
                 </LinearLayout>
                 <LinearLayout
                     android:visibility="gone"
+                    android:id="@+id/layoutExtra"
                     android:orientation="vertical"
-                    android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:id="@+id/tvCarDesc"
-                        android:textColor="@color/black"
-                        android:text="Car"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_get_ride"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp" />
+                        <LinearLayout
+                            android:padding="5dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:src="@drawable/point_marker"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp" />
+                            <View
+                                android:layout_width="2dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:background="@color/green"/>
+                            <ImageView
+                                android:tint="@color/colorAccent"
+                                android:src="@drawable/point_marker"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:padding="2dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/tvFrom"
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:text="from"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp" />
+                            <TextView
+                                android:id="@+id/tvTo"
+                                android:textColor="@color/black"
+                                android:text="to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="@color/black"
+                            android:text="Car description: "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:fontFamily="@font/abeezee"
+                            android:id="@+id/tvCarDesc"
+                            android:textColor="@color/black"
+                            android:text="Car"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout> <!-- layout Extra -->
+
+
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

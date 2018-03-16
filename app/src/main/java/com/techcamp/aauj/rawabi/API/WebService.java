@@ -400,7 +400,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
                 User user = new User();
                 user.setFullname("ALa Amarneh");
                 user.setPassword("driver1");
-                user.setUsername("alaamarneh");
+                user.setUsername("ALaarneh");
                 user.setImageurl("https://scontent.fjrs3-1.fna.fbcdn.net/v/t1.0-9/12715321_231944050477975_3807749686171390197_n.jpg?oh=fb36d51e823d98c1581fa9525811b19b&oe=5B004C4C");
                 user.setId(2);
                 user.setPhone("0592345678");

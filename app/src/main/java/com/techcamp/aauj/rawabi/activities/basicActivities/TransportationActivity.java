@@ -8,7 +8,7 @@ import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;
 
 /**
- * Created by alaam on 1/1/2018.
+ * Created by ALa on 1/1/2018.
  */
 
 public class TransportationActivity extends BasicActivity<Transportation> {

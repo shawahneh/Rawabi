@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
 
 /**
- * Created by alaam on 12/31/2017.
+ * Created by ALa on 12/31/2017.
  */
 
 public class JobsListActivity extends BasicActivity<Job> implements ListFragment.IFragmentListener<Job> {

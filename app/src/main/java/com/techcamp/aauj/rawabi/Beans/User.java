@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by alaam on 11/15/2017.
+ * Created by ALa on 11/15/2017.
  */
 
 public class User implements Parcelable{

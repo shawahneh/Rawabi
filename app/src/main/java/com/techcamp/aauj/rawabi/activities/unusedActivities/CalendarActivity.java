@@ -9,7 +9,7 @@ import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
 
 /**
- * Created by alaam on 12/31/2017.
+ * Created by ALa on 12/31/2017.
  */
 
 public class CalendarActivity extends BasicActivity<Event> {

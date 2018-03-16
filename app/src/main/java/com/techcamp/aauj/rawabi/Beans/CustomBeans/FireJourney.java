@@ -10,7 +10,7 @@ import com.techcamp.aauj.rawabi.utils.DateUtil;
 import java.util.Date;
 
 /**
- * Created by alaam on 2/18/2018.
+ * Created by ALa on 2/18/2018.
  */
 
 public class FireJourney implements Parcelable {

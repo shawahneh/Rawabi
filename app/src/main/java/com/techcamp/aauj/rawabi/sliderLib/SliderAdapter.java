@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
- * Created by alaam on 2/15/2018.
+ * Created by ALa on 2/15/2018.
  */
 
 public abstract class SliderAdapter<T> extends PagerAdapter {

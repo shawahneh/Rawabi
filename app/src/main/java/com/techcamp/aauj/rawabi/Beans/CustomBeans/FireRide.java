@@ -9,7 +9,7 @@ import com.techcamp.aauj.rawabi.Beans.Ride;
 import com.techcamp.aauj.rawabi.Beans.User;
 
 /**
- * Created by alaam on 2/18/2018.
+ * Created by ALa on 2/18/2018.
  */
 
 public class FireRide  implements Parcelable {

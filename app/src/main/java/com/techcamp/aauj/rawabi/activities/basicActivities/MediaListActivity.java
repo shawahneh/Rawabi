@@ -11,7 +11,7 @@ import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.MediaListFragment;
 
 /**
- * Created by alaam on 2/3/2018.
+ * Created by ALa on 2/3/2018.
  */
 
 public class MediaListActivity extends BasicActivity<MediaItem>  implements ListFragment.IFragmentListener<MediaItem> {

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.Beans.Journey;
 import com.techcamp.aauj.rawabi.Beans.User;
@@ -22,17 +23,16 @@ import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
-import com.techcamp.aauj.rawabi.controllers.ServiceController;
 
 import java.util.Date;
 
 /**
- * Created by alaam on 12/22/2017.
+ * Created by ALa on 12/22/2017.
  */
 
 
 public class MapDriverActivity extends MapActivity implements ICallBack<Integer> {
-    private CarpoolApi poolingJourney = WebService.getInstance();
+    private CarpoolApi poolingJourney = WebApi.getInstance();
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;
     private Button btnCreateJourney;
@@ -91,7 +91,6 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
     private void createJourney() {
         if(!validate())
         {
-            showError("please enter valid data");
             return;
         }
         int sNumber = Integer.parseInt(txtSeatsNumber.getText().toString());
@@ -121,12 +120,22 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
     }
 
     private boolean validate() {
-        return !(TextUtils.isEmpty(txtSeatsNumber.getText()) || TextUtils.isEmpty(txtCarDesc.getText()));
+        if(TextUtils.isEmpty(txtSeatsNumber.getText())){
+            txtSeatsNumber.setError("Please enter number of seats available");
+            txtSeatsNumber.requestFocus();
+            return false;
+        }
+        if(TextUtils.isEmpty(txtCarDesc.getText())){
+            txtCarDesc.setError("Please enter the car description");
+            txtCarDesc.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_map_driver2;
+        return R.layout.activity_map_driver;
     }
 
     @Override
@@ -159,13 +168,14 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
+    // response from create journey
     @Override
     public void onResponse(Integer item) {
         pDialog.dismissWithAnimation();
         // journey created
         if(item > 0){
 //            AlarmController.addAlarm(this,mJourney);
-            ServiceController.createJourney(this,item);
+//            ServiceController.createJourney(this,item);
             mJourney.setId(item);
             Intent i = new Intent(this,JourneyDetailActivity.class);
             i.putExtra(JourneyDetailActivity.ARG_JOURNEY,mJourney);
@@ -174,9 +184,11 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
         }
     }
 
+    // error while creating journey
     @Override
     public void onError(String err) {
-    pDialog.dismissWithAnimation();
+        pDialog.dismissWithAnimation();
+        showError(err);
     }
     private void showError(String error){
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();

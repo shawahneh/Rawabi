@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**

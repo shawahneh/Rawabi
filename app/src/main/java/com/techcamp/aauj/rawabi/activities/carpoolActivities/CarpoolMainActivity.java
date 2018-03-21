@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by ALa on 2/9/2018.
  */
-
+// First Activity for carpool
 public class CarpoolMainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private LinearLayout mLinearLayoutDots;

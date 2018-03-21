@@ -1,6 +1,6 @@
 package com.techcamp.aauj.rawabi.utils;
 
-import com.techcamp.aauj.rawabi.Beans.*;
+import com.techcamp.aauj.rawabi.model.*;
 
 /**
  * Created by ALa on 12/21/2017.

@@ -3,8 +3,7 @@ package com.techcamp.aauj.rawabi.activities.basicActivities;
 import android.support.v4.app.Fragment;
 
 import com.stfalcon.frescoimageviewer.ImageViewer;
-import com.techcamp.aauj.rawabi.Beans.Job;
-import com.techcamp.aauj.rawabi.Beans.MediaItem;
+import com.techcamp.aauj.rawabi.model.MediaItem;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;

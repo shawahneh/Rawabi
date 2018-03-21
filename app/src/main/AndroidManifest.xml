@@ -110,15 +110,6 @@
             android:name=".activities.basicActivities.MediaListActivity"
             android:theme="@style/AppTheme.Basic" />
 
-        <service
-            android:name=".services.MyService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".services.RideService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".activities.unusedActivities.QCenterActivity"
             android:theme="@style/AppTheme.Basic" />

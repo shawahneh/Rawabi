@@ -1,23 +1,21 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.techcamp.aauj.rawabi.utils.DateUtil;
-
 import java.util.Date;
 
 /**
- * Created by ALa on 12/31/2017.
+ * Created by ALa on 11/15/2017.
  */
 
-public class Job  implements Parcelable {
+public class Event implements Parcelable {
     int id;
     private String name,description,imageUrl;
     private Date date;
-    public Job(){}
+    public Event(){}
 
-    protected Job(Parcel in) {
+    protected Event(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();
@@ -25,25 +23,22 @@ public class Job  implements Parcelable {
         date = new Date(in.readLong());
     }
 
-    public static final Creator<Job> CREATOR = new Creator<Job>() {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
-        public Job createFromParcel(Parcel in) {
-            return new Job(in);
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
         }
 
         @Override
-        public Job[] newArray(int size) {
-            return new Job[size];
+        public Event[] newArray(int size) {
+            return new Event[size];
         }
     };
 
-    public int getId() {
-        return id;
-    }
-
+    public int getId() {return id;}
     public void setId(int id) {
-        this.id = id;}
-
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -75,6 +70,7 @@ public class Job  implements Parcelable {
     public void setDate(Date date) {
         this.date = date;
     }
+
 
     @Override
     public int describeContents() {

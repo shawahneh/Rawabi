@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.receivers.AlarmReceiver;
 
 import java.util.Calendar;

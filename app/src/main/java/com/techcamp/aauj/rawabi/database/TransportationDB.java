@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.techcamp.aauj.rawabi.Beans.TransportationElement;
+import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.database.schema.TransportationTable;
 
 import java.util.ArrayList;

@@ -1,93 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity">
+    android:gravity="center_horizontal"
+    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity">
 
+   <!--
+   Please collapse any Layout after review
+   -->
+
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-
-
-
-        <com.google.android.gms.maps.MapView
-            android:layout_weight="1"
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-
-    <android.support.v7.widget.CardView
-        app:cardCornerRadius="5dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/layout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:background="@color/blue_sky"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btnCancel"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/red"
+            android:text="Cancell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btnComplete"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/green"
+            android:text="Complete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
 
+    </LinearLayout> <!-- Cancel, Complete buttons -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/btnFrom"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:text="From"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/btnMeetingLoc"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:text="Meeting Location"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/btnTo"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:text="To"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-
-
-        <android.support.v7.widget.CardView
-
-            app:cardCornerRadius="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:textColor="@color/white"
-                android:background="@color/red"
-                android:visibility="visible"
-                android:id="@+id/btnCancel"
-                android:text="Cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
-
-
-
-</LinearLayout>
     <LinearLayout
+        android:layout_gravity="top"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -118,30 +75,13 @@
                         android:text="Time of Ride: "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:textColor="@color/colorPrimary"
-                    android:text="date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
                     <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:textColor="@color/black"
-                        android:text="Driver: "
+                        android:id="@+id/tvDate"
+                        android:textColor="@color/colorPrimary"
+                        android:text="date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                    <TextView
-                        android:fontFamily="@font/abeezee"
-                        android:id="@+id/tvDriverName"
-                        android:textColor="@color/black"
-                        android:text="driver name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                </LinearLayout> <!-- Date -->
                 <LinearLayout
                     android:visibility="visible"
                     android:id="@+id/layoutExtra"
@@ -154,7 +94,7 @@
                         android:layout_height="match_parent">
                         <ImageView
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_get_ride"
+                            android:src="@drawable/ic_offer_ride"
                             android:layout_width="48dp"
                             android:layout_height="48dp" />
                         <LinearLayout
@@ -221,6 +161,6 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
-    </LinearLayout>
+    </LinearLayout> <!-- Journey details: status,date,from,to location, car description -->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,10 +1,10 @@
 package com.techcamp.aauj.rawabi.API;
 
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Job;
-import com.techcamp.aauj.rawabi.Beans.MediaItem;
-import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.model.Announcement;
+import com.techcamp.aauj.rawabi.model.Event;
+import com.techcamp.aauj.rawabi.model.Job;
+import com.techcamp.aauj.rawabi.model.MediaItem;
+import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.ICallBack;
 
 import java.util.ArrayList;
@@ -14,6 +14,9 @@ import java.util.Date;
  * Created by ALa on 2/3/2018.
  */
 
+/**
+ * Basic Api used with Q center, Events, Jobs, Media and Transportation
+ */
 public interface BasicApi {
     void getAnnouns(ICallBack<ArrayList<Announcement>> eventITriger);
     void getJobs(ICallBack<ArrayList<Job>> triger);

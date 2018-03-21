@@ -5,12 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.MediaItem;
-import com.techcamp.aauj.rawabi.database.schema.EventTable;
+import com.techcamp.aauj.rawabi.model.MediaItem;
 import com.techcamp.aauj.rawabi.database.schema.MediaItemTable;
-
-import java.util.Date;
 
 /**
  * Created by maysaraodeh on 08/03/2018.

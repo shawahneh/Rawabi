@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Announcement;
+import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 

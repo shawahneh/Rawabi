@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 import com.google.android.gms.maps.model.LatLng;
 

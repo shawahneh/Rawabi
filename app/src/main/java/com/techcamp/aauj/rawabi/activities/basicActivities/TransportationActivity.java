@@ -2,7 +2,7 @@ package com.techcamp.aauj.rawabi.activities.basicActivities;
 
 import android.support.v4.app.Fragment;
 
-import com.techcamp.aauj.rawabi.Beans.Transportation;
+import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.TransportationPageFragment;

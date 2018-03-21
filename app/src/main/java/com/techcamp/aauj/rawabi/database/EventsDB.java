@@ -5,12 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.database.schema.EventTable;
-import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
 
 import java.util.Date;
 

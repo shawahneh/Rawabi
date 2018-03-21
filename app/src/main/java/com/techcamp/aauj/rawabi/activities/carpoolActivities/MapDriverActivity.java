@@ -16,9 +16,8 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
@@ -30,7 +29,12 @@ import java.util.Date;
  * Created by ALa on 12/22/2017.
  */
 
-
+/**
+ * Activity for Driver to select his next journey
+ * contains: map
+ *          start, end and time selectors
+ *          seats number and car description
+ */
 public class MapDriverActivity extends MapActivity implements ICallBack<Integer> {
     private CarpoolApi poolingJourney = WebApi.getInstance();
     private SlidingUpPanelLayout mSlidingUpPanelLayout;

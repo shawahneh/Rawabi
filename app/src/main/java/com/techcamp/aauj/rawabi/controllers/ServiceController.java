@@ -5,8 +5,7 @@ import android.content.Intent;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.techcamp.aauj.rawabi.Beans.CustomBeans.FireRide;
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.services.MyService;
 import com.techcamp.aauj.rawabi.services.RideService;
 

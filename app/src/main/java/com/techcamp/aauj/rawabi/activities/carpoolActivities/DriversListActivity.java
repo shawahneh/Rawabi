@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.DriversListFragment;
 
@@ -22,6 +19,7 @@ import java.util.ArrayList;
  * Created by ALa on 2/19/2018.
  */
 
+// contains a list of available drivers
 public class DriversListActivity extends AppCompatActivity implements DriversListFragment.IFragmentListener<Journey> {
     private ArrayList<Journey> mJourneys;
     private Fragment mFragment;

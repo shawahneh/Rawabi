@@ -10,17 +10,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Job;
+import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
-import com.techcamp.aauj.rawabi.database.AnnouncementDB;
 import com.techcamp.aauj.rawabi.database.EventsDB;
-import com.techcamp.aauj.rawabi.database.JobsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
 import java.util.ArrayList;

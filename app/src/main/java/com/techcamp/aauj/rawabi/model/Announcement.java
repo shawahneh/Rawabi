@@ -1,44 +1,48 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.techcamp.aauj.rawabi.utils.DateUtil;
-
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by ALa on 11/15/2017.
+ * Created by ALa on 12/31/2017.
  */
 
-public class Event implements Parcelable {
-    int id;
+public class Announcement implements Parcelable{
+    private int id;
     private String name,description,imageUrl;
-    private Date date;
-    public Event(){}
+    private Date startDate;
+    private Date endDate;
 
-    protected Event(Parcel in) {
+    public Announcement(){}
+
+    protected Announcement(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();
         imageUrl = in.readString();
-        date = new Date(in.readLong());
+        setStartDate(new Date(in.readLong()));
+        setEndDate(new Date(in.readLong()));
     }
 
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
+    public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
         @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
+        public Announcement createFromParcel(Parcel in) {
+            return new Announcement(in);
         }
 
         @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
+        public Announcement[] newArray(int size) {
+            return new Announcement[size];
         }
     };
 
-    public int getId() {return id;}
+
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -66,12 +70,20 @@ public class Event implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
 
@@ -86,6 +98,10 @@ public class Event implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeString(imageUrl);
-        parcel.writeLong(date.getTime());
+        parcel.writeLong(startDate.getTime());
+        parcel.writeLong(endDate.getTime());
     }
+
+
+
 }

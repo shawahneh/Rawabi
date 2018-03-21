@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.abstractActivities;
+package com.techcamp.aauj.rawabi.activities.unusedActivities;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

@@ -2,7 +2,6 @@ package com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 
 public class AnnouncmentDetailsFragment extends ItemDetailsFragment<Announcement> {
     private TextView tvName, tvDescription, tvDate;

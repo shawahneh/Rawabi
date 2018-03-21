@@ -1,12 +1,11 @@
-package com.techcamp.aauj.rawabi.Beans.CustomBeans;
+package com.techcamp.aauj.rawabi.model.CustomBeans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.gms.maps.model.*;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.Ride;
+import com.techcamp.aauj.rawabi.model.User;
 
 /**
  * Created by ALa on 2/18/2018.

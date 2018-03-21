@@ -2,11 +2,10 @@ package com.techcamp.aauj.rawabi.activities.basicActivities;
 
 import android.support.v4.app.Fragment;
 
-import com.techcamp.aauj.rawabi.Beans.Announcement;
+import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.AnnouncmentDetailsFragment;
-import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.EventDetailsFragment;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragment;
 

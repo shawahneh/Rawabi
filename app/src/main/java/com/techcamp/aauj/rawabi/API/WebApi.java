@@ -12,17 +12,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.CustomBeans.CustomJourney;
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Job;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.MediaItem;
-import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.Beans.Transportation;
-import com.techcamp.aauj.rawabi.Beans.TransportationElement;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Announcement;
+import com.techcamp.aauj.rawabi.model.Event;
+import com.techcamp.aauj.rawabi.model.Job;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.MediaItem;
+import com.techcamp.aauj.rawabi.model.Ride;
+import com.techcamp.aauj.rawabi.model.Transportation;
+import com.techcamp.aauj.rawabi.model.TransportationElement;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
@@ -36,13 +34,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by ALa on 11/15/2017.
  */
 
+/**
+ * Implementations using volley
+ */
 public class WebApi implements BasicApi,AuthWebApi
     ,CarpoolApi{
     public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";

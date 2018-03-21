@@ -11,10 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.Beans.Event;
-import com.techcamp.aauj.rawabi.Beans.Job;
+import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 
 /**
  * A simple {@link Fragment} subclass.

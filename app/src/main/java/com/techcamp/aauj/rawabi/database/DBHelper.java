@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.MediaItem;
 import com.techcamp.aauj.rawabi.database.schema.AnnouncementTable;
 import com.techcamp.aauj.rawabi.database.schema.EventTable;
 import com.techcamp.aauj.rawabi.database.schema.JobTable;

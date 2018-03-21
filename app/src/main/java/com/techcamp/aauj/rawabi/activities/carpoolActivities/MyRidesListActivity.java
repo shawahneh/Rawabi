@@ -3,8 +3,7 @@ package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.EmptyActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyRidesListFragment;

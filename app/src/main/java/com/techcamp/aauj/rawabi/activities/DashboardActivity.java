@@ -31,6 +31,9 @@ import com.techcamp.aauj.rawabi.activities.basicActivities.TransportationActivit
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.NewsFragment;
 
+/**
+ * Main activity for user
+ */
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener,
         HomeFragment.IListener {

@@ -1,6 +1,6 @@
-package com.techcamp.aauj.rawabi.Beans.CustomBeans;
+package com.techcamp.aauj.rawabi.model.CustomBeans;
 
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Ride;
 
 import java.util.ArrayList;
 

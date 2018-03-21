@@ -1,6 +1,6 @@
 package com.techcamp.aauj.rawabi.API;
 
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.ICallBack;
 
 /**
@@ -8,9 +8,44 @@ import com.techcamp.aauj.rawabi.ICallBack;
  */
 
 public interface AuthWebApi {
-    void userRegister(User user, ICallBack<Boolean> booleanITriger);
-    void setUserDetails(User user,String OldPassword,ICallBack<Boolean> booleanITriger);// new password exists in user object i.e. newPassword =  user.getPassword
-    void getUserDetails(int userId,ICallBack<User> resultUser);
-    void login(String username,String password,ICallBack<User> resultUser);
-    void checkAuth(String username,String password,ICallBack<Boolean> booleanITriger);
+
+    /**
+     * userRegister
+     * this method used for register new user
+     * @param user : input, new user
+     * @param callBack : if registration succeed -> return true, else -> return false
+     */
+    void userRegister(User user, ICallBack<Boolean> callBack);
+
+    /** setUserDetails
+     *  this method used for update current user info
+     * @param user : current user, the object holds the new password i.e. newPassword =  user.getPassword
+     * @param OldPassword : old password entered in passwordEditText
+     * @param callBack : return true or false
+     */
+    void setUserDetails(User user,String OldPassword,ICallBack<Boolean> callBack);
+
+    /** getUserDetails
+     * this method used to get current user info
+     * @param userId : current user id
+     * @param callBack : if operation succeed -> return user = value, else return user = null
+     */
+    void getUserDetails(int userId,ICallBack<User> callBack);
+
+    /** login
+     * this method used to login
+     * @param username : email from input form
+     * @param password : password from input form
+     * @param callBack : if username and password valid -> return the user match, else -> return null
+     */
+    void login(String username,String password,ICallBack<User> callBack);
+
+    /**
+     * checkAuth
+     * this method is unused for now
+     * @param username : email
+     * @param password : password
+     * @param callBack : ...
+     */
+    void checkAuth(String username,String password,ICallBack<Boolean> callBack);
 }

@@ -17,9 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.Beans.NewsItem;
+import com.techcamp.aauj.rawabi.model.NewsItem;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 
 import java.util.ArrayList;
 import java.util.Date;

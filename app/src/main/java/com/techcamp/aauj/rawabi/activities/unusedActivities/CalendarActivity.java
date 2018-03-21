@@ -1,9 +1,8 @@
 package com.techcamp.aauj.rawabi.activities.unusedActivities;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.techcamp.aauj.rawabi.Beans.Event;
+import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
 import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;

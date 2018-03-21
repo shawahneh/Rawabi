@@ -3,8 +3,7 @@ package com.techcamp.aauj.rawabi.activities.ItemDetailsActivities;
 import android.content.Context;
 import android.content.Intent;
 
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Job;
+import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity;
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.ItemDetailsFragment;
 import com.techcamp.aauj.rawabi.fragments.ItemDetailsFragments.JobDetailsFragment;

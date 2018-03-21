@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

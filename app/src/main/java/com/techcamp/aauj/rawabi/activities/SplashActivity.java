@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
  * Created by ALa on 2/21/2018.
  */
 
+/**
+ * Splash Screen
+ */
 public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

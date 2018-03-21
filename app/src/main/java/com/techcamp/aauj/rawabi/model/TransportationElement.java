@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
 /**
  * Created by ALa on 3/8/2018.

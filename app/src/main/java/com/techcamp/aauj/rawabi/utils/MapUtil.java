@@ -1,30 +1,24 @@
 package com.techcamp.aauj.rawabi.utils;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.ITriger;
+import com.techcamp.aauj.rawabi.ITrigger;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +71,7 @@ public class MapUtil {
         return distance;
     }
 
-    public static Location getCurrentLoc(Context context,@Nullable final ITriger<Location> locationITriger) {
+    public static Location getCurrentLoc(Context context,@Nullable final ITrigger<Location> locationITriger) {
         Log.d("tag","getCurrentLoc");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -12,18 +12,18 @@ import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
 import com.techcamp.aauj.rawabi.activities.unusedActivities.MyRiderActivity;
 
+// unused
 public class RideService extends Service {
     DatabaseReference mData;
     ValueEventListener listener;

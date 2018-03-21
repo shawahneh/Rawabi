@@ -5,15 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.database.schema.RideTable;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.database.schema.UserTable;
 
 import java.util.Date;
-import java.util.zip.CheckedOutputStream;
 
 /**
  * Created by ALa on 12/24/2017.

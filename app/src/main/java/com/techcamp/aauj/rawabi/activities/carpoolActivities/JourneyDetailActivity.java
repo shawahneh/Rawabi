@@ -26,8 +26,8 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -35,6 +35,11 @@ import com.techcamp.aauj.rawabi.utils.StringUtil;
 
 import java.util.ArrayList;
 
+
+
+/**
+ * Activity for driver to show the details of his journey
+ */
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     CarpoolApi carpoolApi = WebApi.getInstance();
     public static final String ARG_JOURNEY = "journey";
@@ -53,7 +58,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_journey_detail);
+        setContentView(R.layout.activity_map_driver2);
 
         mJourney = getIntent().getParcelableExtra(ARG_JOURNEY);
         prevStatus = mJourney.getStatus();
@@ -255,7 +260,6 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismissWithAnimation();
                 //rider accepted
                 if(item){
-//                    ServiceController.changeRideStatus(ride.getId(),Ride.STATUS_ACCEPTED);
                     ride.setOrderStatus(Ride.STATUS_ACCEPTED);
                 }
                 updateRecycler();

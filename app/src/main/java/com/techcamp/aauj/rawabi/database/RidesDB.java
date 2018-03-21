@@ -6,13 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.Beans.User;
-import com.techcamp.aauj.rawabi.database.schema.JourneyTable;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.Ride;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.database.schema.RideTable;
-
-import java.util.Date;
 
 /**
  * Created by ALa on 12/24/2017.

@@ -1,10 +1,10 @@
-package com.techcamp.aauj.rawabi.Beans.CustomBeans;
+package com.techcamp.aauj.rawabi.model.CustomBeans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import java.util.Date;

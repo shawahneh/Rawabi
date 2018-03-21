@@ -18,11 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
 import com.techcamp.aauj.rawabi.activities.unusedActivities.MyJourneysActivity;
 
+// unused
 public class MyService extends Service {
     ChildEventListener listener;
     DatabaseReference mData;

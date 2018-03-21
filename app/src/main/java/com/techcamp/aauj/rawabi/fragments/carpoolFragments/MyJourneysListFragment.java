@@ -1,19 +1,16 @@
 package com.techcamp.aauj.rawabi.fragments.carpoolFragments;
 
-import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
-import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.DashboardActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.EditProfileActivity;

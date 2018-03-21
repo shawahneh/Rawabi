@@ -1,13 +1,9 @@
 package com.techcamp.aauj.rawabi.fragments.carpoolFragments;
 
 import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -19,14 +15,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Journey;
+import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
-import com.techcamp.aauj.rawabi.fragments.listFragments.JobsListFragment;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 

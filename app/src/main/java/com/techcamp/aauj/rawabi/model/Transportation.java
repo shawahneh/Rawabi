@@ -1,6 +1,5 @@
-package com.techcamp.aauj.rawabi.Beans;
+package com.techcamp.aauj.rawabi.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

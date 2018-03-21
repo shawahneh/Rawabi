@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
@@ -15,15 +13,33 @@
 
 
     <include
-        layout="@layout/activity_map"/>
+        layout="@layout/layout_journey_detail_for_activity"/>
 
     <LinearLayout
-        android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/layout_journey_details"/>
-    </LinearLayout>
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center"
+            android:background="@color/city"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:text="Riders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout> <!-- List for Riders -->
 
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

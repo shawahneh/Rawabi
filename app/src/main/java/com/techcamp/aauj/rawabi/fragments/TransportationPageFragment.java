@@ -3,7 +3,6 @@ package com.techcamp.aauj.rawabi.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,13 +15,12 @@ import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Transportation;
-import com.techcamp.aauj.rawabi.Beans.TransportationElement;
+import com.techcamp.aauj.rawabi.model.Transportation;
+import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.database.TransportationDB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

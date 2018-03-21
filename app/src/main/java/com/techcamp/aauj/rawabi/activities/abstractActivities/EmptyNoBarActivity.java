@@ -10,7 +10,6 @@ import com.techcamp.aauj.rawabi.R;
 
 public abstract class EmptyNoBarActivity<T> extends AppCompatActivity {
     protected T mBean;
-    public static final String ARG_NUMBER_OF_COLS = "numberOfCols";
     public static final String ARG_BEAN = "bean";
     protected Fragment mFragment;
     @Override

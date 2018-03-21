@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.Beans.Journey;
-import com.techcamp.aauj.rawabi.Beans.Ride;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.Journey;
+import com.techcamp.aauj.rawabi.model.User;
 
 import java.util.Date;
 

@@ -6,13 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Job;
+import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -101,7 +99,8 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
 
     @Override
     public void onError(String err) {
-        Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
+        if(getView() != null)
+            Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

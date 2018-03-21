@@ -5,10 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.techcamp.aauj.rawabi.Beans.Announcement;
-import com.techcamp.aauj.rawabi.Beans.Job;
+import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.database.schema.AnnouncementTable;
-import com.techcamp.aauj.rawabi.database.schema.JobTable;
 
 import java.util.Date;
 

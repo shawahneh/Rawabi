@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.techcamp.aauj.rawabi.Beans.User;
+import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapDriverActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.MapRiderActivity;

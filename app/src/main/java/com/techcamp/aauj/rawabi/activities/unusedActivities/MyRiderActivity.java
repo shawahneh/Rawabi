@@ -10,10 +10,9 @@ import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
-import com.techcamp.aauj.rawabi.Beans.Ride;
+import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.ICallBack;
 import com.techcamp.aauj.rawabi.R;
-import com.techcamp.aauj.rawabi.activities.abstractActivities.ListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;

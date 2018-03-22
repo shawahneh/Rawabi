@@ -17,11 +17,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyRidesListActivity;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
-import com.techcamp.aauj.rawabi.activities.unusedActivities.MyRiderActivity;
 
 // unused
 public class RideService extends Service {
@@ -92,7 +92,7 @@ public class RideService extends Service {
         mBuilder.setContentText(text).setDefaults(Notification.DEFAULT_ALL) ;
 
 
-        Intent resultIntent = new Intent(this, MyRiderActivity.class);
+        Intent resultIntent = new Intent(this, MyRidesListActivity.class);
         resultIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,new Journey());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 

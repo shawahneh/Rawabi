@@ -68,17 +68,18 @@ public class JourneysDB<B extends Journey,T extends JourneyTable> extends DBHelp
         return bean;
     }
 
-    public B getJourneyById(int id ){
+    public B getJourneyById(int id ,Context context){
+        // TODO: 3/22/2018 fix this
         B journey = getBeanById(id);
         int uid = journey.getUser().getId();
-        User user =  UsersDB.getInstance(mContext).getBeanById(uid);
+        User user =  UsersDB.getInstance(context).getBeanById(uid);
         journey.setUser(user);
         return journey;
     }
 
-    public void saveJourney(B journey){
+    public void saveJourney(B journey, Context context){
         User user = journey.getUser();
-        UsersDB.getInstance(mContext).saveBean(user);
+        UsersDB.getInstance(context).saveBean(user);
 
         saveBean(journey);
     }

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.EventsListActivity;
@@ -158,7 +159,7 @@ public class DashboardActivity extends AppCompatActivity
                 break;
             case HomeFragment.TAG_CARPOOL:
                 if(WebApi.getInstance().isLogin()){
-                    Intent i = new Intent(this, CarpoolMainActivity.class);
+                    Intent i = new Intent(this, CarpoolActivity.class);
                     startActivity(i);
                 }else{
 

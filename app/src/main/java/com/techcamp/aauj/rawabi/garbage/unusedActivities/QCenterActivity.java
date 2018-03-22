@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.unusedActivities;
+package com.techcamp.aauj.rawabi.garbage.unusedActivities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +39,6 @@ public class QCenterActivity extends AppCompatActivity {
     }
 
     public Fragment getFragment(){
-        return AnnouncementsListFragment.newInstance(1);
+        return AnnouncementsListFragment.newInstance();
     }
 }

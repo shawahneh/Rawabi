@@ -1,11 +1,11 @@
-package com.techcamp.aauj.rawabi.activities.unusedActivities;
+package com.techcamp.aauj.rawabi.garbage.unusedActivities;
 
 import android.support.v4.app.Fragment;
 
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity;
-import com.techcamp.aauj.rawabi.fragments.CalendarPageFragment;
+import com.techcamp.aauj.rawabi.garbage.CalendarPageFragment;
 
 /**
  * Created by ALa on 12/31/2017.

@@ -1,4 +1,4 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,9 +6,18 @@
     android:orientation="vertical"
     android:id="@+id/swiperefresh"
     android:gravity="center_horizontal"
-    android:padding="10dp"
     tools:context="com.techcamp.aauj.rawabi.fragments.TransportationPageFragment">
+
+    <ProgressBar
+        android:minHeight="0dp"
+        android:indeterminate="true"
+        android:id="@+id/progressBarLoading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.CardView
@@ -63,4 +72,4 @@
     </android.support.v7.widget.CardView>
 
     </LinearLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

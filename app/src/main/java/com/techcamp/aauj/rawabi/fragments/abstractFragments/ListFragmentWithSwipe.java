@@ -13,22 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.R;
 
-
-public abstract class ListFragment extends Fragment {
+public abstract class ListFragmentWithSwipe extends Fragment {
     public static final String ARG_ITEM = "item";
     protected RecyclerView mRecyclerView;
-    protected ProgressBar progressBarLoading;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected View layoutMessage;
     protected ImageView imgMessage;
     protected TextView tvMessage;
     protected IFragmentListener mListener;
-    public ListFragment() {
+    public ListFragmentWithSwipe() {
     }
 
     private void initRecyclerView(){
@@ -49,19 +46,20 @@ public abstract class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.fragment_list, container, false);
+        return  inflater.inflate(R.layout.fragment_list_with_swipe, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mRecyclerView = view.findViewById(R.id.rv);
+        mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         layoutMessage = view.findViewById(R.id.layoutMessage);
         imgMessage = view.findViewById(R.id.imgMessage);
         tvMessage = view.findViewById(R.id.tvMessage);
-        progressBarLoading = view.findViewById(R.id.progressBarLoading);
 
         hideMessageLayout();
         initRecyclerView();
+        initSwipeToRefresh();
         setupRecyclerViewAdapter();
         loadDataFromWeb();
 
@@ -97,6 +95,15 @@ public abstract class ListFragment extends Fragment {
         layoutMessage.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
+
+    private void initSwipeToRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadDataFromWeb();
+            }
+        });
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -105,9 +112,6 @@ public abstract class ListFragment extends Fragment {
         }else{
             throw new RuntimeException(context.toString() + " must implement IFragmentListener");
         }
-    }
-    protected void setLoading(boolean loading){
-        progressBarLoading.setVisibility(loading?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -119,6 +123,77 @@ public abstract class ListFragment extends Fragment {
         void onItemClicked(T item);
     }
 
-
+//    public abstract class Holder<T> extends RecyclerView.ViewHolder implements View.OnClickListener{
+//        protected T mItem;
+//        public Holder(View itemView) {
+//            super(itemView);
+//            itemView.setOnClickListener(this);
+//        }
+//        @Override
+//        public void onClick(View v) {
+//            onClicked(v);
+//        }
+//        public  View details(){return null;}
+//        public abstract void onClicked(View v);
+//        public abstract void bind(T item, int pos);
+//        public void setItem(T item){mItem = item;}
+//    }
+//
+//
+//    public abstract class Adapter<T> extends RecyclerView.Adapter<Holder>
+//    {
+//        private List<T> mItems;
+//        private int mExpandedPosition =-1;
+//        public Adapter(List<T> items)
+//        {
+//            mItems = items;
+//        }
+//
+//        @Override
+//        public Holder onCreateViewHolder(ViewGroup parent, int viewType)
+//        {
+//            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+//            View view = layoutInflater.inflate(getLayoutId(), parent, false);
+//            return getNewHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(Holder holder, final int position)
+//        {
+//            T item = mItems.get(position);
+//            holder.setItem(item);
+//            holder.bind(item,position);
+//
+////            final boolean isExpanded = position==mExpandedPosition;
+////            if(holder.details() != null)
+////            holder.details().setVisibility(isExpanded?View.VISIBLE:View.GONE);
+////
+////            holder.itemView.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    mExpandedPosition = isExpanded ? -1:position;
+////                }
+////            });
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return mItems.size();
+//        }
+//        public void setList(List<T> items){
+//            mItems=items;
+//        }
+//        public List<T> getList(){
+//            return mItems;
+//        }
+//
+//        public void clear(){
+//            mItems.clear();
+//            notifyDataSetChanged();
+//        }
+//
+//        public abstract int getLayoutId();
+//        public abstract Holder getNewHolder(View v);
+//    }
 
 }

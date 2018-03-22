@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.techcamp.aauj.rawabi.fragments.DriverFragments.JourneyInputsFragment">
+    tools:context="com.techcamp.aauj.rawabi.garbage.JourneyInputsFragment">
 
     <TextView
         android:layout_width="match_parent"

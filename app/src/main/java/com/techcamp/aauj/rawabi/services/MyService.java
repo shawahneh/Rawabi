@@ -18,10 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.techcamp.aauj.rawabi.activities.carpoolActivities.MyJourneysListActivity;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
-import com.techcamp.aauj.rawabi.activities.unusedActivities.MyJourneysActivity;
 
 // unused
 public class MyService extends Service {
@@ -70,7 +70,7 @@ public class MyService extends Service {
         mBuilder.setContentText("You have a pending journey").setDefaults(Notification.DEFAULT_ALL) ;
 
 
-        Intent resultIntent = new Intent(this, MyJourneysActivity.class);
+        Intent resultIntent = new Intent(this, MyJourneysListActivity.class);
         resultIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,new Journey());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
@@ -127,7 +127,7 @@ public class MyService extends Service {
         mBuilder.setContentText(text).setDefaults(Notification.DEFAULT_ALL) ;
 
 
-        Intent resultIntent = new Intent(this, MyJourneysActivity.class);
+        Intent resultIntent = new Intent(this, MyJourneysListActivity.class);
         resultIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,new Journey());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 

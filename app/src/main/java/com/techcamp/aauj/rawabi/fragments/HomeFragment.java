@@ -22,8 +22,9 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.basicActivities.EventsListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.JobsListActivity;
@@ -44,12 +45,12 @@ public class HomeFragment extends Fragment {
     public static final String TAG_QCENTER = "TAG_QCENTER";
 
 
-    private Button btnOpenCarpool,btnOpenCalendar;
+    private View btnOpenCarpool,btnOpenCalendar;
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
     private ICallBack<Integer> trigerCars;
     private ICallBack<String> trigerWeather;
-    private ICallBack<ArrayList<Event>> trigerEvents;
+    private IListCallBack<Event> trigerEvents;
     private TextView tvCarpool,tvWeather,tvEventName;
     private ProgressBar progressBar;
     private ImageView imgWeather;
@@ -139,9 +140,9 @@ public class HomeFragment extends Fragment {
 
             }
         };
-        trigerEvents = new ICallBack<ArrayList<Event>>() {
+        trigerEvents = new IListCallBack<Event>() {
             @Override
-            public void onResponse(ArrayList<Event> item) {
+            public void onResponse(List<Event> item) {
                 int n = item.size();
                 if(n>0)
                     tvEventName.setText(n + " events today");

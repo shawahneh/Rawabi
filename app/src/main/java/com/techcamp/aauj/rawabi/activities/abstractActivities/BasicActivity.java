@@ -27,12 +27,8 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         mBean = getIntent().getParcelableExtra(ARG_BEAN);
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fm = getSupportFragmentManager();
         mFragment =  fm.findFragmentByTag(getFragment().getTag());
@@ -79,7 +75,6 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();

@@ -26,7 +26,7 @@ public class EventsListActivity extends BasicActivity<Event> implements ListFrag
 
     @Override
     public Fragment getFragment() {
-        return EventsListFragment.newInstance(1);
+        return EventsListFragment.newInstance();
     }
 
     @Override

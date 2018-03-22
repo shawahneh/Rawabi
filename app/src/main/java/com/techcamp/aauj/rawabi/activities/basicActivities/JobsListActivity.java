@@ -27,7 +27,7 @@ public class JobsListActivity extends BasicActivity<Job> implements ListFragment
 
     @Override
     public Fragment getFragment() {
-        return JobsListFragment.newInstance(1);
+        return JobsListFragment.newInstance();
     }
     @Override
     public void onItemClicked(Job item) {

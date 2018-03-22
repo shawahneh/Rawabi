@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.model.User;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 

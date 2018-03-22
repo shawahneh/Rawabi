@@ -1,11 +1,12 @@
 package com.techcamp.aauj.rawabi.API;
 
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.model.MediaItem;
 import com.techcamp.aauj.rawabi.model.Transportation;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +19,12 @@ import java.util.Date;
  * Basic Api used with Q center, Events, Jobs, Media and Transportation
  */
 public interface BasicApi {
-    void getAnnouns(ICallBack<ArrayList<Announcement>> eventITriger);
-    void getJobs(ICallBack<ArrayList<Job>> triger);
-    void getTransportation(ICallBack<Transportation> triger);
-    void getWeather(ICallBack<String> triger);
-    void getMedia(ICallBack<ArrayList<MediaItem>> triger);
+    void getAnnouns(IListCallBack<Announcement> callBack);
+    void getJobs(IListCallBack<Job> callBack);
+    void getTransportation(ICallBack<Transportation> callBack);
+    void getWeather(ICallBack<String> callBack);
+    void getMedia(IListCallBack<MediaItem> callBack);
 
-    void getEventAtDate(Date date, ICallBack<ArrayList<Event>> eventITriger);
-    void getEvents(ICallBack<ArrayList<Event>> triger); // get all events
+    void getEventAtDate(Date date, IListCallBack<Event> callBack);
+    void getEvents(IListCallBack<Event> callBack); // get all events
 }

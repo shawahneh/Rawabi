@@ -30,7 +30,7 @@ public class QCenterListActivity extends BasicActivity implements ListFragment.I
 
     @Override
     public Fragment getFragment() {
-        return AnnouncementsListFragment.newInstance(1);
+        return AnnouncementsListFragment.newInstance();
     }
 
     @Override

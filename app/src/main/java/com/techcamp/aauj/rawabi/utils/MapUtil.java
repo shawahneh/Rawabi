@@ -17,7 +17,7 @@ import android.util.Log;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.techcamp.aauj.rawabi.ITrigger;
+import com.techcamp.aauj.rawabi.callBacks.ITrigger;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.List;

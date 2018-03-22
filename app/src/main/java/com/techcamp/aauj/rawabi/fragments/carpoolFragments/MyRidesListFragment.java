@@ -6,8 +6,10 @@ import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
+import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragmentWithSwipe;
 import com.techcamp.aauj.rawabi.model.Ride;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by ALa on 2/18/2018.
  */
 
-public class MyRidesListFragment extends ListFragment implements ICallBack<ArrayList<Ride>> {
+public class MyRidesListFragment extends ListFragmentWithSwipe implements IListCallBack<Ride> {
 
     @Override
     public void setupRecyclerViewAdapter() {
@@ -37,7 +39,7 @@ public class MyRidesListFragment extends ListFragment implements ICallBack<Array
     }
 
     @Override
-    public void onResponse(ArrayList<Ride> rides) {
+    public void onResponse(List<Ride> rides) {
         hideMessageLayout();
         MyAdapter adapter = new MyAdapter(rides);
         mRecyclerView.setAdapter(adapter);

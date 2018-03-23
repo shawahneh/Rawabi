@@ -598,6 +598,7 @@ public class WebApi implements BasicApi,AuthWebApi
                             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
                             tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
                             journeyTemp.setUser(tempUser);
+                            journeyTemp.setStatus(jsonTemp.getInt("status"));
                             journeysArray.add(journeyTemp);
                         }
 
@@ -640,7 +641,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("action","changeJourneyStatusAndGetRiders");
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());
-        params.put("journeyId" , journey.getId()+"");
+        params.put("journyid" , journey.getId()+"");
         params.put("status" , journey.getStatus()+"");
 
         send(params, new ICallBack<JSONObject>() {
@@ -813,7 +814,7 @@ public class WebApi implements BasicApi,AuthWebApi
                     tempJourney.setId(jsonJourney.getInt("id"));
                     tempJourney.setUser(tempUser);
                     tempJourney.setCarDescription(jsonJourney.getString("carDescription"));
-                    tempJourney.setStatus(jsonJourney.getInt("status"));
+                    //tempJourney.setStatus(jsonJourney.getInt("status"));
                     tempJourney.setSeats(jsonJourney.getInt("seats"));
                     tempJourney.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
                     tempJourney.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
@@ -1008,8 +1009,13 @@ public class WebApi implements BasicApi,AuthWebApi
             @Override
             public void onResponse(JSONObject value) {
                 try {
-                    int rideStatus = value.getInt("rideStatus");
-                    triger.onResponse(rideStatus);
+
+                    int rideStatus;
+                    if(value.has("rideStatus")){
+                        rideStatus = value.getInt("rideStatus");
+                        triger.onResponse(rideStatus);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     triger.onError(e.toString());

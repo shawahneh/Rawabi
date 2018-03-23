@@ -642,7 +642,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("action","changeJourneyStatusAndGetRiders");
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());
-        params.put("journyid" , journey.getId()+"");
+        params.put("journeyid" , journey.getId()+"");
         params.put("status" , journey.getStatus()+"");
 
         send(params, new ICallBack<JSONObject>() {

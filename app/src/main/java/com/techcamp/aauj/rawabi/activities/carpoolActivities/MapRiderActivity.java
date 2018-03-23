@@ -20,9 +20,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.User;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
@@ -30,6 +31,7 @@ import com.techcamp.aauj.rawabi.utils.NumberUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ALa on 12/16/2017.
@@ -41,7 +43,7 @@ public class MapRiderActivity extends MapActivity {
     private CarpoolApi webApi = WebApi.getInstance();
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
-    private ArrayList<Journey> mJourneys;
+    private List<Journey> mJourneys;
     private Polyline mPolyline;
     private Marker mMarkerDist;
     @Override
@@ -155,9 +157,9 @@ public class MapRiderActivity extends MapActivity {
         startLoading(true);
         mDriverDetailLayout.hide();
 
-        webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new ICallBack<ArrayList<Journey>>() {
+        webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new IListCallBack<Journey>() {
             @Override
-            public void onResponse(ArrayList<Journey> item) {
+            public void onResponse(List<Journey> item) {
                         mJourneys = item;
                         startLoading(false);
                         drawJourneys(mJourneys);
@@ -175,7 +177,7 @@ public class MapRiderActivity extends MapActivity {
 
     }
 
-    private void drawJourneys(ArrayList<Journey> arrayList) {
+    private void drawJourneys(List<Journey> arrayList) {
         if(mMap == null)
             return;
 

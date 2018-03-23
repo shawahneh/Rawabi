@@ -26,7 +26,6 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
 
     protected Class<T> entityClass;
 
-    protected Context mContext;
     private int mNumberOfItems = 100;
 
     public static final int VERSION = 12;
@@ -35,7 +34,6 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     protected DBHelper(Context context)
     {
         super(context, DATABASE_NAME, null, VERSION);
-        mContext = context;
     }
 
     protected DBHelper(Context context, Class<T> entityClass){

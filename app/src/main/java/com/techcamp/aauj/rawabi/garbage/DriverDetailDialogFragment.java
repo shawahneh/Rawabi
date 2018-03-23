@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.fragments.DriverFragments;
+package com.techcamp.aauj.rawabi.garbage;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.model.Journey;
-import com.techcamp.aauj.rawabi.ITrigger;
+import com.techcamp.aauj.rawabi.callBacks.ITrigger;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 

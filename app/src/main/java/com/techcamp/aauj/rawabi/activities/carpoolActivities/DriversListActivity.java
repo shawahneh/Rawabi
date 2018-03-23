@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.DriversListFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ALa on 2/19/2018.
@@ -21,11 +23,11 @@ import java.util.ArrayList;
 
 // contains a list of available drivers
 public class DriversListActivity extends AppCompatActivity implements DriversListFragment.IFragmentListener<Journey> {
-    private ArrayList<Journey> mJourneys;
+    private List<Journey> mJourneys;
     private Fragment mFragment;
-    public static Intent getIntent(Context ctx, ArrayList<Journey> journeys){
+    public static Intent getIntent(Context ctx, List<Journey> journeys){
         Intent intent = new Intent(ctx,DriversListActivity.class);
-        intent.putParcelableArrayListExtra(DriversListFragment.ARG_LIST,journeys);
+        intent.putParcelableArrayListExtra(DriversListFragment.ARG_LIST, (ArrayList<? extends Parcelable>) journeys);
         return intent;
     }
 

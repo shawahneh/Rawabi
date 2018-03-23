@@ -26,7 +26,7 @@ public class MediaListActivity extends BasicActivity<MediaItem>  implements List
 
     @Override
     public Fragment getFragment() {
-        return MediaListFragment.newInstance(3);
+        return MediaListFragment.newInstance();
     }
 
     @Override

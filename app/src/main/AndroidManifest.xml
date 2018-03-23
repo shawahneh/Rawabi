@@ -54,9 +54,9 @@
         <activity
             android:name=".activities.carpoolActivities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".activities.unusedActivities.PickerActivity" />
+        <activity android:name=".garbage.unusedActivities.PickerActivity" />
         <activity
-            android:name=".activities.carpoolActivities.UserTypeActivity"
+            android:name=".garbage.unusedActivities.UserTypeActivity"
             android:theme="@style/AppTheme.No" />
         <activity
             android:name=".activities.carpoolActivities.MeetingMapActivity"
@@ -72,8 +72,6 @@
             android:name=".activities.carpoolActivities.RideDetailActivity"
             android:label="@string/my_rides"
             android:theme="@style/AppTheme.Carpool" />
-        <activity android:name=".activities.unusedActivities.MyRiderActivity" />
-        <activity android:name=".activities.unusedActivities.MyJourneysActivity" />
         <activity
             android:name=".activities.carpoolActivities.JourneyDetailActivity"
             android:label="@string/my_journeys"
@@ -86,7 +84,7 @@
         <receiver android:name=".receivers.AlarmReceiver" />
 
         <activity
-            android:name=".activities.unusedActivities.CalendarActivity"
+            android:name=".garbage.unusedActivities.CalendarActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
             android:name=".activities.basicActivities.TransportationActivity"
@@ -111,7 +109,7 @@
             android:theme="@style/AppTheme.Basic" />
 
         <activity
-            android:name=".activities.unusedActivities.QCenterActivity"
+            android:name=".garbage.unusedActivities.QCenterActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
             android:name=".activities.carpoolActivities.CarpoolMainActivity"
@@ -131,7 +129,9 @@
         <activity
             android:name=".activities.basicActivities.QCenterListActivity"
             android:theme="@style/AppTheme.Basic" />
-        <activity android:name=".activities.carpoolActivities.SlidingActivity"></activity>
+        <activity android:name=".activities.carpoolActivities.SlidingActivity"/>
+        <activity android:name=".activities.carpoolActivities.CarpoolActivity"
+            android:theme="@style/AppTheme.Basic"/>
     </application>
 
 </manifest>

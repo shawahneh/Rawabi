@@ -1,7 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import com.techcamp.aauj.rawabi.model.User;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 
 /**
  * Created by ALa on 11/15/2017.

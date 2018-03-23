@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.fragments;
+package com.techcamp.aauj.rawabi.garbage;
 
 
 import android.content.Context;
@@ -17,14 +17,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
-public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList<Announcement>> {
+//unused
+public class AnnouncmentFragment extends Fragment implements IListCallBack<Announcement> {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -50,7 +52,7 @@ public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList
     }
 
     @Override
-    public void onResponse(ArrayList<Announcement> value) {
+    public void onResponse(List<Announcement> value) {
         mProgressBar.setVisibility(View.GONE);
         MyAdapter adapter = new MyAdapter(getContext(),value);
         mRecyclerView.setAdapter(adapter);
@@ -63,8 +65,8 @@ public class AnnouncmentFragment extends Fragment implements ICallBack<ArrayList
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<Announcement> events;
-    public MyAdapter(Context context,ArrayList<Announcement> events){
+    private List<Announcement> events;
+    public MyAdapter(Context context,List<Announcement> events){
         mContext = context;
         this.events = events;
     }

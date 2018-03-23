@@ -10,8 +10,9 @@ import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.MediaItem;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -25,15 +26,18 @@ import java.util.List;
  * Created by ALa on 2/3/2018.
  */
 
-public class MediaListFragment extends ListFragment implements ICallBack<ArrayList<MediaItem>> {
+public class MediaListFragment extends ListFragment implements IListCallBack<MediaItem> {
     private MyAdapter mAdapter;
-    public static Fragment newInstance(int numberOfCols){
+    public static Fragment newInstance(){
         Fragment fragment = new MediaListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_NUM_OF_COLS,numberOfCols);
-        fragment.setArguments(bundle);
         return fragment;
     }
+
+    @Override
+    protected int getNumberOfCols() {
+        return 3;
+    }
+
     @Override
     public void setupRecyclerViewAdapter() {
         if(mAdapter == null)
@@ -48,7 +52,7 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
     protected void loadDataFromWeb() {
         BasicApi api =  WebService.getInstance();
         api.getMedia(this);
-        mSwipeRefreshLayout.setRefreshing(true);
+        setLoading(true);
     }
 
     private void loadFromDatabase() {
@@ -71,7 +75,7 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
     }
 
     @Override
-    public void onResponse(ArrayList<MediaItem> value) {
+    public void onResponse(List<MediaItem> value) {
         //clear db
         MediaItemsDB.getInstance(getContext()).deleteAll();
 
@@ -79,14 +83,15 @@ public class MediaListFragment extends ListFragment implements ICallBack<ArrayLi
         for (MediaItem mediaItem : value){
             MediaItemsDB.getInstance(getContext()).saveBean(mediaItem);
         }
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
         loadListToAdapter(value);
     }
 
     @Override
     public void onError(String err) {
+        if(getView() != null)
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
     }
 
     private class MyHolder extends Holder<MediaItem> {

@@ -10,8 +10,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Job;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.database.JobsDB;
@@ -24,14 +25,11 @@ import java.util.List;
  * Created by ALa on 12/31/2017.
  */
 
-public class JobsListFragment extends ListFragment implements ICallBack<ArrayList<Job>> {
+public class JobsListFragment extends ListFragment implements IListCallBack<Job> {
     BasicApi api = WebApi.getInstance();
     private MyAdapter mAdapter;
-    public static Fragment newInstance(int numberOfCols){
+    public static Fragment newInstance(){
         Fragment fragment = new JobsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_NUM_OF_COLS,numberOfCols);
-        fragment.setArguments(bundle);
         return fragment;
     }
     @Override
@@ -46,7 +44,7 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
     @Override
     protected void loadDataFromWeb() {
         api.getJobs(this);
-        mSwipeRefreshLayout.setRefreshing(true);
+        setLoading(true);
     }
 
 
@@ -70,10 +68,10 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
 
     // data available from WEB
     @Override
-    public void onResponse(ArrayList<Job> value) {
+    public void onResponse(List<Job> value) {
 
         updateDatabase(value);
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
 
         if(isAdded()){{
             if(value.size() <= 0){
@@ -86,7 +84,7 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
 
     }
 
-    private void updateDatabase(ArrayList<Job> value) {
+    private void updateDatabase(List<Job> value) {
         //clear database
         JobsDB.getInstance(getContext()).deleteAll();
 
@@ -101,7 +99,7 @@ public class JobsListFragment extends ListFragment implements ICallBack<ArrayLis
     public void onError(String err) {
         if(getView() != null)
             Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
     }
 
 

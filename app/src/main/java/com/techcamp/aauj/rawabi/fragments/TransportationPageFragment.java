@@ -11,13 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.model.TransportationElement;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.database.TransportationDB;
 
@@ -26,8 +28,9 @@ import java.util.List;
 
 public class TransportationPageFragment extends Fragment {
     private RecyclerView rvFromRawabi,rvFromRamallah;
-    private BasicApi api = WebService.getInstance();
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    private BasicApi api = WebApi.getInstance();
+//    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar progressBarLoading;
     private ICallBack<Transportation> trigger;
     public TransportationPageFragment() {
     }
@@ -39,13 +42,15 @@ public class TransportationPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_transportation_page, container, false);
         rvFromRamallah = view.findViewById(R.id.rvFromRamallah);
         rvFromRawabi = view.findViewById(R.id.rvFromRawabi);
-        mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
+        progressBarLoading = view.findViewById(R.id.progressBarLoading);
+//        mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         // transportation available from
         trigger = new ICallBack<Transportation>() {
             @Override
             public void onResponse(Transportation item) {
-                mSwipeRefreshLayout.setRefreshing(false);
+//                mSwipeRefreshLayout.setRefreshing(false);
+                progressBarLoading.setVisibility(View.GONE);
 
                 // clear database
                 TransportationDB.getInstance(getContext()).deleteAll();
@@ -66,19 +71,13 @@ public class TransportationPageFragment extends Fragment {
 
             @Override
             public void onError(String err) {
-                Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-                mSwipeRefreshLayout.setRefreshing(false);
+                progressBarLoading.setVisibility(View.GONE);
+                if(getView() != null)
+                    Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
+//                mSwipeRefreshLayout.setRefreshing(false);
             }
         };
         setupRecyclersView();
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadTransportationFromWeb();
-            }
-        });
-        mSwipeRefreshLayout.setRefreshing(true);
-
         return view;
     }
 
@@ -123,6 +122,7 @@ public class TransportationPageFragment extends Fragment {
     }
 
     private void loadTransportationFromWeb() {
+        progressBarLoading.setVisibility(View.VISIBLE);
         api.getTransportation(trigger);
     }
 
@@ -152,8 +152,6 @@ public class TransportationPageFragment extends Fragment {
                     .inflate(R.layout.row_time, parent, false);
             return new MyHolder(view);
         }
-
-        // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
             holder.bind(times.get(position));

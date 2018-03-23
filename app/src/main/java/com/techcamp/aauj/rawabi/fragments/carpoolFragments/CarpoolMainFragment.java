@@ -46,13 +46,9 @@ public class CarpoolMainFragment extends Fragment {
         User user = SPController.getLocalUser(getContext());
 
         if(user != null){
-
-            if(user.getImageurl() != null){
-                Glide.with(getContext()).load(user.getImageurl()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
-            }
-
+            Glide.with(getContext()).load(user.getImageurl()).apply(RequestOptions.placeholderOf(R.drawable.person))
+                    .apply(RequestOptions.circleCropTransform()).into(imgProfile);
             tvName.setText(user.getFullname());
-
         }
         btnDriver.setOnClickListener(new View.OnClickListener() {
             @Override

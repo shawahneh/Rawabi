@@ -17,8 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -32,14 +33,11 @@ import java.util.List;
  * Created by ALa on 12/31/2017.
  */
 
-public class AnnouncementsListFragment extends ListFragment implements ICallBack<ArrayList<Announcement>> {
+public class AnnouncementsListFragment extends ListFragment implements IListCallBack<Announcement> {
     BasicApi api = WebApi.getInstance();
     private MyAdapter mAdapter;
-    public static Fragment newInstance(int numberOfCols){
+    public static Fragment newInstance(){
         Fragment fragment = new AnnouncementsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_NUM_OF_COLS,numberOfCols);
-        fragment.setArguments(bundle);
         return fragment;
     }
     @Override
@@ -55,7 +53,7 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
     @Override
     protected void loadDataFromWeb() {
         api.getAnnouns(this);
-        mSwipeRefreshLayout.setRefreshing(true);
+        setLoading(true);
     }
 
     private void loadFromDatabase() {
@@ -77,7 +75,7 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
     }
 
     @Override
-    public void onResponse(ArrayList<Announcement> value) {
+    public void onResponse(List<Announcement> value) {
 
         //clear db
         AnnouncementDB.getInstance(getContext()).deleteAll();
@@ -86,15 +84,16 @@ public class AnnouncementsListFragment extends ListFragment implements ICallBack
         for (Announcement announcement :value ){
             AnnouncementDB.getInstance(getContext()).saveBean(announcement);
         }
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
         loadListToAdapter(value);
     }
 
 
     @Override
     public void onError(String err) {
+        if(getView() != null)
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
     }
 
     private class MyHolder extends Holder<Announcement> {

@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.fragments;
+package com.techcamp.aauj.rawabi.garbage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,18 +21,19 @@ import android.widget.Toast;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.ItemDetailsActivities.EventDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
-
-
-public class CalendarPageFragment extends Fragment implements ICallBack<ArrayList<Event>> {
+// unused
+public class CalendarPageFragment extends Fragment implements IListCallBack<Event> {
 
     private CalendarView mCalendarView;
     private BasicApi mCalendarWebApi = WebService.getInstance();
@@ -87,7 +88,7 @@ public class CalendarPageFragment extends Fragment implements ICallBack<ArrayLis
 
 
     @Override
-    public void onResponse(ArrayList<Event> item) {
+    public void onResponse(List<Event> item) {
         pDialog.dismissWithAnimation();
 //        mProgressBar.setVisibility(View.GONE);
         MyAdapter myAdapter = new MyAdapter(getContext(),item);
@@ -103,8 +104,8 @@ public class CalendarPageFragment extends Fragment implements ICallBack<ArrayLis
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         private Context mContext;
-        private ArrayList<Event> events;
-        public MyAdapter(Context context,ArrayList<Event> events){
+        private List<Event> events;
+        public MyAdapter(Context context,List<Event> events){
             mContext = context;
             this.events = events;
         }

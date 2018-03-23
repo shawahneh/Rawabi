@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.fragments.carpoolFragments;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -34,10 +35,10 @@ public class DriversListFragment extends ListFragment {
     public static final String ARG_LIST = "list_j";
     private ArrayList<Journey> mJourneys;
 
-    public static Fragment newInstance(ArrayList<Journey> journeys){
+    public static Fragment newInstance(List<Journey> journeys){
         Fragment fragment = new DriversListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(ARG_LIST,journeys);
+        bundle.putParcelableArrayList(ARG_LIST, (ArrayList<? extends Parcelable>) journeys);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -54,7 +55,7 @@ public class DriversListFragment extends ListFragment {
 //        if(mJourneys != null){
             MyAdapter adapter  = new MyAdapter(mJourneys);
             mRecyclerView.setAdapter(adapter);
-            mSwipeRefreshLayout.setRefreshing(false);
+            setLoading(false);
             Log.d("tag","mJourneys != null");
 //        }
 

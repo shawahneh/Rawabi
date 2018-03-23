@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.activities.unusedActivities;
+package com.techcamp.aauj.rawabi.garbage.unusedActivities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

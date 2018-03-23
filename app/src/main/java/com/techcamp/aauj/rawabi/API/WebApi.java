@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.model.Job;
@@ -21,7 +22,7 @@ import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.model.User;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import org.json.JSONArray;
@@ -367,7 +368,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum, final ICallBack<ArrayList<Journey>> journeys) {
+    public void getJourneys(int userId, int limitStart, int limitNum, final IListCallBack<Journey> journeys) {
         User localUser = getLocalUser();
         // if the userId <= 0 then get the logged in user
         Map<String,String> params = new HashMap<String, String>();
@@ -553,7 +554,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //Done By Maysara
     @Override
-    public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final ICallBack<ArrayList<Journey>> Journeys) {
+    public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final IListCallBack<Journey> Journeys) {
         User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -682,7 +683,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void getRides(int userId, int limitStart, int limitNum, final ICallBack<ArrayList<Ride>> rides) {
+    public void getRides(int userId, int limitStart, int limitNum, final IListCallBack<Ride> rides) {
 
         User localUser = getLocalUser();
 
@@ -852,7 +853,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     // Done By Maysara
     @Override
-    public void getRidersOfJourney(final Journey journey, final ICallBack<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(final Journey journey, final IListCallBack<Ride> callBack) {
         final User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -880,13 +881,13 @@ public class WebApi implements BasicApi,AuthWebApi
                             rideTemp.setMeetingLocation(new LatLng(jsonTemp.getDouble("meetingLocationX"),jsonTemp.getDouble("meetingLocationY")));
                             ridesArray.add(rideTemp);
                         }
-                        triger.onResponse(ridesArray);
+                        callBack.onResponse(ridesArray);
 
                     }
 
                 }catch (JSONException e){
                     e.printStackTrace();
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                 }
             }
 
@@ -894,7 +895,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                callBack.onError(err);
             }
         });
     }
@@ -1036,7 +1037,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //Done By Maysara
     @Override
-    public void getEventAtDate(Date date, final ICallBack<ArrayList<Event>> eventITriger) {
+    public void getEventAtDate(Date date, final IListCallBack<Event> eventITriger) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getEventAtDate");
         params.put("date" , date+"");
@@ -1090,7 +1091,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
     //Done By Maysara
     @Override
-    public void getEvents(final ICallBack<ArrayList<Event>> triger) {
+    public void getEvents(final IListCallBack<Event> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getEvents");
@@ -1119,15 +1120,15 @@ public class WebApi implements BasicApi,AuthWebApi
 
                     }
 
-                    triger.onResponse(eventsArray);
+                    callBack.onResponse(eventsArray);
 
 
                 }
                 } catch (JSONException e) {
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                     e.printStackTrace();
                 } catch (ParseException e) {
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -1136,7 +1137,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                callBack.onError(err);
 
             }
         });
@@ -1145,7 +1146,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
     //Done By Maysara
     @Override
-    public void getAnnouns(final ICallBack<ArrayList<Announcement>> eventITriger) {
+    public void getAnnouns(final IListCallBack<Announcement> eventITriger) {
 
 
         Map<String,String> params = new HashMap<String, String>();
@@ -1201,7 +1202,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
     //Done By Maysara
     @Override
-    public void getJobs(final ICallBack<ArrayList<Job>> triger) {
+    public void getJobs(final IListCallBack<Job> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getJobs");
@@ -1230,15 +1231,15 @@ public class WebApi implements BasicApi,AuthWebApi
                             jobsArray.add(jobTemp);
                         }
 
-                        triger.onResponse(jobsArray);
+                        callBack.onResponse(jobsArray);
 
 
                     }
                 } catch (JSONException e) {
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                     e.printStackTrace();
                 } catch (ParseException e) {
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -1247,7 +1248,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                callBack.onError(err);
 
             }
         });
@@ -1337,12 +1338,12 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getWeather(ICallBack<String> triger) {
+    public void getWeather(ICallBack<String> callBack) {
 
     }
 
     @Override
-    public void getMedia(ICallBack<ArrayList<MediaItem>> triger) {
+    public void getMedia(IListCallBack<MediaItem> callBack) {
 
 
     }

@@ -26,15 +26,16 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 /**
@@ -51,7 +52,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private Button btnCancel,btnComplete;
     TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
     private int prevStatus;
-    private ArrayList<Ride> mRiders;
+    private List<Ride> mRiders;
     private  MyJourneysAdapter adapter;
     private SweetAlertDialog pDialog;
     private ICallBack<Boolean> trigerCustomJourney;
@@ -154,9 +155,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private void refreshJourney(){
         showProgress("Refreshing");
         CarpoolApi api = WebService.getInstance();
-        api.getRidersOfJourney(mJourney, new ICallBack<ArrayList<Ride>>() {
+        api.getRidersOfJourney(mJourney, new IListCallBack<Ride>() {
             @Override
-            public void onResponse(ArrayList<Ride> item) {
+            public void onResponse(List<Ride> item) {
                 pDialog.dismiss();
                 mRiders = item;
                 updateAdapter();
@@ -277,7 +278,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ride.getMeetingLocation(),DEFAULT_ZOOM));
     }
 
-    private void drawMarkers(ArrayList<Ride> rides) {
+    private void drawMarkers(List<Ride> rides) {
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(mJourney.getStartPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT)).title("Start point"));
         mMap.addMarker(new MarkerOptions().position(mJourney.getEndPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_END_POINT)).title("End point"));
@@ -335,9 +336,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         pDialog.show();
     }
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{
-        ArrayList<Ride> rides = new ArrayList<>();
+        List<Ride> rides = new ArrayList<>();
 
-        public MyJourneysAdapter(ArrayList<Ride> rides) {
+        public MyJourneysAdapter(List<Ride> rides) {
             this.rides = rides;
         }
 

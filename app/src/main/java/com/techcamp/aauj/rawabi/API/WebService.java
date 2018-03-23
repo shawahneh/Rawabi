@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.model.CustomBeans.FireJourney;
 import com.techcamp.aauj.rawabi.model.CustomBeans.FireRide;
@@ -22,7 +23,7 @@ import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.model.User;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRides(int userId, int limitStart, int limitNum,final ICallBack<ArrayList<Ride>> rides) {
+    public void getRides(int userId, int limitStart, int limitNum, final IListCallBack<Ride> rides) {
         final ArrayList<Ride> rideArrayList = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
         mRef.orderByChild("user/id").equalTo(SPController.getLocalUser(context).getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,7 +93,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRidersOfJourney(Journey journey,final ICallBack<ArrayList<Ride>> triger) {
+    public void getRidersOfJourney(Journey journey,final IListCallBack<Ride> triger) {
         final ArrayList<Ride> rides = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
         mRef.orderByChild("journey/id").equalTo(journey.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -162,7 +163,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum,final ICallBack<ArrayList<Journey>> triger) {
+    public void getJourneys(int userId, int limitStart, int limitNum,final IListCallBack<Journey> triger) {
         final ArrayList<Journey> journeys = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
         mRef.orderByChild("user/id").equalTo(SPController.getLocalUser(context).getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -215,7 +216,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final ICallBack<ArrayList<Journey>> triger) {
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final IListCallBack<Journey> triger) {
         final ArrayList<Journey> journeys = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -414,7 +415,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getAnnouns(final ICallBack<ArrayList<Announcement>> eventITriger) {
+    public void getAnnouns(final IListCallBack<Announcement> eventITriger) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -457,7 +458,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getJobs(final ICallBack<ArrayList<Job>> triger) {
+    public void getJobs(final IListCallBack<Job> triger) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -532,7 +533,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getEventAtDate(Date date, final ICallBack<ArrayList<Event>> eventITriger) {
+    public void getEventAtDate(Date date, final IListCallBack<Event> eventITriger) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -571,12 +572,12 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
 
 
     @Override
-    public void getEvents(ICallBack<ArrayList<Event>> triger) {
+    public void getEvents(IListCallBack<Event> triger) {
         getEventAtDate(new Date(),triger);
     }
 
     @Override
-    public void getMedia(final ICallBack<ArrayList<MediaItem>> triger) {
+    public void getMedia(final IListCallBack<MediaItem> triger) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

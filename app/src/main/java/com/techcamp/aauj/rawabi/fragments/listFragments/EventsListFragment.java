@@ -10,8 +10,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
-import com.techcamp.aauj.rawabi.ICallBack;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -25,14 +26,11 @@ import java.util.List;
  * Created by ALa on 2/1/2018.
  */
 
-public class EventsListFragment extends ListFragment implements ICallBack<ArrayList<Event>> {
+public class EventsListFragment extends ListFragment implements IListCallBack<Event> {
     BasicApi mCalendarWebApi = WebApi.getInstance();
     private MyAdapter mAdapter;
-    public static Fragment newInstance(int numberOfCols){
+    public static Fragment newInstance(){
         Fragment fragment = new EventsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_NUM_OF_COLS,numberOfCols);
-        fragment.setArguments(bundle);
         return fragment;
     }
     @Override
@@ -47,7 +45,7 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
     @Override
     protected void loadDataFromWeb() {
         mCalendarWebApi.getEvents(this);
-        mSwipeRefreshLayout.setRefreshing(true);
+        setLoading(true);
     }
 
     private void loadFromDatabase() {
@@ -70,9 +68,9 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
 
     // data available from WEB
     @Override
-    public void onResponse(ArrayList<Event> value) {
+    public void onResponse(List<Event> value) {
         updateDatabase(value);
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
 
         // update list
         if(isAdded()){{
@@ -87,10 +85,11 @@ public class EventsListFragment extends ListFragment implements ICallBack<ArrayL
 
     @Override
     public void onError(String err) {
+        if(getView() != null)
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        setLoading(false);
     }
-    private void updateDatabase(ArrayList<Event> value) {
+    private void updateDatabase(List<Event> value) {
         //clear db
         EventsDB.getInstance(getContext()).deleteAll();
 

@@ -461,7 +461,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
                 tempJourney.setId(id);
                 tempJourney.setUser(localUser);
-                tempJourney.setStatus(0);
+                tempJourney.setStatus(temp.getInt("status"));
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
                 tempJourney.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
                 tempJourney.setSeats(temp.getInt("seats"));

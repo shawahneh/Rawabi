@@ -24,7 +24,6 @@
             android:layout_gravity="center"
             android:id="@+id/imageView"
             app:civ_circle_background_color="@color/white"
-            android:src="@drawable/person"
             android:layout_width="80dp"
             android:layout_height="80dp" />
 
@@ -77,7 +76,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_get_ride"
+                android:src="@drawable/ic_get_ride_50dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -106,7 +105,7 @@
             android:focusable="true">
             <ImageView
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_offer_ride"
+                android:src="@drawable/ic_offer_ride_50dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -131,8 +130,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:src="@drawable/ic_carpool_50dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/car_notexture"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView

@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/border_bottom"
     android:foreground="?android:attr/selectableItemBackground"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
             android:padding="2dp"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_margin="10dp"
-                android:src="@drawable/job_notexture"
+                android:src="@drawable/ic_job_50dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <LinearLayout
@@ -34,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:fontFamily="@font/abeezee"
+                    android:fontFamily="@font/abeezee_regular"
                     android:text="@string/app_name"
                     android:textColor="@color/green"
                     android:id="@+id/eventNameTextView"

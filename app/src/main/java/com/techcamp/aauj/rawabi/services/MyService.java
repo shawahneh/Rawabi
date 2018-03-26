@@ -61,30 +61,30 @@ public class MyService extends Service {
             }
         };
 
-
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.car_notexture);
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.car_notexture));
-        mBuilder.setContentTitle("Carpool");
-        mBuilder.setContentText("You have a pending journey").setDefaults(Notification.DEFAULT_ALL) ;
-
-
-        Intent resultIntent = new Intent(this, MyJourneysListActivity.class);
-        resultIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,new Journey());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mBuilder.setContentIntent(resultPendingIntent);
-
-
-
-        mBuilder.setAutoCancel(true);
-        int notificationID = ((int)(Math.random()*1000));
-//        startForeground(notificationID,mBuilder.getNotification());
-
+//
+//
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+//        mBuilder.setSmallIcon(R.drawable.ic_carpool);
+//        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_carpool));
+//        mBuilder.setContentTitle("Carpool");
+//        mBuilder.setContentText("You have a pending journey").setDefaults(Notification.DEFAULT_ALL) ;
+//
+//
+//        Intent resultIntent = new Intent(this, MyJourneysListActivity.class);
+//        resultIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,new Journey());
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//
+//        stackBuilder.addNextIntent(resultIntent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        mBuilder.setContentIntent(resultPendingIntent);
+//
+//
+//
+//        mBuilder.setAutoCancel(true);
+//        int notificationID = ((int)(Math.random()*1000));
+////        startForeground(notificationID,mBuilder.getNotification());
+//
 
 
 
@@ -121,8 +121,8 @@ public class MyService extends Service {
     public void notify(String title, String text)
     {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.car_notexture);
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.car_notexture));
+        mBuilder.setSmallIcon(R.drawable.ic_carpool_50dp);
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ic_carpool_50dp));
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(text).setDefaults(Notification.DEFAULT_ALL) ;
 

@@ -40,7 +40,6 @@
         <ImageView
             android:visibility="gone"
             android:scaleType="centerCrop"
-            android:src="@drawable/city"
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="150dp" />
@@ -168,7 +167,6 @@
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
                         <Button
-                            android:background="@drawable/green_button_background"
                             android:id="@+id/btnView"
                             android:layout_margin="10dp"
                             android:layout_gravity="center"

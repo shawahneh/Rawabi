@@ -21,7 +21,10 @@ import java.util.List;
  * Created by ALa on 2/19/2018.
  */
 
-// contains a list of available drivers
+/**
+ * contains a list of available drivers
+ * this activity shown at rider's map activity  when the user clicked to see all available driver
+ */
 public class DriversListActivity extends AppCompatActivity implements DriversListFragment.IFragmentListener<Journey> {
     private List<Journey> mJourneys;
     private Fragment mFragment;
@@ -49,6 +52,8 @@ public class DriversListActivity extends AppCompatActivity implements DriversLis
 
         setTitle(getBarTitle());
 
+        // show back arrow ( up button)
+        if(getSupportActionBar() != null)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }

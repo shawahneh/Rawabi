@@ -76,8 +76,6 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 11;
-    private static final String TAG = "tag";
     private static final float DEFAULT_ZOOM = 15;
     protected GoogleMap mMap;
     private boolean getLocation = false;

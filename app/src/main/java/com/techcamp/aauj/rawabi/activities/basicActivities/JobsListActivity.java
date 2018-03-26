@@ -17,7 +17,7 @@ public class JobsListActivity extends BasicActivity<Job> implements ListFragment
 
     @Override
     protected int getImage() {
-       return R.drawable.job_notexture;
+       return R.drawable.ic_job_50dp;
     }
 
     @Override

@@ -86,8 +86,8 @@ public class RideService extends Service {
     public void notify(String title, String text)
     {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.car_notexture);
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.car_notexture));
+        mBuilder.setSmallIcon(R.drawable.ic_carpool_50dp);
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_carpool_50dp));
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(text).setDefaults(Notification.DEFAULT_ALL) ;
 

@@ -26,6 +26,9 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 
+/**
+ * this activity allows user to set meeting location address on the map
+ */
 public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,ICallBack<Integer> {
     private Button btnHisLocation,btnMyLocation;
     private View btnMarker;

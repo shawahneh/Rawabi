@@ -237,10 +237,10 @@ public class HomeFragment extends Fragment {
 
     // Dashboard Items for HomeFragment (JOBS, Transportation, Media.. etc)
     private List<DashboardItem> getItems() {
-        DashboardItem jobs = new DashboardItem(TAG_JOBS,getResources().getDrawable(R.drawable.job_notexture),"JOBS");
-        DashboardItem media = new DashboardItem(TAG_MEDIA,getResources().getDrawable(R.drawable.media_notexture),"MEDIA");
-        DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,getResources().getDrawable(R.drawable.bus_notexture),"Transportation");
-        DashboardItem events = new DashboardItem(TAG_EVENTS,getResources().getDrawable(R.drawable.events_border),"Events");
+        DashboardItem jobs = new DashboardItem(TAG_JOBS,R.drawable.ic_job_50dp,"JOBS");
+        DashboardItem media = new DashboardItem(TAG_MEDIA,R.drawable.ic_media_50dp,"MEDIA");
+        DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,R.drawable.ic_bus_50dp,"Transportation");
+        DashboardItem events = new DashboardItem(TAG_EVENTS,R.drawable.ic_events_50dp,"Events");
 
 
         jobs.setSummery("Jobs and Internships");
@@ -345,7 +345,7 @@ public class HomeFragment extends Fragment {
     }
 
     private class DashboardItem{
-        private Drawable mDrawable;
+        private int mDrawable;
         private String title;
         private String tag;
         private String summery;
@@ -369,7 +369,7 @@ public class HomeFragment extends Fragment {
             this.summery = summery;
         }
 
-        public DashboardItem(String tag, Drawable drawable, String title) {
+        public DashboardItem(String tag, int drawable, String title) {
             this.tag = tag;
             mDrawable = drawable;
             this.title = title;
@@ -392,11 +392,11 @@ public class HomeFragment extends Fragment {
             this.tag = tag;
         }
 
-        public Drawable getDrawable() {
+        public int getDrawable() {
             return mDrawable;
         }
 
-        public void setDrawable(Drawable drawable) {
+        public void setDrawable(int drawable) {
             mDrawable = drawable;
         }
 

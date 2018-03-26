@@ -13,7 +13,7 @@ import com.techcamp.aauj.rawabi.fragments.carpoolFragments.CarpoolMainFragment;
 public class CarpoolActivity extends BasicActivity {
     @Override
     protected int getImage() {
-        return R.drawable.car_notexture;
+        return R.drawable.ic_carpool_50dp;
     }
 
     @Override

@@ -37,7 +37,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
     }
 
     protected DBHelper(Context context, Class<T> entityClass){
-        this(context);
+        this(context.getApplicationContext());
         this.entityClass = entityClass;
     }
 

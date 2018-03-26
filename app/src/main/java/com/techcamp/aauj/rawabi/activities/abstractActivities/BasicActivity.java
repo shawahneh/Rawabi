@@ -15,9 +15,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.R;
 
+/**
+ * template activity
+ * @param <T> : optional parcelable model
+ */
 public abstract class BasicActivity<T> extends AppCompatActivity {
     protected T mBean;
-    public static final String ARG_NUMBER_OF_COLS = "numberOfCols";
     public static final String ARG_BEAN = "bean";
     protected Fragment mFragment;
     protected TextView tvTitle;
@@ -34,7 +37,8 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         mFragment =  fm.findFragmentByTag(getFragment().getTag());
         if (mFragment == null){
             mFragment = getFragment();
-            fm.beginTransaction().replace(R.id.content,mFragment).commit();
+            fm.beginTransaction().setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
+                    .replace(R.id.content,mFragment).commit();
         }
         tvTitle = findViewById(R.id.tvTitle);
         imgTitle = findViewById(R.id.imgTitle);
@@ -45,14 +49,18 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
 
         tvTitle.setText(getBarTitle());
 
-        Glide.with(this).load(getImageBackground()).into(imgBackground);
+        if(getImageBackground() != 0)
+            Glide.with(this).load(getImageBackground()).into(imgBackground);
+
         if(getImage() == 0)
             imgTitle.setVisibility(View.GONE);
         else{
             imgTitle.setVisibility(View.VISIBLE);
             Glide.with(this).load(getImage()).into(imgTitle);
         }
-        imgTop.setImageResource(getImageTop());
+        if(getImageTop() != 0)
+            Glide.with(this).load(getImageTop()).into(imgTop);
+
 
     }
     protected void replaceFragment(Fragment fragment){
@@ -64,11 +72,11 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
 
 
     protected int getImageTop() {
-        return R.drawable.logo;
+        return R.drawable.ic_rawabi_black_50dp;
     }
 
     protected int getImageBackground() {
-        return R.drawable.city;
+        return R.drawable.bg_city;
     }
 
     protected abstract int getImage();

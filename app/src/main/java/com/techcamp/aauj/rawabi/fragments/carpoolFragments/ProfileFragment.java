@@ -108,7 +108,10 @@ public class ProfileFragment extends Fragment {
         tvEmail.setText(user.getUsername());
 
 
-            Glide.with(this).load(user.getImageurl()).apply(RequestOptions.placeholderOf(R.drawable.person)).apply(RequestOptions.circleCropTransform()).into(imageView);
+            Glide.with(this).load(user.getImageurl())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_person_black_24dp))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imageView);
 
     }
 }

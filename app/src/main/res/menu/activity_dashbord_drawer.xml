@@ -7,19 +7,15 @@
 
         <item
             android:id="@+id/nav_events"
-            android:icon="@drawable/events"
             android:title="@string/events" />
         <item
             android:id="@+id/nav_transportation"
-            android:icon="@drawable/bus_notexture"
             android:title="@string/transportation" />
         <item
             android:id="@+id/nav_carpool"
-            android:icon="@drawable/car_notexture"
             android:title="@string/carpool" />
         <item
             android:id="@+id/nav_qcenter"
-            android:icon="@drawable/logo_qcenter"
             android:title="@string/q_center_announcment" />
 
     </group>
@@ -27,11 +23,9 @@
         <menu>
             <item
                 android:id="@+id/nav_jobs"
-                android:icon="@drawable/job_notexture"
                 android:title="@string/jobs_internships" />
             <item
                 android:id="@+id/nav_media"
-                android:icon="@drawable/media_notexture"
                 android:title="@string/media" />
 
         </menu>

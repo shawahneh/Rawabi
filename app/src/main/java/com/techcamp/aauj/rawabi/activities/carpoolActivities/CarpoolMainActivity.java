@@ -106,17 +106,14 @@ public class CarpoolMainActivity extends AppCompatActivity {
     private ArrayList<SlideContent> getContent() {
         ArrayList<SlideContent> list = new ArrayList<>();
         SlideContent content = new SlideContent();
-        content.setImage(R.drawable.bg_carpool3);
         content.setTitle("How does it work?");
         content.setDescription("First: Choose if you are a rider or a driver.");
 
         SlideContent content1 = new SlideContent();
-        content1.setImage(R.drawable.bg_carpool_1);
         content1.setTitle("How does it work?");
         content1.setDescription("Second: choose your location and destination");
 
         SlideContent content2 = new SlideContent();
-        content2.setImage(R.drawable.bg_carpool2);
         content2.setTitle("How does it work?");
         content2.setDescription("Third: see available rides, request a one or make a phone call.");
 

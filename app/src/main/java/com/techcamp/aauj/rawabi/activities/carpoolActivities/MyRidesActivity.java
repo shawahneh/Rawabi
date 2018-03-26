@@ -13,6 +13,8 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyJourneysListFragment;
 import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyRidesListFragment;
 
+
+// unused
 public class MyRidesActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener
 {
     private ViewPager vp_pages;

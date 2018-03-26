@@ -40,6 +40,9 @@ import java.util.List;
 
 /**
  * Activity for driver to show the details of his journey
+ * the details are : journey start,end points car description ... etc, and the riders of this journey
+ * - draw riders location on the map
+ * - when click on rider the camera moves to his location
  */
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     CarpoolApi carpoolApi = WebApi.getInstance();
@@ -49,109 +52,80 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private MapView mMapView;
     private GoogleMap mMap;
     private RecyclerView mRecyclerView;
-    private Button btnCancel,btnComplete;
-    TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
-    private int prevStatus;
+    private Button btnCancel,btnComplete; // complete is close
+    private TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
+    private int newStatus;
     private List<Ride> mRiders;
     private  MyJourneysAdapter adapter;
     private SweetAlertDialog pDialog;
-    private ICallBack<Boolean> trigerCustomJourney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_driver2);
+        setContentView(R.layout.activity_journey_detail);
 
+        //get selected journey
         mJourney = getIntent().getParcelableExtra(ARG_JOURNEY);
-        prevStatus = mJourney.getStatus();
 
+        //binding
         mMapView = findViewById(R.id.mapView);
         mRecyclerView = findViewById(R.id.rv);
         btnCancel = findViewById(R.id.btnCancel);
         btnComplete = findViewById(R.id.btnComplete);
+        tvDate = findViewById(R.id.tvDate);
+        tvFrom = findViewById(R.id.tvFrom);
+        tvTo = findViewById(R.id.tvTo);
+        tvCarDesc = findViewById(R.id.tvCarDesc);
+        tvStatus = findViewById(R.id.tvStatus);
 
-//        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                refreshRiders();
-//            }
-//        });
 
-        // setup buttons
-        if(mJourney.getStatus() == Journey.STATUS_PENDING){
-            btnCancel.setVisibility(View.VISIBLE);
-            btnComplete.setVisibility(View.VISIBLE);
-        }else{
-            btnCancel.setVisibility(View.GONE);
-            btnComplete.setVisibility(View.GONE);
-        }
 
-        trigerCustomJourney = new ICallBack<Boolean>() {
-            @Override
-            public void onResponse(Boolean item) {
-                if(pDialog != null)
-                    pDialog.dismissWithAnimation();
-//                mJourney.setStatus(item.getStatus());
-//                setupStatus();
-//                mRiders = item.getRiders();
-                updateAdapter();
-                drawMarkers(mRiders);
-            }
-
-            @Override
-            public void onError(String err) {
-                if(pDialog != null)
-                    pDialog.dismissWithAnimation();
-                Toast.makeText(JourneyDetailActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        };
 
         mMapView.getMapAsync(this);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
-         tvDate = findViewById(R.id.tvDate);
-         tvFrom = findViewById(R.id.tvFrom);
-         tvTo = findViewById(R.id.tvTo);
-         tvCarDesc = findViewById(R.id.tvCarDesc);
-         tvStatus = findViewById(R.id.tvStatus);
+
 
         tvDate.setText(mJourney.getGoingDate().toString());
         tvFrom.setText(MapUtil.getSavedAddress(this,mJourney.getStartPoint()));
         tvTo.setText(MapUtil.getSavedAddress(this,mJourney.getEndPoint()));
         tvCarDesc.setText(mJourney.getCarDescription());
         tvStatus.setText(StringUtil.getJourneyStatus(mJourney.getStatus()));
-        setupStatus();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
 
+        //setup buttons
+        setupStatus();
+
+        //get riders
         refreshJourney();
 
     }
 
+    /**
+     * update ui(accept and close buttons) according to journey status
+     */
     private void setupStatus() {
 
         if(mJourney.getStatus() == Journey.STATUS_PENDING){
-            btnComplete.setText("Complete");
             btnCancel.setVisibility(View.VISIBLE);
             btnComplete.setVisibility(View.VISIBLE);
+            btnCancel.setEnabled(true);
+            btnComplete.setEnabled(true);
         }else {
 
             btnComplete.setVisibility(View.GONE);
-            btnCancel.setText("Cancelled");
+            btnCancel.setVisibility(View.GONE);
             btnComplete.setEnabled(false);
             btnCancel.setEnabled(false);
-
-            btnCancel.setVisibility(View.GONE);
-            btnComplete.setText("Completed");
         }
     }
 
-//    private void refreshRiders() {
-//        mSwipeRefreshLayout.setRefreshing(true);
-//        poolingRides.getRidersOfJourney(0,this);
-//    }
+    /**
+     * refresh riders of the journey
+     * used to see the requests from riders for the journey
+     */
     private void refreshJourney(){
         showProgress("Refreshing");
         CarpoolApi api = WebService.getInstance();
@@ -169,10 +143,12 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismiss();
             }
         });
-//        api.getCustomJourney(mJourney.getId(),trigerCustomJourney);
-//        api.getJourneyDetails(mJourney.getId(),trigerCustomJourney);
     }
 
+    /**
+     * update recycler view adapter.
+     * adapter holds the riders
+     */
     private void updateAdapter() {
         if(mRiders == null)
             return;
@@ -180,6 +156,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         mRecyclerView.setAdapter(adapter);
         drawMarkers(mRiders);
     }
+    /*
+        refresh data on recyclerView
+     */
     private void updateRecycler() {
         if(adapter == null)
             return;
@@ -190,12 +169,16 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         drawMarkers(null);
-
+        // move to journey's start point
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mJourney.getStartPoint(),DEFAULT_ZOOM));
     }
+
+    /**
+     * this method called when pressed on accept rider or reject rider to show a confirmation dialog
+     * @param ride : selected rider
+     * @param status : selected action : accept or reject
+     */
     public void openDialog(final Ride ride,int status){
-
-
         if(status == Ride.STATUS_ACCEPTED){
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
@@ -229,7 +212,10 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
     }
 
-
+    /**
+     * this method called to reject a rider
+     * @param ride : selected rider
+     */
     private void rejectRider(final Ride ride) {
         showProgress("Rejecting");
         carpoolApi.changeRideStatus(ride.getId(), Ride.STATUS_DRIVER_REJECTED, new ICallBack<Boolean>() {
@@ -252,24 +238,31 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         });
     }
 
+    /**
+     * this method called to accept a rider
+     * @param ride : selected rider
+     */
     private void acceptRider(final Ride ride) {
         showProgress("Accepting");
         carpoolApi.changeRideStatus(ride.getId(), Ride.STATUS_ACCEPTED, new ICallBack<Boolean>() {
             @Override
-            public void onResponse(Boolean item) {
+            public void onResponse(Boolean success) {
                 if(pDialog != null)
                 pDialog.dismissWithAnimation();
-                //rider accepted
-                if(item){
+
+                if(success){//rider accepted
                     ride.setOrderStatus(Ride.STATUS_ACCEPTED);
-                }
-                updateRecycler();
+                    updateRecycler(); // update rider item on recycler view as (accepted)
+                }else
+                    onError("couldn't accept the rider");
+
             }
 
             @Override
             public void onError(String err) {
                 if(pDialog != null)
                 pDialog.dismissWithAnimation();
+                Toast.makeText(getApplicationContext(),err,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -278,6 +271,11 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ride.getMeetingLocation(),DEFAULT_ZOOM));
     }
 
+    /**
+     * this method draw a marker on the map for each rider of the journey
+     * and also draw the start and end points of the journey
+     * @param rides : the riders who sent request to the journey
+     */
     private void drawMarkers(List<Ride> rides) {
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(mJourney.getStartPoint()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_START_POINT)).title("Start point"));
@@ -295,11 +293,41 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 mMap.addMarker(new MarkerOptions().position(r.getMeetingLocation()).title(r.getUser().getFullname()).icon(MapUtil.getMarkerIcon(MapUtil.ICON_RIDER_CANCELLED))).setTag(r);
         }
     }
-    public void changeStatus(int s){
+
+    /**
+     * this method calls the WebApi to change journey status
+     * @param status : new status
+     */
+    public void changeStatus(int status){
+        newStatus = status;
         showProgress("Refreshing");
-        carpoolApi.changeJourneyStatus(mJourney, s,trigerCustomJourney);
+        carpoolApi.changeJourneyStatus(mJourney, status, new ICallBack<Boolean>() {
+            @Override
+            public void onResponse(Boolean changed) {
+                if(pDialog != null)
+                    pDialog.dismissWithAnimation();
+
+                if(changed){ // success
+                    mJourney.setStatus(newStatus);
+                    setupStatus();
+                }else{
+                    onError("Couldn't change the status");
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                if(pDialog != null)
+                    pDialog.dismissWithAnimation();
+                Toast.makeText(JourneyDetailActivity.this, err, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    /**
+     * when button clicked ( cancel or close button)
+     * @param view : the button
+     */
     public void onClick(View view) {
 
         int id = view.getId();
@@ -313,8 +341,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismissWithAnimation();
-                                changeStatus(Journey.STATUS_CANCELLED);
-//                                ServiceController.stopService(JourneyDetailActivity.this); //
+                                changeStatus(Journey.STATUS_DRIVER_CANCELLED);// this called the api
                             }
                         })
                         .show();
@@ -323,11 +350,23 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 break;
             case R.id.btnComplete:
 
-                changeStatus(Journey.STATUS_DRIVER_CLOSED);
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("Close this journey?!")
+                        .setConfirmText("Yes")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                changeStatus(Journey.STATUS_DRIVER_CLOSED);// this called the api
+                            }
+                        })
+                        .show();
                 break;
         }
     }
 
+    // to show progress dialog with text
     private void showProgress(String text){
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -335,6 +374,10 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         pDialog.setCancelable(false);
         pDialog.show();
     }
+
+    /**
+     * this class is for riders of the journey
+     */
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{
         List<Ride> rides = new ArrayList<>();
 

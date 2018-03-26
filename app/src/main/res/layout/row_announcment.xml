@@ -27,7 +27,6 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_margin="10dp"
-            android:src="@drawable/logo_qcenter2"
             android:layout_width="40dp"
             android:layout_height="40dp" />
         <LinearLayout

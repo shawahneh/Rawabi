@@ -31,7 +31,6 @@ public abstract class EmptyActivity<T> extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();

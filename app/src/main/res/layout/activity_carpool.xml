@@ -37,7 +37,6 @@
             android:id="@+id/btnRider"
             android:layout_margin="5dp"
             android:textColor="@color/white"
-            android:background="@drawable/green_button_background"
             android:text="Get a ride"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -45,7 +44,6 @@
             android:id="@+id/btnDriver"
             android:layout_margin="5dp"
             android:textColor="@color/white"
-            android:background="@drawable/green_button_background"
             android:text="Offer a ride"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

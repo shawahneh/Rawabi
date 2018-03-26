@@ -20,29 +20,40 @@ import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
-
-
 public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private EditText txtName,txtOldPassword,txtNewPassword,txtConfirmNewPassword;
     private ImageView imageView;
     private Uri mUriImage;
     private AuthWebApi authWebApi = WebService.getInstance();
+    private View layoutPassword,btnChangePassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        getSupportActionBar().setElevation(0);
+
 
         txtName = findViewById(R.id.txtName);
         txtOldPassword = findViewById(R.id.txtOldPassword);
         txtNewPassword = findViewById(R.id.txtNewPassword);
         txtConfirmNewPassword = findViewById(R.id.txtConfirmNewPassword);
         imageView = findViewById(R.id.imageView);
+        layoutPassword = findViewById(R.id.layoutPassword);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutPassword.setVisibility(layoutPassword.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+            }
+        });
 
         User user = SPController.getLocalUser(this);
         if(user != null && user.getImageurl() != null)
-        Glide.with(this).load(user.getImageurl()).apply(RequestOptions.circleCropTransform()).into(imageView);
+
+        Glide.with(this).load(user.getImageurl()).apply(RequestOptions.placeholderOf(R.drawable.ic_person_black_24dp))
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +78,13 @@ public class EditProfileActivity extends AppCompatActivity {
         if(user == null)
             return;
 
-        user.setPassword(txtNewPassword.getText().toString());
+        if(layoutPassword.getVisibility()==View.VISIBLE)
+            user.setPassword(txtNewPassword.getText().toString());
         user.setFullname(txtName.getText().toString());
 
         ((Button)view).setEnabled(false);
-        authWebApi.setUserDetails(user, txtOldPassword.getText().toString(), new ICallBack<Boolean>() {
+        String oldPassword = layoutPassword.getVisibility()==View.VISIBLE?txtOldPassword.getText().toString():user.getPassword();
+        authWebApi.setUserDetails(user, oldPassword , new ICallBack<Boolean>() {
             @Override
             public void onResponse(Boolean saved) {
                 if(saved){

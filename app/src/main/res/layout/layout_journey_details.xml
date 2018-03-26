@@ -30,9 +30,9 @@
     </LinearLayout>
 
     <ImageView
-        android:src="@drawable/car_notexture"
+        android:src="@drawable/ic_carpool_50dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="48dp" />
     <TextView
         android:textSize="20sp"
         android:textColor="@color/black"
@@ -68,7 +68,6 @@
 
     <Button
         android:textColor="@color/white"
-        android:background="@drawable/green_button_background"
         android:id="@+id/btnCreateJourney"
         android:text="Create journey"
         android:layout_width="match_parent"

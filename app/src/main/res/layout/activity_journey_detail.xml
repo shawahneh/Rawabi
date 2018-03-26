@@ -1,116 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity">
+    android:gravity="bottom"
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvDate"
-            android:textColor="@color/black"
-            android:text="date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/black"
-            android:text="from "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvFrom"
-            android:textColor="@color/black"
-            android:text="from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/black"
-            android:text="to "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvTo"
-            android:textColor="@color/black"
-            android:text="to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    sothree:layout_collapseMode="pin"
+    sothree:umanoPanelHeight="60dp"
+    sothree:umanoShadowHeight="4dp">
 
 
+    <include
+        layout="@layout/layout_journey_detail_for_activity"/>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <TextView
-        android:visibility="gone"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:id="@+id/tvStatus"
-        android:text="status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <TextView
-        android:textColor="@color/black"
-        android:text="car "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvCarDesc"
-        android:textColor="@color/black"
-        android:text="driver name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:onClick="onClick"
-            android:id="@+id/btnCancel"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:background="@color/red"
-            android:text="Cancell"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:onClick="onClick"
-            android:id="@+id/btnComplete"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:background="@color/green"
-            android:text="Complete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
+        <LinearLayout
+            android:gravity="center"
+            android:background="@color/city"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:text="Riders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout> <!-- List for Riders -->
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

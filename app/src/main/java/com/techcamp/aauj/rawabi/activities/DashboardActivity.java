@@ -131,7 +131,6 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         if(tab.getTag().equals("news")){
-            tab.setIcon(getResources().getDrawable(R.drawable.news));
         }else
         tab.getIcon().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
     }
@@ -140,7 +139,6 @@ public class DashboardActivity extends AppCompatActivity
     public void onTabUnselected(TabLayout.Tab tab) {
 
         if(tab.getTag().equals("news")){
-            tab.setIcon(getResources().getDrawable(R.drawable.news_outline2));
         }else
             tab.getIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
     }

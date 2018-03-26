@@ -15,7 +15,7 @@ public class TransportationActivity extends BasicActivity<Transportation> {
 
     @Override
     protected int getImage() {
-        return R.drawable.bus_notexture;
+        return R.drawable.ic_bus_50dp;
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.AnnouncementsListFragmen
 public class QCenterListActivity extends BasicActivity implements ListFragment.IFragmentListener<Announcement> {
     @Override
     protected int getImageTop() {
-        return R.drawable.logo_qcenter;
+        return R.drawable.ic_qcenter_50dp;
     }
     @Override
     protected int getImage() {

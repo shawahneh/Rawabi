@@ -16,7 +16,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.MediaListFragment;
 public class MediaListActivity extends BasicActivity<MediaItem>  implements ListFragment.IFragmentListener<MediaItem> {
     @Override
     protected int getImage() {
-        return R.drawable.media_notexture;
+        return R.drawable.ic_media_50dp;
     }
 
     @Override

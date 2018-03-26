@@ -94,7 +94,7 @@
                         android:layout_height="match_parent">
                         <ImageView
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_offer_ride"
+                            android:src="@drawable/ic_offer_ride_50dp"
                             android:layout_width="48dp"
                             android:layout_height="48dp" />
                         <LinearLayout

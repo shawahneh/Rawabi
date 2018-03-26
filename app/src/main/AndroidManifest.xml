@@ -54,10 +54,7 @@
         <activity
             android:name=".activities.carpoolActivities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
-        <activity android:name=".garbage.unusedActivities.PickerActivity" />
-        <activity
-            android:name=".garbage.unusedActivities.UserTypeActivity"
-            android:theme="@style/AppTheme.No" />
+
         <activity
             android:name=".activities.carpoolActivities.MeetingMapActivity"
             android:label="Choose Meeting Location"
@@ -84,9 +81,6 @@
         <receiver android:name=".receivers.AlarmReceiver" />
 
         <activity
-            android:name=".garbage.unusedActivities.CalendarActivity"
-            android:theme="@style/AppTheme.Basic" />
-        <activity
             android:name=".activities.basicActivities.TransportationActivity"
             android:theme="@style/AppTheme.Basic" />
         <activity
@@ -108,9 +102,6 @@
             android:name=".activities.basicActivities.MediaListActivity"
             android:theme="@style/AppTheme.Basic" />
 
-        <activity
-            android:name=".garbage.unusedActivities.QCenterActivity"
-            android:theme="@style/AppTheme.Basic" />
         <activity
             android:name=".activities.carpoolActivities.CarpoolMainActivity"
             android:theme="@style/AppTheme.Carpool" />

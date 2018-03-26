@@ -93,7 +93,7 @@ public class WebService implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRidersOfJourney(Journey journey,final IListCallBack<Ride> triger) {
+    public void getRidersOfJourney(Journey journey, final IListCallBack<Ride> triger) {
         final ArrayList<Ride> rides = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
         mRef.orderByChild("journey/id").equalTo(journey.getId()).addListenerForSingleValueEvent(new ValueEventListener() {

@@ -16,7 +16,6 @@
                 android:transitionName="trImage"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="70dp"
-                android:src="@drawable/car_notexture"
                 android:id="@+id/imageView"
                 android:layout_margin="5dp"
                 android:layout_height="70dp"/>

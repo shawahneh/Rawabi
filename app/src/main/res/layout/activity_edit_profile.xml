@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:src="@drawable/ic_person_black_24dp"
             android:id="@+id/imageView"
-            android:src="@mipmap/ic_launcher"
             android:layout_width="100dp"
             android:layout_height="100dp" />
         <LinearLayout
@@ -51,7 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:id="@+id/layoutPassword"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <LinearLayout
                 android:padding="3dp"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -119,15 +126,28 @@
                     android:padding="10dp"
                     android:singleLine="true" />
             </LinearLayout>
+
+            </LinearLayout>
             <Button
+                android:layout_margin="5dp"
                 android:onClick="onClickSave"
                 android:textColor="@color/colorAccent"
-                android:id="@+id/btnSave"
+                android:id="@+id/btnChangePassword"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="save"
+                android:text="Change Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <Button
+        android:layout_margin="5dp"
+        android:onClick="onClickSave"
+        android:textColor="@color/white"
+        android:id="@+id/btnSave"
+        android:background="@drawable/green_button_background"
+        android:text="save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

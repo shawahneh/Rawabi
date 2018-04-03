@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
@@ -128,7 +128,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
      */
     private void refreshJourney(){
         showProgress("Refreshing");
-        CarpoolApi api = WebService.getInstance();
+        CarpoolApi api = WebDummy.getInstance();
         api.getRidersOfJourney(mJourney, new IListCallBack<Ride>() {
             @Override
             public void onResponse(List<Ride> item) {

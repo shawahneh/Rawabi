@@ -1,6 +1,5 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -9,17 +8,15 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.techcamp.aauj.rawabi.API.BasicApi;
-import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.MediaItem;
-import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.database.MediaItemsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +47,7 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
 
     @Override
     protected void loadDataFromWeb() {
-        BasicApi api =  WebService.getInstance();
+        BasicApi api = WebFactory.getBasicService();
         api.getMedia(this);
         setLoading(true);
     }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/swiperefresh"
     android:gravity="center_horizontal"
-    tools:context="com.techcamp.aauj.rawabi.fragments.TransportationPageFragment">
+    tools:context="com.techcamp.aauj.rawabi.fragments.listFragments.TransportationPageFragment">
 
     <ProgressBar
         android:minHeight="0dp"

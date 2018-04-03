@@ -3,7 +3,6 @@ package com.techcamp.aauj.rawabi.fragments;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -13,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -180,12 +178,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void getEventsToday() {
-        BasicApi api = WebService.getInstance();
+        BasicApi api = WebDummy.getInstance();
         api.getEventAtDate(new Date(),trigerEvents);
     }
 
     private void getWeather() {
-        BasicApi api = WebService.getInstance();
+        BasicApi api = WebDummy.getInstance();
         api.getWeather(trigerWeather);
     }
 
@@ -193,7 +191,7 @@ public class HomeFragment extends Fragment {
         if(progressBar.getVisibility() == View.VISIBLE)
             return;
         tvCarpool.setText("Looking for a ride?");
-        CarpoolApi api = WebService.getInstance();
+        CarpoolApi api = WebDummy.getInstance();
         api.getNumberOfJourneys(trigerCars);
         progressBar.setVisibility(View.VISIBLE);
 

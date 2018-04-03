@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
+import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.model.Job;
@@ -50,7 +51,6 @@ public class WebApi implements BasicApi,AuthWebApi
     RequestQueue requestQueue;
     private static WebApi instance;
     private Context mContext;
-
     
     private WebApi(Context context) {
         mContext = context;
@@ -69,7 +69,6 @@ public class WebApi implements BasicApi,AuthWebApi
 
         if (requestQueue==null)
         {
-
              requestQueue = Volley.newRequestQueue(mContext);
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
@@ -101,7 +100,7 @@ public class WebApi implements BasicApi,AuthWebApi
                 return params;
             }
         };
-        requestQueue.add(stringRequest);
+        requestQueue.add(stringRequest);stringRequest.cancel();
     }
 
 
@@ -635,7 +634,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //Done By Maysara
     @Override
-    public void changeJourneyStatus(Journey journey, int status, final ICallBack<Boolean> triger) {
+    public void changeJourneyStatus(Journey journey, int status, final ICallBack<Boolean> trigger) {
         User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -652,14 +651,14 @@ public class WebApi implements BasicApi,AuthWebApi
                 try {
                     if(value.getString("status").equals("success")){
                         Log.i("tagWebApi", "journey status changed successfully");
-                        triger.onResponse(true);
+                        trigger.onResponse(true);
 
                     }else {
                         Log.i("tagWebApi", "failed to change journey status");
-                        triger.onResponse(false);
+                        trigger.onResponse(false);
                     }
                 } catch (JSONException e) {
-                    triger.onError(e.toString());
+                    trigger.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -668,7 +667,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                trigger.onError(err);
             }
         });
 
@@ -684,7 +683,6 @@ public class WebApi implements BasicApi,AuthWebApi
     //DONE
     @Override
     public void getRides(int userId, int limitStart, int limitNum, final IListCallBack<Ride> rides) {
-
         User localUser = getLocalUser();
 
         Map<String,String> params = new HashMap<String, String>();
@@ -1345,6 +1343,16 @@ public class WebApi implements BasicApi,AuthWebApi
     @Override
     public void getMedia(IListCallBack<MediaItem> callBack) {
 
+
+    }
+
+    @Override
+    public void getAlbums(IListCallBack<AlbumItem> callBack) {
+
+    }
+
+    @Override
+    public void getGalleryForAlbum(IListCallBack<MediaItem> callBack) {
 
     }
 }

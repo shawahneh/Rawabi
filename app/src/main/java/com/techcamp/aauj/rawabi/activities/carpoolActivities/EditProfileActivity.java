@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
-import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
@@ -25,7 +25,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText txtName,txtOldPassword,txtNewPassword,txtConfirmNewPassword;
     private ImageView imageView;
     private Uri mUriImage;
-    private AuthWebApi authWebApi = WebService.getInstance();
+    private AuthWebApi authWebApi = WebDummy.getInstance();
     private View layoutPassword,btnChangePassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

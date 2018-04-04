@@ -13,13 +13,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class EventDetailsFragment extends ItemDetailsFragment<Event> {
 
-    private TextView tvName, tvDescription, tvDate;
+    private TextView tvName, tvDescription, tvDate, tvDateDay,tvDateMonth;
     private ImageView imageView;
     public EventDetailsFragment() {
     }
@@ -43,6 +42,8 @@ public class EventDetailsFragment extends ItemDetailsFragment<Event> {
         tvDescription = view.findViewById(R.id.tvDescription);
         tvDate = view.findViewById(R.id.tvDate);
         imageView = view.findViewById(R.id.imageView);
+        tvDateDay = view.findViewById(R.id.tvDateDay);
+        tvDateMonth = view.findViewById(R.id.tvDateMonth);
 
         refreshView();
         return view;
@@ -52,7 +53,9 @@ public class EventDetailsFragment extends ItemDetailsFragment<Event> {
     protected void refreshView() {
         tvName.setText(mItem.getName());
         tvDescription.setText(mItem.getDescription());
-        tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(), mItem.getDate().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+        tvDate.setText(DateUtil.getRelativeTime(mItem.getDate()));
+        tvDateDay.setText(mItem.getDate().getDay() +"");
+        tvDateMonth.setText(DateUtil.getMonthName(mItem.getDate()));
         if (mItem.getImageUrl() != null) {
             Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
         }

@@ -11,7 +11,19 @@ import java.util.Date;
 
 public class Job  implements Parcelable {
     int id;
-    private String name,description,imageUrl;
+    private String name;
+    private String description;
+    private String imageUrl;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    private String companyName;
     private Date date;
     public Job(){}
 
@@ -21,6 +33,7 @@ public class Job  implements Parcelable {
         description = in.readString();
         imageUrl = in.readString();
         date = new Date(in.readLong());
+        companyName = in.readString();
     }
 
     public static final Creator<Job> CREATOR = new Creator<Job>() {
@@ -86,5 +99,6 @@ public class Job  implements Parcelable {
         parcel.writeString(description);
         parcel.writeString(imageUrl);
         parcel.writeLong(date.getTime());
+        parcel.writeString(companyName);
     }
 }

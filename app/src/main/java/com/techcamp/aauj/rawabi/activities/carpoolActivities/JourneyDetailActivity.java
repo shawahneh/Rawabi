@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebDummy;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
@@ -128,10 +130,12 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
      */
     private void refreshJourney(){
         showProgress("Refreshing");
-        CarpoolApi api = WebDummy.getInstance();
+        CarpoolApi api = WebFactory.getCarpoolService();
         api.getRidersOfJourney(mJourney, new IListCallBack<Ride>() {
             @Override
             public void onResponse(List<Ride> item) {
+                Log.d("tag","getRidersOfJourney onResponse");
+                Log.d("tag","rides count="+item.size());
                 pDialog.dismiss();
                 mRiders = item;
                 updateAdapter();
@@ -140,7 +144,9 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
             @Override
             public void onError(String err) {
+                Log.d("tag","getRidersOfJourney onError");
                 pDialog.dismiss();
+                Toast.makeText(JourneyDetailActivity.this, err, Toast.LENGTH_SHORT).show();
             }
         });
     }

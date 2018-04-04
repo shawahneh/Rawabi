@@ -8,10 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         >
     <TextView
-        android:textSize="18sp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_margin="10dp"
         android:fontFamily="@font/roboto"
         android:text="@string/app_name"
@@ -23,7 +22,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/gray"/>
 
     <LinearLayout
@@ -52,7 +51,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <View
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/gray"/>
         <TextView
@@ -69,7 +68,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/gray"/>
 
 

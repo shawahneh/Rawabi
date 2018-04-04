@@ -29,8 +29,10 @@ public interface CarpoolApi {
     void getRidersOfJourney(Journey journey, IListCallBack<Ride> callBack); // hint: set journey for each ride
     void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId); // create ride request
     void changeRideStatus(int rideId, int status, ICallBack<Boolean> result); // accept ride request or reject or the rider cancel the ride
-
+    void changeMyRideStatus(int rideId, int status, ICallBack<Boolean> result);
     void getStatusOfRide(int rideId, ICallBack<Integer> callBack);
+
+
 
 
 }

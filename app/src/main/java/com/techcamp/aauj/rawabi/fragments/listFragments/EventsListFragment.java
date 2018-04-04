@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.fragments.listFragments;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.database.EventsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,7 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
     // data available from WEB
     @Override
     public void onResponse(List<Event> value) {
+        Log.d("tag","onResponse");
         updateDatabase(value);
         setLoading(false);
 
@@ -85,6 +88,7 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
 
     @Override
     public void onError(String err) {
+        Log.d("tag","onError");
         if(getView() != null)
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
         setLoading(false);
@@ -102,12 +106,15 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
 
     private class MyHolder extends Holder<Event> {
         private TextView mEventName,mEventDesc,mEventDate;
+        private TextView tvDateDay,tvDateMonth;
         private ImageView mEventImage;
         public MyHolder(View view) {
             super(view);
             mEventDesc = view.findViewById(R.id.eventDescTestView);
             mEventName = view.findViewById(R.id.eventNameTextView);
             mEventDate = view.findViewById(R.id.eventDateTextView);
+            tvDateDay = view.findViewById(R.id.tvDateDay);
+            tvDateMonth = view.findViewById(R.id.tvDateMonth);
 
             mEventImage = view.findViewById(R.id.imageView);
             itemView.setOnClickListener(this);
@@ -117,8 +124,11 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
         public void bind(Event event, int pos) {
             super.bind(event,pos);
             mEventDesc.setText(event.getDescription());
-            mEventDate.setText(event.getDate().toString());
+            mEventDate.setText(DateUtil.getRelativeTime(event.getDate()));
             mEventName.setText(event.getName());
+            tvDateMonth.setText(DateUtil.getMonthName(event.getDate()));
+            tvDateDay.setText(event.getDate().getDay() + "");
+
             if(event.getImageUrl() != null)
                 Glide.with(getContext()).load(event.getImageUrl()).into(mEventImage);
         }

@@ -157,7 +157,7 @@ public class DashboardActivity extends AppCompatActivity
                 break;
             case HomeFragment.TAG_CARPOOL:
                 if(WebApi.getInstance().isLogin()){
-                    Intent i = new Intent(this, CarpoolActivity.class);
+                    Intent i = new Intent(this, CarpoolMainActivity.class);
                     startActivity(i);
                 }else{
 

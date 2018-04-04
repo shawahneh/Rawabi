@@ -86,16 +86,21 @@ public class RegisterFragment extends Fragment {
             user.setGender(rbnMale.isChecked()?User.MALE:User.FEMALE);
             user.setPassword(txtPassword.getText().toString());
             user.setBirthdate(new Date());
+            user.setAddress("");
             user.setImageurl("non");
             showProgress();
             api.userRegister(user, new ICallBack<Boolean>() {
                 @Override
-                public void onResponse(Boolean item) {
+                public void onResponse(Boolean success) {
+                    if(success){
+
                     pDialog.dismissWithAnimation();
                     SPController.saveLocalUser(getContext(),user);
                     Intent i = new Intent(getContext(), CarpoolMainActivity.class);
                     getActivity().finish();
                     startActivity(i);
+                    }else
+                        onError("Registration failed, try another username");
 
                 }
 

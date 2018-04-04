@@ -144,6 +144,11 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
+    public void changeMyRideStatus(int rideId, int status, ICallBack<Boolean> result) {
+
+    }
+
+    @Override
     public void getStatusOfRide(int rideId, final ICallBack<Integer> triger) {
         DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
         mData.child("" + rideId).addListenerForSingleValueEvent(new ValueEventListener() {

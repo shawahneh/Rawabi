@@ -76,6 +76,8 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onResponse(String response) {
                 Log.i("tagWebApi","Response : "+ response);
                 try {
+                    Log.d("tagWebApi","onResponse send");
+                    Log.d("tagWebApi","onResponse " + response);
 //                JSONObject jsonObject = gson.fromJson(response,JSONObject.class);
                     JSONObject jsonObject = new JSONObject(response);
                     Log.d("tagWebApi",jsonObject.toString());
@@ -100,7 +102,7 @@ public class WebApi implements BasicApi,AuthWebApi
                 return params;
             }
         };
-        requestQueue.add(stringRequest);stringRequest.cancel();
+        requestQueue.add(stringRequest);
     }
 
 
@@ -126,7 +128,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("password",user.getPassword());
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
         params.put("userType","1");
@@ -135,7 +137,11 @@ public class WebApi implements BasicApi,AuthWebApi
         send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
+                        Log.i("tagWebApi", "on respons: "+value.toString());
                 try {
+                    if(value.has("registration")){
+                        Log.i("tagWebApi", "on registration");
+
                     if (value.getString("registration").equals("success")){
                         Log.i("tagWebApi", "register process is done");
                         booleanITriger.onResponse(true);
@@ -144,6 +150,11 @@ public class WebApi implements BasicApi,AuthWebApi
                         Log.i("tagWebApi", "register process is failed");
                         booleanITriger.onResponse(false);
                     }
+                    }else{
+                        Log.i("tagWebApi", "no registration");
+                        booleanITriger.onError("error, no registration");
+                    }
+
                 } catch (JSONException e) {
                     Log.i("tagWebApi","Error on JSON getting item");
                     booleanITriger.onError(e.toString());
@@ -381,6 +392,7 @@ public class WebApi implements BasicApi,AuthWebApi
         send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
+                Log.d("tagWebApi", "getJourneys response="+value.toString());
                 try {
                     if (value.has("journeys"))
                     {
@@ -395,11 +407,13 @@ public class WebApi implements BasicApi,AuthWebApi
                              Jtemp.setId(temp.getInt("id"));
                              Jtemp.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
                              Jtemp.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
-                              SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                              SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                              Jtemp.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
                              Jtemp.setSeats(temp.getInt("seats"));
                              Jtemp.setGenderPrefer(temp.getInt("genderPrefer"));
                              Jtemp.setCarDescription(temp.getString("carDescription"));
+                             Jtemp.setStatus(temp.getInt("status"));
+
                               JSONObject jsonUser = temp.getJSONObject("user");
                               User tempUser = new User();
                               tempUser.setUsername(jsonUser.getString("username"));
@@ -408,7 +422,7 @@ public class WebApi implements BasicApi,AuthWebApi
                               tempUser.setGender(jsonUser.getInt("gender"));
                               tempUser.setPhone(jsonUser.getString("phone"));
                               tempUser.setAddress(jsonUser.getString("address"));
-                              SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
+                              SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
                               tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
                               Jtemp.setUser(tempUser);
                                 objArr.add(Jtemp);
@@ -641,9 +655,10 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("action","changeJourneyStatusAndGetRiders");
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());
-        params.put("journeyid" , journey.getId()+"");
-        params.put("status" , journey.getStatus()+"");
+        params.put("journeyId" , journey.getId()+"");
+        params.put("status" , status+"");
 
+        Log.d("tagWebApi","journeyId="+journey.getId()+", status="+status);
         send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
@@ -783,6 +798,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("username",localUser.getUsername());
         params.put("password",localUser.getPassword());
         params.put("rideId", rideId+"");
+        Log.d("tagWebApi","rideId="+rideId);
 
         send(params, new ICallBack<JSONObject>() {
             @Override
@@ -863,6 +879,7 @@ public class WebApi implements BasicApi,AuthWebApi
         send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
+                Log.d("tagWebApi","response="+value.toString() );
                 try{
                     if(value.has("rides")){
                         JSONArray jsonArray = value.getJSONArray("rides");
@@ -871,11 +888,21 @@ public class WebApi implements BasicApi,AuthWebApi
                         ArrayList<Ride> ridesArray = new ArrayList<Ride>();
                         for(int i=0;i<jsonArray.length();i++){
                             rideTemp = new Ride();
+                            User user = new User();
+
                             jsonTemp = jsonArray.getJSONObject(i);
+                            JSONObject jsonObjectUser = jsonTemp.getJSONObject("user") ;
+                            user.setFullname(jsonObjectUser.getString("fullname"));
+                            user.setUsername(jsonObjectUser.getString("username"));
+
+                            user.setGender(jsonObjectUser.getInt("gender"));
+                            user.setImageurl(jsonObjectUser.getString("image"));
+                            user.setPhone(jsonObjectUser.getString("phone"));
+
                             rideTemp.setId(jsonTemp.getInt("id"));
                             rideTemp.setJourney(journey);
                             rideTemp.setOrderStatus(jsonTemp.getInt("orderStatus"));
-                            rideTemp.setUser(localUser);
+                            rideTemp.setUser(user);
                             rideTemp.setMeetingLocation(new LatLng(jsonTemp.getDouble("meetingLocationX"),jsonTemp.getDouble("meetingLocationY")));
                             ridesArray.add(rideTemp);
                         }
@@ -944,6 +971,52 @@ public class WebApi implements BasicApi,AuthWebApi
         });
     }
 
+    /* created by ala, this method used to change the status of user's rides only  */
+    public void changeMyRideStatus(int rideId,int status, final ICallBack<Boolean> result){
+
+        final User localUser = getLocalUser();
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","changeMyRideStatus");
+        params.put("username",localUser.getUsername());
+        params.put("password",localUser.getPassword());
+        params.put("rideId", rideId+"");
+        params.put("orderStatus" , status+"");
+        Log.d("tagWebApi","rideId=" + rideId + ",status="+status);
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+
+                try {
+                    if (value.getString("status").equals("success")){
+
+                        Log.i("tagWebApi", "ride status changes successfully ");
+                        result.onResponse(true);
+                    }else
+                    {
+
+                        Log.i("tagWebApi", "error in changing ride's status ");
+                        result.onResponse(false);
+                    }
+                } catch (JSONException e) {
+                    Log.i("tagWebApi","Error on JSON getting item");
+                    result.onError(e.toString());
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(String err) {
+
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                result.onError(err);
+
+            }
+        });
+
+    }
     //Done By Maysara
     @Override
     public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> result) {
@@ -1004,6 +1077,8 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("username" , localUser.getUsername());
         params.put("password" , localUser.getPassword());
 
+        Log.d("tagWebApi","rideId="+rideId);
+
         send(params, new ICallBack<JSONObject>() {
             @Override
             public void onResponse(JSONObject value) {
@@ -1055,7 +1130,7 @@ public class WebApi implements BasicApi,AuthWebApi
                             eventTemp = new Event();
                             jsonTemp = jsonArray.getJSONObject(i);
                             eventTemp.setId(jsonTemp.getInt("id"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
                             eventTemp.setImageUrl(jsonTemp.getString("imageUrl"));
                             eventTemp.setDescription(jsonTemp.getString("description"));
@@ -1109,11 +1184,11 @@ public class WebApi implements BasicApi,AuthWebApi
                         eventTemp = new Event();
                         jsonTemp = jsonArray.getJSONObject(i);
                         eventTemp.setId(jsonTemp.getInt("id"));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-                        eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("startDateTime")));
                         eventTemp.setImageUrl(jsonTemp.getString("imageUrl"));
                         eventTemp.setDescription(jsonTemp.getString("description"));
-                        eventTemp.setName(jsonTemp.getString("name"));
+                        eventTemp.setName(jsonTemp.getString("title"));
                         eventsArray.add(eventTemp);
 
                     }
@@ -1166,9 +1241,11 @@ public class WebApi implements BasicApi,AuthWebApi
                             jsonTemp = jsonArray.getJSONObject(i);
                             announcementTemp.setId(jsonTemp.getInt("id"));
                             announcementTemp.setName(jsonTemp.getString("name"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             announcementTemp.setStartDate(simpleDateFormat.parse(jsonTemp.getString("startDate")));
-                            announcementTemp.setEndDate(simpleDateFormat.parse(jsonTemp.getString("endData")));
+
+                            /* no end date */
+//                            announcementTemp.setEndDate(simpleDateFormat.parse(jsonTemp.getString("endData")));
                             announcementTemp.setDescription(jsonTemp.getString("description"));
                             announcementTemp.setImageUrl(jsonTemp.getString("imageUrl"));
 
@@ -1220,10 +1297,18 @@ public class WebApi implements BasicApi,AuthWebApi
                             jobTemp = new Job();
                             jsonTemp = jsonArray.getJSONObject(i);
                             jobTemp.setId(jsonTemp.getInt("id"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-                            jobTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("date")));
-                            jobTemp.setName(jsonTemp.getString("name"));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                            Log.d("tag","endDate: " + jsonTemp.getString("endDate"));
+                            jobTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("endDate")));
+                            Log.d("tag","endDate: " + simpleDateFormat.parse(jsonTemp.getString("endDate")));
+
+
+                            jobTemp.setName(jsonTemp.getString("jobTitle"));
                             jobTemp.setDescription(jsonTemp.getString("description"));
+                            jobTemp.setCompanyName(jsonTemp.getString("companyName"));
+
+                            if(jsonTemp.has("imageUrl"))
                             jobTemp.setImageUrl(jsonTemp.getString("imageUrl"));
 
                             jobsArray.add(jobTemp);

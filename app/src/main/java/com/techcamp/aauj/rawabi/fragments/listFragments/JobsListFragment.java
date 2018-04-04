@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.fragments.listFragments;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.database.JobsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +123,7 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
         public void bind(Job job, int pos) {
             super.bind(job,pos);
             mEventDesc.setText(job.getDescription());
-            mEventDate.setText(job.getDate().toString());
+            mEventDate.setText(DateUtil.getRelativeTime(job.getDate()));
             mEventName.setText(job.getName());
             if(job.getImageUrl() != null)
                 Glide.with(getContext()).load(job.getImageUrl()).into(mEventImage);

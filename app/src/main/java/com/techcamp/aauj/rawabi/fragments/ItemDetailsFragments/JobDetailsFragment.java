@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +50,7 @@ public class JobDetailsFragment extends ItemDetailsFragment<Job> {
         if(mItem != null){
             tvName.setText(mItem.getName());
             tvDescription.setText(mItem.getDescription());
-            tvDate.setText(DateUtils.getRelativeDateTimeString(getContext(),mItem.getDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
+            tvDate.setText(DateUtil.getRelativeTime(mItem.getDate()));
             if(mItem.getImageUrl() != null){
                 Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
             }

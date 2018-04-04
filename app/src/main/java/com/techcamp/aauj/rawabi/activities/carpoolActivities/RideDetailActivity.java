@@ -97,7 +97,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
                                 sDialog.dismissWithAnimation();
                                 btnCancel.setEnabled(false);
                                 showProgress();
-                                poolingRides.changeRideStatus(mRide.getId(),Ride.STATUS_CANCELLED,RideDetailActivity.this);
+                                poolingRides.changeMyRideStatus(mRide.getId(),Ride.STATUS_RIDER_CANCELLED,RideDetailActivity.this);
                             }
                         })
                         .show();

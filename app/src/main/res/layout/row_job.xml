@@ -10,18 +10,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
-            android:padding="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="date"
-                android:textColor="@color/black"
-                android:id="@+id/eventDateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -30,27 +20,50 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <LinearLayout
+                android:layout_weight="1"
                 android:padding="10dp"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:fontFamily="@font/abeezee_regular"
                     android:text="@string/app_name"
-                    android:textColor="@color/green"
+                    android:textColor="@color/black"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:id="@+id/eventNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:text="sdgg"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/colorPrimary"
                     android:id="@+id/eventDescTestView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="End date"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="date"
+                    android:textColor="@color/black"
+                    android:id="@+id/eventDateTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>

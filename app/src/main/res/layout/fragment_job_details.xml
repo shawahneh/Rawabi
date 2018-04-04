@@ -7,6 +7,22 @@
     >
 
     <TextView
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:text="End date"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
         android:text="date"
         android:textColor="@color/colorPrimary"
         android:id="@+id/tvDate"
@@ -14,16 +30,8 @@
         android:layout_height="wrap_content"
         />
     <TextView
-        android:fontFamily="@font/abeezee"
-        android:text="@string/app_name"
-        android:textColor="@color/qcenter"
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-
-        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

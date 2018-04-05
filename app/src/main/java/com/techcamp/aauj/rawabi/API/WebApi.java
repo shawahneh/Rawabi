@@ -380,6 +380,7 @@ public class WebApi implements BasicApi,AuthWebApi
     @Override
     public void setImageForUser(Uri uri, ICallBack<String> callBack) {
         /* upload the image */
+        callBack.onResponse(uri.getPath());
     }
 
     //DONE

@@ -76,7 +76,8 @@
         <activity
             android:name=".activities.carpoolActivities.MapDriverActivity"
             android:theme="@style/AppTheme.Carpool" />
-        <activity android:name=".activities.carpoolActivities.EditProfileActivity" />
+        <activity android:name=".activities.carpoolActivities.EditProfileActivity"
+            android:theme="@style/AppTheme.Carpool.No"/>
 
         <receiver android:name=".receivers.AlarmReceiver" />
 

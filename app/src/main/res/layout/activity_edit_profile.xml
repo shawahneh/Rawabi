@@ -1,153 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
     tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.EditProfileActivity">
-    <LinearLayout
-        android:padding="10dp"
-        android:gravity="center_vertical"
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:src="@drawable/ic_person_black_24dp"
-            android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-        <LinearLayout
-            android:layout_marginStart="5dp"
-            android:padding="3dp"
-            android:gravity="center"
-            android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:background="@drawable/border_radius"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
+        </android.support.v7.widget.Toolbar>
 
-            <EditText
-                android:id="@+id/txtName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_flat"
-                android:hint="Full name"
-                android:inputType="text"
-                android:padding="10dp"
-                android:singleLine="true" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:background="@color/blue1"
-            android:padding="10dp"
-            android:orientation="vertical"
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/layoutPassword"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imageView"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_person_black_24dp" />
+            <ProgressBar
                 android:visibility="gone"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            <LinearLayout
-                android:padding="3dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:background="@drawable/border_radius"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src="@drawable/ic_lock_black_24dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
-
-                <EditText
-                    android:id="@+id/txtOldPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_flat"
-                    android:hint="old Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:singleLine="true" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:padding="3dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:background="@drawable/border_radius"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src="@drawable/ic_lock_black_24dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
-
-                <EditText
-                    android:id="@+id/txtNewPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_flat"
-                    android:hint="new Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:singleLine="true" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:padding="3dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:background="@drawable/border_radius"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src="@drawable/ic_lock_black_24dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
-
-                <EditText
-                    android:id="@+id/txtConfirmNewPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_flat"
-                    android:hint="confirm new Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:singleLine="true" />
-            </LinearLayout>
-
-            </LinearLayout>
-            <Button
-                android:layout_margin="5dp"
-                android:onClick="onClickSave"
-                android:textColor="@color/colorAccent"
-                android:id="@+id/btnChangePassword"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:text="Change Password"
-                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        </android.support.design.widget.CoordinatorLayout>
 
-    <Button
-        android:layout_margin="5dp"
-        android:onClick="onClickSave"
-        android:textColor="@color/white"
-        android:id="@+id/btnSave"
-        android:background="@drawable/green_button_background"
-        android:text="save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/white"
+        app:fabSize="normal"
+        android:src="@drawable/ic_add_a_photo_black_24dp"
+        android:layout_margin="10dp"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="right|bottom" />
+
+
+        <android.support.v7.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+</android.support.design.widget.CoordinatorLayout>

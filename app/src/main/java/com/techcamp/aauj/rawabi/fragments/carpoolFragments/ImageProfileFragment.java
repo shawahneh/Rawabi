@@ -58,9 +58,9 @@ public class ImageProfileFragment extends Fragment {
 
         imageAdd.setVisibility(View.VISIBLE);
 
-        Glide.with(getContext()).load(R.color.gray)
-                .apply(RequestOptions.circleCropTransform())
-                .into(imageView);
+//        Glide.with(getContext()).load(R.color.gray)
+//                .apply(RequestOptions.circleCropTransform())
+//                .into(imageView);
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override

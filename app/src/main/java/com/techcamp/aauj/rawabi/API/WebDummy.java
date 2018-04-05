@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -420,6 +421,11 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 
     @Override
     public void checkAuth(String username, String password, ICallBack<Boolean> booleanITriger) {
+
+    }
+
+    @Override
+    public void setImageForUser(Uri uri, ICallBack<String> callBack) {
 
     }
 

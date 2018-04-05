@@ -76,7 +76,7 @@ public abstract class RequestService<T> extends Request<T> {
             mListener = null;
         }
     }
-    public abstract T parseResponse(String Response);
+    public abstract T parseResponse(JSONObject Response);
     @Override
     protected void deliverResponse(T response) {
         ICallBack<T> listener;
@@ -104,7 +104,7 @@ public abstract class RequestService<T> extends Request<T> {
             if(saveOffline)
                 OfflineApi.setData(mContext,codeOffline,new JSONObject(jsonString));
 
-            T result = parseResponse(jsonString);
+            T result = parseResponse(new JSONObject(jsonString));
             if(result == null)
                 return Response.error(new ParseError(new Exception("null parsing")));
             return Response.success(result,

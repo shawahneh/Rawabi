@@ -1,5 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
+import android.net.Uri;
+
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 
@@ -48,4 +50,11 @@ public interface AuthWebApi {
      * @param callBack : ...
      */
     void checkAuth(String username,String password,ICallBack<Boolean> callBack);
+
+    /**
+     * upload an image and set it to user, and returns the imageUrl to callBack
+     * @param uri : image uri from phone
+     * @param callBack : return imageUrl
+     */
+    void setImageForUser(Uri uri, ICallBack<String> callBack);
 }

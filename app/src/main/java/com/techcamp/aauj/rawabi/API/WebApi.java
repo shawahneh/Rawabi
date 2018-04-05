@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -374,6 +375,11 @@ public class WebApi implements BasicApi,AuthWebApi
                 booleanITriger.onError(err);
             }
         });
+    }
+
+    @Override
+    public void setImageForUser(Uri uri, ICallBack<String> callBack) {
+        /* upload the image */
     }
 
     //DONE

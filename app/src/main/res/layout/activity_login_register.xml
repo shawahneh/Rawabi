@@ -11,8 +11,9 @@
     tools:context="com.techcamp.aauj.rawabi.activities.carpoolActivities.LoginRegisterActivity">
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:src="@drawable/ic_carpool_50dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
     <TextView
         android:fontFamily="@font/abeezee"
         android:textColor="@color/white"

@@ -39,9 +39,9 @@ public class WebService {
             }
 
             @Override
-            public List<Job> parseResponse(String response) {
+            public List<Job> parseResponse(JSONObject response) {
                 try {
-                    return JsonToModelParser.parseGetJobs(new JSONObject(response));
+                    return JsonToModelParser.parseGetJobs(response);
                 }catch (Exception e){
                     return null;
                 }

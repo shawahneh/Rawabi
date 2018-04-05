@@ -129,7 +129,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("password",user.getPassword());
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-YYYY");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
         params.put("userType","1");

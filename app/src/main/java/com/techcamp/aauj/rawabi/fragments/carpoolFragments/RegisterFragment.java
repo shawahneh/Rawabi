@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.fragments.carpoolFragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
+import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
@@ -32,6 +35,8 @@ public class RegisterFragment extends Fragment {
     private EditText txtName,txtPassword,txtPasswordConfirm,txtPhone,txtEmail;
     private RadioButton rbnMale,rbnFemale;
     private Button btnRegister;
+    private IListener mListener;
+
     public RegisterFragment() {
     }
 
@@ -78,7 +83,8 @@ public class RegisterFragment extends Fragment {
 
     private void registerPressed() {
         if(validate()){
-            AuthWebApi api = WebApi.getInstance();
+            AuthWebApi api = WebFactory.getAuthService();
+
             final User user = new User();
             user.setFullname(txtName.getText().toString().trim());
             user.setUsername(txtEmail.getText().toString().trim());
@@ -87,18 +93,15 @@ public class RegisterFragment extends Fragment {
             user.setPassword(txtPassword.getText().toString());
             user.setBirthdate(new Date());
             user.setAddress("");
-            user.setImageurl("non");
+            user.setImageurl("");
             showProgress();
             api.userRegister(user, new ICallBack<Boolean>() {
                 @Override
                 public void onResponse(Boolean success) {
-                    if(success){
-
                     pDialog.dismissWithAnimation();
-                    SPController.saveLocalUser(getContext(),user);
-                    Intent i = new Intent(getContext(), CarpoolMainActivity.class);
-                    getActivity().finish();
-                    startActivity(i);
+                    if(success){
+                        if(mListener != null)
+                            mListener.onFragmentRegisterSuccess(user);
                     }else
                         onError("Registration failed, try another username");
 
@@ -145,6 +148,25 @@ public class RegisterFragment extends Fragment {
 
         return true;
 
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof RegisterFragment.IListener){
+            mListener = (RegisterFragment.IListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + " must implement IFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface IListener{
+        void onFragmentRegisterSuccess(User user);
     }
 
 }

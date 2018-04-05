@@ -83,7 +83,7 @@
 
             <LinearLayout
                 android:foreground="?android:attr/selectableItemBackground"
-                android:background="@drawable/border_bottom"
+                android:background="@drawable/border_stroke_small"
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:layout_width="match_parent"

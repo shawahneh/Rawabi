@@ -106,14 +106,14 @@ public abstract class ListFragment extends Fragment {
             throw new RuntimeException(context.toString() + " must implement IFragmentListener");
         }
     }
-    protected void setLoading(boolean loading){
-        progressBarLoading.setVisibility(loading?View.VISIBLE:View.GONE);
-    }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    protected void setLoading(boolean loading){
+        progressBarLoading.setVisibility(loading?View.VISIBLE:View.GONE);
     }
     public interface IFragmentListener<T>{
         void onItemClicked(T item);

@@ -6,7 +6,7 @@
     android:layout_height="100dp"
     android:padding="5dp"
     android:orientation="vertical"
-    android:background="@drawable/border_bottom"
+    android:background="@drawable/border_stroke_small"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/tvDate"

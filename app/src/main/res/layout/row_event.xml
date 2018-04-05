@@ -32,7 +32,7 @@
 
 
         <LinearLayout
-            android:background="@drawable/border_bottom"
+            android:background="@drawable/border_stroke_small"
             android:layout_margin="5dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="vertical"

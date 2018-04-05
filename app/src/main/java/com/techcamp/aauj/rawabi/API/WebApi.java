@@ -1,8 +1,11 @@
 package com.techcamp.aauj.rawabi.API;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -31,6 +34,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -129,11 +135,11 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("password",user.getPassword());
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-YYYY");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
         params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
         params.put("userType","1");
-        params.put("image",user.getImageurl());
+        //params.put("image",user.getImageurl());
         params.put("phone",user.getPhone());
         send(params, new ICallBack<JSONObject>() {
             @Override
@@ -180,13 +186,11 @@ public class WebApi implements BasicApi,AuthWebApi
 
         params.put("action","setUserDetails");
         params.put("username",user.getUsername());
-        params.put("password",OldPassword);
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
         params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
-        params.put("image",user.getImageurl());
         params.put("phone",user.getPhone());
         params.put("newPassword" , user.getPassword());
         params.put("oldPassword" , OldPassword);
@@ -378,8 +382,63 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void setImageForUser(Uri uri, ICallBack<String> callBack) {
-        /* upload the image */
+    public void setImageForUser(Uri uri, Context context, final ICallBack<String> callBack) {
+        final User user = getLocalUser();
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","uploadUserImage");
+        params.put("username",user.getUsername());
+        params.put("password",user.getPassword());
+
+        InputStream imageStream = null;
+        try {
+            imageStream = context.getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+        String encodedImage = encodeImage(selectedImage);
+        params.put("image",encodedImage);
+
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                String imageUrl;
+                try {
+                    if(value.has("success")){
+                        imageUrl = value.getString("success");
+                        Log.i("tagWebApi", "image fetched");
+                        user.setImageurl(imageUrl);
+                        callBack.onResponse(imageUrl);
+                    }else{
+                        Log.i("tagWebApi", "image not fetched");
+                        callBack.onResponse("");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                callBack.onError(err);
+            }
+        });
+
+    }
+
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
     }
 
     //DONE

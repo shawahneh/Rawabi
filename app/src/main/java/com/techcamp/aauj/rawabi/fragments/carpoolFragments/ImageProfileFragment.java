@@ -91,7 +91,7 @@ public class ImageProfileFragment extends Fragment {
             return;
         }
 
-        WebFactory.getAuthService().setImageForUser(mUriImage, new ICallBack<String>() {
+        WebFactory.getAuthService().setImageForUser(mUriImage,getContext(), new ICallBack<String>() {
             @Override
             public void onResponse(String url) {
                 Glide.with(getContext()).load(url).into(imageView);

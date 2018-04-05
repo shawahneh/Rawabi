@@ -18,6 +18,7 @@ public class WebFactory {
     public static void initAll(Context context){
         WebApi.init(context);
         WebDummy.init(context);
+        WebService.init(context);
     }
 
 }

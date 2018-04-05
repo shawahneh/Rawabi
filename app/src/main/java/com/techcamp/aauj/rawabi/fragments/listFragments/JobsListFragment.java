@@ -1,26 +1,24 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.OfflineApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Job;
-import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
 import com.techcamp.aauj.rawabi.database.JobsDB;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragment;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ import java.util.List;
  */
 
 public class JobsListFragment extends ListFragment implements IListCallBack<Job> {
-    BasicApi api = WebApi.getInstance();
+    BasicApi api = WebFactory.getBasicService();
     private MyAdapter mAdapter;
     public static Fragment newInstance(){
         Fragment fragment = new JobsListFragment();
@@ -45,14 +43,19 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
 
     @Override
     protected void loadDataFromWeb() {
-        api.getJobs(this);
+        WebService.getInstance().getJobs(this);
         setLoading(true);
     }
 
 
     private void loadFromDatabase() {
-        List<Job> list = JobsDB.getInstance(getContext()).getAll();
+//        List<Job> list = JobsDB.getInstance(getContext()).getAll();
+        try {
+
+        List<Job> list = new OfflineApi().getJobs(getContext());
         loadListToAdapter(list);
+
+        }catch (Exception e){e.printStackTrace();}
     }
 
     private void loadListToAdapter(List<Job> list) {

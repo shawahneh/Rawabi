@@ -13,6 +13,7 @@ import com.techcamp.aauj.rawabi.database.schema.MediaItemTable;
 import com.techcamp.aauj.rawabi.database.schema.RideTable;
 import com.techcamp.aauj.rawabi.database.schema.TransportationTable;
 import com.techcamp.aauj.rawabi.database.schema.UserTable;
+import com.techcamp.aauj.rawabi.database.schema.cacheTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,8 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
 
     private int mNumberOfItems = 100;
 
-    public static final int VERSION = 12;
+    public static final int VERSION = 16; /* new table(cacheTable) */
+
     public static final String DATABASE_NAME = "rawabi.db";
 
     protected DBHelper(Context context)
@@ -68,7 +70,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL(MediaItemTable.CREATE_TABLE);
         db.execSQL(TransportationTable.CREATE_TABLE);
         db.execSQL(AnnouncementTable.CREATE_TABLE);
-
+        db.execSQL(cacheTable.CREATE_TABLE);
     }
 
     @Override
@@ -82,6 +84,7 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper
         db.execSQL("drop table if EXISTS " + AnnouncementTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + MediaItemTable.TBL_NAME);
         db.execSQL("drop table if EXISTS " + TransportationTable.TBL_NAME);
+        db.execSQL("drop table if EXISTS " + cacheTable.TBL_NAME);
         onCreate(db);
     }
 

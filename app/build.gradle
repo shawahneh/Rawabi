@@ -45,5 +45,8 @@ dependencies {
     compile 'com.github.stfalcon:frescoimageviewer:0.5.0'
     implementation 'com.facebook.fresco:fresco:1.8.0'
     compile 'com.github.jd-alexander:library:1.1.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+
+
 }
 apply plugin: 'com.google.gms.google-services'

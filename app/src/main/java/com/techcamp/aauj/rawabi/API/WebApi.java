@@ -16,6 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.Announcement;
@@ -44,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by ALa on 11/15/2017.
@@ -384,7 +389,7 @@ public class WebApi implements BasicApi,AuthWebApi
     @Override
     public void setImageForUser(Uri uri, Context context, final ICallBack<String> callBack) {
         final User user = getLocalUser();
-        Map<String,String> params = new HashMap<String, String>();
+        RequestParams params = new RequestParams();
         params.put("action","uploadUserImage");
         params.put("username",user.getUsername());
         params.put("password",user.getPassword());
@@ -399,37 +404,29 @@ public class WebApi implements BasicApi,AuthWebApi
         String encodedImage = encodeImage(selectedImage);
         params.put("image",encodedImage);
 
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(apiUrl,
+                params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        String imageUrl;
+                        try {
+                            JSONObject tmp = new JSONObject(new String(responseBody));
+                            if(tmp.has("success")){
+                                imageUrl = tmp.getString("success");
+                                user.setImageurl(imageUrl);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-        send(params, new ICallBack<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject value) {
-                String imageUrl;
-                try {
-                    if(value.has("success")){
-                        imageUrl = value.getString("success");
-                        Log.i("tagWebApi", "image fetched");
-                        user.setImageurl(imageUrl);
-                        callBack.onResponse(imageUrl);
-                    }else{
-                        Log.i("tagWebApi", "image not fetched");
-                        callBack.onResponse("");
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-            }
-
-
-
-            @Override
-            public void onError(String err) {
-                Log.d("tagWebApi", "Error while getting data from send() method ");
-                Log.e("tagWebApi",err);
-                callBack.onError(err);
-            }
-        });
-
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Log.d("tagWebApi", "error code " + statusCode);
+                    }
+                });
     }
 
     private String encodeImage(Bitmap bm)

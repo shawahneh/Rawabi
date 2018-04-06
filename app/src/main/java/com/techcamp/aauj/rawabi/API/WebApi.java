@@ -387,7 +387,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void setImageForUser(Uri uri, Context context, final ICallBack<String> callBack) {
+    public void setImageForUser(Uri uri, final ICallBack<String> callBack) {
         final User user = getLocalUser();
         RequestParams params = new RequestParams();
         params.put("action","uploadUserImage");
@@ -396,7 +396,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
         InputStream imageStream = null;
         try {
-            imageStream = context.getContentResolver().openInputStream(uri);
+            imageStream = mContext.getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -415,9 +415,11 @@ public class WebApi implements BasicApi,AuthWebApi
                             if(tmp.has("success")){
                                 imageUrl = tmp.getString("success");
                                 user.setImageurl(imageUrl);
+                                callBack.onResponse(imageUrl);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            callBack.onResponse(null);
                         }
 
                     }
@@ -425,6 +427,7 @@ public class WebApi implements BasicApi,AuthWebApi
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         Log.d("tagWebApi", "error code " + statusCode);
+                        callBack.onError(error.getMessage());
                     }
                 });
     }

@@ -60,10 +60,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
         User user = SPController.getLocalUser(this);
-        if(user != null && user.getImageurl() != null)
-            Glide.with(this).load(user.getImageurl()).apply(RequestOptions.placeholderOf(R.drawable.ic_person_black_24dp))
+        if(user != null){
+            Log.d("tag","user.getImageurl()="+user.getImageurl());
+            Glide.with(this).load(user.getImageurl())
+                    .apply(RequestOptions.placeholderOf(R.drawable.person))
                     .apply(RequestOptions.circleCropTransform())
                     .into(imageView);
+        }
 
        fabAddImage.setOnClickListener(new View.OnClickListener() {
            @Override

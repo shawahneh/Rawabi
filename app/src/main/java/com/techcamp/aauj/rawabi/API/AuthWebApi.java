@@ -57,5 +57,5 @@ public interface AuthWebApi {
      * @param uri : image uri from phone
      * @param callBack : return imageUrl
      */
-    void setImageForUser(Uri uri, Context context, ICallBack<String> callBack);
+    void setImageForUser(Uri uri, ICallBack<String> callBack);
 }

@@ -11,20 +11,19 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:background="@color/gray"
         android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/imageView"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="2dp"
-        app:civ_circle_background_color="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
         <ImageView
-            android:id="@+id/imageAdd"
+            android:id="@+id/imageView"
             android:layout_gravity="center"
-            android:src="@drawable/ic_add_a_photo_black_24dp"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:id="@+id/btnChooseImage"
+            android:layout_gravity="center"
+            android:text="Choose an image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

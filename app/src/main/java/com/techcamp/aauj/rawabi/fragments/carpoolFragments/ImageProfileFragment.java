@@ -31,8 +31,8 @@ import static android.app.Activity.RESULT_OK;
 public class ImageProfileFragment extends Fragment {
 
     private static final int PICK_IMAGE = 1;
-    private ImageView imageView,imageAdd;
-    private Button btnContinue,btnSkip;
+    private ImageView imageView;
+    private Button btnContinue,btnSkip,btnChooseImage;
     private IListener mListener;
     private Uri mUriImage;
     private ProgressBar progressBar;
@@ -53,10 +53,9 @@ public class ImageProfileFragment extends Fragment {
         imageView = view.findViewById(R.id.imageView);
         btnSkip = view.findViewById(R.id.btnSkip);
         btnContinue= view.findViewById(R.id.btnContinue);
-        imageAdd= view.findViewById(R.id.imageAdd);
         progressBar= view.findViewById(R.id.progressBar);
+        btnChooseImage= view.findViewById(R.id.btnChooseImage);
 
-        imageAdd.setVisibility(View.VISIBLE);
 
 //        Glide.with(getContext()).load(R.color.gray)
 //                .apply(RequestOptions.circleCropTransform())
@@ -77,12 +76,13 @@ public class ImageProfileFragment extends Fragment {
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        btnChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadCommand();
             }
         });
+
     }
 
     private void uploadCommand() {
@@ -102,7 +102,6 @@ public class ImageProfileFragment extends Fragment {
 
 
             startUpload();
-            imageAdd.setVisibility(View.GONE);
         }
     }
 
@@ -113,15 +112,19 @@ public class ImageProfileFragment extends Fragment {
         }
 
         showProgress(true);
-        WebFactory.getAuthService().setImageForUser(mUriImage,getContext(), new ICallBack<String>() {
+        WebFactory.getAuthService().setImageForUser(mUriImage, new ICallBack<String>() {
 
             @Override
             public void onResponse(String url) {
+                if(url != null){
+
                 showProgress(false);
-                Glide.with(getContext()).load(url).into(imageView);
                 Toast.makeText(getContext(), "Image changed successfully", Toast.LENGTH_SHORT).show();
                 btnContinue.setVisibility(View.VISIBLE);
                 btnSkip.setVisibility(View.GONE);
+                }else{
+                    onError("can't upload image");
+                }
             }
 
             @Override

@@ -43,6 +43,7 @@
             </android.support.v7.widget.Toolbar>
 
             <ProgressBar
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"

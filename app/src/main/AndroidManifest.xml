@@ -15,8 +15,8 @@
         android:required="true" />
 
     <application xmlns:tools="http://schemas.android.com/tools"
-        android:allowBackup="true"
         android:name=".Core.FireApp"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
@@ -54,7 +54,6 @@
         <activity
             android:name=".activities.carpoolActivities.LoginRegisterActivity"
             android:theme="@style/AppTheme.No" />
-
         <activity
             android:name=".activities.carpoolActivities.MeetingMapActivity"
             android:label="Choose Meeting Location"
@@ -76,8 +75,9 @@
         <activity
             android:name=".activities.carpoolActivities.MapDriverActivity"
             android:theme="@style/AppTheme.Carpool" />
-        <activity android:name=".activities.carpoolActivities.EditProfileActivity"
-            android:theme="@style/AppTheme.Carpool.No"/>
+        <activity
+            android:name=".activities.carpoolActivities.EditProfileActivity"
+            android:theme="@style/AppTheme.Carpool.No" />
 
         <receiver android:name=".receivers.AlarmReceiver" />
 
@@ -102,7 +102,6 @@
         <activity
             android:name=".activities.basicActivities.MediaListActivity"
             android:theme="@style/AppTheme.Basic" />
-
         <activity
             android:name=".activities.carpoolActivities.CarpoolMainActivity"
             android:theme="@style/AppTheme.Carpool" />
@@ -121,11 +120,14 @@
         <activity
             android:name=".activities.basicActivities.QCenterListActivity"
             android:theme="@style/AppTheme.Basic" />
-        <activity android:name=".activities.carpoolActivities.SlidingActivity"/>
-        <activity android:name=".activities.carpoolActivities.CarpoolActivity"
-            android:theme="@style/AppTheme.Basic"/>
-        <activity android:name=".activities.carpoolActivities.AddImageActivity"
-            android:theme="@style/AppTheme.Carpool"/>
+        <activity android:name=".activities.carpoolActivities.SlidingActivity" />
+        <activity
+            android:name=".activities.carpoolActivities.CarpoolActivity"
+            android:theme="@style/AppTheme.Basic" />
+        <activity
+            android:name=".activities.carpoolActivities.AddImageActivity"
+            android:theme="@style/AppTheme.Carpool" />
+        <activity android:name=".activities.carpoolActivities.ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

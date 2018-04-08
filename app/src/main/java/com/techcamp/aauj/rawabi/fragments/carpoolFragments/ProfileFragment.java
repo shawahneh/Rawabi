@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
 
 
             Glide.with(this).load(user.getImageurl())
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_person_black_24dp))
+                    .apply(RequestOptions.placeholderOf(R.drawable.person))
                     .apply(RequestOptions.circleCropTransform())
                     .into(imageView);
 

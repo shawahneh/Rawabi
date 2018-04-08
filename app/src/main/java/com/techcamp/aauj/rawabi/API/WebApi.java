@@ -409,6 +409,7 @@ public class WebApi implements BasicApi,AuthWebApi
                 params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d("tagWebApi", "onSuccess");
                         String imageUrl;
                         try {
                             JSONObject tmp = new JSONObject(new String(responseBody));

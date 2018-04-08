@@ -113,4 +113,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="events">Events</string>
+    <string name="confirm_new_password">confirm new password</string>
+    <string name="new_password">new password</string>
+    <string name="old_password">old password</string>
+    <string name="save">Save</string>
+    <string name="refresh">Refresh</string>
 </resources>

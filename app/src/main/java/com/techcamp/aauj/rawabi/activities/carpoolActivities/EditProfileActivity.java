@@ -64,7 +64,6 @@ public class EditProfileActivity extends AppCompatActivity {
             Log.d("tag","user.getImageurl()="+user.getImageurl());
             Glide.with(this).load(user.getImageurl())
                     .apply(RequestOptions.placeholderOf(R.drawable.person))
-                    .apply(RequestOptions.circleCropTransform())
                     .into(imageView);
         }
 
@@ -82,7 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
         ArrayList<ProfileItem> items = new ArrayList<>();
         User user = SPController.getLocalUser(this);
 
-        // TODO: 4/6/2018 change these images
+
         items.add(new ProfileItem("Name",user.getFullname(),R.drawable.ic_person_black_24dp));
         items.add(new ProfileItem("Phone",user.getPhone(),R.drawable.ic_phone_black_24dp));
         items.add(new ProfileItem("Password","change your password",R.drawable.ic_lock_black_24dp));
@@ -102,9 +101,7 @@ public class EditProfileActivity extends AppCompatActivity {
     {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             mUriImage = data.getData();
-            Glide.with(this).load(mUriImage).apply(RequestOptions.circleCropTransform()).into(imageView);
-
-
+//            Glide.with(this).load(mUriImage).into(imageView);
             startUpload();
         }
     }
@@ -120,7 +117,15 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(String url) {
                 showProgress(false);
-                Toast.makeText(EditProfileActivity.this, "Image changed successfully", Toast.LENGTH_SHORT).show();
+                if(url != null){
+                    Toast.makeText(EditProfileActivity.this, "Image changed successfully", Toast.LENGTH_SHORT).show();
+                    User user = SPController.getLocalUser(EditProfileActivity.this);
+                    user.setImageurl(url);
+                    Glide.with(EditProfileActivity.this).load(url).into(imageView);
+                    SPController.saveLocalUser(EditProfileActivity.this,user);
+                }else{
+                    onError("onResponse, url is null");
+                }
             }
 
             @Override

@@ -24,10 +24,10 @@ public interface BasicApi {
     void getJobs(IListCallBack<Job> callBack);
     void getTransportation(ICallBack<Transportation> callBack);
     void getWeather(ICallBack<String> callBack);
-    void getMedia(IListCallBack<MediaItem> callBack);
+//    void getMedia(IListCallBack<MediaItem> callBack); // deprecated
 
     void getAlbums(IListCallBack<AlbumItem> callBack);
-    void getGalleryForAlbum(IListCallBack<MediaItem> callBack);
+    void getGalleryForAlbum(int albumId,IListCallBack<MediaItem> callBack); // get all media for album
 
     void getEventAtDate(Date date, IListCallBack<Event> callBack);
     void getEvents(IListCallBack<Event> callBack); // get all events

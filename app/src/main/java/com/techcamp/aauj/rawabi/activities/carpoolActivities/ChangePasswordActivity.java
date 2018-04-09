@@ -110,6 +110,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return false;
         }
 
+        if(!txtNewPassword.getText().toString().equals(txtNewPassword2.getText().toString())){
+            Toast.makeText(this, "passwords do not match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
 

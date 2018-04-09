@@ -590,7 +590,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     public void getEvents(IListCallBack<Event> triger) {
         getEventAtDate(new Date(),triger);
     }
-
+/*
     @Override
     public void getMedia(final IListCallBack<MediaItem> triger) {
         new android.os.Handler().postDelayed(new Runnable() {
@@ -634,14 +634,16 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
             }
         },1000);
     }
-
+*/
     @Override
     public void getAlbums(IListCallBack<AlbumItem> callBack) {
 
     }
 
     @Override
-    public void getGalleryForAlbum(IListCallBack<MediaItem> callBack) {
+    public void getGalleryForAlbum(int albumId, IListCallBack<MediaItem> callBack) {
 
     }
+
+
 }

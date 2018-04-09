@@ -1,13 +1,17 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
@@ -41,6 +46,10 @@ public class EditProfileActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Uri mUriImage;
     private ProgressBar progressBar;
+    private static final int TAG_NAME=0;
+    private static final int TAG_PHONE=1;
+    private static final int TAG_PASSWORD=2;
+    private SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +91,9 @@ public class EditProfileActivity extends AppCompatActivity {
         User user = SPController.getLocalUser(this);
 
 
-        items.add(new ProfileItem("Name",user.getFullname(),R.drawable.ic_person_black_24dp));
-        items.add(new ProfileItem("Phone",user.getPhone(),R.drawable.ic_phone_black_24dp));
-        items.add(new ProfileItem("Password","change your password",R.drawable.ic_lock_black_24dp));
+        items.add(new ProfileItem("Name",user.getFullname(),R.drawable.ic_person_black_24dp,TAG_NAME));
+        items.add(new ProfileItem("Phone",user.getPhone(),R.drawable.ic_phone_black_24dp,TAG_PHONE));
+        items.add(new ProfileItem("Password","change your password",R.drawable.ic_lock_black_24dp,TAG_PASSWORD));
 
         return items;
     }
@@ -173,23 +182,152 @@ public class EditProfileActivity extends AppCompatActivity {
                 tvHint = itemView.findViewById(R.id.tvHint);
                 tvTitle= itemView.findViewById(R.id.tvTitle);
                 imageView= itemView.findViewById(R.id.imageView);
+
             }
-            void render(ProfileItem item){
+            void render(final ProfileItem item){
                 tvTitle.setText(item.getTitle());
                 tvHint.setText(item.getHint());
                 imageView.setImageResource(item.getImage());
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (item.getTag()){
+                            case TAG_NAME:
+                                changeNameCommand();
+                                break;
+                            case TAG_PHONE:
+                                changePhoneCommand();
+                                break;
+                            case TAG_PASSWORD:
+                                Intent intent = new Intent(EditProfileActivity.this,ChangePasswordActivity.class);
+                                startActivity(intent);
+                                break;
+                        }
+                    }
+                });
             }
+
         }
+    }
+
+    private void changePhoneCommand() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("type new phone number");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+        builder.setView(input);
+
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = input.getText().toString();
+                final User user = SPController.getLocalUser(EditProfileActivity.this);
+                user.setPhone(text);
+                showProgress("updating");
+                WebFactory.getAuthService().setUserDetails(user, user.getPassword(), new ICallBack<Boolean>() {
+                    @Override
+                    public void onResponse(Boolean s) {
+                        pDialog.dismissWithAnimation();
+                        if (s){
+                            Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            SPController.saveLocalUser(EditProfileActivity.this,user);
+                        }else
+                            onError("error");
+                    }
+
+                    @Override
+                    public void onError(String err) {
+                        pDialog.dismissWithAnimation();
+                        Log.e("tag",err) ;
+                        Toast.makeText(EditProfileActivity.this, "couldn't change name", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+    private void showProgress(String txt){
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(txt);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    private void changeNameCommand() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("type new name");
+
+        final EditText input = new EditText(this);
+        builder.setView(input);
+
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = input.getText().toString();
+                final User user = SPController.getLocalUser(EditProfileActivity.this);
+                user.setFullname(text);
+                showProgress("updating");
+                WebFactory.getAuthService().setUserDetails(user, user.getPassword(), new ICallBack<Boolean>() {
+                    @Override
+                    public void onResponse(Boolean s) {
+                        pDialog.dismissWithAnimation();
+                        if (s){
+                            Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            SPController.saveLocalUser(EditProfileActivity.this,user);
+                        }else
+                            onError("error");
+                    }
+
+                    @Override
+                    public void onError(String err) {
+                        Log.e("tag",err) ;
+                        pDialog.dismissWithAnimation();
+                        Toast.makeText(EditProfileActivity.this, "couldn't change name", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     class ProfileItem{
         private String title,hint;
         private int image;
+        private int tag;
 
-        public ProfileItem(String title, String hint, int image) {
+        public int getTag() {
+            return tag;
+        }
+
+        public void setTag(int tag) {
+            this.tag = tag;
+        }
+
+        public ProfileItem(String title, String hint, int image, int tag) {
             this.title = title;
             this.hint = hint;
             this.image = image;
+            this.tag = tag;
         }
 
         public String getTitle() {

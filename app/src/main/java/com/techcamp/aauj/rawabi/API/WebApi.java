@@ -193,7 +193,7 @@ public class WebApi implements BasicApi,AuthWebApi
         params.put("username",user.getUsername());
         params.put("fullname",user.getFullname());
         params.put("gender",user.getGender()+"");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
         params.put("address",user.getAddress());
         params.put("phone",user.getPhone());
@@ -258,7 +258,7 @@ public class WebApi implements BasicApi,AuthWebApi
                         userDetails.setFullname(value.getString("fullname"));
                         userDetails.setAddress(value.getString("address"));
                         userDetails.setPhone(value.getString("phone"));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         userDetails.setBirthdate(simpleDateFormat.parse(value.getString("birthdate")));
                         userDetails.setGender(value.getInt("gender"));
                         userDetails.setId(value.getInt("id"));
@@ -312,7 +312,7 @@ public class WebApi implements BasicApi,AuthWebApi
                         userDetails.setUsername(username);
                         userDetails.setPassword(password);
                         userDetails.setFullname(value.getString("fullname").toString());
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         userDetails.setBirthdate(simpleDateFormat.parse(value.getString("birthdate")));
                         userDetails.setGender(value.getInt("gender"));
                         userDetails.setId(value.getInt("id"));
@@ -542,7 +542,7 @@ public class WebApi implements BasicApi,AuthWebApi
                 tempJourney.setId(id);
                 tempJourney.setUser(localUser);
                 tempJourney.setStatus(temp.getInt("status"));
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 tempJourney.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
                 tempJourney.setSeats(temp.getInt("seats"));
                 tempJourney.setGenderPrefer(temp.getInt("genderPrefer"));
@@ -664,7 +664,7 @@ public class WebApi implements BasicApi,AuthWebApi
                             journeyTemp.setId(jsonTemp.getInt("id"));
                             journeyTemp.setStartPoint(new LatLng(jsonTemp.getDouble("startLocationX"),jsonTemp.getDouble("startLocationY")));
                             journeyTemp.setEndPoint(new LatLng(jsonTemp.getDouble("endLocationX"),jsonTemp.getDouble("endLocationY")));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             journeyTemp.setGoingDate(simpleDateFormat.parse(jsonTemp.getString("goingDate")));
                             journeyTemp.setSeats(jsonTemp.getInt("seats"));
                             journeyTemp.setGenderPrefer(jsonTemp.getInt("genderPrefer"));
@@ -801,7 +801,7 @@ public class WebApi implements BasicApi,AuthWebApi
                                 tempUser.setGender(jsonUser.getInt("gender"));
                                 tempUser.setPhone(jsonUser.getString("phone"));
                                 tempUser.setAddress(jsonUser.getString("address"));
-                                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
+                                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
                                 tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
                                 Rtemp.setUser(tempUser);
                                 JSONObject jsonJourney = temp.getJSONObject("journey");
@@ -809,7 +809,7 @@ public class WebApi implements BasicApi,AuthWebApi
                                     Jtemp.setId(jsonJourney.getInt("id"));
                                     Jtemp.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
                                     Jtemp.setEndPoint(new LatLng(jsonJourney.getDouble("endLocationX"),jsonJourney.getDouble("endLocationY")));
-                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Jtemp.setGoingDate(simpleDateFormat.parse(jsonJourney.getString("goingDate")));
                                     Jtemp.setSeats(jsonJourney.getInt("seats"));
                                     Jtemp.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
@@ -901,7 +901,7 @@ public class WebApi implements BasicApi,AuthWebApi
                     tempJourney.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
                     tempJourney.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
                     tempJourney.setEndPoint(new LatLng(jsonJourney.getDouble("endLocationX"),jsonJourney.getDouble("endLocationY")));
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     tempJourney.setGoingDate(simpleDateFormat.parse(jsonJourney.getString("goingDate")));
 
                     // need attention.......
@@ -1493,18 +1493,13 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     @Override
-    public void getMedia(IListCallBack<MediaItem> callBack) {
-
-
-    }
-
-    @Override
     public void getAlbums(IListCallBack<AlbumItem> callBack) {
 
     }
 
     @Override
-    public void getGalleryForAlbum(IListCallBack<MediaItem> callBack) {
+    public void getGalleryForAlbum(int albumId, IListCallBack<MediaItem> callBack) {
 
     }
+
 }

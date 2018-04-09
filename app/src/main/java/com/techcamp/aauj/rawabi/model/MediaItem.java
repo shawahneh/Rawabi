@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class MediaItem implements Parcelable {
     private int id;
     private String imageUrl;
-    private String description;
+    private String description; /*  unused   */
 
     protected MediaItem(Parcel in) {
         imageUrl = in.readString();

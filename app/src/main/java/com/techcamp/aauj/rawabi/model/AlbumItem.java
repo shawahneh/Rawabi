@@ -6,7 +6,19 @@ import android.os.Parcelable;
 public class AlbumItem implements Parcelable{
     private String imgUrl; //main image for the album
     private String title;
+    private String description;
     private int id;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 
     public int getId() {
         return id;
@@ -23,6 +35,7 @@ public class AlbumItem implements Parcelable{
         imgUrl = in.readString();
         title = in.readString();
         id = in.readInt();
+        description = in.readString();
     }
 
     public static final Creator<AlbumItem> CREATOR = new Creator<AlbumItem>() {
@@ -63,5 +76,6 @@ public class AlbumItem implements Parcelable{
         dest.writeString(imgUrl);
         dest.writeString(title);
         dest.writeInt(id);
+        dest.writeString(description);
     }
 }

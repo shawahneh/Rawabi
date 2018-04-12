@@ -33,7 +33,7 @@ public class StringUtil {
     public static String getJourneyStatus(int status){
         switch (status){
             case Journey.STATUS_PENDING:
-                return "Pending";
+                return "Available to riders";
             case Journey.STATUS_CANCELLED:
                 return "Cancelled";
             case Journey.STATUS_COMPLETED:

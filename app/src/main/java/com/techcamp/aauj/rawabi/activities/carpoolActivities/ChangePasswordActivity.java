@@ -31,6 +31,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Change password");
 
         //binding
         txtOldPassword = findViewById(R.id.txtOldPassword);

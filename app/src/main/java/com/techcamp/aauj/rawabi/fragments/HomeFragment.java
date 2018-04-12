@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebDummy;
+import com.techcamp.aauj.rawabi.activities.basicActivities.AlbumsListActivity;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -295,7 +296,7 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(getContext(),TransportationActivity.class),options.toBundle());
                     break;
                 case TAG_MEDIA:
-                    startActivity(new Intent(getContext(),MediaListActivity.class),options.toBundle());
+                    startActivity(new Intent(getContext(),AlbumsListActivity.class),options.toBundle());
                     break;
                 case TAG_EVENTS:
                     startActivity(new Intent(getContext(),EventsListActivity.class),options.toBundle());

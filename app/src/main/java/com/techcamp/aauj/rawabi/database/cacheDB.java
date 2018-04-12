@@ -19,7 +19,7 @@ import java.util.Date;
 public class cacheDB<B extends CacheItem,T extends cacheTable> extends DBHelper<CacheItem> {
 
     private static cacheDB instance;
-    public static cacheDB getInstance(Context context){
+    public static synchronized cacheDB getInstance(Context context){
         if(instance == null){
             instance = new cacheDB(context);
         }

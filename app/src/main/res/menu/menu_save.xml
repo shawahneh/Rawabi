@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.techcamp.aauj.rawabi.activities.abstractActivities.ScrollingActivity">
     <item
-        android:icon="@drawable/ic_refresh_white_24dp"
         android:id="@+id/action_save"
         android:orderInCategory="100"
         android:title="@string/save"

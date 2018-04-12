@@ -131,7 +131,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void userRegister(User user, final ICallBack<Boolean> booleanITriger) {
+    public void userRegister(User user, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
 
         //($username,$password,$fullname,$gender,$birthdate,$address,$userType,$image,$phone)
@@ -156,20 +156,20 @@ public class WebApi implements BasicApi,AuthWebApi
 
                     if (value.getString("registration").equals("success")){
                         Log.i("tagWebApi", "register process is done");
-                        booleanITriger.onResponse(true);
+                        booleanIcallBack.onResponse(true);
                     }else
                     {
                         Log.i("tagWebApi", "register process is failed");
-                        booleanITriger.onResponse(false);
+                        booleanIcallBack.onResponse(false);
                     }
                     }else{
                         Log.i("tagWebApi", "no registration");
-                        booleanITriger.onError("error, no registration");
+                        booleanIcallBack.onError("error, no registration");
                     }
 
                 } catch (JSONException e) {
                     Log.i("tagWebApi","Error on JSON getting item");
-                    booleanITriger.onError(e.toString());
+                    booleanIcallBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -178,7 +178,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.i("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                booleanITriger.onError(err);
+                booleanIcallBack.onError(err);
             }
 
         });
@@ -186,7 +186,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     // Done By Maysara
     @Override
-    public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
 
         params.put("action","setUserDetails");
@@ -206,15 +206,15 @@ public class WebApi implements BasicApi,AuthWebApi
                 try {
                     if (item.getString("status").equals("success")){
                         Log.i("tagWebApi", "setUserDetails process is done");
-                        booleanITriger.onResponse(true);
+                        booleanIcallBack.onResponse(true);
                     }else
                     {
                         Log.i("tagWebApi", "setUserDetails process is failed");
-                        booleanITriger.onResponse(false);
+                        booleanIcallBack.onResponse(false);
                     }
                 } catch (JSONException e) {
                     Log.i("tagWebApi","Error on JSON getting item");
-                    booleanITriger.onError(e.toString());
+                    booleanIcallBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -223,7 +223,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.i("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                booleanITriger.onError(err);
+                booleanIcallBack.onError(err);
             }
         });
 
@@ -350,7 +350,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //DONE
     @Override
-    public void checkAuth(String username, String password, final ICallBack<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","userAuth");
         params.put("username",username);
@@ -362,16 +362,16 @@ public class WebApi implements BasicApi,AuthWebApi
                     if (value.getString("auth").equals("true")){
 
                         Log.i("tagWebApi", "user auth is ok");
-                        booleanITriger.onResponse(true);
+                        booleanIcallBack.onResponse(true);
                     }else
                     {
 
                         Log.i("tagWebApi", "user auth is not ok");
-                        booleanITriger.onResponse(false);
+                        booleanIcallBack.onResponse(false);
                     }
                 } catch (JSONException e) {
                     Log.i("tagWebApi","Error on JSON getting item");
-                    booleanITriger.onError(e.toString());
+                    booleanIcallBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -381,7 +381,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                booleanITriger.onError(err);
+                booleanIcallBack.onError(err);
             }
         });
     }
@@ -409,25 +409,29 @@ public class WebApi implements BasicApi,AuthWebApi
                 params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        Log.d("tagWebApi", "onSuccess");
+                        Log.d("tagWebApi", "setImageForUser, onSuccess");
+                        Log.d("tagWebApi", "setImageForUser, response body=" + responseBody);
                         String imageUrl;
                         try {
                             JSONObject tmp = new JSONObject(new String(responseBody));
                             if(tmp.has("success")){
                                 imageUrl = tmp.getString("success");
+                        Log.d("tagWebApi", "imageUrl, " + imageUrl);
                                 user.setImageurl(imageUrl);
                                 callBack.onResponse(imageUrl);
-                            }
+                            }else
+                                callBack.onResponse(null);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            callBack.onResponse(null);
+                            Log.e("tagWebApi","JSONObject, "+e.getMessage());
+                            callBack.onError(e.getMessage());
                         }
 
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Log.d("tagWebApi", "error code " + statusCode);
+                        Log.e("tagWebApi", "onFailure error code " + statusCode);
                         callBack.onError(error.getMessage());
                     }
                 });
@@ -757,7 +761,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
 
 //    @Override
-//    public void getCustomJourney(int jid, ICallBack<CustomJourney> triger) {
+//    public void getCustomJourney(int jid, ICallBack<CustomJourney> callBack) {
 //
 //    }
 
@@ -1136,7 +1140,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //Done By Maysara
     @Override
-    public void getStatusOfRide(int rideId, final ICallBack<Integer> triger) {
+    public void getStatusOfRide(int rideId, final ICallBack<Integer> callBack) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getStatusOfRide");
@@ -1154,12 +1158,12 @@ public class WebApi implements BasicApi,AuthWebApi
                     int rideStatus;
                     if(value.has("rideStatus")){
                         rideStatus = value.getInt("rideStatus");
-                        triger.onResponse(rideStatus);
+                        callBack.onResponse(rideStatus);
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                 }
 
 
@@ -1169,7 +1173,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                callBack.onError(err);
             }
         });
 
@@ -1177,7 +1181,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     //Done By Maysara
     @Override
-    public void getEventAtDate(Date date, final IListCallBack<Event> eventITriger) {
+    public void getEventAtDate(Date date, final IListCallBack<Event> eventIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getEventAtDate");
         params.put("date" , date+"");
@@ -1206,15 +1210,15 @@ public class WebApi implements BasicApi,AuthWebApi
 
                         }
 
-                        eventITriger.onResponse(eventsArray);
+                        eventIcallBack.onResponse(eventsArray);
 
 
                     }
                 } catch (JSONException e) {
-                    eventITriger.onError(e.toString());
+                    eventIcallBack.onError(e.toString());
                     e.printStackTrace();
                 } catch (ParseException e) {
-                    eventITriger.onError(e.toString());
+                    eventIcallBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -1223,7 +1227,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                eventITriger.onError(err);
+                eventIcallBack.onError(err);
 
             }
         });
@@ -1286,7 +1290,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
     //Done By Maysara
     @Override
-    public void getAnnouns(final IListCallBack<Announcement> eventITriger) {
+    public void getAnnouns(final IListCallBack<Announcement> eventIcallBack) {
 
 
         Map<String,String> params = new HashMap<String, String>();
@@ -1319,15 +1323,15 @@ public class WebApi implements BasicApi,AuthWebApi
                             announcementsArray.add(announcementTemp);
                         }
 
-                        eventITriger.onResponse(announcementsArray);
+                        eventIcallBack.onResponse(announcementsArray);
                     }
 
 
                 }catch (JSONException e){
-                    eventITriger.onError(e.toString());
+                    eventIcallBack.onError(e.toString());
                     e.printStackTrace();
                 } catch (ParseException e) {
-                    eventITriger.onError(e.toString());
+                    eventIcallBack.onError(e.toString());
                     e.printStackTrace();
                 }
             }
@@ -1336,7 +1340,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                eventITriger.onError(err);
+                eventIcallBack.onError(err);
             }
         });
 
@@ -1406,7 +1410,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
     //Done By Maysara
     @Override
-    public void getTransportation(final ICallBack<Transportation> triger) {
+    public void getTransportation(final ICallBack<Transportation> callBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getTransportation");
 
@@ -1445,7 +1449,7 @@ public class WebApi implements BasicApi,AuthWebApi
                         }
                         transportation.setFromRamallah(fromRamallahList);
                         transportation.setFromRawabi(fromRawabiList);
-                        triger.onResponse(transportation);
+                        callBack.onResponse(transportation);
                     }else{
                         for (int i=0 ; i<fromRamallahJsonArray.length() ; i++){
                             fromRamallahTE = new TransportationElement();
@@ -1467,12 +1471,12 @@ public class WebApi implements BasicApi,AuthWebApi
                         }
                         transportation.setFromRamallah(fromRamallahList);
                         transportation.setFromRawabi(fromRawabiList);
-                        triger.onResponse(transportation);
+                        callBack.onResponse(transportation);
                     }
                 }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    triger.onError(e.toString());
+                    callBack.onError(e.toString());
                 }
 
             }
@@ -1481,7 +1485,7 @@ public class WebApi implements BasicApi,AuthWebApi
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
-                triger.onError(err);
+                callBack.onError(err);
             }
         });
 

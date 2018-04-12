@@ -31,6 +31,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by User on 11/15/2017.
@@ -98,7 +99,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getRidersOfJourney(Journey journey, final IListCallBack<Ride> triger) {
+    public void getRidersOfJourney(Journey journey, final IListCallBack<Ride> callBack) {
         final ArrayList<Ride> rides = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("rides");
         mRef.orderByChild("journey/id").equalTo(journey.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -111,12 +112,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                     fireRide.setId(Integer.parseInt( dataSnapshot1.getKey()) );
                     rides.add(fireRide.toRide());
                 }
-                triger.onResponse(rides);
+                callBack.onResponse(rides);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                triger.onError(databaseError.getMessage());
+                callBack.onError(databaseError.getMessage());
             }
         });
     }
@@ -134,12 +135,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> triger) {
+    public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> callBack) {
         DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
         mData.child("" + rideId).child("orderStatus").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                    triger.onResponse(task.isSuccessful());
+                    callBack.onResponse(task.isSuccessful());
             }
         });
     }
@@ -150,7 +151,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getStatusOfRide(int rideId, final ICallBack<Integer> triger) {
+    public void getStatusOfRide(int rideId, final ICallBack<Integer> callBack) {
         DatabaseReference mData = FirebaseDatabase.getInstance().getReference().child("rides");
         mData.child("" + rideId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -162,18 +163,18 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                         else if(fireRide.getOrderStatus() == Ride.STATUS_PENDING) fireRide.setOrderStatus(Ride.STATUS_TIME_LEFT);
                     }
                 }
-                triger.onResponse(fireRide.getOrderStatus());
+                callBack.onResponse(fireRide.getOrderStatus());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                triger.onError(databaseError.getMessage());
+                callBack.onError(databaseError.getMessage());
             }
         });
     }
 
     @Override
-    public void getJourneys(int userId, int limitStart, int limitNum,final IListCallBack<Journey> triger) {
+    public void getJourneys(int userId, int limitStart, int limitNum,final IListCallBack<Journey> callBack) {
         final ArrayList<Journey> journeys = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
         mRef.orderByChild("user/id").equalTo(SPController.getLocalUser(context).getId()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -187,12 +188,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                     updateJourneyStatus(journey);
                     journeys.add(journey.toJourney());
                 }
-                triger.onResponse(journeys);
+                callBack.onResponse(journeys);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                triger.onError(databaseError.getMessage());
+                callBack.onError(databaseError.getMessage());
             }
         });
     }
@@ -204,10 +205,10 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getJourneyDetails(int id, ICallBack<Journey> triger) {
+    public void getJourneyDetails(int id, ICallBack<Journey> callBack) {
         Journey journey1 = new Journey();
         journey1.setId(id);
-//        changeJourneyStatusAndGetRiders(journey1,Journey.STATUS_PENDING,triger);
+//        changeJourneyStatusAndGetRiders(journey1,Journey.STATUS_PENDING,callBack);
     }
 
     @Override
@@ -226,7 +227,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final IListCallBack<Journey> triger) {
+    public void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy,final IListCallBack<Journey> callBack) {
         final ArrayList<Journey> journeys = new ArrayList<>();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("journeys");
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -241,12 +242,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                         if(journey.getStatus() == Journey.STATUS_PENDING)
                             journeys.add(journey.toJourney());
                 }
-                triger.onResponse(journeys);
+                callBack.onResponse(journeys);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                triger.onError(databaseError.getMessage());
+                callBack.onError(databaseError.getMessage());
             }
         });
 //
@@ -293,7 +294,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //
 //
 //
-//                triger.onResponse(journeys);
+//                callBack.onResponse(journeys);
 //
 //            }
 //        }, 1000);
@@ -301,29 +302,29 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getNumberOfJourneys(final ICallBack<Integer> triger) {
+    public void getNumberOfJourneys(final ICallBack<Integer> callBack) {
         FirebaseDatabase.getInstance().getReference().child("journeys")
                 .orderByChild("status").equalTo(Journey.STATUS_PENDING).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long i = dataSnapshot.getChildrenCount();
-                triger.onResponse((int)i);
+                callBack.onResponse((int)i);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                triger.onError(databaseError.getMessage());
+                callBack.onError(databaseError.getMessage());
             }
         });
     }
 
     @Override
-    public void changeJourneyStatus(Journey journey, int status, ICallBack<Boolean> triger) {
+    public void changeJourneyStatus(Journey journey, int status, ICallBack<Boolean> callBack) {
 
     }
 
 //    @Override
-//    public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final ICallBack<CustomJourney> triger) {
+//    public void changeJourneyStatusAndGetRiders(Journey journey, final int status, final ICallBack<CustomJourney> callBack) {
 //        FirebaseDatabase.getInstance().getReference().child("journeys").child(journey.getId()+"")
 //                .child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
 //            @Override
@@ -335,16 +336,16 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //                            CustomJourney cj = new CustomJourney();
 //                            cj.setStatus(status);
 //                            cj.setRiders(item);
-//                            triger.onResponse(cj);
+//                            callBack.onResponse(cj);
 //                        }
 //
 //                        @Override
 //                        public void onError(String err) {
-//                            triger.onError(err);
+//                            callBack.onError(err);
 //                        }
 //                    });
 //                }else
-//                    triger.onError("err");
+//                    callBack.onError("err");
 //            }
 //        });
 
@@ -352,7 +353,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //    }
 
 //    @Override
-//    public void getCustomJourney(final int jid, final ICallBack<CustomJourney> triger) {
+//    public void getCustomJourney(final int jid, final ICallBack<CustomJourney> callBack) {
 //        getRidersOfJourney(jid, new ICallBack<ArrayList<Ride>>() {
 //            @Override
 //            public void onResponse(final ArrayList<Ride> item) {
@@ -364,12 +365,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //                        CustomJourney customJourney = new CustomJourney();
 //                        customJourney.setStatus(fireJourney.getStatus());
 //                        customJourney.setRiders(item);
-//                        triger.onResponse(customJourney);
+//                        callBack.onResponse(customJourney);
 //                    }
 //
 //                    @Override
 //                    public void onCancelled(DatabaseError databaseError) {
-//                        triger.onError(databaseError.getMessage());
+//                        callBack.onError(databaseError.getMessage());
 //                    }
 //                });
 //
@@ -377,22 +378,22 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //
 //            @Override
 //            public void onError(String err) {
-//                triger.onError(err);
+//                callBack.onError(err);
 //            }
 //        });
 //    }
 
     @Override
-    public void userRegister(User user, ICallBack<Boolean> booleanITriger) {
+    public void userRegister(User user, ICallBack<Boolean> booleanIcallBack) {
 
     }
 
     @Override
-    public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanITriger) {
+    public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanIcallBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                booleanITriger.onResponse(true);
+                booleanIcallBack.onResponse(true);
             }
         }, 1000);
     }
@@ -420,7 +421,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void checkAuth(String username, String password, ICallBack<Boolean> booleanITriger) {
+    public void checkAuth(String username, String password, ICallBack<Boolean> booleanIcallBack) {
 
     }
 
@@ -430,7 +431,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
     }
 
     @Override
-    public void getAnnouns(final IListCallBack<Announcement> eventITriger) {
+    public void getAnnouns(final IListCallBack<Announcement> eventIcallBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -467,13 +468,13 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 
                 }
 
-                eventITriger.onResponse(dummyEvents);
+                eventIcallBack.onResponse(dummyEvents);
             }
         },1000);
     }
 
     @Override
-    public void getJobs(final IListCallBack<Job> triger) {
+    public void getJobs(final IListCallBack<Job> callBack) {
 //        new android.os.Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -502,13 +503,13 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 //                    dummyEvents.add(job3);
 //
 //
-//                triger.onResponse(dummyEvents);
+//                callBack.onResponse(dummyEvents);
 //            }
 //        },1000);
     }
 
     @Override
-    public void getTransportation(final ICallBack<Transportation> triger) {
+    public void getTransportation(final ICallBack<Transportation> callBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -532,23 +533,23 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                 t.setFromRamallah(list1);
                 t.setFromRawabi(list2);
 
-                triger.onResponse(t);
+                callBack.onResponse(t);
             }
         },1000);
     }
 
     @Override
-    public void getWeather(final ICallBack<String> triger) {
+    public void getWeather(final ICallBack<String> callBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                triger.onResponse("20 °C partly cloudy");
+                callBack.onResponse("20 °C partly cloudy");
             }
         }, 1000);
     }
 
     @Override
-    public void getEventAtDate(Date date, final IListCallBack<Event> eventITriger) {
+    public void getEventAtDate(Date date, final IListCallBack<Event> eventIcallBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -579,7 +580,7 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                 dummyEvents.add(event);
                 dummyEvents.add(event);
 
-                eventITriger.onResponse(dummyEvents);
+                eventIcallBack.onResponse(dummyEvents);
             }
         },1000);
 
@@ -587,12 +588,12 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 
 
     @Override
-    public void getEvents(IListCallBack<Event> triger) {
-        getEventAtDate(new Date(),triger);
+    public void getEvents(IListCallBack<Event> callBack) {
+        getEventAtDate(new Date(),callBack);
     }
-/*
-    @Override
-    public void getMedia(final IListCallBack<MediaItem> triger) {
+
+
+    public void getMedia(final IListCallBack<MediaItem> callBack) {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -630,19 +631,31 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
                 dummyMedia.add(item2);
                 dummyMedia.add(item3);
                 dummyMedia.add(item4);
-                triger.onResponse(dummyMedia);
+                callBack.onResponse(dummyMedia);
             }
         },1000);
     }
-*/
+
     @Override
     public void getAlbums(IListCallBack<AlbumItem> callBack) {
-
+        List<AlbumItem> list = new ArrayList<>();
+        AlbumItem albumItem = new AlbumItem();
+        albumItem.setDescription("desc");
+        albumItem.setId(1);
+        albumItem.setImgUrl("https://cdn.pixabay.com/photo/2016/10/27/22/53/heart-1776746_960_720.jpg");
+        albumItem.setTitle("title");
+        
+        list.add(albumItem);
+        list.add(albumItem);
+        list.add(albumItem);
+        list.add(albumItem);
+        list.add(albumItem);
+        callBack.onResponse(list);
     }
 
     @Override
     public void getGalleryForAlbum(int albumId, IListCallBack<MediaItem> callBack) {
-
+        getMedia(callBack);
     }
 
 

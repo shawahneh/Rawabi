@@ -2,8 +2,11 @@ package com.techcamp.aauj.rawabi.controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.User;
 
@@ -17,6 +20,7 @@ public class SPController {
     public static User getLocalUser(Context context){
         SharedPreferences sp = context.getSharedPreferences("dbUser",Context.MODE_PRIVATE);
 
+        /*
         String username = sp.getString("username",null);
         String password = sp.getString("password",null);
         String name = sp.getString("name",null);
@@ -33,6 +37,13 @@ public class SPController {
         if(username == null)
             return null;
         return user;
+
+        */
+        String gsonString = sp.getString("userGson",null);
+        if(gsonString == null)
+            return null;
+
+        return new Gson().fromJson(gsonString,User.class);
     }
     public static void saveLocalUser(Context context, User user){
         SharedPreferences sp = context.getSharedPreferences("dbUser",Context.MODE_PRIVATE);
@@ -41,14 +52,22 @@ public class SPController {
             editor.clear();
         }else{
 
+            String gsonString = new Gson().toJson(user);
+
+            Log.d("tag","user Gson="+gsonString);
+
+            /*
         editor.putString("username",user.getUsername());
         editor.putString("password",user.getPassword());
         editor.putString("name",user.getFullname());
         editor.putInt("id",user.getId());
         editor.putString("imageurl",user.getImageurl());
         editor.putString("phone",user.getPhone());
+
+        */
+            editor.putString("userGson",gsonString);
         }
-        editor.apply();
+        editor.commit();
     }
     public static void savePendingJourney(Context context, Journey journey){
         SharedPreferences sp = context.getSharedPreferences("pendingJourney",Context.MODE_PRIVATE);
@@ -101,6 +120,16 @@ public class SPController {
 
     public static LatLng getLocationOfRawabi(){
         return new LatLng(32.008049, 35.187367);
+    }
+    public static void saveString(Context context,String key, String value){
+        SharedPreferences sp = context.getSharedPreferences("variables",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key,value);
+        editor.apply();
+    }
+    public static String getString(Context context,String key){
+        SharedPreferences sp = context.getSharedPreferences("variables",Context.MODE_PRIVATE);
+        return sp.getString(key,null);
     }
 
 }

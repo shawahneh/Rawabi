@@ -21,6 +21,7 @@ import android.view.MenuItem;
 
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.activities.basicActivities.AlbumsListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.CarpoolMainActivity;
@@ -179,7 +180,7 @@ public class DashboardActivity extends AppCompatActivity
                 startActivity(new Intent(this,TransportationActivity.class));
                 break;
             case HomeFragment.TAG_MEDIA:
-                startActivity(new Intent(this,MediaListActivity.class));
+                startActivity(new Intent(this,AlbumsListActivity.class));
                 break;
 
         }

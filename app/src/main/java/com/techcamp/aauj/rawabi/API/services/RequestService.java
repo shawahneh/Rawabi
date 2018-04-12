@@ -9,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.techcamp.aauj.rawabi.API.OfflineApi;
 import com.techcamp.aauj.rawabi.API.VolleySingleton;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 
@@ -101,10 +100,11 @@ public abstract class RequestService<T> extends Request<T> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-            if(saveOffline)
-                OfflineApi.setData(mContext,codeOffline,new JSONObject(jsonString));
 
             T result = parseResponse(new JSONObject(jsonString));
+
+            if(saveOffline)
+                OfflineApi.saveModel(mContext,result,codeOffline);
             if(result == null)
                 return Response.error(new ParseError(new Exception("null parsing")));
             return Response.success(result,

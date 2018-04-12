@@ -127,7 +127,7 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
             mEventDate.setText(DateUtil.getRelativeTime(event.getDate()));
             mEventName.setText(event.getName());
             tvDateMonth.setText(DateUtil.getMonthName(event.getDate()));
-            tvDateDay.setText(event.getDate().getDay() + "");
+            tvDateDay.setText(DateUtil.getDayOfMonth(event.getDate()) + "");
 
             if(event.getImageUrl() != null)
                 Glide.with(getContext()).load(event.getImageUrl()).into(mEventImage);

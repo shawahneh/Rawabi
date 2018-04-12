@@ -67,6 +67,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+
+
 public abstract class MapActivity extends AppCompatActivity implements OnMapReadyCallback,TimePickerDialog.OnTimeSetListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -97,7 +99,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
     private View layoutMessage;
     private TextView tvMessage;
     Polyline mRoute;
-    private Button btnSetStart,btnSetEnd,btnSetTime;
+    protected Button btnSetStart,btnSetEnd,btnSetTime;
 
     private FloatingActionButton fabRawabi;
 
@@ -157,7 +159,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(rawabi,DEFAULT_ZOOM));
             }
         });
-//        fabRawabi.show();
+
 
 
         layoutMessage.setOnClickListener(new View.OnClickListener() {

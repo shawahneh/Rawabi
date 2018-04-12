@@ -20,7 +20,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
+import com.techcamp.aauj.rawabi.controllers.SPController;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -33,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+
 /**
  * Created by ALa on 12/16/2017.
  */
@@ -40,7 +44,7 @@ import java.util.List;
 public class MapRiderActivity extends MapActivity {
     //mMap
     private final int CODE_SELECT_DRIVER =11;
-    private CarpoolApi webApi = WebApi.getInstance();
+    private CarpoolApi webApi = WebFactory.getCarpoolService();
     private Date mDateRiding;
     private DriverDetailLayout mDriverDetailLayout;
     private List<Journey> mJourneys;
@@ -56,6 +60,75 @@ public class MapRiderActivity extends MapActivity {
         MapUtil.getCurrentLoc(this,null);
 
         mDriverDetailLayout = new DriverDetailLayout();
+
+
+        showTourGuide(0 /*  start point view  */);
+    }
+
+    private void showTourGuide(int startNumber) {
+        // TODO: 4/11/2018 enable these 3 lines after testing
+        /*
+        String id = SPController.getString(this,"tourGuid");
+        if(id != null)
+            return;
+*/
+        switch (startNumber){
+            case 0: // for start button
+                new GuideView.Builder(this)
+                        .setTitle("Start point address")
+                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setGravity(GuideView.Gravity.auto) //optional
+                        .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
+                        .setTargetView(btnSetStart)
+                        .setContentTextSize(12)//optional
+                        .setTitleTextSize(14)//optional
+                        .setGuideListener(new GuideView.GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                showTourGuide(1);
+                            }
+                        })
+                        .build()
+                        .show();
+                break;
+            case 1: // for end button
+                new GuideView.Builder(this)
+                        .setTitle("End point address")
+                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setGravity(GuideView.Gravity.auto) //optional
+                        .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
+                        .setTargetView(btnSetEnd)
+                        .setContentTextSize(12)//optional
+                        .setTitleTextSize(14)//optional
+                        .setGuideListener(new GuideView.GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                showTourGuide(2);
+                            }
+                        })
+                        .build()
+                        .show();
+                break;
+            case 2: // for time button
+                new GuideView.Builder(this)
+                        .setTitle("Time for travelling")
+                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setGravity(GuideView.Gravity.auto) //optional
+                        .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
+                        .setTargetView(btnSetTime)
+                        .setContentTextSize(12)//optional
+                        .setTitleTextSize(14)//optional
+                        .setGuideListener(new GuideView.GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                SPController.saveString(MapRiderActivity.this,"tourGuid","1");
+                            }
+                        })
+                        .build()
+                        .show();
+                break;
+        }
+
     }
 
     @Override

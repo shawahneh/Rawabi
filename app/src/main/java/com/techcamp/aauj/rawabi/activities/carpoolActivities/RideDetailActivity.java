@@ -26,6 +26,7 @@ import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -68,7 +69,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
 
 
 
-        tvDate.setText(DateUtils.getRelativeDateTimeString(this,mRide.getJourney().getGoingDate().getTime(),DateUtils.MINUTE_IN_MILLIS,DateUtils.WEEK_IN_MILLIS,0));
+        tvDate.setText(DateUtil.getRelativeTime(mRide.getJourney().getGoingDate()));
         tvFrom.setText(MapUtil.getSavedAddress(this,mRide.getJourney().getStartPoint()));
         tvTo.setText(MapUtil.getSavedAddress(this,mRide.getJourney().getEndPoint()));
         tvCarDesc.setText(mRide.getJourney().getCarDescription());

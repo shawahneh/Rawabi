@@ -1,5 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,8 +10,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
+import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.MediaItem;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
@@ -23,10 +28,17 @@ import java.util.List;
  * Created by ALa on 2/3/2018.
  */
 
+/**
+ * this fragment receives an albumItem object, and it loads all images of that album from web and shows them in a list
+ */
 public class MediaListFragment extends ListFragment implements IListCallBack<MediaItem> {
     private MyAdapter mAdapter;
-    public static Fragment newInstance(){
+    private AlbumItem mAlbum;
+    public static Fragment newInstance(AlbumItem albumItem){
         Fragment fragment = new MediaListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ARG_ITEM, albumItem);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -36,25 +48,31 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAlbum = getArguments().getParcelable(ARG_ITEM);
+    }
+
+    @Override
     public void setupRecyclerViewAdapter() {
         if(mAdapter == null)
             mAdapter = new MyAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
         // initialize fresco
-        Fresco.initialize(getActivity());
+        Fresco.initialize(getActivity().getApplicationContext());
         loadFromDatabase();
     }
 
     @Override
     protected void loadDataFromWeb() {
-        BasicApi api = WebFactory.getBasicService();
-        api.getMedia(this);
+        BasicApi api = WebApi.getInstance();
+        api.getGalleryForAlbum(mAlbum.getId(),this);
         setLoading(true);
     }
 
     private void loadFromDatabase() {
-        List<MediaItem> list = MediaItemsDB.getInstance(getContext()).getAll();
-        loadListToAdapter(list);
+//        List<MediaItem> list = MediaItemsDB.getInstance(getContext()).getAll();
+//        loadListToAdapter(list);
     }
 
     private void loadListToAdapter(List<MediaItem> list) {
@@ -73,15 +91,9 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
 
     @Override
     public void onResponse(List<MediaItem> value) {
-        //clear db
-        MediaItemsDB.getInstance(getContext()).deleteAll();
-
-        // save to db
-        for (MediaItem mediaItem : value){
-            MediaItemsDB.getInstance(getContext()).saveBean(mediaItem);
-        }
         setLoading(false);
         loadListToAdapter(value);
+
     }
 
     @Override

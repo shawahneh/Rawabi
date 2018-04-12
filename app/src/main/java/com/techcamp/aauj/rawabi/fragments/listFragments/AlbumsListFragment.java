@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.FirebaseDatabase;
 import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
@@ -19,7 +21,12 @@ import com.techcamp.aauj.rawabi.model.AlbumItem;
 import java.util.List;
 
 public class AlbumsListFragment extends ListFragment {
-    BasicApi basicApi = WebFactory.getBasicService();
+    BasicApi basicApi = WebApi.getInstance();
+
+    @Override
+    protected int getNumberOfCols() {
+        return 3;
+    }
 
     @Override
     public void setupRecyclerViewAdapter() {
@@ -30,15 +37,18 @@ public class AlbumsListFragment extends ListFragment {
 
     @Override
     protected void loadDataFromWeb() {
+        progressBarLoading.setVisibility(View.VISIBLE);
         basicApi.getAlbums(new IListCallBack<AlbumItem>() {
             @Override
             public void onResponse(List<AlbumItem> item) {
+                progressBarLoading.setVisibility(View.GONE);
                 MyAdapter adapter = new MyAdapter(item);
                 mRecyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onError(String err) {
+                progressBarLoading.setVisibility(View.GONE);
                 if(getView() != null)
                 Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT).show();
             }
@@ -63,7 +73,8 @@ public class AlbumsListFragment extends ListFragment {
 
         @Override
         public void onClicked(View v) {
-
+            if(mListener != null)
+                mListener.onItemClicked(mItem);
         }
     }
 

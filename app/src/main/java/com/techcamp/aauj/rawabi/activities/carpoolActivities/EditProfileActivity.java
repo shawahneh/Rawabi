@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -127,12 +128,14 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onResponse(String url) {
                 showProgress(false);
                 if(url != null){
+                    Log.d("tag","EditProfileActivity, image uploaded");
                     Toast.makeText(EditProfileActivity.this, "Image changed successfully", Toast.LENGTH_SHORT).show();
                     User user = SPController.getLocalUser(EditProfileActivity.this);
                     user.setImageurl(url);
                     Glide.with(EditProfileActivity.this).load(url).into(imageView);
                     SPController.saveLocalUser(EditProfileActivity.this,user);
                 }else{
+                    Log.e("tag","EditProfileActivity,error uploading image ");
                     onError("onResponse, url is null");
                 }
             }
@@ -212,7 +215,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void changePhoneCommand() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("type new phone number");
+        builder.setTitle("Enter a new phone number");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -233,6 +236,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         if (s){
                             Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                             SPController.saveLocalUser(EditProfileActivity.this,user);
+                            refreshUI();
                         }else
                             onError("error");
                     }
@@ -266,7 +270,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void changeNameCommand() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("type new name");
+        builder.setTitle("Enter a new name");
 
         final EditText input = new EditText(this);
         builder.setView(input);
@@ -284,8 +288,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onResponse(Boolean s) {
                         pDialog.dismissWithAnimation();
                         if (s){
-                            Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                             SPController.saveLocalUser(EditProfileActivity.this,user);
+                            Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            refreshUI();
                         }else
                             onError("error");
                     }
@@ -308,6 +313,11 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    private void refreshUI() {
+        MyAdapter adapter = new MyAdapter(getItems());
+        recyclerView.setAdapter(adapter);
     }
 
     class ProfileItem{

@@ -33,6 +33,7 @@ import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.StringUtil;
 
@@ -56,6 +57,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
     private RecyclerView mRecyclerView;
     private Button btnCancel,btnComplete; // complete is close
     private TextView tvDate,tvFrom,tvTo,tvCarDesc,tvStatus;
+    private TextView tvRiders,tvPendingRidersNumber;
+
     private int newStatus;
     private List<Ride> mRiders;
     private  MyJourneysAdapter adapter;
@@ -78,6 +81,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         tvTo = findViewById(R.id.tvTo);
         tvCarDesc = findViewById(R.id.tvCarDesc);
         tvStatus = findViewById(R.id.tvStatus);
+        tvPendingRidersNumber = findViewById(R.id.tvPendingRidersNumber);
+        tvRiders = findViewById(R.id.tvRiders);
 
 
 
@@ -88,7 +93,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
 
 
-        tvDate.setText(mJourney.getGoingDate().toString());
+        tvDate.setText(DateUtil.getRelativeTime(mJourney.getGoingDate()));
         tvFrom.setText(MapUtil.getSavedAddress(this,mJourney.getStartPoint()));
         tvTo.setText(MapUtil.getSavedAddress(this,mJourney.getEndPoint()));
         tvCarDesc.setText(mJourney.getCarDescription());
@@ -161,6 +166,17 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         adapter = new MyJourneysAdapter(mRiders);
         mRecyclerView.setAdapter(adapter);
         drawMarkers(mRiders);
+        tvRiders.setText(mRiders.size() + " " + getString(R.string.riders));
+
+        //get number of pending riders
+        int rNumber=0;
+        for (Ride ride:
+             mRiders) {
+            if(ride.getOrderStatus() == Ride.STATUS_PENDING)
+                rNumber++;
+        }
+        tvPendingRidersNumber.setText(rNumber+"");
+
     }
     /*
         refresh data on recyclerView
@@ -385,7 +401,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
      * this class is for riders of the journey
      */
     private class MyJourneysAdapter extends RecyclerView.Adapter<MyJourneysAdapter.MyJourneyHolder>{
-        List<Ride> rides = new ArrayList<>();
+        List<Ride> rides;
 
         public MyJourneysAdapter(List<Ride> rides) {
             this.rides = rides;
@@ -411,6 +427,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         @Override
         public int getItemCount() {
+            if(rides == null) return 0;
             return rides.size();
         }
 
@@ -436,7 +453,12 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 tvRating.setText(ride.getUser().getRating() + "/5");
 
                 if(ride.getUser().getImageurl() != null)
-                    Glide.with(itemView.getContext()).load(ride.getUser().getImageurl()).apply(RequestOptions.circleCropTransform()).into(imageView);
+                    Glide.with(itemView.getContext()).load(ride.getUser().getImageurl())
+                            .apply(RequestOptions.placeholderOf(R.drawable.person))
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(imageView);
+
+                // when the rider is pending and journey is still pending -> you accept or reject riders
                 if (ride.getOrderStatus() == Ride.STATUS_PENDING && mJourney.getStatus() == Journey.STATUS_PENDING){
                     btnAccept.setVisibility(View.VISIBLE);
                     btnReject.setVisibility(View.VISIBLE);

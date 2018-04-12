@@ -127,7 +127,10 @@
         <activity
             android:name=".activities.carpoolActivities.AddImageActivity"
             android:theme="@style/AppTheme.Carpool" />
-        <activity android:name=".activities.carpoolActivities.ChangePasswordActivity"></activity>
+        <activity android:name=".activities.carpoolActivities.ChangePasswordActivity"
+            android:theme="@style/AppTheme.Carpool"/>
+        <activity android:name=".activities.basicActivities.AlbumsListActivity"
+            android:theme="@style/AppTheme.Basic"/>
     </application>
 
 </manifest>

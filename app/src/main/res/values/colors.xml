@@ -24,6 +24,7 @@
 
     <color name="city">#f7f7f7</color>
     <color name="transWhite">#aaffffff</color>
+    <color name="blue_transparent">#cacde0ed</color>
 
 
 </resources>

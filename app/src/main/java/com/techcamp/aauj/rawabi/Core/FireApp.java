@@ -2,6 +2,7 @@ package com.techcamp.aauj.rawabi.Core;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 
 /**
@@ -15,5 +16,7 @@ public class FireApp extends Application{
 
         //initialize Web API
         WebFactory.initAll(getApplicationContext());
+
+        Fresco.initialize(getApplicationContext());
     }
 }

@@ -50,5 +50,8 @@ dependencies {
     //asyncHttp
     compile 'com.loopj.android:android-async-http:1.4.9'
 
+    //FlatShowCaseView
+    compile 'com.github.mreram:ShowCaseView:1.0.5'
+
 }
 apply plugin: 'com.google.gms.google-services'

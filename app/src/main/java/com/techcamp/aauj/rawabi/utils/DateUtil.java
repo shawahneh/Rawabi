@@ -23,10 +23,18 @@ public class DateUtil {
     public static String getMonthName(Date date){
         Calendar cal= Calendar.getInstance();
         cal.setTime(date);
-        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM",Locale.getDefault());
         String month_name = month_date.format(cal.getTime());
         return month_name;
     }
+    public static String getDayOfMonth(Date date){
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(date);
+        SimpleDateFormat month_date = new SimpleDateFormat("dd",Locale.getDefault());
+        String month_name = month_date.format(cal.getTime());
+        return month_name;
+    }
+
 //    public static String formatDate(long time){
 //        Date date = new Date(time);
 //        Date nowDate = new Date();

@@ -6,25 +6,29 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:src="@drawable/carpool_h1"
         android:layout_weight="1"
         android:id="@+id/imageView"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
     <TextView
+        android:visibility="gone"
         android:id="@+id/tvTitle"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
-        android:textSize="25dp"
-        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textColor="@color/black"
         android:text="@string/carpool"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textSize="18sp"
+        android:textAlignment="center"
         android:id="@+id/tvDescription"
         android:layout_marginTop="10dp"
-        android:textColor="@color/gray_light"
+        android:textColor="@color/white"
         android:text="@string/hello_blank_fragment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
-import com.techcamp.aauj.rawabi.API.OfflineApi;
+import com.techcamp.aauj.rawabi.API.services.OfflineApi;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
@@ -43,7 +43,10 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
 
     @Override
     protected void loadDataFromWeb() {
-        WebService.getInstance().getJobs(this);
+        WebService.getInstance().getJobs(this)
+                .saveOffline(OfflineApi.CODE_JOBS)
+                .start();
+
         setLoading(true);
     }
 

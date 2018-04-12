@@ -54,7 +54,7 @@ public class EventDetailsFragment extends ItemDetailsFragment<Event> {
         tvName.setText(mItem.getName());
         tvDescription.setText(mItem.getDescription());
         tvDate.setText(DateUtil.getRelativeTime(mItem.getDate()));
-        tvDateDay.setText(mItem.getDate().getDay() +"");
+        tvDateDay.setText(DateUtil.getDayOfMonth(mItem.getDate()) +"");
         tvDateMonth.setText(DateUtil.getMonthName(mItem.getDate()));
         if (mItem.getImageUrl() != null) {
             Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);

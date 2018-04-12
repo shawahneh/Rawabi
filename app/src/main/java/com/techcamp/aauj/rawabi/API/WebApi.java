@@ -1491,15 +1491,99 @@ public class WebApi implements BasicApi,AuthWebApi
     public void getWeather(ICallBack<String> callBack) {
 
     }
-
+    //Done by shawahneh
     @Override
-    public void getAlbums(IListCallBack<AlbumItem> callBack) {
+    public void getAlbums(final IListCallBack<AlbumItem> callBack) {
 
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getAlbums");
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                    if(value.has("media")){
+
+                        JSONArray jsonArray = value.getJSONArray("media");
+                        JSONObject jsonTemp;
+                        AlbumItem albumTemp;
+                        ArrayList<AlbumItem> albumArray = new ArrayList<AlbumItem>();
+
+                        for (int i=0 ; i< jsonArray.length() ; i++){
+                            albumTemp = new AlbumItem();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            albumTemp.setId(jsonTemp.getInt("id"));
+
+                            albumTemp.setTitle(jsonTemp.getString("name"));
+                            albumTemp.setDescription(jsonTemp.getString("description"));
+                            albumTemp.setImgUrl(jsonTemp.getString("imageUrl"));
+                            albumArray.add(albumTemp);
+                        }
+
+                        callBack.onResponse(albumArray);
+
+
+                    }
+                } catch (JSONException e) {
+                    callBack.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                callBack.onError(err);
+
+            }
+        });
     }
 
     @Override
-    public void getGalleryForAlbum(int albumId, IListCallBack<MediaItem> callBack) {
+    public void getGalleryForAlbum(int albumId, final IListCallBack<MediaItem> callBack) {
 
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("action","getAlbumImages");
+        params.put("albumId",""+albumId);
+
+        send(params, new ICallBack<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject value) {
+                try {
+                    if(value.has("album")){
+                        JSONObject jsonAlbum = value.getJSONObject("album");
+                        JSONArray jsonArray = jsonAlbum.getJSONArray("images");
+                        JSONObject jsonTemp;
+                        MediaItem mediaTemp;
+                        ArrayList<MediaItem> mediaArray = new ArrayList<MediaItem>();
+
+                        for (int i=0 ; i< jsonArray.length() ; i++){
+                            mediaTemp = new MediaItem();
+                            jsonTemp = jsonArray.getJSONObject(i);
+                            mediaTemp.setId(jsonTemp.getInt("id"));
+                            mediaTemp.setImageUrl(jsonTemp.getString("imageUrl"));
+                            mediaArray.add(mediaTemp);
+                        }
+
+                        callBack.onResponse(mediaArray);
+
+
+                    }
+                } catch (JSONException e) {
+                    callBack.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.d("tagWebApi", "Error while getting data from send() method ");
+                Log.e("tagWebApi",err);
+                callBack.onError(err);
+
+            }
+        });
     }
 
 }

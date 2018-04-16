@@ -43,6 +43,8 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<Holder>
         return mItems.size();
     }
     public void setList(List<T> items){
+        if(items == null)
+            return;
         mItems.clear();
         mItems.addAll(items);
         notifyDataSetChanged();

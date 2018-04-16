@@ -13,6 +13,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.MediaListFragment;
  * Created by ALa on 2/3/2018.
  */
 
+//unused
 public class MediaListActivity extends BasicActivity<MediaItem>  implements ListFragment.IFragmentListener<MediaItem> {
     @Override
     protected int getImage() {

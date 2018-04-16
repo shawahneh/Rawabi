@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -28,6 +29,7 @@ import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 import com.techcamp.aauj.rawabi.utils.MapUtil;
 import com.techcamp.aauj.rawabi.utils.NumberUtil;
 
@@ -66,17 +68,17 @@ public class MapRiderActivity extends MapActivity {
     }
 
     private void showTourGuide(int startNumber) {
-        // TODO: 4/11/2018 enable these 3 lines after testing
-        /*
+
+
         String id = SPController.getString(this,"tourGuid");
         if(id != null)
             return;
-*/
+
         switch (startNumber){
             case 0: // for start button
                 new GuideView.Builder(this)
                         .setTitle("Start point address")
-                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setContentText("Swipe the map\n and click here to set start point")
                         .setGravity(GuideView.Gravity.auto) //optional
                         .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
                         .setTargetView(btnSetStart)
@@ -94,7 +96,7 @@ public class MapRiderActivity extends MapActivity {
             case 1: // for end button
                 new GuideView.Builder(this)
                         .setTitle("End point address")
-                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setContentText("Swipe the map\n and click here to set start point")
                         .setGravity(GuideView.Gravity.auto) //optional
                         .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
                         .setTargetView(btnSetEnd)
@@ -112,7 +114,7 @@ public class MapRiderActivity extends MapActivity {
             case 2: // for time button
                 new GuideView.Builder(this)
                         .setTitle("Time for travelling")
-                        .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+                        .setContentText("click here to select time for travelling")
                         .setGravity(GuideView.Gravity.auto) //optional
                         .setDismissType(GuideView.DismissType.anywhere) //optional - default GuideView.DismissType.targetView
                         .setTargetView(btnSetTime)
@@ -160,6 +162,7 @@ public class MapRiderActivity extends MapActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK && requestCode == CODE_SELECT_DRIVER){
             Journey journey = data.getParcelableExtra("data");
             selectDriver(journey);
@@ -303,16 +306,19 @@ public class MapRiderActivity extends MapActivity {
 
 
             User user = mJourney.getUser();
-            if(user.getImageurl() != null)
-                Glide.with(getApplicationContext()).load(user.getImageurl()).into(mImageView);
+
+                Glide.with(getApplicationContext()).load(user.getImageurl())
+                .apply(RequestOptions.placeholderOf(R.drawable.person))
+                .apply(RequestOptions.circleCropTransform())
+                        .into(mImageView);
 
             mTextViewName.setText(user.getFullname());
-            mTextViewAvilable.setText(mJourney.getGoingDate().toString());
+            mTextViewAvilable.setText(DateUtil.getRelativeDate(MapRiderActivity.this,mJourney.getGoingDate()));
             mTextViewCarDesc.setText(mJourney.getCarDescription());
             mTextViewPhone.setText(user.getPhone());
             Log.d("tag","user.getPhone()="+user.getPhone());
             double distance = MapUtil.getDistance(mJourney.getStartPoint(),mMarkerFrom.getPosition());
-            mTextViewDistance.setText(NumberUtil.getDistanceString(distance));
+            mTextViewDistance.setText(NumberUtil.getDistanceString(distance)+ " away");
 
             mButtonChoose.setOnClickListener(new View.OnClickListener() {
                 @Override

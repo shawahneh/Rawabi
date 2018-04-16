@@ -24,6 +24,8 @@ import java.util.List;
 
 public class OfflineApi {
     public static final String CODE_JOBS = "code_jobs";
+    public static final String CODE_ALBUMS = "CODE_Albums";
+    public static final String CODE_EVENTS = "CODE_events";
 
     private static void setData(Context context, String code, String data){
         cacheDB.getInstance(context).saveBean(new CacheItem(code,data));
@@ -37,12 +39,22 @@ public class OfflineApi {
 
     public static <T> T getModel(Context context, String code, Type type){
         CacheItem cacheItem = getData(context,code);
+        if(cacheItem == null)
+            return null;
         return new Gson().fromJson(cacheItem.getValue(),type);
     }
 
     public List<Job> getJobs(Context context) {
         return getModel(context,CODE_JOBS,new TypeToken<List<Job>>(){}.getType());
     }
+    public List<AlbumItem> getAlbums(Context context) {
+        return getModel(context,CODE_ALBUMS,new TypeToken<List<AlbumItem>>(){}.getType());
+    }
+
+    public List<Event> getEvents(Context context) {
+        return getModel(context,CODE_EVENTS,new TypeToken<List<Event>>(){}.getType());
+    }
+
 
 
 }

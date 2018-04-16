@@ -16,7 +16,7 @@ import com.techcamp.aauj.rawabi.fragments.listFragments.EventsListFragment;
 public class EventsListActivity extends BasicActivity<Event> implements ListFragment.IFragmentListener<Event> {
     @Override
     protected int getImage() {
-        return R.drawable.ic_events_50dp;
+        return R.drawable.ic_events_new_50dp;
     }
 
     @Override

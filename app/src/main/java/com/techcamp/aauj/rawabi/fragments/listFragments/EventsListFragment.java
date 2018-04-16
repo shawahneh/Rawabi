@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.services.OfflineApi;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
+import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.Event;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.R;
@@ -41,21 +44,27 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
             mAdapter = new MyAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
 
-        loadFromDatabase();
+        loadOffline();
     }
 
     @Override
     protected void loadDataFromWeb() {
-        mCalendarWebApi.getEvents(this);
+//        mCalendarWebApi.getEvents(this);
+        WebService.getInstance().getEvents(this).saveOffline(OfflineApi.CODE_EVENTS).start();
         setLoading(true);
     }
 
-    private void loadFromDatabase() {
-        List<Event> list = EventsDB.getInstance(getContext()).getAll();
-        loadListToAdapter(list);
+    private void loadOffline() {
+        /*  load offline data */
+        try {
+            List<Event> list = new OfflineApi().getEvents(getContext());
+            loadListToAdapter(list);
+        }catch (Exception e){e.printStackTrace();}
     }
 
     private void loadListToAdapter(List<Event> list) {
+        if(list == null)
+            return;
         if(isAdded()){{
             //  available
             if(list.size() <= 0){
@@ -72,13 +81,13 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
     @Override
     public void onResponse(List<Event> value) {
         Log.d("tag","onResponse");
-        updateDatabase(value);
+
         setLoading(false);
 
         // update list
         if(isAdded()){{
             if(value.size() <= 0){
-//                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
+
             }else{
                 hideMessageLayout();
                 loadListToAdapter(value);
@@ -93,15 +102,15 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
         setLoading(false);
     }
-    private void updateDatabase(List<Event> value) {
-        //clear db
-        EventsDB.getInstance(getContext()).deleteAll();
-
-        //save to db
-        for (Event event :value ){
-            EventsDB.getInstance(getContext()).saveBean(event);
-        }
-    }
+//    private void updateDatabase(List<Event> value) {
+//        //clear db
+//        EventsDB.getInstance(getContext()).deleteAll();
+//
+//        //save to db
+//        for (Event event :value ){
+//            EventsDB.getInstance(getContext()).saveBean(event);
+//        }
+//    }
 
 
     private class MyHolder extends Holder<Event> {

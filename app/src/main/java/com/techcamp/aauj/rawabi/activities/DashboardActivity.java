@@ -119,6 +119,9 @@ public class DashboardActivity extends AppCompatActivity
             case R.id.nav_qcenter:
                 onCardClick(HomeFragment.TAG_QCENTER);
                 break;
+            case R.id.nav_jobs:
+                onCardClick(HomeFragment.TAG_JOBS);
+                break;
         }
 
 

@@ -16,7 +16,7 @@ import com.techcamp.aauj.rawabi.fragments.carpoolFragments.MyJourneysListFragmen
 public class MyJourneysListActivity extends EmptyActivity implements ListFragmentWithSwipe.IFragmentListener<Journey> {
     @Override
     protected String getBarTitle() {
-        return "My Journeys";
+        return "My Drives";
     }
 
     @Override

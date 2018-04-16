@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,7 @@ import java.util.List;
 public class MediaListFragment extends ListFragment implements IListCallBack<MediaItem> {
     private MyAdapter mAdapter;
     private AlbumItem mAlbum;
+    private IListener mListener;
     public static Fragment newInstance(AlbumItem albumItem){
         Fragment fragment = new MediaListFragment();
         Bundle bundle = new Bundle();
@@ -119,8 +121,9 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
         }
         @Override
         public void onClicked(View v) {
+            // TODO: 4/12/2018 must implement another fragment listener
             if(mListener != null)
-                mListener.onItemClicked(mItem);
+                mListener.onMediaClicked(mItem);
         }
 
     }
@@ -139,5 +142,24 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
         public Holder getNewHolder(View v) {
             return new MyHolder(v);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof IListener){
+            mListener = (IListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + " must implement IListener");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface IListener{
+        void onMediaClicked(MediaItem item);
     }
 }

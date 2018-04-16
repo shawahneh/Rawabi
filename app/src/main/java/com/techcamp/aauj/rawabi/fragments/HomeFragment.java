@@ -239,7 +239,7 @@ public class HomeFragment extends Fragment {
         DashboardItem jobs = new DashboardItem(TAG_JOBS,R.drawable.ic_job_50dp,"JOBS");
         DashboardItem media = new DashboardItem(TAG_MEDIA,R.drawable.ic_media_50dp,"MEDIA");
         DashboardItem transportation = new DashboardItem(TAG_TRANSPORTATION,R.drawable.ic_bus_50dp,"Transportation");
-        DashboardItem events = new DashboardItem(TAG_EVENTS,R.drawable.ic_events_50dp,"Events");
+        DashboardItem events = new DashboardItem(TAG_EVENTS,R.drawable.ic_events_new_50dp,"Events");
 
 
         jobs.setSummery("Jobs and Internships");

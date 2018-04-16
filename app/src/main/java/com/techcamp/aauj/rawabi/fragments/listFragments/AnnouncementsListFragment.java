@@ -62,6 +62,8 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
     }
 
     private void loadListToAdapter(List<Announcement> list) {
+        if(list == null)
+            return;
         if(isAdded()){{
             //  available
             if(list.size() <= 0){

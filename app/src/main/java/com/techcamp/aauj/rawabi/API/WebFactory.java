@@ -13,7 +13,7 @@ public class WebFactory {
     public static CarpoolApi getCarpoolService(){
         return WebApi.getInstance();
     }
-
+    public static WebOffline getOfflineService(){return new WebOffline();}
 
     public static void initAll(Context context){
         WebApi.init(context);

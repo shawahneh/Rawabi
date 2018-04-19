@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebOffline;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -27,7 +29,7 @@ import java.util.List;
 public class TransportationPageFragment extends Fragment {
     private RecyclerView rvFromRawabi,rvFromRamallah;
     private BasicApi api = WebFactory.getBasicService();
-//    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    private RequestService requestService;
     private ProgressBar progressBarLoading;
     private ICallBack<Transportation> trigger;
     public TransportationPageFragment() {
@@ -41,30 +43,13 @@ public class TransportationPageFragment extends Fragment {
         rvFromRamallah = view.findViewById(R.id.rvFromRamallah);
         rvFromRawabi = view.findViewById(R.id.rvFromRawabi);
         progressBarLoading = view.findViewById(R.id.progressBarLoading);
-//        mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         // transportation available from
         trigger = new ICallBack<Transportation>() {
             @Override
             public void onResponse(Transportation item) {
-//                mSwipeRefreshLayout.setRefreshing(false);
                 progressBarLoading.setVisibility(View.GONE);
-
-                // clear database
-                TransportationDB.getInstance(getContext()).deleteAll();
-
-                // save to database
-                for (TransportationElement tr :
-                        item.getFromRamallah()) {
-                    TransportationDB.getInstance(getContext()).saveBean(tr);
-                }
-                for (TransportationElement tr :
-                        item.getFromRawabi()) {
-                    TransportationDB.getInstance(getContext()).saveBean(tr);
-                }
-
                 loadListToAdapter(item);
-
             }
 
             @Override
@@ -72,7 +57,6 @@ public class TransportationPageFragment extends Fragment {
                 progressBarLoading.setVisibility(View.GONE);
                 if(getView() != null)
                     Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
-//                mSwipeRefreshLayout.setRefreshing(false);
             }
         };
         setupRecyclersView();
@@ -80,32 +64,27 @@ public class TransportationPageFragment extends Fragment {
     }
 
     private void loadListToAdapter(Transportation item) {
-        MyAdapter adapterFromRamallah = new MyAdapter(getContext(),item.getFromRamallah());
-        MyAdapter adapterFromRawabi = new MyAdapter(getContext(),item.getFromRawabi());
+
+        MyAdapter adapterFromRamallah = new MyAdapter(item.getFromRamallah());
+        MyAdapter adapterFromRawabi = new MyAdapter(item.getFromRawabi());
 
         rvFromRamallah.setAdapter(adapterFromRamallah);
         rvFromRawabi.setAdapter(adapterFromRawabi);
     }
 
 
-    private void loadFromDatabase() {
-        List<TransportationElement> listFromRawabi = TransportationDB.getInstance(getContext()).getAllByType(TransportationElement.TYPE_FROM_RAWABI);
-        List<TransportationElement> listFromRamallah = TransportationDB.getInstance(getContext()).getAllByType(TransportationElement.TYPE_FROM_RAMALLAH);
-
-        Transportation transportation = new Transportation();
-        transportation.setFromRamallah( listFromRamallah);
-        transportation.setFromRawabi(listFromRawabi);
-
+    private void loadOffline() {
+        Transportation transportation = new WebOffline().getTransportation(getContext());
         loadListToAdapter(transportation);
-
-
     }
+
 
 
     @Override
     public void onDestroy() {
+        if(requestService != null)
+            requestService.cancel();
         super.onDestroy();
-        trigger = null;
     }
 
     private void setupRecyclersView() {
@@ -115,7 +94,7 @@ public class TransportationPageFragment extends Fragment {
         rvFromRawabi.setHasFixedSize(true);
         rvFromRamallah.setHasFixedSize(true);
 
-        loadFromDatabase();
+        loadOffline();
         loadTransportationFromWeb();
     }
 
@@ -127,10 +106,9 @@ public class TransportationPageFragment extends Fragment {
 
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
-        private Context mContext;
+
         private List<TransportationElement> times;
-        public MyAdapter(Context context,List<TransportationElement> times){
-            mContext = context;
+        public MyAdapter(List<TransportationElement> times){
             this.times = times;
         }
         public  class MyHolder extends RecyclerView.ViewHolder {
@@ -157,6 +135,8 @@ public class TransportationPageFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            if(times == null)
+                return 0;
             return times.size();
         }
     }

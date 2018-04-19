@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebOffline;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Announcement;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -35,6 +37,7 @@ import java.util.List;
 
 public class AnnouncementsListFragment extends ListFragment implements IListCallBack<Announcement> {
     BasicApi api = WebApi.getInstance();
+    private RequestService requestService;
     private MyAdapter mAdapter;
     public static Fragment newInstance(){
         Fragment fragment = new AnnouncementsListFragment();
@@ -46,7 +49,7 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
             mAdapter = new MyAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
 
-        loadFromDatabase();
+        loadOffline();
 
     }
 
@@ -56,36 +59,23 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
         setLoading(true);
     }
 
-    private void loadFromDatabase() {
-        List<Announcement> list = AnnouncementDB.getInstance(getContext()).getAll();
-        loadListToAdapter(list);
+    private void loadOffline() {
+        List<Announcement> announcements =  new WebOffline().getAnnouncements(getContext());
+        loadListToAdapter(announcements);
     }
 
     private void loadListToAdapter(List<Announcement> list) {
-        if(list == null)
-            return;
         if(isAdded()){{
             //  available
-            if(list.size() <= 0){
-                //showMessageLayout("No Announcement",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
-                hideMessageLayout();
-                if(mAdapter != null)
-                    mAdapter.setList(list);
-            }
+            hideMessageLayout();
+            if(mAdapter != null)
+                mAdapter.setList(list);
+
         }}
     }
 
     @Override
     public void onResponse(List<Announcement> value) {
-
-        //clear db
-        AnnouncementDB.getInstance(getContext()).deleteAll();
-
-        //save to db
-        for (Announcement announcement :value ){
-            AnnouncementDB.getInstance(getContext()).saveBean(announcement);
-        }
         setLoading(false);
         loadListToAdapter(value);
     }
@@ -196,6 +186,12 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
 
 
 
+    @Override
+    public void onDestroy() {
+        if(requestService != null)
+            requestService.cancel();
+        super.onDestroy();
+    }
 
 
 

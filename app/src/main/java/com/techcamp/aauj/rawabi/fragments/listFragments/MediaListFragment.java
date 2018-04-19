@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.MediaItem;
@@ -62,32 +66,25 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
         mRecyclerView.setAdapter(mAdapter);
         // initialize fresco
         Fresco.initialize(getActivity().getApplicationContext());
-        loadFromDatabase();
+
     }
 
     @Override
     protected void loadDataFromWeb() {
-        BasicApi api = WebApi.getInstance();
+        BasicApi api = WebFactory.getBasicService();
         api.getGalleryForAlbum(mAlbum.getId(),this);
         setLoading(true);
     }
 
-    private void loadFromDatabase() {
-//        List<MediaItem> list = MediaItemsDB.getInstance(getContext()).getAll();
-//        loadListToAdapter(list);
-    }
+
 
     private void loadListToAdapter(List<MediaItem> list) {
         if(isAdded()){{
-            //  available
-            if(list.size() <= 0){
-                onError("No data available");
-                //showMessageLayout("No Media",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
+
                 hideMessageLayout();
                 if(mAdapter != null)
                     mAdapter.setList(list);
-            }
+
         }}
     }
 
@@ -105,29 +102,36 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
         setLoading(false);
     }
 
-    private class MyHolder extends Holder<MediaItem> {
-        private ImageView mImage;
-        public MyHolder(View view) {
-            super(view);
-            mImage = view.findViewById(R.id.imageView);
-            itemView.setOnClickListener(this);
-        }
 
-        @Override
-        public void bind(MediaItem item, int pos) {
-            super.bind(item,pos);
-            if(item.getImageUrl() != null)
-                Glide.with(getContext()).load(item.getImageUrl()).into(mImage);
-        }
-        @Override
-        public void onClicked(View v) {
-            // TODO: 4/12/2018 must implement another fragment listener
-            if(mListener != null)
-                mListener.onMediaClicked(mItem);
-        }
-
-    }
     private class MyAdapter extends RecyclerAdapter<MediaItem> {
+        private class MyHolder extends Holder<MediaItem> {
+            private ImageView mImage;
+            public MyHolder(View view) {
+                super(view);
+                mImage = view.findViewById(R.id.imageView);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void bind(MediaItem item, int pos) {
+                super.bind(item,pos);
+                if(item.getImageUrl() != null)
+                    Glide.with(getContext()).load(item.getImageUrl()).into(mImage);
+            }
+            @Override
+            public void onClicked(View v) {
+                // TODO: 4/19/2018 check this
+                new ImageViewer.Builder<>(getContext(), mItems)
+                        .setFormatter(new ImageViewer.Formatter<MediaItem>() {
+                            @Override
+                            public String format(MediaItem mediaItem) {
+                                return mediaItem.getImageUrl();
+                            }
+                        })
+                        .show();
+            }
+
+        }
 
         public MyAdapter(List<MediaItem> items) {
             super(items);

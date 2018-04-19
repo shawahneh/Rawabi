@@ -9,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.techcamp.aauj.rawabi.API.VolleySingleton;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 
 import org.json.JSONObject;

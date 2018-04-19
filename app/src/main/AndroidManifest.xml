@@ -130,6 +130,7 @@
         <activity android:name=".activities.carpoolActivities.ChangePasswordActivity"
             android:theme="@style/AppTheme.Carpool"/>
         <activity android:name=".activities.basicActivities.AlbumsListActivity"
+            android:configChanges="orientation"
             android:theme="@style/AppTheme.Basic"/>
     </application>
 

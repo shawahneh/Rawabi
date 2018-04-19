@@ -14,7 +14,7 @@ import java.util.List;
 
 public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<Holder>
 {
-    private List<T> mItems;
+    protected List<T> mItems;
 
     public RecyclerAdapter(List<T> items)
     {

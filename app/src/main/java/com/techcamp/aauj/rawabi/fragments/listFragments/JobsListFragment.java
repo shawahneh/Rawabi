@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
+import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.services.OfflineApi;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.API.WebService;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.R;
@@ -26,7 +28,7 @@ import java.util.List;
  */
 
 public class JobsListFragment extends ListFragment implements IListCallBack<Job> {
-    BasicApi api = WebFactory.getBasicService();
+    private RequestService requestService;
     private MyAdapter mAdapter;
     public static Fragment newInstance(){
         Fragment fragment = new JobsListFragment();
@@ -38,70 +40,47 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
             mAdapter = new MyAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
 
-        loadFromDatabase();
+        loadOffline();
     }
 
     @Override
     protected void loadDataFromWeb() {
-        WebService.getInstance().getJobs(this)
-                .saveOffline(OfflineApi.CODE_JOBS)
+        requestService = WebService.getInstance().getJobs(this)
+                .saveOffline(WebOffline.CODE_JOBS)
                 .start();
 
         setLoading(true);
     }
 
 
-    private void loadFromDatabase() {
-//        List<Job> list = JobsDB.getInstance(getContext()).getAll();
-        try {
-
-        List<Job> list = new OfflineApi().getJobs(getContext());
+    private void loadOffline() {
+        List<Job> list = new WebOffline().getJobs(getContext());
         loadListToAdapter(list);
-
-        }catch (Exception e){e.printStackTrace();}
     }
 
     private void loadListToAdapter(List<Job> list) {
         if(isAdded()){{
-            //  available
-            if(list.size() <= 0){
-//                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
                 hideMessageLayout();
                 if(mAdapter != null)
                 mAdapter.setList(list);
-            }
+
         }}
     }
 
     // data available from WEB
     @Override
     public void onResponse(List<Job> value) {
-
-        updateDatabase(value);
         setLoading(false);
 
-        if(isAdded()){{
             if(value.size() <= 0){
 //                showMessageLayout("No Jobs available",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
+            }else {
                 hideMessageLayout();
                 loadListToAdapter(value);
             }
-        }}
 
     }
 
-    private void updateDatabase(List<Job> value) {
-        //clear database
-        JobsDB.getInstance(getContext()).deleteAll();
-
-        // save to database
-        for (Job j :
-                value) {
-            JobsDB.getInstance(getContext()).saveBean(j);
-        }
-    }
 
     @Override
     public void onError(String err) {
@@ -111,17 +90,23 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
     }
 
 
+    @Override
+    public void onDestroy() {
+        if(requestService != null)
+            requestService.cancel();
+        super.onDestroy();
+    }
+
+
 
     private class MyHolder extends com.techcamp.aauj.rawabi.abstractAdapters.Holder<Job> {
-        private TextView mEventName,mEventDesc,mEventDate;
-        private ImageView mEventImage;
+        private TextView mEventName,mEventDesc,mEventDate,tvCompanyName;
         public MyHolder(View view) {
             super(view);
             mEventDesc = view.findViewById(R.id.eventDescTestView);
             mEventName = view.findViewById(R.id.eventNameTextView);
             mEventDate = view.findViewById(R.id.eventDateTextView);
-
-            mEventImage = view.findViewById(R.id.imageView);
+            tvCompanyName = view.findViewById(R.id.tvCompanyName);
             itemView.setOnClickListener(this);
         }
 
@@ -131,8 +116,7 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
             mEventDesc.setText(job.getDescription());
             mEventDate.setText(DateUtil.getRelativeTime(job.getDate()));
             mEventName.setText(job.getName());
-            if(job.getImageUrl() != null)
-                Glide.with(getContext()).load(job.getImageUrl()).into(mEventImage);
+            tvCompanyName.setText(job.getCompanyName());
         }
         @Override
         public void onClicked(View v) {

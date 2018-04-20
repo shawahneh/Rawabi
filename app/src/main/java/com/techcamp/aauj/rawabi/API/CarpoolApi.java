@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
@@ -14,23 +15,23 @@ import java.util.Date;
  */
 
 public interface CarpoolApi {
-    void getJourneys(int userId,int limitStart,int limitNum,IListCallBack<Journey> callBack);
-    void getJourneyDetails(int id,ICallBack<Journey> journey);
-    void setNewJourney(Journey newJourney,ICallBack<Integer> journeyId);
-    void filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IListCallBack<Journey> callBack);
+    RequestService getJourneys(int userId, int limitStart, int limitNum, IListCallBack<Journey> callBack);
+    RequestService getJourneyDetails(int id,ICallBack<Journey> journey);
+    RequestService setNewJourney(Journey newJourney,ICallBack<Integer> journeyId);
+    RequestService filterJourneys(LatLng startPoint, LatLng endPoint, Date goingDate, int sortBy, IListCallBack<Journey> callBack);
     //sortBy: 1-> Distance, 2-> Time
-    void getNumberOfJourneys(ICallBack<Integer> callBack);
-    void changeJourneyStatus(Journey journey,int status,ICallBack<Boolean> callBack);
+    RequestService getNumberOfJourneys(ICallBack<Integer> callBack);
+    RequestService changeJourneyStatus(Journey journey,int status,ICallBack<Boolean> callBack);
 //    void getCustomJourney(int jid, ICallBack<CustomJourney> triger);
 
-    void getRides(int userId,int limitStart,int limitNum,IListCallBack<Ride> callBack);
-    void getRideDetails(int rideId,ICallBack<Ride> ride);
+    RequestService getRides(int userId,int limitStart,int limitNum,IListCallBack<Ride> callBack);
+    RequestService getRideDetails(int rideId,ICallBack<Ride> ride);
     //void setRideOnJourney(int journeyId,int meetingLocationX,int meetingLocationY , ITrigger<Boolean> result);
-    void getRidersOfJourney(Journey journey, IListCallBack<Ride> callBack); // hint: set journey for each ride
-    void setRideOnJourney(Ride newRide, ICallBack<Integer> rideId); // create ride request
-    void changeRideStatus(int rideId, int status, ICallBack<Boolean> result); // accept ride request or reject or the rider cancel the ride
-    void changeMyRideStatus(int rideId, int status, ICallBack<Boolean> result);
-    void getStatusOfRide(int rideId, ICallBack<Integer> callBack);
+    RequestService getRidersOfJourney(Journey journey, IListCallBack<Ride> callBack); // hint: set journey for each ride
+    RequestService setRideOnJourney(Ride newRide, ICallBack<Integer> rideId); // create ride request
+    RequestService changeRideStatus(int rideId, int status, ICallBack<Boolean> result); // accept ride request or reject or the rider cancel the ride
+    RequestService changeMyRideStatus(int rideId, int status, ICallBack<Boolean> result);
+    RequestService getStatusOfRide(int rideId, ICallBack<Integer> callBack);
 
 
 

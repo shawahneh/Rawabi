@@ -1,5 +1,6 @@
 package com.techcamp.aauj.rawabi.API;
 
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.Announcement;
@@ -20,15 +21,15 @@ import java.util.Date;
  * Basic Api methods used with Q center, Events, Jobs, Media and Transportation
  */
 public interface BasicApi {
-    void getAnnouns(IListCallBack<Announcement> callBack); // announcements for Q Center
-    void getJobs(IListCallBack<Job> callBack);
-    void getTransportation(ICallBack<Transportation> callBack);
-    void getWeather(ICallBack<String> callBack);
+    RequestService getAnnouns(IListCallBack<Announcement> callBack); // announcements for Q Center
+    RequestService getJobs(IListCallBack<Job> callBack);
+    RequestService getTransportation(ICallBack<Transportation> callBack);
+    RequestService getWeather(ICallBack<String> callBack);
 //    void getMedia(IListCallBack<MediaItem> callBack); // deprecated
 
-    void getAlbums(IListCallBack<AlbumItem> callBack);
-    void getGalleryForAlbum(int albumId,IListCallBack<MediaItem> callBack); // get all media for album
+    RequestService getAlbums(IListCallBack<AlbumItem> callBack);
+    RequestService getGalleryForAlbum(int albumId,IListCallBack<MediaItem> callBack); // get all media for album
 
-    void getEventAtDate(Date date, IListCallBack<Event> callBack);
-    void getEvents(IListCallBack<Event> callBack); // get all events
+    RequestService getEventAtDate(Date date, IListCallBack<Event> callBack);
+    RequestService getEvents(IListCallBack<Event> callBack); // get all events
 }

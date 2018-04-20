@@ -57,8 +57,8 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Implementations using volley
  */
-public class WebApi implements BasicApi,AuthWebApi
-    ,CarpoolApi{
+public class WebApi {
+
     public String apiUrl = "https://tcamp.000webhostapp.com/api/index.php";
     RequestQueue requestQueue;
     private static WebApi instance;
@@ -234,6 +234,7 @@ public class WebApi implements BasicApi,AuthWebApi
     // if userId <= 0 then give me the details of current user
     // if username = null give me the current user
     // if username = null gime me the current user
+    //done for offline
     @Override
     public void getUserDetails(int userId, final ICallBack<User> resultUser) {
 
@@ -937,6 +938,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     // Done By Maysara
+    //done for offline
     @Override
     public void getRidersOfJourney(final Journey journey, final IListCallBack<Ride> callBack) {
         final User localUser = getLocalUser();
@@ -997,6 +999,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     // Done By Maysara
+    //done for offline
     @Override
     public void setRideOnJourney(Ride newRide, final ICallBack<Integer> rideId) {
         final User localUser = getLocalUser();
@@ -1043,6 +1046,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     /* created by ala, this method used to change the status of user's rides only  */
+    //done for offline
     public void changeMyRideStatus(int rideId,int status, final ICallBack<Boolean> result){
 
         final User localUser = getLocalUser();
@@ -1089,6 +1093,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done By Maysara
+    //done for offline
     @Override
     public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> result) {
 
@@ -1139,6 +1144,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     //Done By Maysara
+    //done for offline
     @Override
     public void getStatusOfRide(int rideId, final ICallBack<Integer> callBack) {
         User localUser = getLocalUser();
@@ -1180,6 +1186,7 @@ public class WebApi implements BasicApi,AuthWebApi
     }
 
     //Done By Maysara
+    //done for offline
     @Override
     public void getEventAtDate(Date date, final IListCallBack<Event> eventIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
@@ -1234,6 +1241,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done By Maysara
+    //done for offline
     @Override
     public void getEvents(final IListCallBack<Event> callBack) {
 
@@ -1289,6 +1297,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done By Maysara
+    //done for offline
     @Override
     public void getAnnouns(final IListCallBack<Announcement> eventIcallBack) {
 
@@ -1347,6 +1356,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done By Maysara
+    //done for offline
     @Override
     public void getJobs(final IListCallBack<Job> callBack) {
 
@@ -1409,6 +1419,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done By Maysara
+    //done for offline
     @Override
     public void getTransportation(final ICallBack<Transportation> callBack) {
         Map<String,String> params = new HashMap<String, String>();
@@ -1496,6 +1507,7 @@ public class WebApi implements BasicApi,AuthWebApi
 
     }
     //Done by shawahneh
+    //done for offline
     @Override
     public void getAlbums(final IListCallBack<AlbumItem> callBack) {
 
@@ -1543,7 +1555,7 @@ public class WebApi implements BasicApi,AuthWebApi
             }
         });
     }
-
+    //done for offline
     @Override
     public void getGalleryForAlbum(int albumId, final IListCallBack<MediaItem> callBack) {
 
@@ -1589,5 +1601,6 @@ public class WebApi implements BasicApi,AuthWebApi
             }
         });
     }
+
 
 }

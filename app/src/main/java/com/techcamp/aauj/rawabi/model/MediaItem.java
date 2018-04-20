@@ -7,6 +7,10 @@ import android.os.Parcelable;
  * Created by ALa on 2/3/2018.
  */
 
+
+/**
+ * this model is just an image model
+ */
 public class MediaItem implements Parcelable {
     private int id;
     private String imageUrl;

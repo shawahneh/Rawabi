@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.API.services.OfflineApi;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.AlbumItem;
 import com.techcamp.aauj.rawabi.model.Event;
@@ -32,7 +34,7 @@ import java.util.List;
  */
 
 public class EventsListFragment extends ListFragment implements IListCallBack<Event> {
-    BasicApi mCalendarWebApi = WebApi.getInstance();
+    private RequestService requestService;
     private MyAdapter mAdapter;
     public static Fragment newInstance(){
         Fragment fragment = new EventsListFragment();
@@ -49,17 +51,24 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
 
     @Override
     protected void loadDataFromWeb() {
-//        mCalendarWebApi.getEvents(this);
-        WebService.getInstance().getEvents(this).saveOffline(OfflineApi.CODE_EVENTS).start();
+        requestService = WebService.getInstance().getEvents(this)
+                .saveOffline(WebOffline.CODE_EVENTS)
+                .start();
         setLoading(true);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        if(requestService != null)
+            requestService.cancel();
+        super.onDestroy();
     }
 
     private void loadOffline() {
         /*  load offline data */
-        try {
-            List<Event> list = new OfflineApi().getEvents(getContext());
+            List<Event> list = new WebOffline().getEvents(getContext());
             loadListToAdapter(list);
-        }catch (Exception e){e.printStackTrace();}
     }
 
     private void loadListToAdapter(List<Event> list) {
@@ -67,52 +76,33 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
             return;
         if(isAdded()){{
             //  available
-            if(list.size() <= 0){
-//                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
                 hideMessageLayout();
                 if(mAdapter != null)
                     mAdapter.setList(list);
-            }
+
         }}
     }
 
     // data available from WEB
     @Override
     public void onResponse(List<Event> value) {
-        Log.d("tag","onResponse");
 
         setLoading(false);
 
-        // update list
-        if(isAdded()){{
             if(value.size() <= 0){
 
             }else{
                 hideMessageLayout();
                 loadListToAdapter(value);
             }
-        }}
     }
 
     @Override
     public void onError(String err) {
-        Log.d("tag","onError");
         if(getView() != null)
         Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
         setLoading(false);
     }
-//    private void updateDatabase(List<Event> value) {
-//        //clear db
-//        EventsDB.getInstance(getContext()).deleteAll();
-//
-//        //save to db
-//        for (Event event :value ){
-//            EventsDB.getInstance(getContext()).saveBean(event);
-//        }
-//    }
-
-
     private class MyHolder extends Holder<Event> {
         private TextView mEventName,mEventDesc,mEventDate;
         private TextView tvDateDay,tvDateMonth;

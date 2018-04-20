@@ -11,8 +11,10 @@ import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.API.services.OfflineApi;
+import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.abstractAdapters.RecyclerAdapter;
@@ -25,6 +27,7 @@ import java.util.List;
 
 public class AlbumsListFragment extends ListFragment {
 
+    RequestService requestService;
     @Override
     protected int getNumberOfCols() {
         return 3;
@@ -34,17 +37,22 @@ public class AlbumsListFragment extends ListFragment {
     public void setupRecyclerViewAdapter() {
 
         /*  load offline data */
-        try {
-            List<AlbumItem> list = new OfflineApi().getAlbums(getContext());
+            List<AlbumItem> list = new WebOffline().getAlbums(getContext());
             loadListToAdapter(list);
-        }catch (Exception e){e.printStackTrace();}
 
+    }
+
+    @Override
+    public void onDestroy() {
+        if(requestService != null)
+            requestService.cancel();
+        super.onDestroy();
     }
 
     @Override
     protected void loadDataFromWeb() {
         progressBarLoading.setVisibility(View.VISIBLE);
-        WebService.getInstance().getAlbums(new IListCallBack<AlbumItem>() {
+        requestService = WebService.getInstance().getAlbums(new IListCallBack<AlbumItem>() {
             @Override
             public void onResponse(List<AlbumItem> item) {
                 progressBarLoading.setVisibility(View.GONE);
@@ -58,22 +66,18 @@ public class AlbumsListFragment extends ListFragment {
                 Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT).show();
             }
         })
-        .saveOffline(OfflineApi.CODE_ALBUMS)
+        .saveOffline(WebOffline.CODE_ALBUMS)
         .start();
     }
 
     private void loadListToAdapter(List<AlbumItem> list) {
-        if(list == null)
-            return;
         if(isAdded()){{
             //  available
-            if(list.size() <= 0){
-//                showMessageLayout("No jobs",R.drawable.ic_signal_wifi_off_black_48dp);
-            }else{
+
                 hideMessageLayout();
                 MyAdapter adapter = new MyAdapter(list);
                 mRecyclerView.setAdapter(adapter);
-            }
+
         }}
     }
 

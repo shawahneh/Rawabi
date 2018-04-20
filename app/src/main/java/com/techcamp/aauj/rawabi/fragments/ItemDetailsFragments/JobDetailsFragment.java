@@ -15,11 +15,9 @@ import com.techcamp.aauj.rawabi.model.Job;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.utils.DateUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class JobDetailsFragment extends ItemDetailsFragment<Job> {
-    private TextView tvName,tvDescription,tvDate;
+    private TextView tvName,tvDescription,tvDate,tvCompanyName;
     private ImageView imageView;
     public JobDetailsFragment() {
     }
@@ -40,6 +38,7 @@ public class JobDetailsFragment extends ItemDetailsFragment<Job> {
         tvDescription = view.findViewById(R.id.tvDescription);
         tvDate = view.findViewById(R.id.tvDate);
         imageView = view.findViewById(R.id.imageView);
+        tvCompanyName = view.findViewById(R.id.tvCompanyName);
 
         refreshView();
         return view;
@@ -51,6 +50,7 @@ public class JobDetailsFragment extends ItemDetailsFragment<Job> {
             tvName.setText(mItem.getName());
             tvDescription.setText(mItem.getDescription());
             tvDate.setText(DateUtil.getRelativeTime(mItem.getDate()));
+            tvCompanyName.setText(mItem.getCompanyName());
             if(mItem.getImageUrl() != null){
                 Glide.with(getContext()).load(mItem.getImageUrl()).into(imageView);
             }

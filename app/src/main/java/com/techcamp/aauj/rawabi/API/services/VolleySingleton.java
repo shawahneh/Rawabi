@@ -1,4 +1,4 @@
-package com.techcamp.aauj.rawabi.API;
+package com.techcamp.aauj.rawabi.API.services;
 
 import android.content.Context;
 import android.graphics.Bitmap;

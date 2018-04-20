@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -37,7 +38,7 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     private MapView mMapView;
     private Button btnCancel,btnFrom,btnTo,btnMeetingLoc;
     private TextView tvStatus;
-    private CarpoolApi poolingRides = WebApi.getInstance();
+    private CarpoolApi poolingRides = WebFactory.getCarpoolService();
     private GoogleMap mMap;
     private ICallBack<Integer> statusRespones;
     private SweetAlertDialog pDialog;
@@ -169,7 +170,8 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
     private void requestStatus(){
         btnCancel.setEnabled(false);
         showProgress();
-        poolingRides.getStatusOfRide(mRide.getId(), statusRespones);
+        poolingRides.getStatusOfRide(mRide.getId(), statusRespones)
+        .start();
     }
 
     public static Intent getIntent(Context context, Ride ride){

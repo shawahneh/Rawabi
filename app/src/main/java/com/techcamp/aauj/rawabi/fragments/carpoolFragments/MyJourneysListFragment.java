@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.fragments.abstractFragments.ListFragmentWithSwipe;
 import com.techcamp.aauj.rawabi.model.Journey;
@@ -32,8 +33,9 @@ public class MyJourneysListFragment extends ListFragmentWithSwipe implements ILi
     @Override
     protected void loadDataFromWeb() {
         mSwipeRefreshLayout.setRefreshing(true);
-        CarpoolApi api = WebApi.getInstance();
-        api.getJourneys(-1,0,100,this);
+        CarpoolApi api = WebFactory.getCarpoolService();
+        api.getJourneys(-1,0,100,this)
+        .start();
 
     }
 

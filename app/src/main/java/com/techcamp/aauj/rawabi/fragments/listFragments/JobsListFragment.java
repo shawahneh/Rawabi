@@ -45,7 +45,7 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
 
     @Override
     protected void loadDataFromWeb() {
-        requestService = WebService.getInstance().getJobs(this)
+        requestService = WebFactory.getBasicService().getJobs(this)
                 .saveOffline(WebOffline.CODE_JOBS)
                 .start();
 
@@ -54,7 +54,7 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
 
 
     private void loadOffline() {
-        List<Job> list = new WebOffline().getJobs(getContext());
+        List<Job> list =  WebFactory.getOfflineService().getJobs(getContext());
         loadListToAdapter(list);
     }
 
@@ -100,10 +100,9 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
 
 
     private class MyHolder extends com.techcamp.aauj.rawabi.abstractAdapters.Holder<Job> {
-        private TextView mEventName,mEventDesc,mEventDate,tvCompanyName;
+        private TextView mEventName,mEventDate,tvCompanyName;
         public MyHolder(View view) {
             super(view);
-            mEventDesc = view.findViewById(R.id.eventDescTestView);
             mEventName = view.findViewById(R.id.eventNameTextView);
             mEventDate = view.findViewById(R.id.eventDateTextView);
             tvCompanyName = view.findViewById(R.id.tvCompanyName);
@@ -113,7 +112,6 @@ public class JobsListFragment extends ListFragment implements IListCallBack<Job>
         @Override
         public void bind(Job job, int pos) {
             super.bind(job,pos);
-            mEventDesc.setText(job.getDescription());
             mEventDate.setText(DateUtil.getRelativeTime(job.getDate()));
             mEventName.setText(job.getName());
             tvCompanyName.setText(job.getCompanyName());

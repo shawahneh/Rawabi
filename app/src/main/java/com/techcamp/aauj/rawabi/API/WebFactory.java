@@ -5,19 +5,18 @@ import android.content.Context;
 public class WebFactory {
 
     public static AuthWebApi getAuthService(){
-        return WebApi.getInstance();
+        return WebService.getInstance();
     }
     public static BasicApi getBasicService(){
-        return WebApi.getInstance();
+        return WebService.getInstance();
     }
     public static CarpoolApi getCarpoolService(){
-        return WebApi.getInstance();
+        return WebService.getInstance();
     }
     public static WebOffline getOfflineService(){return new WebOffline();}
 
     public static void initAll(Context context){
         WebApi.init(context);
-        WebDummy.init(context);
         WebService.init(context);
     }
 

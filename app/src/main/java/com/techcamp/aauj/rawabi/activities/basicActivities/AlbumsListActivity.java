@@ -30,12 +30,20 @@ public class AlbumsListActivity extends BasicActivity implements ListFragment.IF
     @Override
     public void onItemClicked(AlbumItem item) {
         replaceFragment(MediaListFragment.newInstance(item));
+        setDescription(item.getTitle());
     }
+
+
 
     @Override
     public void onMediaClicked(MediaItem item) {
         new ImageViewer.Builder(this, new String[]{item.getImageUrl()})
                 .setStartPosition(0)
                 .show();
+    }
+
+    @Override
+    public void onFragmentStopped() {
+        setDescription(null);
     }
 }

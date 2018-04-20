@@ -84,7 +84,7 @@ public class WebApi {
              requestQueue = Volley.newRequestQueue(mContext);
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
-            @Override
+            
             public void onResponse(String response) {
                 Log.i("tagWebApi","Response : "+ response);
                 try {
@@ -102,13 +102,13 @@ public class WebApi {
 
             }
         }, new Response.ErrorListener() {
-            @Override
+            
             public void onErrorResponse(VolleyError error) {
                 Log.i("tagWebApi","ERROR "+ error.toString());
                 result.onError(error.toString());
             }
         }){
-            @Override
+            
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 return params;
@@ -130,7 +130,7 @@ public class WebApi {
     }
 
     //DONE
-    @Override
+    
     public void userRegister(User user, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
 
@@ -147,7 +147,7 @@ public class WebApi {
         //params.put("image",user.getImageurl());
         params.put("phone",user.getPhone());
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                         Log.i("tagWebApi", "on respons: "+value.toString());
                 try {
@@ -174,7 +174,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.i("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -185,7 +185,7 @@ public class WebApi {
     }
 
     // Done By Maysara
-    @Override
+    
     public void setUserDetails(User user, String OldPassword, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
 
@@ -201,7 +201,7 @@ public class WebApi {
         params.put("oldPassword" , OldPassword);
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject item) {
                 try {
                     if (item.getString("status").equals("success")){
@@ -219,7 +219,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.i("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -235,7 +235,7 @@ public class WebApi {
     // if username = null give me the current user
     // if username = null gime me the current user
     //done for offline
-    @Override
+    
     public void getUserDetails(int userId, final ICallBack<User> resultUser) {
 
 
@@ -247,7 +247,7 @@ public class WebApi {
         params.put("userId",userId+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
 
@@ -284,7 +284,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -294,7 +294,7 @@ public class WebApi {
     }
 
     //DONE
-    @Override
+    
     public void login(final String username, final String password, final ICallBack<User> resultUser) {
         Map<String,String> params = new HashMap<String, String>();
         Log.i("tagWebApi", "login: u: "+username+" p: "+password);
@@ -304,7 +304,7 @@ public class WebApi {
         params.put("userId","-1");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if (value.has("username")){
@@ -340,7 +340,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -350,14 +350,14 @@ public class WebApi {
     }
 
     //DONE
-    @Override
+    
     public void checkAuth(String username, String password, final ICallBack<Boolean> booleanIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","userAuth");
         params.put("username",username);
         params.put("password",password);
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if (value.getString("auth").equals("true")){
@@ -377,7 +377,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -387,7 +387,7 @@ public class WebApi {
         });
     }
 
-    @Override
+    
     public void setImageForUser(Uri uri, final ICallBack<String> callBack) {
         final User user = getLocalUser();
         RequestParams params = new RequestParams();
@@ -408,7 +408,7 @@ public class WebApi {
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(apiUrl,
                 params, new AsyncHttpResponseHandler() {
-                    @Override
+                    
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         Log.d("tagWebApi", "setImageForUser, onSuccess");
                         Log.d("tagWebApi", "setImageForUser, response body=" + responseBody);
@@ -430,7 +430,7 @@ public class WebApi {
 
                     }
 
-                    @Override
+                    
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         Log.e("tagWebApi", "onFailure error code " + statusCode);
                         callBack.onError(error.getMessage());
@@ -449,7 +449,7 @@ public class WebApi {
     }
 
     //DONE
-    @Override
+    
     public void getJourneys(int userId, int limitStart, int limitNum, final IListCallBack<Journey> journeys) {
         User localUser = getLocalUser();
         // if the userId <= 0 then get the logged in user
@@ -462,7 +462,7 @@ public class WebApi {
         params.put("num",limitNum+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 Log.d("tagWebApi", "getJourneys response="+value.toString());
                 try {
@@ -514,7 +514,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -526,7 +526,6 @@ public class WebApi {
 
 
     //Done By Maysara
-    @Override
     public void getJourneyDetails(final int id, final ICallBack<Journey> journey) {
 
         Map<String,String> params = new HashMap<String, String>();
@@ -538,7 +537,7 @@ public class WebApi {
         params.put("journeyId",id+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                 Journey tempJourney = new Journey();
@@ -569,7 +568,7 @@ public class WebApi {
 
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -581,7 +580,6 @@ public class WebApi {
     }
 
     //DONE
-    @Override
     public void setNewJourney(Journey newJourney, final ICallBack<Integer> journeyId) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
@@ -600,7 +598,7 @@ public class WebApi {
         params.put("carDescription",newJourney.getCarDescription());
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     int id = Integer.parseInt(value.getString("status"));
@@ -626,7 +624,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -638,7 +636,7 @@ public class WebApi {
 
 
     //Done By Maysara
-    @Override
+    
     public void filterJourneys(final LatLng startPoint, final LatLng endPoint, Date goingDate, int sortBy, final IListCallBack<Journey> Journeys) {
         User localUser = getLocalUser();
 
@@ -654,7 +652,7 @@ public class WebApi {
         params.put("sortBy" , sortBy+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try{
                     if(value.has("journeys")){
@@ -701,7 +699,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -713,13 +711,13 @@ public class WebApi {
 
     }
 
-    @Override
+    
     public void getNumberOfJourneys(ICallBack<Integer> trigger) {
 
     }
 
     //Done By Maysara
-    @Override
+    
     public void changeJourneyStatus(Journey journey, int status, final ICallBack<Boolean> trigger) {
         User localUser = getLocalUser();
 
@@ -732,7 +730,7 @@ public class WebApi {
 
         Log.d("tagWebApi","journeyId="+journey.getId()+", status="+status);
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
 
                 try {
@@ -750,7 +748,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -761,14 +759,14 @@ public class WebApi {
     }
 
 
-//    @Override
+//    
 //    public void getCustomJourney(int jid, ICallBack<CustomJourney> callBack) {
 //
 //    }
 
 
     //DONE
-    @Override
+    
     public void getRides(int userId, int limitStart, int limitNum, final IListCallBack<Ride> rides) {
         User localUser = getLocalUser();
 
@@ -781,7 +779,7 @@ public class WebApi {
         params.put("num",limitNum+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if (value.has("rides"))
@@ -848,7 +846,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -860,7 +858,7 @@ public class WebApi {
     }
 
     // Done By Maysara
-    @Override
+    
     public void getRideDetails(int rideId, final ICallBack<Ride> ride) {
 
         final User localUser = getLocalUser();
@@ -873,7 +871,7 @@ public class WebApi {
         Log.d("tagWebApi","rideId="+rideId);
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject item)  {
 
 
@@ -927,7 +925,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
                 Log.e("tagWebApi",err);
@@ -939,7 +937,7 @@ public class WebApi {
 
     // Done By Maysara
     //done for offline
-    @Override
+    
     public void getRidersOfJourney(final Journey journey, final IListCallBack<Ride> callBack) {
         final User localUser = getLocalUser();
 
@@ -950,7 +948,7 @@ public class WebApi {
         params.put("journeyId", journey.getId()+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 Log.d("tagWebApi","response="+value.toString() );
                 try{
@@ -989,7 +987,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
                 Log.e("tagWebApi",err);
@@ -1000,7 +998,7 @@ public class WebApi {
 
     // Done By Maysara
     //done for offline
-    @Override
+    
     public void setRideOnJourney(Ride newRide, final ICallBack<Integer> rideId) {
         final User localUser = getLocalUser();
 
@@ -1013,7 +1011,7 @@ public class WebApi {
         params.put("meetingLocationY",newRide.getMeetingLocation().longitude+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     int rideIdTemp;
@@ -1036,7 +1034,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method in getRideDetails ");
                 Log.e("tagWebApi",err);
@@ -1059,7 +1057,7 @@ public class WebApi {
         params.put("orderStatus" , status+"");
         Log.d("tagWebApi","rideId=" + rideId + ",status="+status);
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
 
                 try {
@@ -1081,7 +1079,7 @@ public class WebApi {
 
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -1094,7 +1092,7 @@ public class WebApi {
     }
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void changeRideStatus(int rideId, int status, final ICallBack<Boolean> result) {
 
         final User localUser = getLocalUser();
@@ -1107,7 +1105,7 @@ public class WebApi {
         params.put("orderStatus" , status+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
 
                 try {
@@ -1129,7 +1127,7 @@ public class WebApi {
 
             }
 
-            @Override
+            
             public void onError(String err) {
 
                 Log.d("tagWebApi", "Error while getting data from send() method ");
@@ -1145,7 +1143,7 @@ public class WebApi {
 
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getStatusOfRide(int rideId, final ICallBack<Integer> callBack) {
         User localUser = getLocalUser();
         Map<String,String> params = new HashMap<String, String>();
@@ -1157,7 +1155,7 @@ public class WebApi {
         Log.d("tagWebApi","rideId="+rideId);
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
 
@@ -1175,7 +1173,7 @@ public class WebApi {
 
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1187,14 +1185,14 @@ public class WebApi {
 
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getEventAtDate(Date date, final IListCallBack<Event> eventIcallBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getEventAtDate");
         params.put("date" , date+"");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if(value.has("events")){
@@ -1230,7 +1228,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1242,14 +1240,14 @@ public class WebApi {
     }
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getEvents(final IListCallBack<Event> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getEvents");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                 if(value.has("events")){
@@ -1285,7 +1283,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1298,7 +1296,7 @@ public class WebApi {
     }
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getAnnouns(final IListCallBack<Announcement> eventIcallBack) {
 
 
@@ -1306,7 +1304,7 @@ public class WebApi {
         params.put("action","getAnnouns");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
 
                 try{
@@ -1345,7 +1343,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1357,14 +1355,14 @@ public class WebApi {
     }
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getJobs(final IListCallBack<Job> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getJobs");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if(value.has("jobs")){
@@ -1408,7 +1406,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1420,13 +1418,13 @@ public class WebApi {
     }
     //Done By Maysara
     //done for offline
-    @Override
+    
     public void getTransportation(final ICallBack<Transportation> callBack) {
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getTransportation");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                 if(value.has("fromRawabi") && value.has("fromRamallah")){
@@ -1492,7 +1490,7 @@ public class WebApi {
 
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1502,20 +1500,20 @@ public class WebApi {
 
     }
 
-    @Override
+    
     public void getWeather(ICallBack<String> callBack) {
 
     }
     //Done by shawahneh
     //done for offline
-    @Override
+    
     public void getAlbums(final IListCallBack<AlbumItem> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
         params.put("action","getAlbums");
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if(value.has("media")){
@@ -1546,7 +1544,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);
@@ -1556,7 +1554,7 @@ public class WebApi {
         });
     }
     //done for offline
-    @Override
+    
     public void getGalleryForAlbum(int albumId, final IListCallBack<MediaItem> callBack) {
 
         Map<String,String> params = new HashMap<String, String>();
@@ -1564,7 +1562,7 @@ public class WebApi {
         params.put("albumId",""+albumId);
 
         send(params, new ICallBack<JSONObject>() {
-            @Override
+            
             public void onResponse(JSONObject value) {
                 try {
                     if(value.has("album")){
@@ -1592,7 +1590,7 @@ public class WebApi {
                 }
             }
 
-            @Override
+            
             public void onError(String err) {
                 Log.d("tagWebApi", "Error while getting data from send() method ");
                 Log.e("tagWebApi",err);

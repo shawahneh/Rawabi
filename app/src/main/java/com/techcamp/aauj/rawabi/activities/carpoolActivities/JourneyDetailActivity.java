@@ -25,8 +25,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Journey;
@@ -48,7 +46,7 @@ import java.util.List;
  * - when click on rider the camera moves to his location
  */
 public class JourneyDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-    CarpoolApi carpoolApi = WebApi.getInstance();
+    CarpoolApi carpoolApi = WebFactory.getCarpoolService();
     public static final String ARG_JOURNEY = "journey";
     private static final float DEFAULT_ZOOM = 12;
     private Journey mJourney;
@@ -153,7 +151,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismiss();
                 Toast.makeText(JourneyDetailActivity.this, err, Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        .start();
     }
 
     /**
@@ -286,7 +285,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 pDialog.dismissWithAnimation();
                 Toast.makeText(getApplicationContext(),err,Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        .start();
     }
 
     public void showRiderOnMap(Ride ride){
@@ -343,7 +343,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                     pDialog.dismissWithAnimation();
                 Toast.makeText(JourneyDetailActivity.this, err, Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        .start();
     }
 
     /**

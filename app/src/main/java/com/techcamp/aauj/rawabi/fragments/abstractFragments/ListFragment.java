@@ -115,9 +115,12 @@ public abstract class ListFragment extends Fragment {
     protected void setLoading(boolean loading){
         progressBarLoading.setVisibility(loading?View.VISIBLE:View.GONE);
     }
+
+
     public interface IFragmentListener<T>{
         void onItemClicked(T item);
     }
+
 
 
 

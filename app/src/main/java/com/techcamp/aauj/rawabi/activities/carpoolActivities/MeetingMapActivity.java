@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -42,7 +43,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng mMarkerCenter;
     private Journey mJourney;
     private Ride mRide;
-    CarpoolApi poolingRides = WebApi.getInstance();
+    CarpoolApi poolingRides = WebFactory.getCarpoolService();
     SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
 
         showProgress();
 
-        poolingRides.setRideOnJourney(mRide,this);
+        poolingRides.setRideOnJourney(mRide,this)
+        .start();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

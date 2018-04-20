@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -23,6 +25,7 @@ import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.abstractActivities.MapActivity;
 import com.techcamp.aauj.rawabi.controllers.SPController;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -36,7 +39,7 @@ import java.util.Date;
  *          seats number and car description
  */
 public class MapDriverActivity extends MapActivity implements ICallBack<Integer> {
-    private CarpoolApi poolingJourney = WebApi.getInstance();
+    private CarpoolApi poolingJourney = WebFactory.getCarpoolService();
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private Date mDateDriving;
     private Button btnCreateJourney;
@@ -161,9 +164,15 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         super.onTimeSet(timePicker, i, i1);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis();
+//        calendar.set(Calendar.HOUR_OF_DAY,i);
+//        calendar.set(Calendar.MINUTE,i1);
         mDateDriving = new Date();
         mDateDriving.setHours(i);
         mDateDriving.setMinutes(i1);
+
+        Log.d("tag","mDateDriving="+mDateDriving);
         openPanel();
     }
     private void openPanel() {

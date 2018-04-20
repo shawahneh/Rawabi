@@ -29,7 +29,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
-import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.abstractAdapters.Holder;
 import com.techcamp.aauj.rawabi.model.User;
@@ -146,7 +145,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 Log.d("tag","onError="+err);
                 Toast.makeText(EditProfileActivity.this, "Error uploading image", Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        .start();
     }
     private void showProgress(boolean b){
         progressBar.setVisibility(b?View.VISIBLE:View.GONE);

@@ -67,7 +67,8 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/blue_button_background"
         android:id="@+id/btnCreateJourney"
         android:text="Create journey"
         android:layout_width="match_parent"

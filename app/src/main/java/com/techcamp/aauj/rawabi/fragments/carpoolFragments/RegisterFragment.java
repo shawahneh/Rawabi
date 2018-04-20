@@ -112,7 +112,8 @@ public class RegisterFragment extends Fragment {
                     pDialog.dismissWithAnimation();
                     showError(err);
                 }
-            });
+            })
+            .start();
         }
     }
     private boolean validate(){

@@ -6,10 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.FirebaseDatabase;
-import com.techcamp.aauj.rawabi.API.BasicApi;
-import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.WebService;
@@ -37,7 +33,7 @@ public class AlbumsListFragment extends ListFragment {
     public void setupRecyclerViewAdapter() {
 
         /*  load offline data */
-            List<AlbumItem> list = new WebOffline().getAlbums(getContext());
+            List<AlbumItem> list = WebFactory.getOfflineService().getAlbums(getContext());
             loadListToAdapter(list);
 
     }

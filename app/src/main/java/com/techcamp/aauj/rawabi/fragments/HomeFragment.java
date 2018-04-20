@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
-import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.activities.basicActivities.AlbumsListActivity;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
 import com.techcamp.aauj.rawabi.model.Event;
@@ -179,21 +178,22 @@ public class HomeFragment extends Fragment {
     }
 
     private void getEventsToday() {
-        BasicApi api = WebDummy.getInstance();
-        api.getEventAtDate(new Date(),trigerEvents);
+//        BasicApi api = WebDummy.getInstance();
+//        api.getEventAtDate(new Date(),trigerEvents);
     }
 
     private void getWeather() {
-        BasicApi api = WebDummy.getInstance();
-        api.getWeather(trigerWeather);
+//        BasicApi api = WebDummy.getInstance();
+//        api.getWeather(trigerWeather);
     }
 
     private void getNumberOfCars() {
+        // TODO: 4/20/2018 check this
         if(progressBar.getVisibility() == View.VISIBLE)
             return;
         tvCarpool.setText("Looking for a ride?");
-        CarpoolApi api = WebDummy.getInstance();
-        api.getNumberOfJourneys(trigerCars);
+//        CarpoolApi api = WebDummy.getInstance();
+//        api.getNumberOfJourneys(trigerCars);
         progressBar.setVisibility(View.VISIBLE);
 
     }
@@ -256,6 +256,7 @@ public class HomeFragment extends Fragment {
         return items;
     }
 
+    private boolean isMoving = false;
     private class Holder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private ImageView mImageView;
@@ -285,6 +286,8 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v)
         {
+            if(isMoving) /* prevent click when transition is running */
+                return;
             ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(getActivity(), mImageView, "trImage");
             switch (mDashboardItem.getTag()){

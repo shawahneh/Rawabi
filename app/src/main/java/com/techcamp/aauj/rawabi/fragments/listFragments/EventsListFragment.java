@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.API.services.OfflineApi;
@@ -51,7 +52,7 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
 
     @Override
     protected void loadDataFromWeb() {
-        requestService = WebService.getInstance().getEvents(this)
+        requestService = WebFactory.getBasicService().getEvents(this)
                 .saveOffline(WebOffline.CODE_EVENTS)
                 .start();
         setLoading(true);
@@ -67,7 +68,7 @@ public class EventsListFragment extends ListFragment implements IListCallBack<Ev
 
     private void loadOffline() {
         /*  load offline data */
-            List<Event> list = new WebOffline().getEvents(getContext());
+            List<Event> list =  WebFactory.getOfflineService().getEvents(getContext());
             loadListToAdapter(list);
     }
 

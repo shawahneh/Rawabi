@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class TransportationPageFragment extends Fragment {
 
             @Override
             public void onError(String err) {
+                Log.e("tag","onError="+err);
                 progressBarLoading.setVisibility(View.GONE);
                 if(getView() != null)
                     Snackbar.make(getView(),err,Snackbar.LENGTH_SHORT) .show();
@@ -64,6 +66,10 @@ public class TransportationPageFragment extends Fragment {
     }
 
     private void loadListToAdapter(Transportation item) {
+        if(item == null){
+            Log.d("tag","null transportation");
+            return;
+        }
 
         MyAdapter adapterFromRamallah = new MyAdapter(item.getFromRamallah());
         MyAdapter adapterFromRawabi = new MyAdapter(item.getFromRawabi());
@@ -74,7 +80,7 @@ public class TransportationPageFragment extends Fragment {
 
 
     private void loadOffline() {
-        Transportation transportation = new WebOffline().getTransportation(getContext());
+        Transportation transportation =  WebFactory.getOfflineService().getTransportation(getContext());
         loadListToAdapter(transportation);
     }
 
@@ -100,7 +106,9 @@ public class TransportationPageFragment extends Fragment {
 
     private void loadTransportationFromWeb() {
         progressBarLoading.setVisibility(View.VISIBLE);
-        api.getTransportation(trigger);
+        api.getTransportation(trigger)
+                .saveOffline(WebOffline.CODE_TRANSPORTATION)
+        .start();
     }
 
 

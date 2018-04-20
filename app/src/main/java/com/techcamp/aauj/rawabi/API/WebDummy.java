@@ -39,7 +39,8 @@ import java.util.List;
 
 
 // Dummy API
-public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
+    /*
+public class WebDummy {
 
 
     private Context context;
@@ -660,3 +661,4 @@ public class WebDummy implements CarpoolApi,AuthWebApi, BasicApi{
 
 
 }
+*/

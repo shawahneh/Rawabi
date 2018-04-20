@@ -14,8 +14,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
-import com.techcamp.aauj.rawabi.API.WebDummy;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.WebService;
 import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
@@ -72,7 +72,9 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
     @Override
     protected void loadDataFromWeb() {
         BasicApi api = WebFactory.getBasicService();
-        api.getGalleryForAlbum(mAlbum.getId(),this);
+        api.getGalleryForAlbum(mAlbum.getId(),this)
+            .start();
+
         setLoading(true);
     }
 
@@ -149,6 +151,13 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if(mListener != null)
+            mListener.onFragmentStopped();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if(context instanceof IListener){
@@ -165,5 +174,6 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
 
     public interface IListener{
         void onMediaClicked(MediaItem item);
+        void onFragmentStopped();
     }
 }

@@ -85,7 +85,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     Log.e("tag",err);
                     Toast.makeText(ChangePasswordActivity.this, "error changing password", Toast.LENGTH_SHORT).show();
                 }
-            });
+            })
+            .start();
         }
     }
 

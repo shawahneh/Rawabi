@@ -37,4 +37,5 @@ public class QCenterListActivity extends BasicActivity implements ListFragment.I
     public void onItemClicked(Announcement item) {
         replaceFragment(AnnouncmentDetailsFragment.newInstance(item));
     }
+
 }

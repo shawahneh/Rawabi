@@ -23,8 +23,9 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     protected T mBean;
     public static final String ARG_BEAN = "bean";
     protected Fragment mFragment;
-    protected TextView tvTitle;
+    protected TextView tvTitle,tvDescription;
     protected ImageView imgTitle,imgBackground,imgTop;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,12 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         imgTitle = findViewById(R.id.imgTitle);
         imgBackground = findViewById(R.id.imgBackground);
         imgTop = findViewById(R.id.imgTop);
+        tvDescription = findViewById(R.id.tvDescription);
 
 
 
         tvTitle.setText(getBarTitle());
+
 
         if(getImageBackground() != 0)
             Glide.with(this).load(getImageBackground()).into(imgBackground);
@@ -61,8 +64,30 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         if(getImageTop() != 0)
             Glide.with(this).load(getImageTop()).into(imgTop);
 
+        if(getDescription() == null){
+            tvDescription.setVisibility(View.GONE);
+        }else{
+            tvDescription.setText(getDescription());
+            tvDescription.setVisibility(View.VISIBLE);
+        }
+
 
     }
+
+    protected String getDescription() {
+        return null;
+    }
+
+    protected void setDescription(String text){
+        if(text == null){
+            tvDescription.setVisibility(View.GONE);
+        }
+        else {
+            tvDescription.setVisibility(View.VISIBLE);
+            tvDescription.setText(text);
+        }
+    }
+
     protected void replaceFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fmTransaction = fm.beginTransaction();

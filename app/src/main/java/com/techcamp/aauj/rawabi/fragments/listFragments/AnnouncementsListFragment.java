@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.techcamp.aauj.rawabi.API.BasicApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.API.WebOffline;
 import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 
 public class AnnouncementsListFragment extends ListFragment implements IListCallBack<Announcement> {
-    BasicApi api = WebApi.getInstance();
+    BasicApi api = WebFactory.getBasicService();
     private RequestService requestService;
     private MyAdapter mAdapter;
     public static Fragment newInstance(){
@@ -55,12 +56,14 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
 
     @Override
     protected void loadDataFromWeb() {
-        api.getAnnouns(this);
+        api.getAnnouns(this)
+                .saveOffline(WebOffline.CODE_ANNOUNCEMENTS)
+                .start();
         setLoading(true);
     }
 
     private void loadOffline() {
-        List<Announcement> announcements =  new WebOffline().getAnnouncements(getContext());
+        List<Announcement> announcements =   WebFactory.getOfflineService().getAnnouncements(getContext());
         loadListToAdapter(announcements);
     }
 

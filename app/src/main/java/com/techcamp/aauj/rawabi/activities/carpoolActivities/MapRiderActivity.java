@@ -249,7 +249,8 @@ public class MapRiderActivity extends MapActivity {
             public void onError(String err) {
                 startLoading(false);
             }
-        });
+        })
+        .start();
 
     }
 

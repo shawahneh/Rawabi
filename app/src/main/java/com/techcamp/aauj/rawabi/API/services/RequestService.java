@@ -104,8 +104,7 @@ public abstract class RequestService<T> extends Request<T> {
 
             if(saveOffline)
                 OfflineApi.saveModel(mContext,result,codeOffline);
-            if(result == null)
-                return Response.error(new ParseError(new Exception("null parsing")));
+
             return Response.success(result,
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (Exception e) {

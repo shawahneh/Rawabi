@@ -49,6 +49,9 @@ public class RideDetailActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_ride_detail);
 
         mRide = getIntent().getParcelableExtra(ARG_RIDE);
+        if (mRide == null)
+            finish();
+
         mMapView = findViewById(R.id.mapView);
 
         mMapView.getMapAsync(this);

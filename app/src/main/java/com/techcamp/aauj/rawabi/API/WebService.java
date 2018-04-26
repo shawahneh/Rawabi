@@ -3,6 +3,7 @@ package com.techcamp.aauj.rawabi.API;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -579,11 +580,12 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("seats",newJourney.getSeats()+"");
                 params.put("genderPrefer",newJourney.getGenderPrefer()+"");
                 params.put("carDescription",newJourney.getCarDescription());
-                return null;
+                return params;
             }
 
             @Override
             public Integer parseResponse(JSONObject response) {
+                Log.d("tag","response="+response);
                 try {
                     int id = Integer.parseInt(response.getString("status"));
                     if (id>0){
@@ -1081,6 +1083,39 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 return null;
             }
         };
+    }
+
+    @Override
+    public RequestService sendUserTokenToServer(final String token, @Nullable ICallBack<Boolean> callBack) {
+       return new RequestService<Boolean>(mContext,url,callBack){
+           @Override
+           public Map<String, String> getParameters() {
+               Map<String,String> params = new HashMap<String, String>();
+               User user = SPController.getLocalUser(mContext);
+               params.put("action","registerToken");
+               params.put("token",token);
+               params.put("username" , user.getUsername());
+               params.put("password" , user.getPassword());
+               return params;
+           }
+
+           @Override
+           public Boolean parseResponse(JSONObject Response) {
+               try {
+
+               if(Response.has("status")){
+                   if(Response.getString("status").equals("success"))
+                   {
+                       return true;
+                   }
+                   return false;
+               }
+               return false;
+               }catch (Exception e){e.printStackTrace();}
+               return null;
+           }
+
+       };
     }
 
     @Override

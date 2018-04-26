@@ -68,6 +68,8 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         //get selected journey
         mJourney = getIntent().getParcelableExtra(ARG_JOURNEY);
+        if(mJourney == null)
+            finish();
 
         //binding
         mMapView = findViewById(R.id.mapView);

@@ -18,6 +18,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcamp.aauj.rawabi.API.CarpoolApi;
 import com.techcamp.aauj.rawabi.API.WebApi;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.API.WebOffline;
+import com.techcamp.aauj.rawabi.API.services.OfflineApi;
 import com.techcamp.aauj.rawabi.model.Journey;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -116,7 +118,9 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
         btnCreateJourney.setEnabled(false);
 
         showProgress("Creating..");
-        poolingJourney.setNewJourney(mJourney,this);
+        poolingJourney.setNewJourney(mJourney,this)
+                .start();
+        WebFactory.getOfflineService().saveJourney(this,mJourney);
     }
     private void showProgress(String str){
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);

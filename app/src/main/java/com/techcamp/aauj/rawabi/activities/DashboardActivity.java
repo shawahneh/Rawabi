@@ -16,10 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.techcamp.aauj.rawabi.API.WebApi;
+import com.techcamp.aauj.rawabi.API.WebFactory;
 import com.techcamp.aauj.rawabi.R;
 import com.techcamp.aauj.rawabi.activities.basicActivities.AlbumsListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.QCenterListActivity;
@@ -30,6 +33,7 @@ import com.techcamp.aauj.rawabi.activities.basicActivities.EventsListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.JobsListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.MediaListActivity;
 import com.techcamp.aauj.rawabi.activities.basicActivities.TransportationActivity;
+import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.NewsFragment;
 
@@ -47,6 +51,25 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashbord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        if (WebApi.getInstance().isLogin())
+        WebFactory.getCarpoolService().sendUserTokenToServer(refreshedToken, new ICallBack<Boolean>() {
+            @Override
+            public void onResponse(Boolean success) {
+                if(success)
+                    Log.d("tag","token changed successfully");
+                else
+                    Log.e("tag","error in changing token");
+            }
+
+            @Override
+            public void onError(String err) {
+                Log.e("tag","error in changing token, " + err);
+
+            }
+        })
+                .start();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

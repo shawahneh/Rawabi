@@ -138,7 +138,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         showProgress();
 
         poolingRides.setRideOnJourney(mRide,this)
-        .start();
+            .start();
+        WebFactory.getOfflineService().saveRide(this,mRide);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

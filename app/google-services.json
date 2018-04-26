@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "894890585951",
-    "firebase_url": "https://rawabi-1510772343150.firebaseio.com",
-    "project_id": "rawabi-1510772343150",
-    "storage_bucket": "rawabi-1510772343150.appspot.com"
+    "project_number": "995775224426",
+    "firebase_url": "https://rawabiapp-a98bf.firebaseio.com",
+    "project_id": "rawabiapp-a98bf",
+    "storage_bucket": "rawabiapp-a98bf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:894890585951:android:f1b4b94e79cd7ebd",
+        "mobilesdk_app_id": "1:995775224426:android:f1b4b94e79cd7ebd",
         "android_client_info": {
           "package_name": "com.techcamp.aauj.rawabi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "894890585951-jjtf75gbsjoq4p8okmdfp302p1pp1346.apps.googleusercontent.com",
+          "client_id": "995775224426-0847ica206g7boersed538um7mu3ljqu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCaUrjj0AWwOf64Ql5Ev1Z08_iuf2VMiLw"
+          "current_key": "AIzaSyDwlQThwjyTCNpEp2q3JPzlPwPF-AFsgqU"
         }
       ],
       "services": {
@@ -29,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "894890585951-jjtf75gbsjoq4p8okmdfp302p1pp1346.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

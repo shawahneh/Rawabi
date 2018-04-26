@@ -1,5 +1,7 @@
 package com.techcamp.aauj.rawabi.API;
 
+import android.support.annotation.Nullable;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.callBacks.IListCallBack;
@@ -34,6 +36,7 @@ public interface CarpoolApi {
     RequestService getStatusOfRide(int rideId, ICallBack<Integer> callBack);
 
 
+    RequestService sendUserTokenToServer(String token, @Nullable ICallBack<Boolean> callBack);
 
 
 }

@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.API.services;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -41,6 +42,7 @@ public abstract class RequestService<T> extends Request<T> {
         super(method, url,  null /* we override deliverError so we handled the error at the method*/);
         mListener = listener;
         this.mContext = context;
+        Log.d("tag","RequestService, new instance");
     }
 
     /**
@@ -63,6 +65,7 @@ public abstract class RequestService<T> extends Request<T> {
     }
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
+            Log.d("tag","getParameters=" + getParameters().toString());
         return getParameters();
     }
     public abstract Map<String,String> getParameters();
@@ -87,6 +90,7 @@ public abstract class RequestService<T> extends Request<T> {
     }
     public RequestService<T> start(){
         VolleySingleton.getInstance(mContext).addToRequestQueue(this);
+        Log.d("tag","RequestService, send request...");
         return this;
     }
     public RequestService<T> saveOffline(String code){
@@ -99,6 +103,7 @@ public abstract class RequestService<T> extends Request<T> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+            Log.d("tag","RequestService Response="+jsonString);
 
             T result = parseResponse(new JSONObject(jsonString));
 

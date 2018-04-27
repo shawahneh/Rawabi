@@ -93,7 +93,7 @@ public abstract class MapActivity extends AppCompatActivity implements OnMapRead
 //    private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mLastKnownLocation;
-    Location mLastLocation;
+    protected Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
     private View layoutMessage;

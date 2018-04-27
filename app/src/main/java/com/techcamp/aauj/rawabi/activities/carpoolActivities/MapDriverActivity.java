@@ -120,7 +120,7 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
         showProgress("Creating..");
         poolingJourney.setNewJourney(mJourney,this)
                 .start();
-        WebFactory.getOfflineService().saveJourney(this,mJourney);
+
     }
     private void showProgress(String str){
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -198,6 +198,7 @@ public class MapDriverActivity extends MapActivity implements ICallBack<Integer>
             i.putExtra(JourneyDetailActivity.ARG_JOURNEY,mJourney);
             startActivity(i);
             finish();
+            WebFactory.getOfflineService().saveJourney(this,mJourney);
         }
     }
 

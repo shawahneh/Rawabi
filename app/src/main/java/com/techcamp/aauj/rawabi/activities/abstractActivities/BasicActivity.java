@@ -88,11 +88,13 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         }
     }
 
-    protected void replaceFragment(Fragment fragment){
+    protected void replaceFragment(Fragment newFragment){
+
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fmTransaction = fm.beginTransaction();
+        FragmentTransaction fmTransaction = fm.beginTransaction().remove(mFragment);
+        mFragment = newFragment;
         fmTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
-        fmTransaction.replace(R.id.content,fragment).addToBackStack(null).commit();
+        fmTransaction.replace(R.id.content,newFragment).addToBackStack(null).commit();
     }
 
 

@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -59,7 +60,7 @@ public class MapRiderActivity extends MapActivity {
         SlidingUpPanelLayout slidingUpPanelLayout = findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
 
-        MapUtil.getCurrentLoc(this,null);
+//        MapUtil.getCurrentLoc(this,null);
 
         mDriverDetailLayout = new DriverDetailLayout();
 
@@ -236,6 +237,7 @@ public class MapRiderActivity extends MapActivity {
         webApi.filterJourneys(mMarkerFrom.getPosition(), mMarkerTo.getPosition(), mDateRiding, 0, new IListCallBack<Journey>() {
             @Override
             public void onResponse(List<Journey> item) {
+                        Log.d("tag","filterJourneys onResponse");
                         mJourneys = item;
                         startLoading(false);
                         drawJourneys(mJourneys);
@@ -247,6 +249,7 @@ public class MapRiderActivity extends MapActivity {
 
             @Override
             public void onError(String err) {
+                Log.e("tag",err);
                 startLoading(false);
             }
         })
@@ -326,6 +329,7 @@ public class MapRiderActivity extends MapActivity {
                 public void onClick(View view) {
                     Intent i = new Intent(MapRiderActivity.this, MeetingMapActivity.class);
                     i.putExtra("journey",mJourney);
+                    i.putExtra("location",new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude()));
                     startActivity(i);
                 }
             });

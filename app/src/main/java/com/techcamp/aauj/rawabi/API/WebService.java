@@ -30,10 +30,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
     private static final String url="https://tcamp.000webhostapp.com/api/index.php";
@@ -451,7 +454,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("userId",userId+"");
                 params.put("start",limitStart+"");
                 params.put("num",limitNum+"");
-                return null;
+                return params;
             }
 
             @Override
@@ -470,8 +473,13 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             Jtemp.setId(temp.getInt("id"));
                             Jtemp.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
                             Jtemp.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Jtemp.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            Date date = simpleDateFormat.parse(temp.getString("goingDate"));
+
+                            Jtemp.setGoingDate(date);
+
+
                             Jtemp.setSeats(temp.getInt("seats"));
                             Jtemp.setGenderPrefer(temp.getInt("genderPrefer"));
                             Jtemp.setCarDescription(temp.getString("carDescription"));
@@ -567,7 +575,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
             public Map<String, String> getParameters() {
                 User localUser = getLocalUser();
                 Map<String,String> params = new HashMap<String, String>();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 params.put("action","setNewJourney");
                 params.put("username",localUser.getUsername());
@@ -576,7 +584,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("startLocationY",newJourney.getStartPoint().longitude+"");
                 params.put("endLocationX",newJourney.getEndPoint().latitude+"");
                 params.put("endLocationY",newJourney.getEndPoint().longitude+"");
-                params.put("goingDate",df.format(newJourney.getGoingDate())+"");
+                params.put("goingDate",newJourney.getGoingDate().toGMTString());
                 params.put("seats",newJourney.getSeats()+"");
                 params.put("genderPrefer",newJourney.getGenderPrefer()+"");
                 params.put("carDescription",newJourney.getCarDescription());
@@ -661,7 +669,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("YYYY-MM-DD");
+                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
                             tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
                             journeyTemp.setUser(tempUser);
                             journeyTemp.setStatus(jsonTemp.getInt("status"));
@@ -692,6 +700,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
 
     @Override
     public RequestService changeJourneyStatus(final Journey journey, final int status, ICallBack<Boolean> callBack) {
+        Log.d("tag","journeyId="+journey.getId());
         return new RequestService<Boolean>(mContext,url,callBack) {
             @Override
             public Map<String, String> getParameters() {
@@ -787,7 +796,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempJUser.setGender(jsonJUser.getInt("gender"));
                             tempJUser.setPhone(jsonJUser.getString("phone"));
                             tempJUser.setAddress(jsonJUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("YYYY-MM-DD");
+                            SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("yyyy-MM-dd");
                             tempJUser.setBirthdate(simpleDateFormat3.parse(jsonUser.getString("birthdate")));
                             Jtemp.setUser(tempJUser);
                             Rtemp.setJourney(Jtemp);
@@ -1015,7 +1024,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
     }
 
     @Override
-    public RequestService changeMyRideStatus(final int rideId, final int status, ICallBack<Boolean> callBack) {
+    public RequestService changeMyRideStatus(final int rideId,final int journeyID, final int status, ICallBack<Boolean> callBack) {
         return new RequestService<Boolean>(mContext,url,callBack) {
             final User localUser = getLocalUser();
             @Override
@@ -1025,6 +1034,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("username",localUser.getUsername());
                 params.put("password",localUser.getPassword());
                 params.put("rideId", rideId+"");
+                params.put("journeyId", journeyID+"");
                 params.put("orderStatus" , status+"");
                 return params;
             }

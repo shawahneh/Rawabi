@@ -1,6 +1,7 @@
 package com.techcamp.aauj.rawabi.fragments.listFragments;
 
 import android.animation.ValueAnimator;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -65,6 +66,14 @@ public class AnnouncementsListFragment extends ListFragment implements IListCall
     private void loadOffline() {
         List<Announcement> announcements =   WebFactory.getOfflineService().getAnnouncements(getContext());
         loadListToAdapter(announcements);
+    }
+
+    @Override
+    protected int getNumberOfCols() {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            return 2;
+        }
+        return 1;
     }
 
     private void loadListToAdapter(List<Announcement> list) {

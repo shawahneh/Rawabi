@@ -139,6 +139,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
         api.getRidersOfJourney(mJourney, new IListCallBack<Ride>() {
             @Override
             public void onResponse(List<Ride> item) {
+
                 Log.d("tag","getRidersOfJourney onResponse");
                 Log.d("tag","rides count="+item.size());
                 pDialog.dismiss();
@@ -249,16 +250,17 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                 if(item){
 //                    ServiceController.changeRideStatus(ride.getId(),Ride.STATUS_DRIVER_REJECTED);
                     ride.setOrderStatus(Ride.STATUS_DRIVER_REJECTED);
-                }
+                }else
+                    onError("Error");
                 updateRecycler();
             }
 
             @Override
             public void onError(String err) {
-            pDialog.dismissWithAnimation();
-
+                pDialog.dismissWithAnimation();
+                Log.e("tag",err);
             }
-        });
+        }).start();
     }
 
     /**

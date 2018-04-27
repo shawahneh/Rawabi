@@ -132,6 +132,7 @@
         <activity android:name=".activities.basicActivities.AlbumsListActivity"
             android:configChanges="orientation"
             android:theme="@style/AppTheme.Basic"/>
+        <activity android:name=".activities.ContactActivity" />
 
 
         <service android:name=".services.MyFirebaseMessagingService">

@@ -145,6 +145,9 @@ public class DashboardActivity extends AppCompatActivity
             case R.id.nav_jobs:
                 onCardClick(HomeFragment.TAG_JOBS);
                 break;
+            case R.id.nav_contact:
+                startActivity(new Intent(this,ContactActivity.class));
+                break;
         }
 
 

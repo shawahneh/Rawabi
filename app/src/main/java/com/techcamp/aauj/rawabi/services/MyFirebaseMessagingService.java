@@ -70,6 +70,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     case TYPE_RIDER_SEND_TO_DRIVER: {
                         String name = dataMap.get("name");
                         int jid = Integer.parseInt(dataMap.get("jid"));
+                        Log.d("tag",(WebFactory.getOfflineService().getJourney(this, jid) == null) + " journey ");
 
                         Intent notifyIntent = new Intent(this, JourneyDetailActivity.class);
                         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

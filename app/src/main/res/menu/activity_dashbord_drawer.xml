@@ -6,15 +6,19 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:icon="@drawable/ic_events_white_24dp"
             android:id="@+id/nav_events"
             android:title="@string/events" />
         <item
+            android:icon="@drawable/ic_bus_white_24dp"
             android:id="@+id/nav_transportation"
             android:title="@string/transportation" />
         <item
+            android:icon="@drawable/ic_car_white_24dp"
             android:id="@+id/nav_carpool"
             android:title="@string/carpool" />
         <item
+            android:icon="@drawable/ic_qcenter_white_24dp"
             android:id="@+id/nav_qcenter"
             android:title="@string/q_center_announcment" />
 
@@ -22,9 +26,11 @@
     <item android:title="">
         <menu>
             <item
+                android:icon="@drawable/ic_jobs_white_24dp"
                 android:id="@+id/nav_jobs"
                 android:title="@string/jobs_internships" />
             <item
+                android:icon="@drawable/ic_media_white_24dp"
                 android:id="@+id/nav_media"
                 android:title="@string/media" />
 
@@ -33,8 +39,9 @@
     <item android:title="@string/communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_phone_black_24dp"
                 android:title="@string/contact_us" />
 
         </menu>

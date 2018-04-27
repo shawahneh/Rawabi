@@ -1,13 +1,20 @@
 package com.techcamp.aauj.rawabi.activities.carpoolActivities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,8 +37,8 @@ import com.techcamp.aauj.rawabi.utils.MapUtil;
 /**
  * this activity allows user to set meeting location address on the map
  */
-public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback ,ICallBack<Integer> {
-    private Button btnHisLocation,btnMyLocation;
+public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyCallback, ICallBack<Integer> {
+    private Button btnHisLocation, btnMyLocation;
     private View btnMarker;
     private Button mButtonSubmit;
     private static final int TYPE_MARK_START = 0;
@@ -45,6 +52,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private Ride mRide;
     CarpoolApi poolingRides = WebFactory.getCarpoolService();
     SweetAlertDialog pDialog;
+    FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +62,22 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnHisLocation = findViewById(R.id.btnHisLocation);
-        btnMyLocation= findViewById(R.id.btnMyLocation);
+        btnMyLocation = findViewById(R.id.btnMyLocation);
 
         btnMarker = findViewById(R.id.btnMarker);
 
         mButtonSubmit = findViewById(R.id.btnSubmit);
 
         mJourney = getIntent().getParcelableExtra("journey");
+        mMarkerMeetingPoint = getIntent().getParcelableExtra("location");
+
         mMarkerStartPoint = mJourney.getStartPoint();
         mMarkerEndPoint = mJourney.getEndPoint();
-        mMarkerMeetingPoint =new LatLng(MapUtil.getCurrentLoc(this,null).getLatitude(),MapUtil.getCurrentLoc(this,null).getLongitude());
+
+//        LocationManager locationManager = new LocationManager().getLastKnownLocation("");
+
+//        mMarkerMeetingPoint = new LatLng(location.getLatitude(),location.getLongitude());
+//        mMarkerMeetingPoint = new LatLng(MapUtil.getCurrentLoc(this,null).getLatitude(),MapUtil.getCurrentLoc(this,null).getLongitude());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -139,7 +154,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
 
         poolingRides.setRideOnJourney(mRide,this)
             .start();
-        WebFactory.getOfflineService().saveRide(this,mRide);
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -200,6 +215,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
             Intent i = RideDetailActivity.getIntent(this,mRide);
             startActivity(i);
             finish();
+            WebFactory.getOfflineService().saveRide(this,mRide);
         }else {
             mButtonSubmit.setEnabled(true);
             showError("error");

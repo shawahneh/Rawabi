@@ -21,8 +21,6 @@ public class WebOffline {
     public static final String CODE_EVENTS = "CODE_events";
     public static final String CODE_TRANSPORTATION = "CODE_TRANSPORTATION";
     public static final String CODE_ANNOUNCEMENTS= "CODE_ANNOUNCEMENTS";
-
-
     public static final String CODE_JOURNEY_ID_EQUAL = "CODE_JOURNEY_ID_EQUAL";
     public static final String CODE_RIDE_ID_EQUAL = "CODE_RIDE_ID_EQUAL";
 

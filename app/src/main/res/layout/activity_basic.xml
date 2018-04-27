@@ -5,6 +5,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
     tools:context="com.techcamp.aauj.rawabi.activities.abstractActivities.BasicActivity">
     <android.support.design.widget.AppBarLayout
         app:elevation="0dp"

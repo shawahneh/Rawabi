@@ -331,8 +331,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             eventTemp = new Event();
                             jsonTemp = jsonArray.getJSONObject(i);
                             eventTemp.setId(jsonTemp.getInt("id"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            eventTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("startDateTime")));
+                            eventTemp.setDate(DateUtil.parseFromUTC(jsonTemp.getString("startDateTime")));
                             eventTemp.setImageUrl(jsonTemp.getString("imageUrl"));
                             eventTemp.setDescription(jsonTemp.getString("description"));
                             eventTemp.setName(jsonTemp.getString("title"));
@@ -1132,7 +1131,9 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("password",user.getPassword());
                 params.put("fullname",user.getFullname());
                 params.put("gender",user.getGender()+"");
-                params.put("birthdate",user.getBirthdate().toGMTString());
+
+
+                params.put("birthdate",user.getBirthdate().toString());
                 params.put("address",user.getAddress());
                 params.put("userType","1");
                 //params.put("image",user.getImageurl());
@@ -1290,7 +1291,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                         userDetails.setUsername(username);
                         userDetails.setPassword(password);
                         userDetails.setFullname(response.getString("fullname"));
-                        userDetails.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
+//                        userDetails.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
                         userDetails.setGender(response.getInt("gender"));
                         userDetails.setId(response.getInt("id"));
                         userDetails.setAddress(response.getString("address"));

@@ -130,6 +130,7 @@ public class MediaListFragment extends ListFragment implements IListCallBack<Med
                                 return mediaItem.getImageUrl();
                             }
                         })
+                        .setStartPosition(getAdapterPosition())
                         .show();
             }
 

@@ -35,11 +35,13 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
         mBean = getIntent().getParcelableExtra(ARG_BEAN);
 
         FragmentManager fm = getSupportFragmentManager();
-        mFragment =  fm.findFragmentByTag(getFragment().getTag());
+//        mFragment =  fm.findFragmentByTag(getFragment().getTag());
         if (mFragment == null){
             mFragment = getFragment();
-            fm.beginTransaction().setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
-                    .replace(R.id.content,mFragment).commit();
+            fm.beginTransaction()
+//                    .setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
+                    .replace(R.id.content,mFragment)
+                    .commit();
         }
         tvTitle = findViewById(R.id.tvTitle);
         imgTitle = findViewById(R.id.imgTitle);
@@ -91,7 +93,9 @@ public abstract class BasicActivity<T> extends AppCompatActivity {
     protected void replaceFragment(Fragment newFragment){
 
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fmTransaction = fm.beginTransaction().remove(mFragment);
+        FragmentTransaction fmTransaction = fm.beginTransaction();
+        if(mFragment != null)
+            fmTransaction.remove(mFragment);
         mFragment = newFragment;
         fmTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
         fmTransaction.replace(R.id.content,newFragment).addToBackStack(null).commit();

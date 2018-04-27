@@ -21,6 +21,7 @@ import com.techcamp.aauj.rawabi.model.Ride;
 import com.techcamp.aauj.rawabi.model.Transportation;
 import com.techcamp.aauj.rawabi.model.TransportationElement;
 import com.techcamp.aauj.rawabi.model.User;
+import com.techcamp.aauj.rawabi.utils.DateUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,8 +85,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             jsonTemp = jsonArray.getJSONObject(i);
                             announcementTemp.setId(jsonTemp.getInt("id"));
                             announcementTemp.setName(jsonTemp.getString("name"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            announcementTemp.setStartDate(simpleDateFormat.parse(jsonTemp.getString("startDate")));
+                            announcementTemp.setStartDate(DateUtil.parseFromDateOnly(jsonTemp.getString("startDate")));
 
                             /* no end date */
 //                            announcementTemp.setEndDate(simpleDateFormat.parse(jsonTemp.getString("endData")));
@@ -134,11 +134,8 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             jobTemp = new Job();
                             jsonTemp = jsonArray.getJSONObject(i);
                             jobTemp.setId(jsonTemp.getInt("id"));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                            Log.d("tag", "endDate: " + jsonTemp.getString("endDate"));
-                            jobTemp.setDate(simpleDateFormat.parse(jsonTemp.getString("endDate")));
-                            Log.d("tag", "endDate: " + simpleDateFormat.parse(jsonTemp.getString("endDate")));
+                            jobTemp.setDate(DateUtil.parseFromDateOnly(jsonTemp.getString("endDate")));
 
 
                             jobTemp.setName(jsonTemp.getString("jobTitle"));
@@ -474,17 +471,9 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             Jtemp.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
                             Jtemp.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
 
-                            SimpleDateFormat inputFormat = new SimpleDateFormat
-                                    ("yyyy-MM-dd HH:mm:ss 'GMT'", Locale.US);
-                            inputFormat.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
 
 
-
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                            Date date = simpleDateFormat.parse(temp.getString("goingDate"));
-
-                            Jtemp.setGoingDate(inputFormat.parse(temp.getString("goingDate")));
+                            Jtemp.setGoingDate(DateUtil.parseFromUTC(temp.getString("goingDate")));
 
 
                             Jtemp.setSeats(temp.getInt("seats"));
@@ -500,8 +489,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-                            tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
+                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Jtemp.setUser(tempUser);
                             objArr.add(Jtemp);
 
@@ -532,7 +520,6 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
             @Override
             public Map<String, String> getParameters() {
                 Map<String,String> params = new HashMap<String, String>();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 params.put("action","getJourneyDetails");
                 params.put("username",localUser.getUsername());
@@ -550,8 +537,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     tempJourney.setId(id);
                     tempJourney.setUser(localUser);
                     tempJourney.setStatus(temp.getInt("status"));
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    tempJourney.setGoingDate(simpleDateFormat.parse(temp.getString("goingDate")));
+                    tempJourney.setGoingDate(DateUtil.parseFromUTC(temp.getString("goingDate")));
                     tempJourney.setSeats(temp.getInt("seats"));
                     tempJourney.setGenderPrefer(temp.getInt("genderPrefer"));
                     tempJourney.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
@@ -591,7 +577,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("startLocationY",newJourney.getStartPoint().longitude+"");
                 params.put("endLocationX",newJourney.getEndPoint().latitude+"");
                 params.put("endLocationY",newJourney.getEndPoint().longitude+"");
-                params.put("goingDate",newJourney.getGoingDate().toGMTString());
+                params.put("goingDate",newJourney.getGoingDate().toString());
                 params.put("seats",newJourney.getSeats()+"");
                 params.put("genderPrefer",newJourney.getGenderPrefer()+"");
                 params.put("carDescription",newJourney.getCarDescription());
@@ -664,8 +650,8 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             journeyTemp.setId(jsonTemp.getInt("id"));
                             journeyTemp.setStartPoint(new LatLng(jsonTemp.getDouble("startLocationX"),jsonTemp.getDouble("startLocationY")));
                             journeyTemp.setEndPoint(new LatLng(jsonTemp.getDouble("endLocationX"),jsonTemp.getDouble("endLocationY")));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            journeyTemp.setGoingDate(simpleDateFormat.parse(jsonTemp.getString("goingDate")));
+
+                            journeyTemp.setGoingDate(DateUtil.parseFromUTC(jsonTemp.getString("goingDate")));
                             journeyTemp.setSeats(jsonTemp.getInt("seats"));
                             journeyTemp.setGenderPrefer(jsonTemp.getInt("genderPrefer"));
                             journeyTemp.setCarDescription(jsonTemp.getString("carDescription"));
@@ -676,8 +662,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-                            tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
+                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             journeyTemp.setUser(tempUser);
                             journeyTemp.setStatus(jsonTemp.getInt("status"));
                             journeysArray.add(journeyTemp);
@@ -782,16 +767,16 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-                            tempUser.setBirthdate(simpleDateFormat2.parse(jsonUser.getString("birthdate")));
+
+
+                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Rtemp.setUser(tempUser);
                             JSONObject jsonJourney = temp.getJSONObject("journey");
                             Journey Jtemp = new Journey();
                             Jtemp.setId(jsonJourney.getInt("id"));
                             Jtemp.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
                             Jtemp.setEndPoint(new LatLng(jsonJourney.getDouble("endLocationX"),jsonJourney.getDouble("endLocationY")));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Jtemp.setGoingDate(simpleDateFormat.parse(jsonJourney.getString("goingDate")));
+                            Jtemp.setGoingDate(DateUtil.parseFromUTC(jsonJourney.getString("goingDate")));
                             Jtemp.setSeats(jsonJourney.getInt("seats"));
                             Jtemp.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
                             Jtemp.setCarDescription(jsonJourney.getString("carDescription"));
@@ -803,8 +788,9 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempJUser.setGender(jsonJUser.getInt("gender"));
                             tempJUser.setPhone(jsonJUser.getString("phone"));
                             tempJUser.setAddress(jsonJUser.getString("address"));
-                            SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("yyyy-MM-dd");
-                            tempJUser.setBirthdate(simpleDateFormat3.parse(jsonUser.getString("birthdate")));
+
+
+                            tempJUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Jtemp.setUser(tempJUser);
                             Rtemp.setJourney(Jtemp);
                             objArr.add(Rtemp);
@@ -870,17 +856,16 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     tempJourney.setId(jsonJourney.getInt("id"));
                     tempJourney.setUser(tempUser);
                     tempJourney.setCarDescription(jsonJourney.getString("carDescription"));
-                    //tempJourney.setStatus(jsonJourney.getInt("status"));
                     tempJourney.setSeats(jsonJourney.getInt("seats"));
                     tempJourney.setGenderPrefer(jsonJourney.getInt("genderPrefer"));
                     tempJourney.setStartPoint(new LatLng(jsonJourney.getDouble("startLocationX"),jsonJourney.getDouble("startLocationY")));
                     tempJourney.setEndPoint(new LatLng(jsonJourney.getDouble("endLocationX"),jsonJourney.getDouble("endLocationY")));
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    tempJourney.setGoingDate(simpleDateFormat.parse(jsonJourney.getString("goingDate")));
+
+                    tempJourney.setGoingDate(DateUtil.parseFromUTC(jsonJourney.getString("goingDate")));
                     tempJourney.setStatus(jsonJourney.getInt("status"));
                     tempRide.setJourney(tempJourney);
                     tempRide.setMeetingLocation(new LatLng(temp.getDouble("meetingLocationX"),temp.getDouble("meetingLocationY")));
-                    tempRide.setOrderStatus(jsonJourney.getInt("orderStatus"));
+                    tempRide.setOrderStatus(temp.getInt("orderStatus"));
 
                     return tempRide;
 
@@ -951,7 +936,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
     }
 
     @Override
-    public RequestService setRideOnJourney(final Ride newRide, ICallBack<Integer> callBack) {
+    public RequestService setRideOnJourney(final Ride newRide, final ICallBack<Integer> callBack) {
         return new RequestService<Integer>(mContext,url,callBack) {
             final User localUser = getLocalUser();
             @Override
@@ -977,9 +962,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     }else {
                         if(response.get("status").equals("noAvailableSeats")){
                             Log.i("tagWebApi", "noAvailableSeats");
-                        }else {
-
-                            Log.i("tagWebApi", "something went wrong");
+                            return -2;
                         }
 
                     }
@@ -987,7 +970,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     e.printStackTrace();
                     return null;
                 }
-                return null;
+                return -1;
             }
         };
     }
@@ -1149,8 +1132,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("password",user.getPassword());
                 params.put("fullname",user.getFullname());
                 params.put("gender",user.getGender()+"");
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
+                params.put("birthdate",user.getBirthdate().toGMTString());
                 params.put("address",user.getAddress());
                 params.put("userType","1");
                 //params.put("image",user.getImageurl());
@@ -1197,8 +1179,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("username",user.getUsername());
                 params.put("fullname",user.getFullname());
                 params.put("gender",user.getGender()+"");
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                params.put("birthdate",simpleDateFormat.format(user.getBirthdate()));
+                params.put("birthdate",user.getBirthdate().toGMTString());
                 params.put("address",user.getAddress());
                 params.put("phone",user.getPhone());
                 params.put("newPassword" , user.getPassword());
@@ -1259,8 +1240,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                         userTemp.setFullname(response.getString("fullname"));
                         userTemp.setAddress(response.getString("address"));
                         userTemp.setPhone(response.getString("phone"));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        userTemp.setBirthdate(simpleDateFormat.parse(response.getString("birthdate")));
+                        userTemp.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
                         userTemp.setGender(response.getInt("gender"));
                         userTemp.setId(response.getInt("id"));
                         userTemp.setImageurl(response.getString("image"));
@@ -1283,8 +1263,6 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     e.printStackTrace();
                     return null;
                 }
-
-
             }
         };
     }
@@ -1311,14 +1289,13 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                         User userDetails = new User();
                         userDetails.setUsername(username);
                         userDetails.setPassword(password);
-                        userDetails.setFullname(response.getString("fullname").toString());
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        userDetails.setBirthdate(simpleDateFormat.parse(response.getString("birthdate")));
+                        userDetails.setFullname(response.getString("fullname"));
+                        userDetails.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
                         userDetails.setGender(response.getInt("gender"));
                         userDetails.setId(response.getInt("id"));
-                        userDetails.setAddress(response.getString("address").toString());
-                        userDetails.setPhone(response.getString("phone").toString());
-                        userDetails.setImageurl(response.getString("image").toString());
+                        userDetails.setAddress(response.getString("address"));
+                        userDetails.setPhone(response.getString("phone"));
+                        userDetails.setImageurl(response.getString("image"));
                         Log.i("tagWebApi", "Getting user details for user : "+userDetails.getUsername());
                         return userDetails;
                     }else

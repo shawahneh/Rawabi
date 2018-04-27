@@ -42,7 +42,7 @@ public abstract class RequestService<T> extends Request<T> {
         super(method, url,  null /* we override deliverError so we handled the error at the method*/);
         mListener = listener;
         this.mContext = context;
-        Log.d("tag","RequestService, new instance");
+        Log.w("tag","RequestService, new instance");
     }
 
     /**
@@ -55,6 +55,7 @@ public abstract class RequestService<T> extends Request<T> {
     }
     @Override
     public void deliverError(VolleyError error) {
+        Log.e("tag","RequestService, deliverError="+error.getMessage());
         ICallBack<T> listener;
         synchronized (mLock) {
             listener = mListener;
@@ -65,7 +66,7 @@ public abstract class RequestService<T> extends Request<T> {
     }
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-            Log.d("tag","getParameters=" + getParameters().toString());
+            Log.w("tag","RequestService, getParameters=" + getParameters().toString());
         return getParameters();
     }
     public abstract Map<String,String> getParameters();
@@ -80,17 +81,19 @@ public abstract class RequestService<T> extends Request<T> {
     public abstract T parseResponse(JSONObject Response);
     @Override
     protected void deliverResponse(T response) {
+        Log.w("tag","RequestService, deliverResponse");
         ICallBack<T> listener;
         synchronized (mLock) {
             listener = mListener;
         }
         if (listener != null) {
             listener.onResponse(response);
+            Log.w("tag","RequestService, onResponse");
         }
     }
     public RequestService<T> start(){
         VolleySingleton.getInstance(mContext).addToRequestQueue(this);
-        Log.d("tag","RequestService, send request...");
+        Log.w("tag","RequestService, send request...");
         return this;
     }
     public RequestService<T> saveOffline(String code){
@@ -103,7 +106,7 @@ public abstract class RequestService<T> extends Request<T> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-            Log.d("tag","RequestService Response="+jsonString);
+            Log.w("tag","RequestService, Response="+jsonString);
 
             T result = parseResponse(new JSONObject(jsonString));
 

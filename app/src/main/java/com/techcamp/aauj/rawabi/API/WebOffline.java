@@ -46,7 +46,7 @@ public class WebOffline {
         return getModel(context,CODE_JOURNEY_ID_EQUAL + jid,Journey.class);
     }
     public Ride getRide(Context context,int rid){
-        return getModel(context,CODE_RIDE_ID_EQUAL + rid,Ride.class);
+        return getModel(context,CODE_RIDE_ID_EQUAL  + rid,Ride.class);
     }
     public void saveJourney(Context context, Journey journey){
         try {

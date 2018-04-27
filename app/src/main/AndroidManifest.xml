@@ -133,6 +133,7 @@
             android:configChanges="orientation"
             android:theme="@style/AppTheme.Basic"/>
         <activity android:name=".activities.ContactActivity" />
+        <activity android:name=".activities.RouterActivity" />
 
 
         <service android:name=".services.MyFirebaseMessagingService">

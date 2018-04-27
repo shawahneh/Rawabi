@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -209,9 +210,11 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     public void onResponse(Integer item) {
         pDialog.dismissWithAnimation();
         // request created successfully
-        if(item >0){
+        if(item == -2){
+            showError("no available seats");
+        }else
+        if(item > 0){
             mRide.setId(item);
-                        //            AlarmController.addAlarm(this,mRide.getJourney());
             Intent i = RideDetailActivity.getIntent(this,mRide);
             startActivity(i);
             finish();
@@ -228,6 +231,6 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         showError();
     }
     private void showError(String error){
-
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

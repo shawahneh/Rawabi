@@ -4,10 +4,12 @@ import android.content.Context;
 import android.provider.ContactsContract;
 import android.text.format.DateUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by ALa on 11/17/2017.
@@ -19,6 +21,18 @@ public class DateUtil {
         Date date = new Date(time);
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return dateFormat.format(date);
+    }
+    public static Date parseFromUTC(String date) throws ParseException {
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat
+                ("yyyy-MM-dd HH:mm:ss 'GMT'", Locale.US);
+        inputFormat.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+        return inputFormat.parse(date);
+    }
+    public static Date parseFromDateOnly(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.parse(date);
+
     }
     public static String getMonthName(Date date){
         Calendar cal= Calendar.getInstance();

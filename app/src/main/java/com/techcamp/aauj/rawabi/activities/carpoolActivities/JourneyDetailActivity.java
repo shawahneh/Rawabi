@@ -127,6 +127,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
             btnComplete.setEnabled(false);
             btnCancel.setEnabled(false);
         }
+       updateAdapter();
     }
 
     /**
@@ -252,7 +253,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
                     ride.setOrderStatus(Ride.STATUS_DRIVER_REJECTED);
                 }else
                     onError("Error");
-                updateRecycler();
+                updateAdapter();
             }
 
             @Override
@@ -277,7 +278,7 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
                 if(success){//rider accepted
                     ride.setOrderStatus(Ride.STATUS_ACCEPTED);
-                    updateRecycler(); // update rider item on recycler view as (accepted)
+                    updateAdapter(); // update rider item on recycler view as (accepted)
                 }else
                     onError("couldn't accept the rider");
 

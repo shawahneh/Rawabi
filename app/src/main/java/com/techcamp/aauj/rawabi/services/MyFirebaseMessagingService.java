@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.techcamp.aauj.rawabi.API.WebFactory;
+import com.techcamp.aauj.rawabi.activities.RouterActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.JourneyDetailActivity;
 import com.techcamp.aauj.rawabi.activities.carpoolActivities.RideDetailActivity;
 import com.techcamp.aauj.rawabi.model.Ride;
@@ -24,7 +25,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *     jid,journey id
      * }
      */
-    private final int TYPE_RIDER_SEND_TO_DRIVER = 1;
+    public static final int TYPE_RIDER_SEND_TO_DRIVER = 1;
 
     /**
      * DATA JSON TEMPLATE :
@@ -34,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *     rid,ride id
      * }
      */
-    private final int TYPE_DRIVER_ACCEPT_REJECT_RIDER = 2;
+    public static final int TYPE_DRIVER_ACCEPT_REJECT_RIDER = 2;
 
     /**
      * DATA JSON TEMPLATE :
@@ -44,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *     rid,ride id
      * }
      */
-    private final int TYPE_DRIVER_CANCELLED_JOURNEY= 3;
+    public static final int TYPE_DRIVER_CANCELLED_JOURNEY= 3;
 
     /**
      * DATA JSON TEMPLATE :
@@ -54,7 +55,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *     jid,journey id
      * }
      */
-    private final int TYPE_RIDER_CANCELLED_RIDE= 4;
+    public static final int TYPE_RIDER_CANCELLED_RIDE= 4;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("tag","onMessageReceived " + remoteMessage.getMessageId());
@@ -72,10 +73,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         int jid = Integer.parseInt(dataMap.get("jid"));
                         Log.d("tag",(WebFactory.getOfflineService().getJourney(this, jid) == null) + " journey ");
 
-                        Intent notifyIntent = new Intent(this, JourneyDetailActivity.class);
+                        Intent notifyIntent = new Intent(this, RouterActivity.class);
                         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        notifyIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,
-                                WebFactory.getOfflineService().getJourney(this, jid));
+                        notifyIntent.putExtra("type",type);
+                        notifyIntent.putExtra("id",jid);
+//                        notifyIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,
+//                                WebFactory.getOfflineService().getJourney(this, jid));
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 99,
                                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -91,10 +94,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         int rid = Integer.parseInt(dataMap.get("rid"));
                         int status = Integer.parseInt(dataMap.get("status"));
 
-                        Intent notifyIntent = new Intent(this,RideDetailActivity.class);
+                        Intent notifyIntent = new Intent(this, RouterActivity.class);
                         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        notifyIntent.putExtra(RideDetailActivity.ARG_RIDE,
-                                WebFactory.getOfflineService().getRide(this,rid));
+                        notifyIntent.putExtra("type",type);
+                        notifyIntent.putExtra("id",rid);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 99,
                                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -117,10 +120,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         int rid = Integer.parseInt(dataMap.get("rid"));
                         String name = dataMap.get("name");
 
-                        Intent notifyIntent = new Intent(this,RideDetailActivity.class);
+                        Intent notifyIntent = new Intent(this, RouterActivity.class);
                         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        notifyIntent.putExtra(RideDetailActivity.ARG_RIDE,
-                                WebFactory.getOfflineService().getRide(this,rid));
+                        notifyIntent.putExtra("type",type);
+                        notifyIntent.putExtra("id",rid);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 99,
                                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -137,10 +140,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         String name = dataMap.get("name");
                         int jid = Integer.parseInt(dataMap.get("jid"));
 
-                        Intent notifyIntent = new Intent(this, JourneyDetailActivity.class);
+                        Intent notifyIntent = new Intent(this, RouterActivity.class);
                         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        notifyIntent.putExtra(JourneyDetailActivity.ARG_JOURNEY,
-                                WebFactory.getOfflineService().getJourney(this, jid));
+                        notifyIntent.putExtra("type",type);
+                        notifyIntent.putExtra("id",jid);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 99,
                                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

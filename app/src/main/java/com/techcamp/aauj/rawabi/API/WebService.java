@@ -488,7 +488,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
+//                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Jtemp.setUser(tempUser);
                             objArr.add(Jtemp);
 
@@ -661,7 +661,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setGender(jsonUser.getInt("gender"));
                             tempUser.setPhone(jsonUser.getString("phone"));
                             tempUser.setAddress(jsonUser.getString("address"));
-                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
+//                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             journeyTemp.setUser(tempUser);
                             journeyTemp.setStatus(jsonTemp.getInt("status"));
                             journeysArray.add(journeyTemp);
@@ -768,7 +768,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempUser.setAddress(jsonUser.getString("address"));
 
 
-                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
+//                            tempUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Rtemp.setUser(tempUser);
                             JSONObject jsonJourney = temp.getJSONObject("journey");
                             Journey Jtemp = new Journey();
@@ -789,7 +789,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             tempJUser.setAddress(jsonJUser.getString("address"));
 
 
-                            tempJUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
+//                            tempJUser.setBirthdate(DateUtil.parseFromDateOnly(jsonUser.getString("birthdate")));
                             Jtemp.setUser(tempJUser);
                             Rtemp.setJourney(Jtemp);
                             objArr.add(Rtemp);
@@ -848,7 +848,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                     tempUser.setGender(localUser.getGender());
                     tempUser.setPhone(localUser.getPhone());
                     tempUser.setAddress(localUser.getAddress());
-                    tempUser.setBirthdate(localUser.getBirthdate());
+//                    tempUser.setBirthdate(localUser.getBirthdate());
                     tempRide.setUser(tempUser);
 
                     JSONObject jsonJourney = temp.getJSONObject("journey");
@@ -1133,7 +1133,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("gender",user.getGender()+"");
 
 
-                params.put("birthdate",user.getBirthdate().toString());
+//                params.put("birthdate",user.getBirthdate().toString());
                 params.put("address",user.getAddress());
                 params.put("userType","1");
                 //params.put("image",user.getImageurl());
@@ -1180,7 +1180,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                 params.put("username",user.getUsername());
                 params.put("fullname",user.getFullname());
                 params.put("gender",user.getGender()+"");
-                params.put("birthdate",user.getBirthdate().toGMTString());
+//                params.put("birthdate",user.getBirthdate().toGMTString());
                 params.put("address",user.getAddress());
                 params.put("phone",user.getPhone());
                 params.put("newPassword" , user.getPassword());
@@ -1241,7 +1241,7 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                         userTemp.setFullname(response.getString("fullname"));
                         userTemp.setAddress(response.getString("address"));
                         userTemp.setPhone(response.getString("phone"));
-                        userTemp.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
+//                        userTemp.setBirthdate(DateUtil.parseFromDateOnly(response.getString("birthdate")));
                         userTemp.setGender(response.getInt("gender"));
                         userTemp.setId(response.getInt("id"));
                         userTemp.setImageurl(response.getString("image"));

@@ -473,11 +473,18 @@ public class WebService implements AuthWebApi,BasicApi,CarpoolApi {
                             Jtemp.setId(temp.getInt("id"));
                             Jtemp.setStartPoint(new LatLng(temp.getDouble("startLocationX"),temp.getDouble("startLocationY")));
                             Jtemp.setEndPoint(new LatLng(temp.getDouble("endLocationX"),temp.getDouble("endLocationY")));
+
+                            SimpleDateFormat inputFormat = new SimpleDateFormat
+                                    ("yyyy-MM-dd HH:mm:ss 'GMT'", Locale.US);
+                            inputFormat.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+
+
+
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
                             Date date = simpleDateFormat.parse(temp.getString("goingDate"));
 
-                            Jtemp.setGoingDate(date);
+                            Jtemp.setGoingDate(inputFormat.parse(temp.getString("goingDate")));
 
 
                             Jtemp.setSeats(temp.getInt("seats"));

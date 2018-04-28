@@ -148,7 +148,7 @@ public class ImageProfileFragment extends Fragment {
         WebFactory.getAuthService().setImageForUser(imageUrl, new ICallBack<String>() {
 
             @Override
-            public void onResponse(String url) {
+            public void onResponse(String url) {//test
                 if(url != null){
                     User user = SPController.getLocalUser(getContext());
                     user.setImageurl(url);

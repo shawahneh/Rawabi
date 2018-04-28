@@ -249,7 +249,7 @@ public class MapRiderActivity extends MapActivity {
 
             @Override
             public void onError(String err) {
-                Log.e("tag",err);
+                Log.e("tag","err="+err);
                 startLoading(false);
             }
         })

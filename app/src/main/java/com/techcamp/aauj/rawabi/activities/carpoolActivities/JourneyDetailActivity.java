@@ -117,14 +117,14 @@ public class JourneyDetailActivity extends AppCompatActivity implements OnMapRea
 
         if(mJourney.getStatus() == Journey.STATUS_PENDING){
             btnCancel.setVisibility(View.VISIBLE);
-            btnComplete.setVisibility(View.VISIBLE);
+//            btnComplete.setVisibility(View.VISIBLE);
             btnCancel.setEnabled(true);
             btnComplete.setEnabled(true);
         }else {
 
-            btnComplete.setVisibility(View.GONE);
+//            btnComplete.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
-            btnComplete.setEnabled(false);
+//            btnComplete.setEnabled(false);
             btnCancel.setEnabled(false);
         }
        updateAdapter();

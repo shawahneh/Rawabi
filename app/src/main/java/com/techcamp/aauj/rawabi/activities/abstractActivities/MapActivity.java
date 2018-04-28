@@ -505,6 +505,7 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, this
         ,hour,minute,false);
 
+
         timePickerDialog.setTitle("Set Going Time");
         timePickerDialog.show();
     }

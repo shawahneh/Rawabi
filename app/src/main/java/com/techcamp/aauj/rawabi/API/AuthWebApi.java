@@ -3,9 +3,6 @@ package com.techcamp.aauj.rawabi.API;
 import android.content.Context;
 import android.net.Uri;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.techcamp.aauj.rawabi.API.services.RequestService;
 import com.techcamp.aauj.rawabi.model.User;
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
@@ -56,10 +53,6 @@ public interface AuthWebApi {
      */
     RequestService checkAuth(String username,String password,ICallBack<Boolean> callBack);
 
-    /**
-     * upload an image and set it to user, and returns the imageUrl to callBack
-     * @param uri : image uri from phone
-     * @param callBack : return imageUrl
-     */
+
     RequestService setImageForUser(String imageUrl, ICallBack<String> callBack);
 }

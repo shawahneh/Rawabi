@@ -280,7 +280,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         Log.e("tag",err) ;
                         Toast.makeText(EditProfileActivity.this, "couldn't change name", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).start();
 
             }
         });
@@ -334,7 +334,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         pDialog.dismissWithAnimation();
                         Toast.makeText(EditProfileActivity.this, "couldn't change name", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).start();
 
             }
         });

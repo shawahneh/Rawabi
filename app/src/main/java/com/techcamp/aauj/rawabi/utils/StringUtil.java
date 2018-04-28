@@ -20,7 +20,7 @@ public class StringUtil {
             case Ride.STATUS_RIDER_CANCELLED:
                 return "Rider Cancelled";
             case Ride.STATUS_ACCEPTED_TIME_LEFT:
-                return "Accepted";
+                return "Accepted|time left";
             case Ride.STATUS_TIME_LEFT:
                 return "Cancelled | Time Left";
             case Ride.STATUS_JOURNEY_CANCELLED:

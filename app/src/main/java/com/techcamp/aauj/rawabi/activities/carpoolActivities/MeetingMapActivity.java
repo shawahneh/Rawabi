@@ -53,7 +53,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
     private Ride mRide;
     CarpoolApi poolingRides = WebFactory.getCarpoolService();
     SweetAlertDialog pDialog;
-    FusedLocationProviderClient fusedLocationClient;
+    private LatLng mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,8 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         mButtonSubmit = findViewById(R.id.btnSubmit);
 
         mJourney = getIntent().getParcelableExtra("journey");
-        mMarkerMeetingPoint = getIntent().getParcelableExtra("location");
+        mCurrentLocation = getIntent().getParcelableExtra("location");
+        mMarkerMeetingPoint = mCurrentLocation;
 
         mMarkerStartPoint = mJourney.getStartPoint();
         mMarkerEndPoint = mJourney.getEndPoint();
@@ -100,7 +101,7 @@ public class MeetingMapActivity extends AppCompatActivity implements OnMapReadyC
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mMarkerMeetingPoint =new LatLng(MapUtil.CurrentLocation.getLatitude(),MapUtil.CurrentLocation.getLongitude());
+                mMarkerMeetingPoint = mCurrentLocation;
                 drawMarkers();
             }
         });

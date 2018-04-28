@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        refreshDate();
+
     }
 
     private void logout() {
@@ -113,5 +113,11 @@ public class ProfileFragment extends Fragment {
                     .apply(RequestOptions.circleCropTransform())
                     .into(imageView);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshDate();
     }
 }

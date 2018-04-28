@@ -32,6 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <Button
+            android:visibility="gone"
             android:onClick="onClick"
             android:id="@+id/btnComplete"
             android:layout_weight="1"

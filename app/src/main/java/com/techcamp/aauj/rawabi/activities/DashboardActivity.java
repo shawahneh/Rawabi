@@ -36,6 +36,9 @@ import com.techcamp.aauj.rawabi.activities.basicActivities.TransportationActivit
 import com.techcamp.aauj.rawabi.callBacks.ICallBack;
 import com.techcamp.aauj.rawabi.fragments.HomeFragment;
 import com.techcamp.aauj.rawabi.fragments.NewsFragment;
+import com.techcamp.aauj.rawabi.test.Test;
+
+import java.text.ParseException;
 
 /**
  * Main activity for user
@@ -51,6 +54,15 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashbord);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Test t = new Test();
+        try {
+           System.out.println(t.convertUTCtoLocalTime("LON", "03-11-2008 11:00:00"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         if (WebApi.getInstance().isLogin())

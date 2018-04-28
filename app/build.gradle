@@ -52,6 +52,7 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-database:11.6.2'
     implementation 'com.google.firebase:firebase-messaging:11.6.2'
+    implementation 'com.google.firebase:firebase-storage:11.6.2'
 
     //Sweet alerts
     implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.techcamp.aauj.rawabi.API.AuthWebApi;
 import com.techcamp.aauj.rawabi.API.WebFactory;
@@ -38,6 +44,7 @@ import com.techcamp.aauj.rawabi.controllers.SPController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
@@ -50,6 +57,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private static final int TAG_PHONE=1;
     private static final int TAG_PASSWORD=2;
     private SweetAlertDialog pDialog;
+    FirebaseStorage storage;
+    StorageReference storageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,8 @@ public class EditProfileActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         imageView = findViewById(R.id.imageView);
         fabAddImage = findViewById(R.id.fabAddImage);
         recyclerView = findViewById(R.id.recyclerView);
@@ -111,18 +122,40 @@ public class EditProfileActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             mUriImage = data.getData();
 //            Glide.with(this).load(mUriImage).into(imageView);
-            startUpload();
+            startUploadToFirebase(mUriImage);
         }
     }
+    private void startUploadToFirebase(Uri imageUri) {
+        showProgress(true);
+        if(imageUri == null){
+            Toast.makeText(getApplicationContext(), "choose an image", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        StorageReference childRef = storageRef.child("images/"+ UUID.randomUUID().toString());
+        UploadTask uploadTask = childRef.putFile(imageUri);
 
-    private void startUpload() {
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                startUpload(downloadUrl.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                return;
+            }
+        });
+    }
+
+    private void startUpload(String imageUrl) {
         if(mUriImage == null){
             Toast.makeText(EditProfileActivity.this, "choose an image", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        showProgress(true);
-        WebFactory.getAuthService().setImageForUser(mUriImage, new ICallBack<String>() {
+
+        WebFactory.getAuthService().setImageForUser(imageUrl, new ICallBack<String>() {
             @Override
             public void onResponse(String url) {
                 showProgress(false);
